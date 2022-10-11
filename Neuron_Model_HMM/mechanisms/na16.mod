@@ -11,7 +11,7 @@
 NEURON {
     SUFFIX  na16
     USEION na READ ena WRITE ina
-    GLOBAL vShift, vShift_inact, maxrate
+    RANGE vShift, vShift_inact, maxrate
     RANGE vShift_inact_local
     RANGE gna, gbar, ina_ina
     RANGE a1_0, a1_1, b1_0, b1_1, a2_0, a2_1
