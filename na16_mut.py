@@ -8,6 +8,7 @@ params_folder = './params'
 def make_hmm_wt():
     l5mdl = NeuronModel()
     dict_fn = f'{params_folder}/na16WT.txt'
+    mechs = ['na16']
     update_mech_from_dict(l5mdl, dict_fn, mechs)
     fig, ficurveax = plt.subplots(1, 1)
     l5mdl.h.working()

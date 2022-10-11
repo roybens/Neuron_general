@@ -17,7 +17,7 @@ def update_mech_from_dict(mdl,dict_fn,mechs):
                 curr_name = h.secname(sec=curr_sec)
                 for p_name in param_dict.keys():
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                    print(hoc_cmd)
+                    #print(hoc_cmd)
                     h(hoc_cmd)
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
@@ -31,7 +31,7 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
-                    print(hoc_cmd)
+                    #print(hoc_cmd)
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
@@ -42,7 +42,7 @@ def multiply_param(mdl,mechs,p_name,multiplier):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} *= {multiplier}'
-                print(hoc_cmd)
+                #print(hoc_cmd)
                 h(hoc_cmd)
 def offset_param(mdl,mechs,p_name,offset):
     for curr_sec in mdl.sl:
@@ -50,7 +50,7 @@ def offset_param(mdl,mechs,p_name,offset):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} += {offset}'
-                print(hoc_cmd)
+                #print(hoc_cmd)
                 h(hoc_cmd)
 #### Emily's code
 def update_channel(mdl, channel_name, channel, dict_fn, wt_mul, mut_mul):
@@ -66,17 +66,17 @@ def update_channel(mdl, channel_name, channel, dict_fn, wt_mul, mut_mul):
             curr_name = h.secname(sec=curr_sec)
             for seg in curr_sec:
                 hoc_cmd = f'{curr_name}.gbar_{channel_name}({seg.x}) *= {mut_mul}'
-                print(hoc_cmd)
+                #print(hoc_cmd)
                 h(hoc_cmd)
             for p_name in param_dict.keys():
                 hoc_cmd = f'{curr_name}.{p_name} = {param_dict[p_name]}'
-                print(hoc_cmd)
+                #print(hoc_cmd)
                 h(hoc_cmd)
         if h.ismembrane(channel, sec=curr_sec):
             curr_name = h.secname(sec=curr_sec)
             for seg in curr_sec:
                 hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
-                print(hoc_cmd)
+                #print(hoc_cmd)
                 h(hoc_cmd)
 
 
