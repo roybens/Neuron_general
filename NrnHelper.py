@@ -2,9 +2,35 @@ import json
 from scipy.signal import find_peaks
 from vm_plotter import plot_stim_volts_pair
 from neuron import h
+import numpy as np
+import matplotlib.pyplot as plt
 
 
-
+def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1):
+    all_volts = []
+    npeaks = []
+    x_axis = np.linspace(s_amp,e_amp,nruns)
+    stim_length = int(600/dt)
+    for curr_amp in x_axis:
+        mdl.init_stim(amp = curr_amp)
+        curr_volts,_,_,_ = mdl.run_model()
+        curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
+        all_volts.append(curr_volts)
+        npeaks.append(len(curr_peaks))
+    print(npeaks)
+    if ax1 is None:
+        fig,ax1 = plt.subplots(1,1)
+        ax1.plot(x_axis,npeaks,'black')
+    ax1.set_title('FI Curve')
+    ax1.set_xlabel('Stim [nA]')
+    ax1.set_ylabel('nAPs for 500ms epoch')
+    if wt_data is None:
+        return npeaks
+    else:
+        ax1.plot(x_axis,npeaks,'red')
+        ax1.plot(x_axis,wt_data,'black')
+    fig.show()
+    fig.savefig('./Plots/ficurve.pdf')
 
 
 def update_mech_from_dict(mdl,dict_fn,mechs):
@@ -113,11 +139,36 @@ def plot_stim(mdl, amp,fn,clr='blue'):
     plot_stim_volts_pair(Vm, f'Step Stim {amp}pA', file_path_to_save=f'./Plots/V1/{fn}_{amp}pA',times=t,color_str=clr)
     return I
 
-def plot_all_FIs(mdl, fis, extra_cond = False):
+def plot_FIs(fis, extra_cond = False):
+    data = fis
+    # save multiple figures in one pdf file
+    filename= f'Plots/FI_plots.pdf'
+    fig = plt.figure()
+    x_axis, npeaks, name = data[0]
+    plt.plot(x_axis, npeaks, label=name, color='black')
+    # plot mut
+    x_axis, npeaks, name = data[1]
+    plt.plot(x_axis, npeaks, label=name, color='red')
+    if extra_cond:
+        # plot wtTTX
+        x_axis, npeaks, name = data[2]
+        plt.plot(x_axis, npeaks, label=name, color='black', linestyle='dashed')
+        # plot mutTTX
+        x_axis, npeaks, name = data[3]
+        plt.plot(x_axis, npeaks, label=name, color='red', linestyle='dashed')
+
+    plt.legend()
+    plt.xlabel('Stim [nA]')
+    plt.ylabel('nAPs for 600ms epoch')
+    plt.title(f'FI Curve')
+    fig.savefig(filename)
+
+
+def plot_all_FIs(fis, extra_cond = False):
     for i in range(len(fis)):
         data = fis[i]
         # save multiple figures in one pdf file
-        filename= f'Plots/Kexplore/FI_plots{i}.pdf'
+        filename= f'Plots/FI_plots{i}.pdf'
         fig = plt.figure()
         x_axis, npeaks, name = data[0]
         plt.plot(x_axis, npeaks, label=name, color='black')
