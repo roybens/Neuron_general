@@ -10,14 +10,16 @@
 : J Neurosci 30:10233-42
 
 NEURON {
-    SUFFIX na
+    SUFFIX na16mut
     USEION na READ ena WRITE ina
-    GLOBAL vShift, vShift_inact, maxrate
+    RANGE vShift, vShift_inact, maxrate
     RANGE vShift_inact_local
     RANGE gna, gbar, ina_ina
     RANGE a1_0, a1_1, b1_0, b1_1, a2_0, a2_1
     RANGE b2_0, b2_1, a3_0, a3_1, b3_0, b3_1
-    RANGE bh_0, bh_1, bh_2, ah_0, ah_1, ah_2
+    RANGE bh_0, bh_1, bh_2, ah_0, ah_1, ah_2
+
+    RANGE ahfactor,bhfactor
 }
 
 UNITS { (mV) = (millivolt) }
@@ -25,7 +27,7 @@ UNITS { (mV) = (millivolt) }
 : initialize parameters
 
 PARAMETER {
-:   gbar = 33     (millimho/cm2)    gbar = 1000     (pS/um2)
+:   gbar = 33     (millimho/cm2)    gbar = 0     (pS/um2)
 
     a1_0 = 4.584982656184167e+01 (/ms)
     a1_1 = 2.393541665657613e-02 (/mV) 
@@ -91,8 +93,8 @@ BREAKPOINT {
     SOLVE kin METHOD sparse
     gna = gbar*o
 :   ina = g*(v - ena)*(1e-3)
-    ina = gna*(v - ena)*(1e-4) 	: define  gbar as pS/um2 instead of mllimho/cm2
-    ina_ina = gna*(v - ena)*(1e-4) 	: define  gbar as pS/um2 instead of mllimho/cm2		:to monitor
+    ina = gna*(v - ena)	: define  gbar as pS/um2 instead of mllimho/cm2
+    ina_ina = gna*(v - ena) 	: define  gbar as pS/um2 instead of mllimho/cm2		:to monitor
 
 }
 
