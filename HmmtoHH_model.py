@@ -8,9 +8,9 @@ def make_wt():
     l5mdl = NeuronModel()
     fig, ficurveax = plt.subplots(1, 1)
     l5mdl.h.working()
-    mechs = ['na16']
+    mechs = ['na12']
     update_mod_param(l5mdl, mechs, 2, gbar_name='gbar')
-    mechs = ['na16mut']
+    mechs = ['na12mut']
     update_mod_param(l5mdl, mechs, 0, gbar_name='gbar')
     l5mdl.init_stim(amp=0.5)
     Vm, I, t, stim = l5mdl.run_model(dt=0.01)
@@ -34,6 +34,19 @@ def na16_het_hmm():
     l5mdl.init_stim(amp=0.5)
     Vm, I, t, stim = l5mdl.run_model(dt=0.01)
     fig,ax = plot_stim_volts_pair(Vm, 'Step Stim 500pA', file_path_to_save='./Plots/HMM_het_500pA', times=t)
+    return ax
+
+def na12_het_hmm():
+    l5mdl = NeuronModel()
+    fig, ficurveax = plt.subplots(1, 1)
+    mechs = ['na12mut']
+    dict_fn = f'{params_folder}/na12WT.txt'
+    update_mech_from_dict(l5mdl, dict_fn, mechs)
+    l5mdl.h.working()
+    #update_mod_param(l5mdl, mechs, 1, gbar_name='gbar')
+    l5mdl.init_stim(amp=0.5)
+    Vm, I, t, stim = l5mdl.run_model(dt=0.01)
+    fig,ax = plot_stim_volts_pair(Vm, 'Step Stim 500pA', file_path_to_save='./Plots/HMM_het12_500pA', times=t)
     return ax
 
 def na16_hmm(wt_fig = None, wt_axs = None):
@@ -60,6 +73,6 @@ def na16_hmm(wt_fig = None, wt_axs = None):
     fig2.savefig('./Plots/HMM_Na16_Is.pdf')
 
 
-fig,axs = make_wt()
+#fig,axs = make_wt()
 #na16_het_hmm()
-na16_hmm(wt_ax)
+#na16_hmm(wt_ax)
