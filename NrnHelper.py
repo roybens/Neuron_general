@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1,fn = 'ficurve.pdf'):
+def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1,fn = './Plots/ficurve.pdf'):
     all_volts = []
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
@@ -30,13 +30,16 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
         ax1.plot(x_axis,npeaks,'red')
         ax1.plot(x_axis,wt_data,'black')
     fig.show()
-    fig.savefig('./Plots/ficurve.pdf')
+    fig.savefig(fn)
 
 
-def update_mech_from_dict(mdl,dict_fn,mechs):
-    with open(dict_fn) as f:
-        data = f.read()
-    param_dict = json.loads(data)
+def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
+    if input_dict:
+        param_dict = dict_fn
+    else:
+        with open(dict_fn) as f:
+            data = f.read()
+        param_dict = json.loads(data)
     for curr_sec in mdl.sl:
         for curr_mech in mechs:
             if h.ismembrane(curr_mech, sec=curr_sec):
@@ -49,6 +52,7 @@ def update_mech_from_dict(mdl,dict_fn,mechs):
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
                   #      print(hoc_cmd)
+    return param_dict
 
 def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
     for curr_sec in mdl.sl:
