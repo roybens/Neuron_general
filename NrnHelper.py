@@ -1,9 +1,42 @@
 import json
 from scipy.signal import find_peaks
-from vm_plotter import plot_stim_volts_pair
 from neuron import h
 import numpy as np
 import matplotlib.pyplot as plt
+from scalebary import add_scalebar
+my_dpi = 96
+plt.rcParams['axes.spines.right'] = False
+plt.rcParams['axes.spines.top'] = False
+plt.rcParams['font.sans-serif'] = "Helvetica"
+plt.rcParams['font.family'] = "sans-serif"
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
+tick_major = 6
+tick_minor = 4
+plt.rcParams["xtick.major.size"] = tick_major
+plt.rcParams["xtick.minor.size"] = tick_minor
+plt.rcParams["ytick.major.size"] = tick_major
+plt.rcParams["ytick.minor.size"] = tick_minor
+font_small = 12
+font_medium = 13
+font_large = 14
+plt.rc('font', size=font_small)          # controls default text sizes
+plt.rc('axes', titlesize=font_medium)    # fontsize of the axes title
+plt.rc('axes', labelsize=font_medium)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=font_small)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=font_small)    # fontsize of the tick labels
+plt.rc('legend', fontsize=font_small)    # legend fontsize
+plt.rc('figure', titlesize=font_large)   # fontsize of the figure title
+"""
+ntimestep = 10000
+dt = 0.02
+def_times = np.array([dt for i in range(ntimestep)])
+def_times = np.cumsum(def_times)
+"""
+def cm_to_in(cm):
+    return cm/2.54
+
+
 
 
 def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1,fn = './Plots/ficurve.pdf'):
@@ -40,11 +73,16 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
         with open(dict_fn) as f:
             data = f.read()
         param_dict = json.loads(data)
+    print(f'updating {mechs} with {param_dict}')
     for curr_sec in mdl.sl:
+        #print(curr_sec)
         for curr_mech in mechs:
+            #print(curr_mech)
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
+                #print(curr_name)
                 for p_name in param_dict.keys():
+                    #print(p_name)
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
                     #print(hoc_cmd)
                     h(hoc_cmd)

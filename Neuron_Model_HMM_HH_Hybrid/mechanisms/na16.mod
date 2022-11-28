@@ -9,7 +9,7 @@
 : axonal action potential initiation.
 : J Neurosci 30:10233-42
 NEURON {
-    SUFFIX na12
+    SUFFIX  na16
     USEION na READ ena WRITE ina
     RANGE vShift, vShift_inact, maxrate
     RANGE vShift_inact_local
@@ -22,39 +22,39 @@ NEURON {
 UNITS { (mV) = (millivolt) }
 : initialize parameters
 PARAMETER {
-    gbar = 0.008 (mho/cm2)
+    gbar = 0.1 (mho/cm2)
 :    gbar = 3     (millimho/cm2)
 :    gbar = 1000     (mho/cm2)
-    a1_0 = 4.584982656184167e+01 (/ms)
-    a1_1 = 2.393541665657613e-02 (/mV) 
+    a1_0 = 415.3060312 (/ms)
+    a1_1 = 0.1330362098 (/mV) 
     
-    b1_0 = 1.440952344322651e-02 (/ms)
-    b1_1 = 8.847609128769419e-02 (/mV)
-    a2_0 = 1.980838207143563e+01 (/ms)
-    a2_1 = 2.217709530008501e-02 (/mV) 
+    b1_0 = 5.713416367 (/ms)
+    b1_1 = 0.03738519647 (/mV)
+    a2_0 = 92.09250008 (/ms)
+    a2_1 = 0.03096863789 (/mV) 
     
-    b2_0 = 5.650174488683913e-01 (/ms)
-    b2_1 = 6.108403283302217e-02 (/mV)
-    a3_0 = 7.181189201089192e+01 (/ms)
-    a3_1 = 6.593790601261940e-02 (/mV) 
+    b2_0 = 4.376936784 (/ms)
+    b2_1 = 0.000004789798283 (/mV)
+    a3_0 = 317.5033075 (/ms)
+    a3_1 = 0.01456996659 (/mV) 
     
-    b3_0 = 7.531178253431512e-01 (/ms)
-    b3_1 = 3.647978133116471e-02 (/mV)
-    bh_0 = 2.830146966213825e+00 (/ms)
-    bh_1 = 2.890045633775495e-01
-    bh_2 = 6.960300544163878e-02 (/mV)
-    ah_0 = 5.757824421450554e-01 (/ms)
-    ah_1 = 1.628407420157048e+02
-    ah_2 = 2.680107016756367e-02 (/mV)
-    ahfactor=1
-    bhfactor=1
-    vShift = 10            (mV)  : shift to the right to account for Donnan potentials
+    b3_0 = 94.3529976 (/ms)
+    b3_1 = 0.000004197568077 (/mV)
+    bh_0 = 1.157068242 (/ms)
+    bh_1 = 1.125420836
+    bh_2 = 0.08016507562 (/mV)
+    ah_0 = 1.449473463 (/ms)
+    ah_1 = 5472.451652
+    ah_2 = 0.06853252696 (/mV)
+    ahfactor=2.009374801
+    bhfactor=1.309039173
+    vShift = 21.16347821           (mV)  : shift to the right to account for Donnan potentials
                                  : 12 mV for cclamp, 0 for oo-patch vclamp simulations
-    vShift_inact = 10      (mV)  : global additional shift to the right for inactivation
+    vShift_inact = -15.5224286     (mV)  : global additional shift to the right for inactivation
                                  : 10 mV for cclamp, 0 for oo-patch vclamp simulations
     vShift_inact_local = 0 (mV)  : additional shift to the right for inactivation, used as local range variable
-    maxrate = 8.00e+03     (/ms) : limiting value for reaction rates
-                                 : See Patlak, 1991
+    maxrate = 31421.04673     (/ms) : limiting value for reaction rates
+                                : See Patlak, 1991
     temp = 23   (degC)      : original temp 
     q10  = 3            : temperature sensitivity
     q10h  = 3       : temperature sensitivity for inactivatoin
@@ -131,3 +131,4 @@ PROCEDURE rates(v(millivolt)) {
     ah = ah*ahfactor
     bh = bh*bhfactor
 }
+
