@@ -1,5 +1,6 @@
 import json
 from scipy.signal import find_peaks
+from vm_plotter import plot_stim_volts_pair
 from neuron import h
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,8 +8,8 @@ from scalebary import add_scalebar
 my_dpi = 96
 plt.rcParams['axes.spines.right'] = False
 plt.rcParams['axes.spines.top'] = False
-plt.rcParams['font.sans-serif'] = "Helvetica"
-plt.rcParams['font.family'] = "sans-serif"
+#plt.rcParams['font.sans-serif'] = "Arial"
+#plt.rcParams['font.family'] = "sans-serif"
 plt.rcParams['pdf.fonttype'] = 42
 plt.rcParams['ps.fonttype'] = 42
 tick_major = 6
