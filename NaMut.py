@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 class NaMut:
     def __init__(self,mut_name = 'na12WT',wt_file = 'na12WT', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/'):
-        self.l5mdl = NeuronModel(nav12=0.7, nav16=1)
+        self.l5mdl = NeuronModel(nav12=1, nav16=1)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
         #mechs = ['na12mut']
