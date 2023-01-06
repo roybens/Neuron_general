@@ -41,7 +41,7 @@ class NaMut:
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
-    def plot_stim(self,stim_amp = 0.3,clr = 'black',plot_fn = 'step',axs = None):
+    def plot_stim(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         self.l5mdl.init_stim(amp=stim_amp)
@@ -50,10 +50,28 @@ class NaMut:
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #add_scalebar(axs)
-        file_path_to_save='{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
+        file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
+        plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
+        return axs
+    def plot_currents(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
+        if not axs:
+            fig,axs = plt.subplots(4,figsize=(cm_to_in(8),cm_to_in(30)))
+        self.l5mdl.init_stim(amp=stim_amp)
+        Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+        axs[0].plot(t,Vm, label='Vm', color=clr,linewidth=1)
+        axs[0].locator_params(axis='x', nbins=5)
+        axs[0].locator_params(axis='y', nbins=8)
+        
+        axs[1].plot(t,I['Na'],label = 'Na',color = 'red')
+        axs[2].plot(t,I['K'],label = 'K',color = 'black')
+        axs[3].plot(t,I['Ca'],label = 'Ca',color = 'green')
+        #add_scalebar(axs)
+        file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
         return axs
 
+
+        
     def plot_fi_curve(self,start,end,nruns,wt_data = None,ax1 = None, fig = None,fn = 'ficurve'):
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis

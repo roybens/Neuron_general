@@ -47,7 +47,7 @@ class NeuronModel:
 
         h.ais_na16 = 4
         h.ais_na12 = 4
-        h.ais_ca = 0.000990
+        h.ais_ca = 0.000990*10
         h.ais_KCa = 0.007104
 
         h.node_na = 2

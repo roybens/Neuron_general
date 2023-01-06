@@ -1,164 +1,133 @@
-TITLE Nav1.2 ionic voltage-gated channel with kinetic scheme
-
-COMMENT
-A six-state markovian kinetic model of ionic channel.
-Part of a study on kinetic models.
-Author: Piero Balbi, July 2016
-ENDCOMMENT
-
+: Eight state kinetic sodium channel gating scheme
+: Modified from k3st.mod, chapter 9.9 (example 9.7)
+: of the NEURON book
+: 12 August 2008, Christoph Schmidt-Hieber
+:
+: accompanies the publication:
+: Schmidt-Hieber C, Bischofberger J. (2010)
+: Fast sodium channel gating supports localized and efficient 
+: axonal action potential initiation.
+: J Neurosci 30:10233-42
 NEURON {
-	SUFFIX na12
-	USEION na READ ena WRITE ina
-
-	RANGE gbar, ina, g
-    RANGE C1C2b2,C1C2v2,C1C2k2,C2C1b1,C2C1v1,C2C1k1,C2C1b2,C2C1v2,C2C1k2,C2O1b2,C2O1v2,C2O1k2,O1C2b1,O1C2v1,O1C2k1,O1C2b2,O1C2v2,O1C2k2,C2O2b2,C2O2v2,C2O2k2,O2C2b1,O2C2v1,O2C2k1,O2C2b2,O2C2v2,O2C2k2,O1I1b1,O1I1v1,O1I1k1,O1I1b2,O1I1v2,O1I1k2,I1O1b1,I1O1v1,I1O1k1,I1C1b1,I1C1v1,I1C1k1,C1I1b2,C1I1v2,C1I1k2,I1I2b2,I1I2v2,I1I2k2,I2I1b1,I2I1v1,I2I1k1
+    SUFFIX na12
+    USEION na READ ena WRITE ina
+    RANGE vShift, vShift_inact, maxrate
+    RANGE vShift_inact_local
+    RANGE gna, gbar, ina_ina
+    RANGE a1_0, a1_1, b1_0, b1_1, a2_0, a2_1
+    RANGE b2_0, b2_1, a3_0, a3_1, b3_0, b3_1
+    RANGE bh_0, bh_1, bh_2, ah_0, ah_1, ah_2
+    RANGE ahfactor,bhfactor
 }
-
-UNITS {
-	(mA) = (milliamp)
-	(mV) = (millivolt)
-}
-
+UNITS { (mV) = (millivolt) }
+: initialize parameters
 PARAMETER {
-	v (mV)
-	ena (mV)
-	celsius (degC)
-	gbar  = 0.01	 (mho/cm2)
-	
-	C1C2b2	  = 16
-	C1C2v2    = -5
-	C1C2k2	  = -10
-	
-	C2C1b1	  = 3
-	C2C1v1    = -35
-	C2C1k1	  = 10
-	C2C1b2	  = 16
-	C2C1v2    = -5
-	C2C1k2	  = -10
-
-	C2O1b2	  = 16
-	C2O1v2    = -10
-	C2O1k2	  = -10
-	
-	O1C2b1	  = 3
-	O1C2v1    = -40
-	O1C2k1	  = 10
-	O1C2b2	  = 16
-	O1C2v2    = -10
-	O1C2k2	  = -10
-	
-	C2O2b2	  = 0.13
-	C2O2v2	  = -20
-	C2O2k2	  = -15
-	
-	O2C2b1	  = 2
-	O2C2v1	  = -60
-	O2C2k1	  = 6
-	O2C2b2	  = 0.7
-	O2C2v2	  = -10
-	O2C2k2	  = -15
-	
-	O1I1b1	  = 3
-	O1I1v1	  = -41
-	O1I1k1	  = 12
-	O1I1b2	  = 16
-	O1I1v2	  = -11
-	O1I1k2	  = -12
-	
-	I1O1b1	  = 0.00001
-	I1O1v1	  = -42
-	I1O1k1	  = 10
-	
-	I1C1b1	  = 0.55
-	I1C1v1	  = -65
-	I1C1k1	  = 7
-	
-	C1I1b2	  = 0.55
-	C1I1v2	  = -65
-	C1I1k2	  = -11
-	
-	I1I2b2	  = 0.0022
-	I1I2v2	  = -90
-	I1I2k2	  = -5
-
-	I2I1b1	  = 0.017
-	I2I1v1	  = -90
-	I2I1k1	  = 15
-	
+    gbar = 0.008 (mho/cm2)
+:    gbar = 3     (millimho/cm2)
+:    gbar = 1000     (mho/cm2)
+    a1_0 = 4.584982656184167e+01 (/ms)
+    a1_1 = 2.393541665657613e-02 (/mV) 
+    
+    b1_0 = 1.440952344322651e-02 (/ms)
+    b1_1 = 8.847609128769419e-02 (/mV)
+    a2_0 = 1.980838207143563e+01 (/ms)
+    a2_1 = 2.217709530008501e-02 (/mV) 
+    
+    b2_0 = 5.650174488683913e-01 (/ms)
+    b2_1 = 6.108403283302217e-02 (/mV)
+    a3_0 = 7.181189201089192e+01 (/ms)
+    a3_1 = 6.593790601261940e-02 (/mV) 
+    
+    b3_0 = 7.531178253431512e-01 (/ms)
+    b3_1 = 3.647978133116471e-02 (/mV)
+    bh_0 = 2.830146966213825e+00 (/ms)
+    bh_1 = 2.890045633775495e-01
+    bh_2 = 6.960300544163878e-02 (/mV)
+    ah_0 = 5.757824421450554e-01 (/ms)
+    ah_1 = 1.628407420157048e+02
+    ah_2 = 2.680107016756367e-02 (/mV)
+    ahfactor=1
+    bhfactor=1
+    vShift = 10            (mV)  : shift to the right to account for Donnan potentials
+                                 : 12 mV for cclamp, 0 for oo-patch vclamp simulations
+    vShift_inact = 10      (mV)  : global additional shift to the right for inactivation
+                                 : 10 mV for cclamp, 0 for oo-patch vclamp simulations
+    vShift_inact_local = 0 (mV)  : additional shift to the right for inactivation, used as local range variable
+    maxrate = 8.00e+03     (/ms) : limiting value for reaction rates
+                                 : See Patlak, 1991
+    temp = 23   (degC)      : original temp 
+    q10  = 3            : temperature sensitivity
+    q10h  = 3       : temperature sensitivity for inactivatoin
+    celsius     (degC)
 }
-
 ASSIGNED {
-	ina  (mA/cm2)
-	g   (mho/cm2)
-	
-	C1C2_a (/ms)
-	C2C1_a (/ms)
-	C2O1_a (/ms)
-	O1C2_a (/ms)
-	C2O2_a (/ms)
-	O2C2_a (/ms)
-	O1I1_a (/ms)
-	I1O1_a (/ms)
-	I1I2_a (/ms)
-	I2I1_a (/ms)
-	I1C1_a (/ms)
-	C1I1_a (/ms)
-	
-	Q10 (1)
+    v    (mV)
+    ena  (mV)
+    gna    (millimho/cm2)
+    ina  (milliamp/cm2)
+   ina_ina  (milliamp/cm2)  :to monitor
+    a1   (/ms)
+    b1   (/ms)
+    a2   (/ms)
+    b2   (/ms)
+    a3   (/ms)
+    b3   (/ms)
+    ah   (/ms)
+    bh   (/ms)
+    tadj
+    
+    tadjh
 }
-
-STATE {
-	C1
-	C2
-	O1
-	O2
-	I1
-	I2
-}
-
-
-INITIAL {
-	Q10 = 3^((celsius-20(degC))/10 (degC))
-	SOLVE kin
-	STEADYSTATE sparse
-}
-
+STATE { c1 c2 c3 i1 i2 i3 i4 o }
 BREAKPOINT {
-	SOLVE kin METHOD sparse
-	g = gbar * (O1 + O2)	: (mho/cm2)
-	ina = g * (v - ena)   	: (mA/cm2)
+    SOLVE kin METHOD sparse
+    gna = gbar*o
+:   ina = g*(v - ena)*(1e-3)
+    ina = gna*(v - ena)     : define  gbar as pS/um2 instead of mllimho/cm2
+    ina_ina = gna*(v - ena)     : define  gbar as pS/um2 instead of mllimho/cm2     :to monitor
 }
-
+INITIAL { SOLVE kin STEADYSTATE sparse }
 KINETIC kin {
-	rates(v)
-	
-	~ C1 <->  C2 (C1C2_a, C2C1_a)
-	~ C2 <->  O1 (C2O1_a, O1C2_a)
-	~ C2 <->  O2 (C2O2_a, O2C2_a)
-	~ O1 <->  I1 (O1I1_a, I1O1_a)
-	~ I1 <->  C1 (I1C1_a, C1I1_a)
-	~ I1 <->  I2 (I1I2_a, I2I1_a)
-	
-	CONSERVE O1 + O2 + C1 + C2 + I1 + I2 = 1
+    rates(v)
+    ~ c1 <-> c2 (a1, b1)
+    ~ c2 <-> c3 (a2, b2)
+    ~ c3 <-> o (a3, b3)
+    ~ i1 <-> i2 (a1, b1)
+    ~ i2 <-> i3 (a2, b2)
+    ~ i3 <-> i4 (a3, b3)
+    ~ i1 <-> c1 (ah, bh)
+    ~ i2 <-> c2 (ah, bh)
+    ~ i3 <-> c3 (ah, bh)
+    ~ i4 <-> o  (ah, bh)
+    CONSERVE c1 + c2 + c3 + i1 + i2 + i3 + i4 + o = 1
 }
-
-FUNCTION rates2(v, b, vv, k) {
-	rates2 = (b/(1+exp((v-vv)/k)))
-}
-
-PROCEDURE rates(v(mV)) {
-UNITSOFF
-	C1C2_a = Q10*(rates2(v, C1C2b2, C1C2v2, C1C2k2))
-	C2C1_a = Q10*(rates2(v, C2C1b1, C2C1v1, C2C1k1) + rates2(v, C2C1b2, C2C1v2, C2C1k2))
-	C2O1_a = Q10*(rates2(v, C2O1b2, C2O1v2, C2O1k2))
-	O1C2_a = Q10*(rates2(v, O1C2b1, O1C2v1, O1C2k1) + rates2(v, O1C2b2, O1C2v2, O1C2k2))
-	C2O2_a = Q10*(rates2(v, C2O2b2, C2O2v2, C2O2k2))
-	O2C2_a = Q10*(rates2(v, O2C2b1, O2C2v1, O2C2k1) + rates2(v, O2C2b2, O2C2v2, O2C2k2))
-	O1I1_a = Q10*(rates2(v, O1I1b1, O1I1v1, O1I1k1) + rates2(v, O1I1b2, O1I1v2, O1I1k2))
-	I1O1_a = Q10*(rates2(v, I1O1b1, I1O1v1, I1O1k1))
-	I1C1_a = Q10*(rates2(v, I1C1b1, I1C1v1, I1C1k1))
-	C1I1_a = Q10*(rates2(v, C1I1b2, C1I1v2, C1I1k2))
-	I1I2_a = Q10*(rates2(v, I1I2b2, I1I2v2, I1I2k2))
-	I2I1_a = Q10*(rates2(v, I2I1b1, I2I1v1, I2I1k1))
-UNITSON
+: FUNCTION_TABLE tau1(v(mV)) (ms)
+: FUNCTION_TABLE tau2(v(mV)) (ms)
+PROCEDURE rates(v(millivolt)) {
+    LOCAL vS
+    vS = v-vShift
+    tadj = q10^((celsius - temp)/10)
+    tadjh = q10h^((celsius - temp)/10)
+:   maxrate = tadj*maxrate
+    a1 = tadj*a1_0*exp( a1_1*vS)
+    a1 = a1*maxrate / (a1+maxrate)
+    b1 = tadj*b1_0*exp(-b1_1*vS)
+    b1 = b1*maxrate / (b1+maxrate)
+    
+    a2 = tadj*a2_0*exp( a2_1*vS)
+    a2 = a2*maxrate / (a2+maxrate)
+    b2 = tadj*b2_0*exp(-b2_1*vS)
+    b2 = b2*maxrate / (b2+maxrate)
+    
+    a3 = tadj*a3_0*exp( a3_1*vS)
+    a3 = a3*maxrate / (a3+maxrate)
+    b3 = tadj*b3_0*exp(-b3_1*vS)
+    b3 = b3*maxrate / (b3+maxrate)
+    
+    bh = tadjh*bh_0/(1+bh_1*exp(-bh_2*(vS-vShift_inact-vShift_inact_local)))
+    bh = bh*maxrate / (bh+maxrate)
+    ah = tadjh*ah_0/(1+ah_1*exp( ah_2*(vS-vShift_inact-vShift_inact_local)))
+    ah = ah*maxrate / (ah+maxrate)   
+    ah = ah*ahfactor
+    bh = bh*bhfactor
 }
