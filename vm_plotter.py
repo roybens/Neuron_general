@@ -44,4 +44,3 @@ def plot_stim_volts_pair(volts, title_volts, file_path_to_save=None,times=def_ti
     if file_path_to_save:
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
     return fig,axs
-        

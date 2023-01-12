@@ -88,6 +88,7 @@ class NeuronModel:
         h.tstop = sweep_len
         h.dt = dt
     def run_model(self, start_Vm = -72, dt= 0.1):
+        h.dt=dt
         h.finitialize(start_Vm)
         timesteps = int(h.tstop/h.dt)
 

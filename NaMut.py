@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 class NaMut:
     def __init__(self,mut_name = 'na12WT2',wt_file = 'na12WT2', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/'):
-        self.l5mdl = NeuronModel(nav12=0.8, nav16=1)
+        self.l5mdl = NeuronModel(nav12=1, nav16=1)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
         #mechs = ['na12mut']
@@ -42,10 +42,15 @@ class NaMut:
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
     def plot_stim(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
+        self.dt = dt
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         self.l5mdl.init_stim(amp=stim_amp)
-        Vm, I, t, stim = self.l5mdl.run_model(dt=0.01)
+        Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+        self.volt_soma = Vm
+        self.I = I
+        self.t = t
+        self.stim = stim
         axs.plot(t,Vm, label='Vm', color=clr,linewidth=1)
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
@@ -92,10 +97,23 @@ class NaMut:
         mut_fis = self.plot_fi_curve(st_fi,end_fi,n_fi)
         fis.append([x_axis,mut_fis,self.mut_name])
         return fis
+    def plot_volts_dvdt(self,stim_amp = 0.3):
+        fig_volts,axs_volts = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+        fig_dvdt,axs_dvdt = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+        self.make_wt()
+        self.plot_stim(axs = axs_volts,dt=0.001)
+        plot_dvdt_from_volts(self.volt_soma,self.dt,axs_dvdt)
+        self.make_het()
+        self.plot_stim(clr = 'red',axs = axs_volts,dt=0.001)
+        plot_dvdt_from_volts(self.volt_soma,self.dt,ax1 = axs_dvdt,clr = 'red')
+        file_path_to_save=f'{self.plot_folder}{self.mut_name}_volts_dvdt_{stim_amp}.pdf'
+        plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi, bbox_inches="tight")
 
+    
+    
 
-#sim = NaMut('na12WT')
-#sim.plot_wt_mut_vs()
+sim = NaMut('A880S')
+sim.plot_volts_dvdt()
 
     
 

@@ -66,6 +66,15 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     fig.show()
     fig.savefig(fn)
 
+def plot_dvdt_from_volts(volts,dt,ax1=None,clr = 'black'):
+    if ax1 is None:
+        fig,ax1 = plt.subplots(1,1)
+    dvdt = np.gradient(volts)/dt
+    ax1.plot(volts, dvdt, color = clr)
+
+
+
+
 
 def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
     if input_dict:
