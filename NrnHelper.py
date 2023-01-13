@@ -240,4 +240,13 @@ def plot_all_FIs(fis, extra_cond = False):
         plt.ylabel('nAPs for 500ms epoch')
         plt.title(f'FI Curve: for range {i}')
         fig.savefig(filename)
-
+def scan12_16():
+    for i12 in np.arange(0.5,1.5,0.1):
+        for i16 in np.arange(0.5,1.5,0.1):
+            sim = NaMut(nav12=i12, nav16=i16)
+            sim.make_wt()
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+            NH.plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+            fn = f'./Plots/na1216_trials/vs_dvdt12_{i12}_16_{i16}.pdf'
+            fig_volts.savefig(fn)
