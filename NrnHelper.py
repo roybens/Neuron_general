@@ -66,7 +66,10 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     fig.show()
     fig.savefig(fn)
 
-def plot_dvdt_from_volts(volts,dt,ax1=None,clr = 'black'):
+def plot_dvdt_from_volts(volts,dt,ax1=None,clr = 'black',skip_first = False):
+    if skip_first:
+        curr_peaks,_ = find_peaks(volts,height = -20)
+        volts = volts[curr_peaks[0]+int(3/dt):]
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
     dvdt = np.gradient(volts)/dt

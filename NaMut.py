@@ -11,6 +11,7 @@ class NaMut:
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
         #mechs = ['na12mut']
         #update_mod_param(self.l5mdl, mechs, 0, gbar_name='gbar')
+        
         self.mut_mech = [mut_mec]
         self.wt_mech = [wt_mec]
         self.plot_folder = f'./Plots/'
@@ -41,16 +42,22 @@ class NaMut:
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
-    def plot_stim(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
+    def plot_stim(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False):
         self.dt = dt
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         self.l5mdl.init_stim(amp=stim_amp)
-        Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+        if rec_extra:
+            Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+            self.extra_vms = extra_vms
+        else:
+            Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+            
         self.volt_soma = Vm
         self.I = I
         self.t = t
         self.stim = stim
+        
         axs.plot(t,Vm, label='Vm', color=clr,linewidth=1)
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)

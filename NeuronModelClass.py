@@ -35,7 +35,9 @@ class NeuronModel:
         self.soma = h.secname(sec=self.soma_ref)
         self.sl = h.SectionList()
         self.sl.wholetree(sec=self.soma_ref)
-
+        self.nexus = h.cell.apic[66]
+        self.dist_dend = h.cell.apic[91]
+        self.ais = h.cell.axon[0]
         h.dend_na12 = 0.026145/2
         h.dend_na16 = h.dend_na12
         h.dend_k = 0.004226 * soma_K
@@ -87,7 +89,7 @@ class NeuronModel:
         h("st.amp = " + str(amp))
         h.tstop = sweep_len
         h.dt = dt
-    def run_model(self, start_Vm = -72, dt= 0.1):
+    def run_model(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
         h.finitialize(start_Vm)
         timesteps = int(h.tstop/h.dt)
@@ -99,6 +101,11 @@ class NeuronModel:
         I['K'] = np.zeros(timesteps)
         stim = np.zeros(timesteps)
         t = np.zeros(timesteps)
+        if rec_extra:
+            extra_Vms = {}
+            extra_Vms['ais'] = np.zeros(timesteps)
+            extra_Vms['nexus'] = np.zeros(timesteps)
+            extra_Vms['dist_dend'] = np.zeros(timesteps)
 
         for i in range(timesteps):
             Vm[i] = h.cell.soma[0].v
@@ -107,10 +114,15 @@ class NeuronModel:
             I['K'][i] = h.cell.soma[0](0.5).ik
             stim[i] = h.st.amp
             t[i] = i*h.dt / 1000
+            if rec_extra:
+                extra_Vms['ais'][i] = self.ais(0.5).v
+                extra_Vms['nexus'][i] = self.nexus(0.5).v
+                extra_Vms['dist_dend'][i] = self.dist_dend(0.5).v
             h.fadvance()
-
-        return Vm, I, t, stim
-
+        if rec_extra:
+            return Vm, I, t, stim,extra_Vms
+        else:
+            return Vm, I, t, stim
 
 
 #######################
