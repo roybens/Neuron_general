@@ -114,7 +114,7 @@ class NaMut:
         plot_dvdt_from_volts(self.volt_soma,self.dt,axs_dvdt)
         self.make_het()
         self.plot_stim(clr = 'red',axs = axs_volts,dt=0.005)
-        plot_dvdt_from_volts(self.volt_soma,self.dt,ax1 = axs_dvdt,clr = 'red')
+        plot_dvdt_from_volts(self.volt_soma,self.dt,axs = axs_dvdt,clr = 'red')
         file_path_to_save=f'{self.plot_folder}{self.mut_name}_volts_dvdt_{stim_amp}.pdf'
         plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi, bbox_inches="tight")
 

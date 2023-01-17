@@ -66,16 +66,27 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     fig.show()
     fig.savefig(fn)
 
-def plot_dvdt_from_volts(volts,dt,ax1=None,clr = 'black',skip_first = False):
+def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):
     if skip_first:
         curr_peaks,_ = find_peaks(volts,height = -20)
         volts = volts[curr_peaks[0]+int(3/dt):]
-    if ax1 is None:
-        fig,ax1 = plt.subplots(1,1)
+    if axs is None:
+        fig,axs = plt.subplots(1,1)
     dvdt = np.gradient(volts)/dt
-    ax1.plot(volts, dvdt, color = clr)
+    axs.plot(volts, dvdt, color = clr)
 
-
+def plot_extra_volts(t,extra_vms,axs = None,clr = 'black'):
+    if axs is None:
+        fig,axs = plt.subplots(3,figsize=(cm_to_in(8),cm_to_in(23)))
+    axs[0].plot(t,extra_vms['ais'], label='ais', color=clr,linewidth=1)
+    axs[0].locator_params(axis='x', nbins=5)
+    axs[0].locator_params(axis='y', nbins=8)
+    axs[1].plot(t,extra_vms['nexus'], label='nexus', color=clr,linewidth=1)
+    axs[1].locator_params(axis='x', nbins=5)
+    axs[1].locator_params(axis='y', nbins=8)
+    axs[2].plot(t,extra_vms['dist_dend'], label='dist_dend', color=clr,linewidth=1)
+    axs[2].locator_params(axis='x', nbins=5)
+    axs[2].locator_params(axis='y', nbins=8)
 
 
 
