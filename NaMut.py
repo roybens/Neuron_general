@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 class NaMut:
-    def __init__(self,mut_name = 'na12WT2',wt_file = 'na12WT2', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/',nav12=1.2,nav16=1.4):
+    def __init__(self,mut_name = 'na12WT2',wt_file = 'na12WT2', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/',nav12=1.2,nav16=1.4,plots_folder = f'./Plots/'):
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
@@ -14,7 +14,7 @@ class NaMut:
         
         self.mut_mech = [mut_mec]
         self.wt_mech = [wt_mec]
-        self.plot_folder = f'./Plots/'
+        self.plot_folder = plots_folder 
         if wt_file:
             print(f'using wt_file {wt_file}')
             p_fn = f'{params_folder}{wt_file}.txt'
@@ -22,7 +22,7 @@ class NaMut:
         if mut_name:#to generate a full WT call it with na12WT as mut name
             print(f'using mut_file {mut_name}')
             self.mut_name = mut_name
-            self.plot_folder = f'./Plots/{self.mut_name}/'
+            self.plot_folder = f'{plots_folder}{self.mut_name}/'
             Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
             p_fn = f'{params_folder}{self.mut_name}.txt'
             self.mut_p = update_mech_from_dict(self.l5mdl, p_fn, self.mut_mech) 
@@ -62,8 +62,8 @@ class NaMut:
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #add_scalebar(axs)
-        file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
-        plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
+        #file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
+        #plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
         return axs
 
     def plot_currents(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):

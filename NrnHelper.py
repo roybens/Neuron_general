@@ -46,7 +46,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
     for curr_amp in x_axis:
-        mdl.init_stim(amp = curr_amp)
+        mdl.init_stim(amp = curr_amp,dt = dt)
         curr_volts,_,_,_ = mdl.run_model()
         curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
         all_volts.append(curr_volts)
@@ -54,15 +54,15 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     print(npeaks)
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
-        ax1.plot(x_axis,npeaks,'black')
+        ax1.plot(x_axis,npeaks,marker = 'o',linestyle = '-',color = 'red')
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel('nAPs for 500ms epoch')
     if wt_data is None:
         return npeaks
     else:
-        ax1.plot(x_axis,npeaks,'red')
-        ax1.plot(x_axis,wt_data,'black')
+        ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black')
+        #ax1.plot(x_axis,wt_data,'black')
     fig.show()
     fig.savefig(fn)
 
@@ -81,13 +81,15 @@ def plot_extra_volts(t,extra_vms,axs = None,clr = 'black'):
     axs[0].plot(t,extra_vms['ais'], label='ais', color=clr,linewidth=1)
     axs[0].locator_params(axis='x', nbins=5)
     axs[0].locator_params(axis='y', nbins=8)
+    axs[0].set_title('AIS')
     axs[1].plot(t,extra_vms['nexus'], label='nexus', color=clr,linewidth=1)
     axs[1].locator_params(axis='x', nbins=5)
     axs[1].locator_params(axis='y', nbins=8)
+    axs[1].set_title('Nexus')
     axs[2].plot(t,extra_vms['dist_dend'], label='dist_dend', color=clr,linewidth=1)
     axs[2].locator_params(axis='x', nbins=5)
     axs[2].locator_params(axis='y', nbins=8)
-
+    axs[2].set_title('dist_dend')
 
 
 def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):

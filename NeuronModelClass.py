@@ -38,7 +38,7 @@ class NeuronModel:
         self.nexus = h.cell.apic[66]
         self.dist_dend = h.cell.apic[91]
         self.ais = h.cell.axon[0]
-        h.dend_na12 = 0.026145/2
+        h.dend_na12 = 0.012/2
         h.dend_na16 = h.dend_na12
         h.dend_k = 0.004226 * soma_K
 
