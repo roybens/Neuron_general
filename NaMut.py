@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 class NaMut:
-    def __init__(self,mut_name = 'na12WT2',wt_file = 'na12WT2', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/',nav12=1.2,nav16=1.4,plots_folder = f'./Plots/'):
+    def __init__(self,mut_name = 'na12WT3',wt_file = 'na12WT3', wt_mec = 'na12',mut_mec = 'na12mut', params_folder = './params/',nav12=1,nav16=1,plots_folder = f'./Plots/'):
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
@@ -62,8 +62,9 @@ class NaMut:
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #add_scalebar(axs)
-        #file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}.pdf'
-        #plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
+        file_path_to_save=f'{self.plot_folder}{self.mut_name}_{plot_fn}1.pdf'
+        plt.show()
+        plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi, bbox_inches="tight")
         return axs
 
     def plot_currents(self,stim_amp = 0.3,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
@@ -114,9 +115,11 @@ class NaMut:
         plot_dvdt_from_volts(self.volt_soma,self.dt,axs_dvdt)
         self.make_het()
         self.plot_stim(clr = 'red',axs = axs_volts,dt=0.005)
+        file_path_to_save=f'{self.plot_folder}{self.mut_name}_step_{stim_amp}.pdf'
+        fig_volts.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
         plot_dvdt_from_volts(self.volt_soma,self.dt,axs = axs_dvdt,clr = 'red')
         file_path_to_save=f'{self.plot_folder}{self.mut_name}_volts_dvdt_{stim_amp}.pdf'
-        plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi, bbox_inches="tight")
+        fig_dvdt.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
 
 
     
@@ -124,8 +127,8 @@ class NaMut:
     
     
 
-#sim = NaMut('A880S')
-#sim.plot_volts_dvdt()
+sim = NaMut()
+sim.plot_volts_dvdt()
 
     
 
