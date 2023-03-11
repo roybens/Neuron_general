@@ -15,7 +15,7 @@ plt.rcParams["xtick.major.size"] = tick_major
 plt.rcParams["xtick.minor.size"] = tick_minor
 plt.rcParams["ytick.major.size"] = tick_major
 plt.rcParams["ytick.minor.size"] = tick_minor
-font_small = 12
+font_small = 9
 font_medium = 13
 font_large = 14
 plt.rc('font', size=font_small)          # controls default text sizes
@@ -42,5 +42,5 @@ def plot_stim_volts_pair(volts, title_volts, file_path_to_save=None,times=def_ti
     #plt.legend(bbox_to_anchor=(1.04,1), loc="upper left")
     #plt.tight_layout(pad=1)
     if file_path_to_save:
-        plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi, bbox_inches="tight")
+        plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi)
     return fig,axs

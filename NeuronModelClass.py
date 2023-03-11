@@ -19,9 +19,14 @@ class NeuronModel:
                       dend_nav16=1,
                       soma_nav16=1,
                       ais_nav16=1,
+                      ais_ca = 1,
+                      ais_KCa = 1,
                       axon_Kp=1,
                       axon_Kt =1,
                       axon_K=1,
+                      axon_Kca =1,
+                      axon_HVA = 1,
+                      axon_LVA = 1,
                       soma_K=1,
                       dend_K=1,
                       gpas_all=1):
@@ -45,20 +50,24 @@ class NeuronModel:
 
         h.soma_na12 = 0.983955/10
         h.soma_na16 = h.soma_na12
-        h.soma_K = 0.303472 * soma_K
+        h.soma_K = 8.396194779331378477e-02 * soma_K
 
         h.ais_na16 = 4
         h.ais_na12 = 4
-        h.ais_ca = 0.000990*10
-        h.ais_KCa = 0.007104
+        h.ais_ca = 0.00990*4*ais_ca
+        h.ais_KCa = 0.007104*ais_KCa
 
         h.node_na = 2
 
         h.axon_KP = 0.973538 * axon_Kp
-        h.axon_KT = 0.089259 * axon_Kt
+        h.axon_KT = 1.7 * axon_Kt
         h.axon_K = 1.021945 * axon_K
+        h.axon_LVA = 0.0014 * axon_LVA
+        h.axon_HVA = 0.00012 * axon_HVA
+        h.axon_KCA = 1.8 * axon_Kca
 
-        h.cell.axon[0].gCa_LVAstbar_Ca_LVAst = 0.001376286159287454
+
+        #h.cell.axon[0].gCa_LVAstbar_Ca_LVAst = 0.001376286159287454
 
         #h.soma_na12 = h.soma_na12/2
         h.naked_axon_na = h.soma_na16/5

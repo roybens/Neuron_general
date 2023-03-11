@@ -18,7 +18,7 @@ plt.rcParams["xtick.major.size"] = tick_major
 plt.rcParams["xtick.minor.size"] = tick_minor
 plt.rcParams["ytick.major.size"] = tick_major
 plt.rcParams["ytick.minor.size"] = tick_minor
-font_small = 12
+font_small =9
 font_medium = 13
 font_large = 14
 plt.rc('font', size=font_small)          # controls default text sizes
@@ -74,6 +74,12 @@ def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):
         fig,axs = plt.subplots(1,1)
     dvdt = np.gradient(volts)/dt
     axs.plot(volts, dvdt, color = clr)
+
+def plot_dg_dt(g,volts,dt,axs=None,clr = 'black'):
+    if axs is None:
+        fig,axs = plt.subplots(1,1)
+    dgdt = np.gradient(g)/dt
+    axs.plot(volts, dgdt, color = clr)
 
 def plot_extra_volts(t,extra_vms,axs = None,clr = 'black'):
     if axs is None:
@@ -144,7 +150,15 @@ def offset_param(mdl,mechs,p_name,offset):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} += {offset}'
-                #print(hoc_cmd)
+                print(hoc_cmd)
+                h(hoc_cmd)
+def update_param_value(mdl,mechs,p_name,value):
+    for curr_sec in mdl.sl:
+        for curr_mech in mechs:
+            if h.ismembrane(curr_mech, sec=curr_sec):
+                curr_name = h.secname(sec=curr_sec)
+                hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {value}'
+                print(hoc_cmd)
                 h(hoc_cmd)
 #### Emily's code
 def update_channel(mdl, channel_name, channel, dict_fn, wt_mul, mut_mul):
@@ -259,7 +273,7 @@ def plot_all_FIs(fis, extra_cond = False):
 def scan12_16():
     for i12 in np.arange(0.5,1.5,0.1):
         for i16 in np.arange(0.5,1.5,0.1):
-            sim = NaMut(nav12=i12, nav16=i16)
+            sim = Na1612Model(nav12=i12, nav16=i16)
             sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
