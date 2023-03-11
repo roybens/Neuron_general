@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 class Na1612Model:
-    def __init__(self,na12name = 'na12WT3', na12mechs = ['na12','na12mut'],na16name = 'na16WT5', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,plots_folder = f'./Plots/'):
+    def __init__(self,na12name = 'na12WT3', na12mechs = ['na12','na12mut'],na16name = 'na16WT6', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,plots_folder = f'./Plots/'):
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
@@ -162,8 +162,8 @@ def scan12_16():
             fig_volts.savefig(fn)
 
 def scanK():
-    for i in np.arange(0.7,10,0.3):
-        """
+    for i in np.arange(0.1,10,0.5):
+
         sim = Na1612Model(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -195,14 +195,14 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'./Plots/Ktrials/vs_dvdt12_somaK_{i}_.pdf'
         fig_volts.savefig(fn)
-        """
+
 
         sim = Na1612Model(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'./Plots/Ktrials2/vs_dvdt12_Kp_{i}_.pdf'
+        fn = f'./Plots/Ktrials/vs_dvdt12_Kp_{i}_.pdf'
         fig_volts.savefig(fn)
 
         sim = Na1612Model(KT=i)
@@ -210,7 +210,7 @@ def scanK():
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'./Plots/Ktrials2/vs_dvdt12_Kt_{i}_.pdf'
+        fn = f'./Plots/Ktrials/vs_dvdt12_Kt_{i}_.pdf'
         fig_volts.savefig(fn)
 
       
@@ -276,8 +276,8 @@ def default_model():
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
 #sim.plot_fi_curve(0,1,6)
-default_model()
+#default_model()
 #scanKv31()
-#scanK()
+scanK()
 #scan12_16()
 #sim.plot_axonal_ks()
