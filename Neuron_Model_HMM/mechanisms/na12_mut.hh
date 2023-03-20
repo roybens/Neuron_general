@@ -12,7 +12,7 @@ NEURON {
 
 PARAMETER {
 	sh   = 8	(mV)
-	gbar = 0.10   	(mho/cm2)	
+	gbar = 0.010   	(mho/cm2)	
 								
 	tha  =  -28.76	(mV)		: v 1/2 for act	
 	qa   = 5.41	(mV)		: act slope (4.5)		
