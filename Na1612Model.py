@@ -5,7 +5,8 @@ import sys
 from pathlib import Path
 import numpy as np
 class Na1612Model:
-    def __init__(self,na12name = 'na12WT6', na12mechs = ['na12','na12mut'],na16name = 'na16WT6', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=0.5,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,plots_folder = f'./Plots/'):
+    def __init__(self,na12name = 'na12WT6', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=4.5,nav16=1.1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,plots_folder = f'./Plots/'):
+        ais_Kca = 0.1
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca)
         #mechs = ['na12']
         #update_mod_param(self.l5mdl, mechs, 2, gbar_name='gbar')
@@ -14,9 +15,9 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/HHTrials'
+        self.plot_folder = f'{plots_folder}/16HMM_12HH/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-    
+        """    
         print(f'using na12_file {na12name}')
         p_fn_na12 = f'{params_folder}{na12name}.txt'
         self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.na12mechs) 
@@ -24,7 +25,7 @@ class Na1612Model:
         print(f'using na16_file {na16name}')
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
-        """
+        
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
@@ -153,8 +154,8 @@ class Na1612Model:
         fig_volts.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
 
 def scan12_16():
-    for i16 in np.arange(0.4,5,0.1):
-        for i12 in np.arange(0.4,5,0.1):
+    for i12 in np.arange(2.5,5,0.5):
+        for i16 in np.arange(0.5,1.6,0.3):
             sim = Na1612Model(nav12=i12, nav16=i16,K=1)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
@@ -164,7 +165,7 @@ def scan12_16():
             fig_volts.savefig(fn)
 
 def scanK():
-    for i in np.arange(0.1,10,0.2):
+    for i in np.arange(0.1,5,0.5):
 
         sim = Na1612Model(K=i)
         #sim.make_wt()
@@ -181,7 +182,7 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
-        
+        """
         sim = Na1612Model(ais_Kca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
@@ -189,7 +190,7 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
-
+        """
         sim = Na1612Model(somaK=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -219,10 +220,10 @@ def scanK():
         
 
 def scanKv31():
-    """
+    
     vtau_orig = 18.700
     vinf_orig = -46.560
-    for i in np.arange(-30,31,10):
+    for i in np.arange(11,21,1):
         sim = Na1612Model()
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -232,7 +233,7 @@ def scanKv31():
         fig_volts.savefig(fn)
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig)
 
-
+        """
         sim = Na1612Model()
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -241,14 +242,14 @@ def scanKv31():
         fn = f'{sim.plot_folder}/kv31_shift_vinf_{i}_.pdf'
         fig_volts.savefig(fn)
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig)
-    """
     mtaumul_orig = 4
     for i in np.arange(0.1,1,0.2):
         sim = Na1612Model()
-        update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',i)
+        update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',mtaumul_orig +i)
         fn = f'{sim.plot_folder}/kv31_shift_mtaumul_{i}_.pdf'
         sim.plot_axonal_ks(plot_fn = fn)
-
+    update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',mtaumul_orig)
+        """
 
 def scanKT():
     vshift_orig = -10
@@ -260,16 +261,25 @@ def scanKT():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/kT_vshift_{i}_.pdf'
         fig_volts.savefig(fn)
-        update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig)
+    update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig)
+def test_params():
+    for i in range(1,9):
+        na16_name = f'na16WT{i}'
+        sim = Na1612Model(na16name = na16_name)
+        sim.plot_currents()
+        fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
+        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
+        fig_volts.savefig(fn)
 def default_model():
     sim = Na1612Model()
     sim.plot_currents()
     fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
     sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
     plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    fn = f'{sim.plot_folder}/default.pdf'
+    fn = f'{sim.plot_folder}/default_na16_orig2.pdf'
     fig_volts.savefig(fn)
-
 
     
     
@@ -278,8 +288,10 @@ def default_model():
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
 #sim.plot_fi_curve(0,1,6)
-default_model()
-#scanKv31()
-#scan12_16()
+#default_model()
 #scanK()
+#scanKT()
+scanKv31()
+#scan12_16()
+
 #sim.plot_axonal_ks()
