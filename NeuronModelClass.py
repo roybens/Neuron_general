@@ -11,7 +11,7 @@ from neuron import h
 import os
 
 class NeuronModel:
-    def __init__(self, mod_dir = './Neuron_Model_12HH16HMM/', nav12=1,
+    def __init__(self, mod_dir = './Neuron_Model_12HMM16HH/', nav12=1,
                       nav16=1,
                       dend_nav12=1,
                       soma_nav12=1,
@@ -27,6 +27,7 @@ class NeuronModel:
                       axon_Kca =1,
                       axon_HVA = 1,
                       axon_LVA = 1,
+                      node_na = 1,
                       soma_K=1,
                       dend_K=1,
                       gpas_all=1):
@@ -43,6 +44,7 @@ class NeuronModel:
         self.nexus = h.cell.apic[66]
         self.dist_dend = h.cell.apic[91]
         self.ais = h.cell.axon[0]
+        self.axon_proper = h.cell.axon[1]
         h.dend_na12 = 0.012/2
         h.dend_na16 = h.dend_na12
         h.dend_k = 0.004226 * soma_K
@@ -57,7 +59,7 @@ class NeuronModel:
         h.ais_ca = 0.00990*4*ais_ca
         h.ais_KCa = 0.007104*ais_KCa
 
-        h.node_na = 2
+        h.node_na = 2 * node_na
 
         h.axon_KP = 0.973538 * axon_Kp
         h.axon_KT = 1.7 * axon_Kt
@@ -111,10 +113,12 @@ class NeuronModel:
         stim = np.zeros(timesteps)
         t = np.zeros(timesteps)
         if rec_extra:
+            
             extra_Vms = {}
             extra_Vms['ais'] = np.zeros(timesteps)
             extra_Vms['nexus'] = np.zeros(timesteps)
             extra_Vms['dist_dend'] = np.zeros(timesteps)
+            extra_Vms['axon'] = np.zeros(timesteps)
 
         for i in range(timesteps):
             Vm[i] = h.cell.soma[0].v
@@ -124,9 +128,13 @@ class NeuronModel:
             stim[i] = h.st.amp
             t[i] = i*h.dt / 1000
             if rec_extra:
-                extra_Vms['ais'][i] = self.ais(0.5).v
+                nseg = int(self.h.L/10)*2 +1  # create 19 segments from this axon section
+                ais_end = 10/nseg # specify the end of the AIS as halfway down this section
+                ais_mid = 4/nseg # specify the middle of the AIS as 1/5 of this section 
+                extra_Vms['ais'][i] = self.ais(ais_mid).v
                 extra_Vms['nexus'][i] = self.nexus(0.5).v
                 extra_Vms['dist_dend'][i] = self.dist_dend(0.5).v
+                extra_Vms['axon'][i]=self.axon_proper(0.5).v
             h.fadvance()
         if rec_extra:
             return Vm, I, t, stim,extra_Vms

@@ -280,3 +280,8 @@ def scan12_16():
             NH.plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
             fn = f'./Plots/na1216_trials/vs_dvdt12_{i12}_16_{i16}.pdf'
             fig_volts.savefig(fn)
+
+def get_spike_times(volts,times):
+    inds,peaks = find_peaks(volts,height = -20)
+    ans = [times[x] for x in inds]
+    return ans
