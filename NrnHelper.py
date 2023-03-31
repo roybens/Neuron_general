@@ -59,6 +59,8 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel('nAPs for 500ms epoch')
     if wt_data is None:
+        fig.show()
+        fig.savefig(fn)
         return npeaks
     else:
         ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black')

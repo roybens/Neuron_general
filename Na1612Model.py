@@ -24,13 +24,13 @@ class Na1612Model:
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
-   
+        
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/12HMM16HH/fine_tuning/'
+        self.plot_folder = f'{plots_folder}/Paper_Plots/Fig1/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-            
+           
         print(f'using na12_file {na12name}')
         p_fn_na12 = f'{params_folder}{na12name}.txt'
         self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.na12mechs) 
@@ -151,7 +151,7 @@ class Na1612Model:
         plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
         return axs
         
-    def plot_fi_curve(self,start,end,nruns,wt_data = None,ax1 = None, fig = None,fn = 'ficurve'):
+    def plot_fi_curve(self,start=0,end=1,nruns=11,wt_data = None,ax1 = None, fig = None,fn = 'ficurve'):
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
     
@@ -174,6 +174,16 @@ class Na1612Model:
         ais_spikes = get_spike_times(self.extra_vms['ais'],self.t)
         for i in range(len(soma_spikes)):
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
+    
+    
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = ''):
+        hh_wt = [0, 0, 0, 0, 2, 3, 5, 6, 8, 9, 11]
+        fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
+        self.plot_stim(axs = axs[0],stim_amp = vs_amp,dt=0.005)
+        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{vs_amp}.pdf'
+        fig_volts.savefig(fn)
+        self.plot_fi_curve(wt_data = hh_wt,fn = fnpre + '_fi',)
 
         
 def scan_sec_na():
@@ -342,10 +352,13 @@ def default_model():
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
 #sim.plot_fi_curve(0,1,6)
-default_model()
+#default_model()
 #scanK()
 #scanKT()
 #scanKv31()
 #scan12_16()
-
 #sim.plot_axonal_ks()
+
+
+sim = Na1612Model()
+sim.plot_model_FI_Vs_dvdt(0.5,fnpre='n12hmm_')
