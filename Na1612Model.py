@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 class Na1612Model:
     def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
-        ais_Kca = 0.5
+        ais_Kca = 0.1
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         #ais_ca = 2
@@ -30,11 +30,11 @@ class Na1612Model:
         self.plot_folder = plots_folder 
         self.plot_folder = f'{plots_folder}/Paper_Plots/Fig1/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-           
+        """
         print(f'using na12_file {na12name}')
         p_fn_na12 = f'{params_folder}{na12name}.txt'
         self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.na12mechs) 
-        """
+        
         print(f'using na16_file {na16name}')
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
@@ -177,13 +177,13 @@ class Na1612Model:
     
     
     def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = ''):
-        hh_wt = [0, 0, 0, 0, 2, 3, 5, 6, 8, 9, 11]
+        hmm_wt = [0, 0, 0, 0, 3, 6, 8, 10, 11, 12, 14]
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         self.plot_stim(axs = axs[0],stim_amp = vs_amp,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{vs_amp}.pdf'
         fig_volts.savefig(fn)
-        self.plot_fi_curve(wt_data = hh_wt,fn = fnpre + '_fi',)
+        self.plot_fi_curve(wt_data = hmm_wt,fn = fnpre + '_fi',)
 
         
 def scan_sec_na():
@@ -361,4 +361,4 @@ def default_model():
 
 
 sim = Na1612Model()
-sim.plot_model_FI_Vs_dvdt(0.5,fnpre='n12hmm_')
+sim.plot_model_FI_Vs_dvdt(0.5,fnpre='n12hh_')
