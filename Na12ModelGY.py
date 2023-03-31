@@ -29,7 +29,7 @@ class Na1612Model:
         self.na16mechs = na16mechs
         self.params_folder = params_folder
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/12HMM16HH/fine_tuning/'
+        self.plot_folder = f'{plots_folder}/GY_R850P/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
             
         print(f'using na12_file {na12name}')
@@ -340,6 +340,16 @@ def default_model():
     fn = f'{sim.plot_folder}/default_na12HMM.pdf'
     fig_volts.savefig(fn)
 
+def plot_mutant():
+    sim = Na1612Model()
+    sim.make_mut('na12mut','na12_R850P.txt')
+    sim.plot_currents()
+    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
+    sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+    plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+    fn = f'{sim.plot_folder}/default_mut.pdf'
+    fig_volts.savefig(fn)
+
 
     
 
@@ -349,10 +359,13 @@ def default_model():
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
 #sim.plot_fi_curve(0,1,6)
-default_model()
+#default_model()
 #scanK()
 #scanKT()
 #scanKv31()
 #scan12_16()
-
+plot_mutant()
 #sim.plot_axonal_ks()
+
+
+
