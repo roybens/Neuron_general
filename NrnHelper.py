@@ -76,6 +76,7 @@ def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):
         fig,axs = plt.subplots(1,1)
     dvdt = np.gradient(volts)/dt
     axs.plot(volts, dvdt, color = clr)
+    return axs
 
 def plot_dg_dt(g,volts,dt,axs=None,clr = 'black'):
     if axs is None:

@@ -30,11 +30,11 @@ class Na1612Model:
         self.plot_folder = plots_folder 
         self.plot_folder = f'{plots_folder}/Paper_Plots/Fig1/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-        """
+
         print(f'using na12_file {na12name}')
         p_fn_na12 = f'{params_folder}{na12name}.txt'
         self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.na12mechs) 
-        
+        """
         print(f'using na16_file {na16name}')
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
@@ -177,13 +177,16 @@ class Na1612Model:
     
     
     def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = ''):
-        hmm_wt = [0, 0, 0, 0, 3, 6, 8, 10, 11, 12, 14]
-        fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        self.plot_stim(axs = axs[0],stim_amp = vs_amp,dt=0.005)
-        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{vs_amp}.pdf'
-        fig_volts.savefig(fn)
-        self.plot_fi_curve(wt_data = hmm_wt,fn = fnpre + '_fi',)
+        hh_wt = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
+        for curr_amp in vs_amp:
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
+            axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            axs[1] = plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+            add_scalebar(axs[0])
+            add_scalebar(axs[1])
+            fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
+            fig_volts.savefig(fn)
+        self.plot_fi_curve(wt_data = hh_wt,fn = fnpre + '_fi',)
 
         
 def scan_sec_na():
@@ -361,4 +364,4 @@ def default_model():
 
 
 sim = Na1612Model()
-sim.plot_model_FI_Vs_dvdt(0.5,fnpre='n12hh_')
+sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre='n12hmm_')
