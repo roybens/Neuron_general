@@ -31,10 +31,10 @@ class Na1612Model:
         self.plot_folder = plots_folder 
         self.plot_folder = f'{plots_folder}/GY_R850P/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-        
+
      #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
      #na12 name and mut_name then you will have homozygus
-                                                          
+        self.l5mdl.h.working()                                                  
         p_fn_na12 = f'{params_folder}{na12name}.txt'  
         p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
         print(f'using wt_file {na12name}')
@@ -333,24 +333,53 @@ def test_params():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
-def default_model():
-    sim = Na1612Model()
-    sim.plot_currents()
-    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-    sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
-    plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    fn = f'{sim.plot_folder}/default_na12HMM.pdf'
-    fig_volts.savefig(fn)
 
-def plot_mutant():
-    sim = Na1612Model()
-    sim.make_mut('na12mut','na12_R850P.txt')
-    sim.plot_currents()
+'''
+def plot_item(al1 = 'na12_orig1',al2= 'na12_R850P',type= none): # al is the name of alleles
+    if type is none:
+
+    sim = Na1612Model(al1,al2)
     fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-    sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+    sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)  
     plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    fn = f'{sim.plot_folder}/default_mut.pdf'
-    fig_volts.savefig(fn)
+    if mut_name == 'na12_orig1':
+        fn = f'{sim.plot_folder}/WT.pdf'
+        fig_volts.savefig(fn)
+    elif na12name == 'na12_R850P':
+        fn = f'{sim.plot_folder}/Homozygous.pdf'
+        fig_volts.savefig(fn)
+    else:
+        fn = f'{sim.plot_folder}/Heterozygous.pdf'
+        fig_volts.savefig(fn)
+    return dvdt, sim.volt_soma
+'''
+def wt_het_hom(al1 = 'na12_orig1',al2= 'na12_R850P'):
+    #for heterozygous
+    sim = Na1612Model(al1,al2)
+    sim.plot_stim(stim_amp = 0.7,dt=0.005) 
+    dvdt_het = np.gradient(sim.volt_soma)/sim.dt
+    v_het= sim.volt_soma
+    plt.plot(v_het, dvdt_het, 'b')
+    #for homozygous
+    sim = Na1612Model(al2,al2)
+    sim.plot_stim(stim_amp = 0.7,dt=0.005) 
+    dvdt_hom = np.gradient(sim.volt_soma)/sim.dt
+    v_hom = sim.volt_soma
+    plt.plot(v_hom, dvdt_hom, 'r')
+    fn = f'{sim.plot_folder}/new.pdf'
+    plt.savefig(fn)
+    
+    
+
+
+
+wt_het_hom()
+
+    
+
+
+
+
 
 
     
@@ -366,7 +395,7 @@ def plot_mutant():
 #scanKT()
 #scanKv31()
 #scan12_16()
-plot_mutant()
+##plot_mutant(na12name = 'na12_R850P',mut_name= 'na12_R850P')
 #sim.plot_axonal_ks()
 
 

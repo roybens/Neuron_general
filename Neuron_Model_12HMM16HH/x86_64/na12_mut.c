@@ -354,7 +354,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 na12mut /global/u2/r/roybens/Neuron_general/Neuron_Model_12HMM16HH/mechanisms/na12_mut.mod\n");
+ 	ivoc_help("help ?1 na12mut /ghazaleh/Neuron_Model_12HMM16HH/mechanisms/na12_mut.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -984,7 +984,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/global/u2/r/roybens/Neuron_general/Neuron_Model_12HMM16HH/mechanisms/na12_mut.mod";
+static const char* nmodl_filename = "/ghazaleh/Neuron_Model_12HMM16HH/mechanisms/na12_mut.mod";
 static const char* nmodl_file_text = 
   ": Eight state kinetic sodium channel gating scheme\n"
   ": Modified from k3st.mod, chapter 9.9 (example 9.7)\n"
