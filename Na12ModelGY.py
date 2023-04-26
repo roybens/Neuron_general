@@ -334,55 +334,30 @@ def test_params():
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
 
-'''
-def plot_item(al1 = 'na12_orig1',al2= 'na12_R850P',type= none): # al is the name of alleles
-    if type is none:
 
-    sim = Na1612Model(al1,al2)
-    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-    sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)  
-    plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    if mut_name == 'na12_orig1':
-        fn = f'{sim.plot_folder}/WT.pdf'
-        fig_volts.savefig(fn)
-    elif na12name == 'na12_R850P':
-        fn = f'{sim.plot_folder}/Homozygous.pdf'
-        fig_volts.savefig(fn)
-    else:
-        fn = f'{sim.plot_folder}/Heterozygous.pdf'
-        fig_volts.savefig(fn)
-    return dvdt, sim.volt_soma
-'''
-def wt_het_hom(al1 = 'na12_orig1',al2= 'na12_R850P'):
-    #for heterozygous
+
+# Plot dvdt of allele combinations on top of each other
+
+def dvdt_all(al1 = 'na12_orig1',al2= 'na12_orig1'):
     sim = Na1612Model(al1,al2)
     sim.plot_stim(stim_amp = 0.7,dt=0.005) 
-    dvdt_het = np.gradient(sim.volt_soma)/sim.dt
-    v_het= sim.volt_soma
-    plt.plot(v_het, dvdt_het, 'b')
-    #for homozygous
-    sim = Na1612Model(al2,al2)
-    sim.plot_stim(stim_amp = 0.7,dt=0.005) 
-    dvdt_hom = np.gradient(sim.volt_soma)/sim.dt
-    v_hom = sim.volt_soma
-    plt.plot(v_hom, dvdt_hom, 'r')
-    fn = f'{sim.plot_folder}/new.pdf'
+    dvdt = np.gradient(sim.volt_soma)/sim.dt
+    v= sim.volt_soma
+    return v, dvdt
+    
+def dvdt_all_plot():
+    volt = [[],[],[]]
+    dvdts = [[],[],[]]
+    volt[0], dvdts[0] = dvdt_all()
+    volt[1], dvdts[1] = dvdt_all(al2 = 'na12_R850P')
+    volt[2], dvdts[2] = dvdt_all(al1 = 'na12_R850P',al2 = 'na12_R850P')
+    plt.plot(volt[0], dvdts[0], 'r')
+    plt.plot(volt[1], dvdts[1], 'b')
+    plt.plot(volt[2], dvdts[2], 'g')
+    fn = f'./Plots/GY_R850P/compare.pdf'
     plt.savefig(fn)
-    
-    
 
 
-
-wt_het_hom()
-
-    
-
-
-
-
-
-
-    
 
 #sim = Na1612Model(K=1,KT = 1)
 #sim.get_ap_init_site()
@@ -399,4 +374,5 @@ wt_het_hom()
 #sim.plot_axonal_ks()
 
 
+dvdt_all_plot()   
 
