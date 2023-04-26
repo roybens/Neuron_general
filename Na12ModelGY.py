@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 class Na1612Model:
-    def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
+    def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_R850P',  na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
         ais_Kca = 0.5
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
@@ -25,25 +25,27 @@ class Na1612Model:
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
    
-        self.na12mechs = na12mechs
+        self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
+        self.wt_mech = [na12mechs[0]]   #new from Namut
         self.na16mechs = na16mechs
-        self.params_folder = params_folder
         self.plot_folder = plots_folder 
         self.plot_folder = f'{plots_folder}/GY_R850P/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
-            
-        print(f'using na12_file {na12name}')
-        p_fn_na12 = f'{params_folder}{na12name}.txt'
-        self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.na12mechs) 
+        
+     #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
+     #na12 name and mut_name then you will have homozygus
+                                                          
+        p_fn_na12 = f'{params_folder}{na12name}.txt'  
+        p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
+        print(f'using wt_file {na12name}')
+        self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.wt_mech) 
+        print(f'using mut_file {mut_name}')
+        self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech)
         """
         print(f'using na16_file {na16name}')
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
         """
-    def make_mut(self,mut_mech,mut_params_fn):
-        print(f'updating mut {mut_mech} with {mut_params_fn}')
-        self.na12_p = update_mech_from_dict(self.l5mdl, self.params_folder + mut_params_fn, mut_mech) 
-
 
 
     def update_gfactor(self,gbar_factor = 1):
