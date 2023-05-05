@@ -336,7 +336,7 @@ def test_params():
 
 
 
-# Plot dvdt of allele combinations on top of each other
+# The combination of two bellow Plots dvdt of allele combinations on top of each other and safe as file compare.pdf
 
 def dvdt_all(al1 = 'na12_orig1',al2= 'na12_orig1'):
     sim = Na1612Model(al1,al2)
@@ -348,13 +348,14 @@ def dvdt_all(al1 = 'na12_orig1',al2= 'na12_orig1'):
 def dvdt_all_plot():
     volt = [[],[],[]]
     dvdts = [[],[],[]]
-    volt[0], dvdts[0] = dvdt_all()
-    volt[1], dvdts[1] = dvdt_all(al2 = 'na12_R850P')
-    volt[2], dvdts[2] = dvdt_all(al1 = 'na12_R850P',al2 = 'na12_R850P')
-    plt.plot(volt[0], dvdts[0], 'r')
-    plt.plot(volt[1], dvdts[1], 'b')
-    plt.plot(volt[2], dvdts[2], 'g')
-    fn = f'./Plots/GY_R850P/compare.pdf'
+    volt[0], dvdts[0] = dvdt_all() # WT
+    volt[1], dvdts[1] = dvdt_all(al2 = 'na12_R850P') # Heterozygous
+    volt[2], dvdts[2] = dvdt_all(al1 = 'na12_R850P',al2 = 'na12_R850P') # Homozygous
+    plt.plot(volt[0], dvdts[0], 'r', label='WT')
+    plt.plot(volt[1], dvdts[1], 'b', label='Heterozygous')
+    plt.plot(volt[2], dvdts[2], 'g', label='Homozygous')
+    plt.legend()
+    fn = f'./Plots/GY_R850P/compare_1.2to1.6_2.pdf'
     plt.savefig(fn)
 
 
