@@ -117,14 +117,14 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
                 curr_name = h.secname(sec=curr_sec)
                 #print(curr_name)
                 for p_name in param_dict.keys():
-                    #print(p_name)
+                    #print(f'p_name is {p_name}')
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
                     #print(hoc_cmd)
                     h(hoc_cmd)
                 #in case we need to go per sec:
-                  #  for seg in curr_sec:
-                  #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
-                  #      print(hoc_cmd)
+                    for seg in curr_sec:
+                        hoc_cmd = f'{curr_name}.{p_name}_{curr_mech}({seg.x}) = {param_dict[p_name]}'
+                        print(hoc_cmd)
     return param_dict
 
 def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
