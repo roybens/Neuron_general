@@ -14,7 +14,7 @@ class Na1612Model:
         #soma_na16 = 0.7
         #soma_na12 = 0.7
         nav12 = 4.5
-        nav16 = 1.1
+        nav16 = 1.1 * nav16 #the wt should be 1.1 and then add to that what we get from the input
         #KP = 0.1
         #somaK = 2
         #KP=3
@@ -31,7 +31,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16_G1625R/mut_'
+        self.plot_folder = f'{plots_folder}/Na16_G1625R/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -188,7 +188,7 @@ class Na1612Model:
         for curr_amp in vs_amp:
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
-            axs[1] = plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+            axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
             add_scalebar(axs[0])
             add_scalebar(axs[1])
             fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
@@ -363,26 +363,39 @@ def plot_mutant():
     plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
     fn = f'{sim.plot_folder}/na16_G1625R.pdf'
     fig_volts.savefig(fn)
-    
 
-#sim = Na1612Model(K=1,KT = 1)
-#sim.get_ap_init_site()
-#scan_sec_na()
-#update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
-#sim.plot_volts_dvdt()
-#sim.plot_fi_curve(0,1,6)
-#default_model()
-#scanK()
-#scanKT()
-#scanKv31()
-#scan12_16()
-#sim.plot_axonal_ks()
+def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = ''):
+    sim = Na1612Model(nav16 = wt_fac)
+    if plot_wt:
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}wtX{wt_fac}_')
+    else:
+        wt_fi = []
+    print(f'wt_fi is {wt_fi}')
+    if mut_fac:
+        sim.make_mut(['na16mut'],'na16_G1625R.txt')
+        update_mod_param(sim.l5mdl,['na16mut'],mut_fac)
+        sim.l5mdl.h.finitialize()
+        if plot_wt:
+            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
+        else:
+            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}mutX{mut_fac}_')
+def mut_ttx(fnpre = 'mut_TTX'):
+    sim = Na1612Model()
+    sim.make_mut(['na16mut'],'na16_G1625R.txt')
+    update_mod_param(sim.l5mdl,['na16'],0)
+    update_mod_param(sim.l5mdl,['na16mut'],0.2)
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}mutX{0.2}_')
+def plot_het(fnpre = 'het_wtX1_mutX1_'):
+    sim = Na1612Model()
+    sim.make_mut(['na16mut'],'na16_G1625R.txt')
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}')
+
+
 
 #plot_mutant()
-sim = Na1612Model()
-#wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre='n16wt_')
-#print(f'wt_fi is {wt_fi}')
-sim.make_mut(['na16mut'],'na16_G1625R.txt')
-sim.l5mdl.h.finitialize()
-#sim.plot_model_FI_Vs_dvdt([,0.5,1],wt_fi = wt_fi,fnpre='n16mut_')
-sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre='n16mut_')
+i = 1.2
+#overexp(wt_fac = 2,mut_fac = 0.2,plot_wt = False,fnpre='na16wtX2_')
+#overexp(wt_fac = 0.2,fnpre='WT_TTX')
+#mut_ttx()
+plot_het()
+#python3 Na16HMM_Tau.py
