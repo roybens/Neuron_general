@@ -19,8 +19,8 @@ class Na1612Model:
         KP=3
         K=3
         KT = 0.5
-        nav12 = 1.2
-        nav16 = 1.2
+        nav12 = 1.6
+        nav16 = 0.8
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
@@ -334,33 +334,51 @@ def test_params():
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
 
+def default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= ''):
+    sim = Na1612Model(al1,al2)
+    #sim.plot_currents()
+    fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
+    sim.plot_stim(axs = axs,stim_amp = 1.5 ,dt=0.005)
+    axs.set_title(f'{al2}_{typ}')
+    #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+    fn = f'{sim.plot_folder}/default_na12HMM_{typ}.pdf'
+    fig_volts.savefig(fn)
 
 
 # The combination of two bellow Plots dvdt of allele combinations on top of each other and safe as file compare.pdf
+# give the WT and Mutant param file as input, al1 is for WT
 
-def dvdt_all(al1 = 'na12_orig1',al2= 'na12_orig1'):
+def dvdt_all(al1 = 'na12_orig1', al2= 'na12_R850P_5may'): 
     sim = Na1612Model(al1,al2)
-    sim.plot_stim(stim_amp = 0.7,dt=0.005) 
+    stim_amp = 1.5 #nA
+    sim.plot_stim(stim_amp= stim_amp,dt=0.005) 
     dvdt = np.gradient(sim.volt_soma)/sim.dt
     v= sim.volt_soma
-    return v, dvdt
+    return v, dvdt, stim_amp
     
-def dvdt_all_plot():
+def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may'):
     volt = [[],[],[]]
     dvdts = [[],[],[]]
-    volt[0], dvdts[0] = dvdt_all() # WT
-    volt[1], dvdts[1] = dvdt_all(al2 = 'na12_R850P') # Heterozygous
-    volt[2], dvdts[2] = dvdt_all(al1 = 'na12_R850P',al2 = 'na12_R850P') # Homozygous
-    plt.plot(volt[0], dvdts[0], 'r', label='WT')
-    plt.plot(volt[1], dvdts[1], 'b', label='Heterozygous')
-    plt.plot(volt[2], dvdts[2], 'g', label='Homozygous')
-    plt.legend()
-    fn = f'./Plots/GY_R850P/compare_1.2to1.6_2.pdf'
-    plt.savefig(fn)
+    volt[0], dvdts[0], stim_amp = dvdt_all(al2,al2) # Homozygous
+    volt[1], dvdts[1] , stim_amp = dvdt_all(al1,al2) # Heterozygous
+    volt[2], dvdts[2] , stim_amp= dvdt_all(al1,al1) # WT
+    fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(17),cm_to_in(17)))
+    axs.plot(volt[0], dvdts[0], 'g', label=f'Homozygous')
+    axs.plot(volt[1], dvdts[1], 'b', label=f'Heterozygous')
+    axs.plot(volt[2], dvdts[2], 'r', label=f'WT')
+    
+    axs.set_xlabel('voltage(mV)',fontsize=9)
+    axs.set_ylabel('dVdt(mV/s)',fontsize=9)
+    axs.set_title(f'stim {stim_amp}, al1: {al1}, al2: {al2}', fontsize=9)
+    axs.legend()
+    fn = f'./Plots/GY_R850P/dvdt {al2}.pdf'
+    fig_volts.savefig(fn)
 
 
 
-#sim = Na1612Model(K=1,KT = 1)
+
+#sim = Na1612Model('na12_orig1', 'na12_orig1')
+#sim.plot_currents()
 #sim.get_ap_init_site()
 #scan_sec_na()
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
@@ -375,5 +393,9 @@ def dvdt_all_plot():
 #sim.plot_axonal_ks()
 
 
-dvdt_all_plot()   
+dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may')
+
+default_model(al1 = 'na12_R850P_5may', al2= 'na12_R850P_5may', typ= 'hom')
+default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= 'het')
+default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= 'WT')
 
