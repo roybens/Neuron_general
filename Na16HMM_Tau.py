@@ -31,7 +31,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16_G1625R/'
+        self.plot_folder = f'{plots_folder}/Na16_G1625Rv2/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -183,17 +183,18 @@ class Na1612Model:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
     
     
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=1,nruns=11):
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.05)
             axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
             add_scalebar(axs[0])
             add_scalebar(axs[1])
             fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
             fig_volts.savefig(fn)
-        fi_ans = self.plot_fi_curve(wt_data = wt_fi,fn = fnpre + '_fi')
+        fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
         return fi_ans
 
         
@@ -379,23 +380,28 @@ def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = ''):
             sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
         else:
             sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}mutX{mut_fac}_')
-def mut_ttx(fnpre = 'mut_TTX'):
+def mut_ttx(g_factor,fnpre = 'mut_TTX'):
     sim = Na1612Model()
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
     update_mod_param(sim.l5mdl,['na16'],0)
-    update_mod_param(sim.l5mdl,['na16mut'],0.2)
-    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}mutX{0.2}_')
+    update_mod_param(sim.l5mdl,['na16mut'],g_factor)
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}{g_factor*100}_')
 def plot_het(fnpre = 'het_wtX1_mutX1_'):
     sim = Na1612Model()
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
-    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}')
-
+    #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1],fnpre=f'{fnpre}')
+    sim.plot_model_FI_Vs_dvdt([0.4,0.5],fnpre=f'{fnpre}',start = 0.45, end = 0.55,nruns= 3)
+    
 
 
 #plot_mutant()
-i = 1.2
-#overexp(wt_fac = 2,mut_fac = 0.2,plot_wt = False,fnpre='na16wtX2_')
-#overexp(wt_fac = 0.2,fnpre='WT_TTX')
-#mut_ttx()
-plot_het()
+#i = 1.2
+for i in [0.02,0.05,0.1,0.15,0.2]: 
+#for i in []: 
+    overexp(wt_fac = 1+i,plot_wt = False,fnpre=f'Task_1/WT_200plus_{i*100}_')   
+    overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_')
+    overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}')
+    mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}')
+plot_het(fnpre = 'Task_5/100_wt_100_mut')
+print(np.linspace(0.45,0.55,3))
 #python3 Na16HMM_Tau.py

@@ -40,14 +40,14 @@ def cm_to_in(cm):
 
 
 
-def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1,fn = './Plots/ficurve.pdf'):
+def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.005,fn = './Plots/ficurve.pdf'):
     all_volts = []
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
-        curr_volts,_,_,_ = mdl.run_model()
+        curr_volts,_,_,_ = mdl.run_model(dt = dt)
         curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
