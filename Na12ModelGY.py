@@ -19,8 +19,8 @@ class Na1612Model:
         KP=3
         K=3
         KT = 0.5
-        nav12 = 1.6
-        nav16 = 0.8
+        nav12 = 1.2
+        nav16 = 1.2
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
@@ -51,11 +51,11 @@ class Na1612Model:
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
-    def plot_stim(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False):
+    def plot_stim(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
         self.dt = dt
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
-        self.l5mdl.init_stim(amp=stim_amp)
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
             Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
             self.extra_vms = extra_vms
@@ -76,10 +76,10 @@ class Na1612Model:
         plt.savefig(file_path_to_save, format='pdf')
         return axs
 
-    def plot_currents(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None):
+    def plot_currents(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None, stim_dur = 500):
         if not axs:
             fig,axs = plt.subplots(4,figsize=(cm_to_in(8),cm_to_in(30)))
-        self.l5mdl.init_stim(amp=stim_amp,sweep_len = 200)
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp,sweep_len = 200)
         Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
         axs[0].plot(t,Vm, label='Vm', color=clr,linewidth=1)
         axs[0].locator_params(axis='x', nbins=5)
@@ -123,10 +123,10 @@ class Na1612Model:
         return Vm, I, t, stim
 
 
-    def plot_axonal_ks(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step_axon_ks',axs = None):
+    def plot_axonal_ks(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step_axon_ks',axs = None, stim_dur = 500):
         if not axs:
             fig,axs = plt.subplots(7,2,figsize=(cm_to_in(16),cm_to_in(70)))
-        self.l5mdl.init_stim(amp=stim_amp,sweep_len = 500)
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp,sweep_len = 500)
         Vm, I, t, stim = self.get_axonal_ks(dt=dt)
         axs[0][0].plot(t,Vm, label='Vm', color=clr,linewidth=1)
         plot_dvdt_from_volts(Vm,self.dt,axs[0][1])
@@ -177,7 +177,7 @@ class Na1612Model:
 
 
     def get_ap_init_site(self):
-        self.plot_stim(stim_amp = 0.7,rec_extra=True)
+        self.plot_stim(stim_amp = 0.5,rec_extra=True)
         soma_spikes = get_spike_times(self.volt_soma,self.t)
         axon_spikes = get_spike_times(self.extra_vms['axon'],self.t)
         ais_spikes = get_spike_times(self.extra_vms['ais'],self.t)
@@ -189,21 +189,21 @@ def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
         sim = Na1612Model(soma_na16=fac,soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na16_{fac}_Na12_{fac}.pdf'
         fig_volts.savefig(fn)
         """
         sim = Na1612Model(soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na12_{fac}.pdf'
         fig_volts.savefig(fn)
 
         sim = Na1612Model(node_na=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/node_na_{fac}.pdf'
         fig_volts.savefig(fn)
@@ -214,7 +214,7 @@ def scan12_16():
             sim = Na1612Model(nav12=i12, nav16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+            sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
             plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
             fn = f'{sim.plot_folder}/vs_dvdt12_{i12}_16_{i16}.pdf'
             fig_volts.savefig(fn)
@@ -227,7 +227,7 @@ def scanK():
         sim = Na1612Model(ais_ca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -235,7 +235,7 @@ def scanK():
         sim = Na1612Model(ais_Kca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -243,7 +243,7 @@ def scanK():
         sim = Na1612Model(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/K_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -251,7 +251,7 @@ def scanK():
         sim = Na1612Model(somaK=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/somaK_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -260,7 +260,7 @@ def scanK():
         sim = Na1612Model(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kp_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -271,7 +271,7 @@ def scanK():
         sim = Na1612Model(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kt_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -288,7 +288,7 @@ def scanKv31():
         sim = Na1612Model()
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/kv31_shift_vtau_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -298,7 +298,7 @@ def scanKv31():
         sim = Na1612Model()
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/kv31_shift_vinf_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -318,7 +318,7 @@ def scanKT():
         sim = Na1612Model()
         update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/kT_vshift_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -329,7 +329,7 @@ def test_params():
         sim = Na1612Model(na16name = na16_name)
         sim.plot_currents()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.7,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
@@ -338,7 +338,7 @@ def default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= ''):
     sim = Na1612Model(al1,al2)
     #sim.plot_currents()
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-    sim.plot_stim(axs = axs,stim_amp = 1.5 ,dt=0.005)
+    sim.plot_stim(axs = axs,stim_amp = 0.5 ,dt=0.005)
     axs.set_title(f'{al2}_{typ}')
     #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
     fn = f'{sim.plot_folder}/default_na12HMM_{typ}.pdf'
@@ -347,21 +347,33 @@ def default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= ''):
 
 # The combination of two bellow Plots dvdt of allele combinations on top of each other and safe as file compare.pdf
 # give the WT and Mutant param file as input, al1 is for WT
+# yu don't need to run default anymore
 
-def dvdt_all(al1 = 'na12_orig1', al2= 'na12_R850P_5may'): 
+def dvdt_all(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp = 0.5, Typ = None, stim_dur = 500): #stim_amp = 0.5 #nA
     sim = Na1612Model(al1,al2)
-    stim_amp = 1.5 #nA
-    sim.plot_stim(stim_amp= stim_amp,dt=0.005) 
+    
+    if al1 == al2 and al1 == 'na12_orig1':
+        Typ = 'WT'
+    elif al1 == al2:
+        Typ = 'Hom'
+    else: 
+        Typ = 'Het'
+
+    fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
+    sim.plot_stim(axs = axs, stim_amp = stim_amp ,dt=0.005, stim_dur = stim_dur )
+    axs.set_title(f'stim: {stim_amp}nA for {stim_dur}ms , al1: {al1}, al2: {al2}', fontsize=9)
+    fn = f'{sim.plot_folder}{Typ}_{stim_amp}_{stim_dur}.pdf'
+    fig_volts.savefig(fn)
     dvdt = np.gradient(sim.volt_soma)/sim.dt
     v= sim.volt_soma
-    return v, dvdt, stim_amp
+    return v, dvdt
     
-def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may'):
+def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, stim_dur = 500):
     volt = [[],[],[]]
     dvdts = [[],[],[]]
-    volt[0], dvdts[0], stim_amp = dvdt_all(al2,al2) # Homozygous
-    volt[1], dvdts[1] , stim_amp = dvdt_all(al1,al2) # Heterozygous
-    volt[2], dvdts[2] , stim_amp= dvdt_all(al1,al1) # WT
+    volt[0], dvdts[0] = dvdt_all(al2,al2,stim_amp = stim_amp,  stim_dur = stim_dur ) # Homozygous
+    volt[1], dvdts[1] = dvdt_all(al1,al2,stim_amp = stim_amp,  stim_dur = stim_dur ) # Heterozygous
+    volt[2], dvdts[2] = dvdt_all(al1,al1,stim_amp = stim_amp,  stim_dur = stim_dur ) # WT
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(17),cm_to_in(17)))
     axs.plot(volt[0], dvdts[0], 'g', label=f'Homozygous')
     axs.plot(volt[1], dvdts[1], 'b', label=f'Heterozygous')
@@ -371,7 +383,7 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may'):
     axs.set_ylabel('dVdt(mV/s)',fontsize=9)
     axs.set_title(f'stim {stim_amp}, al1: {al1}, al2: {al2}', fontsize=9)
     axs.legend()
-    fn = f'./Plots/GY_R850P/dvdt {al2}.pdf'
+    fn = f'./Plots/GY_R850P/{al2}_{stim_amp}_{stim_dur}.pdf'
     fig_volts.savefig(fn)
 
 
@@ -391,11 +403,17 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may'):
 #scan12_16()
 ##plot_mutant(na12name = 'na12_R850P',mut_name= 'na12_R850P')
 #sim.plot_axonal_ks()
-
-
-dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may')
-
-default_model(al1 = 'na12_R850P_5may', al2= 'na12_R850P_5may', typ= 'hom')
-default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= 'het')
-default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= 'WT')
-
+"""
+for i in range (6,12):
+    for j in range (1,3):
+        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=i*0.05,  stim_dur = j* 500 )
+"""
+for i in range (6,12):
+    for j in range (1,3):
+        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=i*0.05,  stim_dur = j* 500 )
+"""     
+for i in range (6,12):
+    for j in range (1,3):
+        dvdt_all_plot(al1 = 'na12_orig1', al2= 'R850P', stim_amp=i*0.05,  stim_dur = j* 500 )
+"""
+#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.2,  stim_dur = 500 )
