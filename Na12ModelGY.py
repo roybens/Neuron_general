@@ -334,11 +334,11 @@ def test_params():
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
 
-def default_model(al1 = 'na12_orig1', al2= 'na12_R850P_5may', typ= ''):
+def default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= ''):
     sim = Na1612Model(al1,al2)
     #sim.plot_currents()
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-    sim.plot_stim(axs = axs,stim_amp = 0.5 ,dt=0.005)
+    sim.plot_stim(axs = axs,stim_amp = 0.7 ,dt=0.005, stim_dur = 500)
     axs.set_title(f'{al2}_{typ}')
     #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
     fn = f'{sim.plot_folder}/default_na12HMM_{typ}.pdf'
@@ -396,7 +396,7 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
 #sim.plot_fi_curve(0,1,6)
-#default_model()
+#default_model(al1 = 'na12_orig1',al2 = 'na12_orig1')
 #scanK()
 #scanKT()
 #scanKv31()
@@ -407,13 +407,15 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
 for i in range (6,12):
     for j in range (1,3):
         dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=i*0.05,  stim_dur = j* 500 )
-"""
+
 for i in range (6,12):
     for j in range (1,3):
         dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=i*0.05,  stim_dur = j* 500 )
-"""     
+    
 for i in range (6,12):
     for j in range (1,3):
         dvdt_all_plot(al1 = 'na12_orig1', al2= 'R850P', stim_amp=i*0.05,  stim_dur = j* 500 )
 """
-#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.2,  stim_dur = 500 )
+default_model()
+#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.7,  stim_dur = 500 )
+#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=0.7,  stim_dur = 500 )
