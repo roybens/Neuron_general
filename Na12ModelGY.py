@@ -12,8 +12,8 @@ class Na1612Model:
         #ais_ca = 2
         #soma_na16 = 0.7
         #soma_na12 = 0.7
-        #nav12 = 2
-        #nav16 = 2
+        #nav12 = 3
+        #nav16 = 1
         #KP = 0.1
         somaK = 2
         KP=3
@@ -389,14 +389,14 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
 
 
 
-#sim = Na1612Model('na12_orig1', 'na12_orig1')
+sim = Na1612Model('na12_orig1', 'na12_orig1')
 #sim.plot_currents()
 #sim.get_ap_init_site()
 #scan_sec_na()
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
-#sim.plot_fi_curve(0,1,6)
-#default_model(al1 = 'na12_orig1',al2 = 'na12_orig1')
+sim.plot_fi_curve(0,1,20)
+#default_model(al1 = 'na12_orig1',al2 = 'na12_orig1',typ='WT')
 #scanK()
 #scanKT()
 #scanKv31()
@@ -416,6 +416,7 @@ for i in range (6,12):
     for j in range (1,3):
         dvdt_all_plot(al1 = 'na12_orig1', al2= 'R850P', stim_amp=i*0.05,  stim_dur = j* 500 )
 """
-default_model()
+
+
 #dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.7,  stim_dur = 500 )
 #dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=0.7,  stim_dur = 500 )
