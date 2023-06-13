@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 class Na1612Model:
-    def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
+    def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/' ,nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Dev_12HMM/'):
         ais_Kca = 0.5
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
@@ -30,7 +30,7 @@ class Na1612Model:
         self.mut16_mech = [na16mechs[1]]    #newly added for developing na12 HMM
         self.wt16_mech = [na16mechs[0]]     #newly added for developing na12 HMM
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Dev_12HMM'
+        self.plot_folder = f'{plots_folder}/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
 
      #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
@@ -345,68 +345,52 @@ def test_params():
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
 
-def default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= ''):
-    sim = Na1612Model(al1,al2)
+def default_model(mut_name = 'na12_orig1', na12name = 'na12_orig1',na16name = 'na12_orig1', mut16_name = 'na12_orig1', typ= 'WT'):
+    sim = Na1612Model(na12name, mut_name, na16name, mut16_name)
     #sim.plot_currents()
+    stim_amp = 0.0000000000005 
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-    sim.plot_stim(axs = axs,stim_amp = 0.7 ,dt=0.005, stim_dur = 500)
-    axs.set_title(f'{al2}_{typ}')
+    sim.plot_stim(axs = axs,stim_amp = 0.0000000005 ,dt=0.05, stim_dur = 100)
+    axs.set_title(f'{mut_name},{typ},stim_amp: {stim_amp}')
     #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    fn = f'{sim.plot_folder}/default_na12HMM_{typ}.pdf'
-    fig_volts.savefig(fn)
-
-
-# The combination of two bellow Plots dvdt of allele combinations on top of each other and safe as file compare.pdf
-# give the WT and Mutant param file as input, al1 is for WT
-# yu don't need to run default anymore
-
-def dvdt_all(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp = 0.5, Typ = None, stim_dur = 500): #stim_amp = 0.5 #nA
-    sim = Na1612Model(al1,al2)
-    
-    if al1 == al2 and al1 == 'na12_orig1':
-        Typ = 'WT'
-    elif al1 == al2:
-        Typ = 'Hom'
-    else: 
-        Typ = 'Het'
-
-    fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-    sim.plot_stim(axs = axs, stim_amp = stim_amp ,dt=0.005, stim_dur = stim_dur )
-    axs.set_title(f'stim: {stim_amp}nA for {stim_dur}ms , al1: {al1}, al2: {al2}', fontsize=9)
-    fn = f'{sim.plot_folder}{Typ}_{stim_amp}_{stim_dur}.pdf'
-    fig_volts.savefig(fn)
-    dvdt = np.gradient(sim.volt_soma)/sim.dt
-    v= sim.volt_soma
-    return v, dvdt
-    
-def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, stim_dur = 500):
-    volt = [[],[],[]]
-    dvdts = [[],[],[]]
-    volt[0], dvdts[0] = dvdt_all(al2,al2,stim_amp = stim_amp,  stim_dur = stim_dur ) # Homozygous
-    volt[1], dvdts[1] = dvdt_all(al1,al2,stim_amp = stim_amp,  stim_dur = stim_dur ) # Heterozygous
-    volt[2], dvdts[2] = dvdt_all(al1,al1,stim_amp = stim_amp,  stim_dur = stim_dur ) # WT
-    fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(17),cm_to_in(17)))
-    axs.plot(volt[0], dvdts[0], 'g', label=f'Homozygous')
-    axs.plot(volt[1], dvdts[1], 'b', label=f'Heterozygous')
-    axs.plot(volt[2], dvdts[2], 'r', label=f'WT')
-    
-    axs.set_xlabel('voltage(mV)',fontsize=9)
-    axs.set_ylabel('dVdt(mV/s)',fontsize=9)
-    axs.set_title(f'stim {stim_amp}, al1: {al1}, al2: {al2}', fontsize=9)
-    axs.legend()
-    fn = f'./Plots/Dev_12HMM/{al2}_{stim_amp}_{stim_dur}.pdf'
+    fn = f'{sim.plot_folder}/default_{typ}.pdf'
     fig_volts.savefig(fn)
 
 
 
 
-sim = Na1612Model('na12_orig1', 'na12_orig1')
+
+"""
+
+# For HET
+mut_name = 'na12_R850P_old'
+sim = Na1612Model(mut_name = 'na12_R850P_old', mut16_name = 'na12_R850P_old', plots_folder = './Plots/Dev_12HMM/Het/' ) # Het
+sim.plot_fi_curve(0,2,8)
+fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
+sim.plot_stim(axs = axs,stim_amp = 0.05 ,dt=0.05, stim_dur = 100)
+axs.set_title(f'{mut_name},stim_amp: {0.05}')
+fn = f'{sim.plot_folder}/default.pdf'
+fig_volts.savefig(fn)
+
+
+# For WT
+sim = Na1612Model(plots_folder = './Plots/Dev_12HMM/WT/') #WT
+sim.plot_fi_curve(0,2,8)
+default_model()
+
+#For Hom
+sim = Na1612Model(na12name = mut_name = na16_name = mut16_name = 'na12_R850P_old', plots_folder = './Plots/Dev_12HMM/Hom/' ) # Hom
+sim.plot_fi_curve(0,2,8, fn = ficurve_HET)
+default_model(na12name = mut_name = na16_name = mut16_name = 'na12_R850P_old')
+"""
+
+
+
 #sim.plot_currents()
 #sim.get_ap_init_site()
 #scan_sec_na()
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
-sim.plot_fi_curve(0,1,20)
 #default_model(al1 = 'na12_orig1',al2 = 'na12_orig1',typ='WT')
 #scanK()
 #scanKT()
@@ -414,20 +398,3 @@ sim.plot_fi_curve(0,1,20)
 #scan12_16()
 ##plot_mutant(na12name = 'na12_R850P',mut_name= 'na12_R850P')
 #sim.plot_axonal_ks()
-"""
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=i*0.05,  stim_dur = j* 500 )
-
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=i*0.05,  stim_dur = j* 500 )
-    
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'R850P', stim_amp=i*0.05,  stim_dur = j* 500 )
-"""
-
-
-#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.7,  stim_dur = 500 )
-#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=0.7,  stim_dur = 500 )
