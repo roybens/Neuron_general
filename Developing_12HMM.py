@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 from pathlib import Path
 import numpy as np
-class Na1612Model:
+class Developing_12HMM:
     def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/' ,nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Dev_12HMM/'):
         ais_Kca = 0.5
         #K = 0.6
@@ -198,21 +198,21 @@ class Na1612Model:
         
 def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
-        sim = Na1612Model(soma_na16=fac,soma_na12=fac)
+        sim = Developing_12HMM(soma_na16=fac,soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na16_{fac}_Na12_{fac}.pdf'
         fig_volts.savefig(fn)
         """
-        sim = Na1612Model(soma_na12=fac)
+        sim = Developing_12HMM(soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na12_{fac}.pdf'
         fig_volts.savefig(fn)
 
-        sim = Na1612Model(node_na=fac)
+        sim = Developing_12HMM(node_na=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
@@ -222,7 +222,7 @@ def scan_sec_na():
 def scan12_16():
     for i12 in np.arange(2,0.4,-0.5):
         for i16 in np.arange(2,0.4,-0.5):
-            sim = Na1612Model(nav12=i12, nav16=i16)
+            sim = Developing_12HMM(nav12=i12, nav16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -235,7 +235,7 @@ def scanK():
 
         
 
-        sim = Na1612Model(ais_ca=i)
+        sim = Developing_12HMM(ais_ca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -243,7 +243,7 @@ def scanK():
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
         
-        sim = Na1612Model(ais_Kca=i)
+        sim = Developing_12HMM(ais_Kca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -251,7 +251,7 @@ def scanK():
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
         """
-        sim = Na1612Model(K=i)
+        sim = Developing_12HMM(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -259,7 +259,7 @@ def scanK():
         fn = f'{sim.plot_folder}/K_{i}_.pdf'
         fig_volts.savefig(fn)
         
-        sim = Na1612Model(somaK=i)
+        sim = Developing_12HMM(somaK=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -268,7 +268,7 @@ def scanK():
         fig_volts.savefig(fn)
 
 
-        sim = Na1612Model(KP=i)
+        sim = Developing_12HMM(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -279,7 +279,7 @@ def scanK():
 
         
         """
-        sim = Na1612Model(KT=i)
+        sim = Developing_12HMM(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -296,7 +296,7 @@ def scanKv31():
     vtau_orig = 18.700
     vinf_orig = -46.560
     for i in np.arange(0,21,5):
-        sim = Na1612Model()
+        sim = Developing_12HMM()
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -306,7 +306,7 @@ def scanKv31():
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig)
 
         
-        sim = Na1612Model()
+        sim = Developing_12HMM()
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -316,7 +316,7 @@ def scanKv31():
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig)
     mtaumul_orig = 4
     for i in np.arange(0.1,1,0.2):
-        sim = Na1612Model()
+        sim = Developing_12HMM()
         update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',mtaumul_orig +i)
         fn = f'{sim.plot_folder}/kv31_shift_mtaumul_{i}_.pdf'
         sim.plot_axonal_ks(plot_fn = fn)
@@ -326,7 +326,7 @@ def scanKv31():
 def scanKT():
     vshift_orig = -10
     for i in np.arange(10,31,10):
-        sim = Na1612Model()
+        sim = Developing_12HMM()
         update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -337,7 +337,7 @@ def scanKT():
 def test_params():
     for i in range(1,9):
         na16_name = f'na16WT{i}'
-        sim = Na1612Model(na16name = na16_name)
+        sim = Developing_12HMM(na16name = na16_name)
         sim.plot_currents()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -345,56 +345,40 @@ def test_params():
         fn = f'{sim.plot_folder}/default_na16_{i}.pdf'
         fig_volts.savefig(fn)
 
-def default_model(mut_name = 'na12_orig1', na12name = 'na12_orig1',na16name = 'na12_orig1', mut16_name = 'na12_orig1', typ= 'WT'):
-    sim = Na1612Model(na12name, mut_name, na16name, mut16_name)
+def default_model(mut_name = 'na12_orig1', na12name ='na12_orig1' ,na16name = 'na12_orig1', mut16_name = 'na12_orig1', typ= 'WT'):
+    sim = Developing_12HMM(mut_name = mut_name, na12name = na12name ,na16name = na16name , mut16_name = mut16_name )
     #sim.plot_currents()
-    stim_amp = 0.0000000000005 
+    stim_amp = 0.5 
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-    sim.plot_stim(axs = axs,stim_amp = 0.0000000005 ,dt=0.05, stim_dur = 100)
+    sim.plot_stim(axs = axs,stim_amp = 0.5 ,dt=0.05, stim_dur = 100)
     axs.set_title(f'{mut_name},{typ},stim_amp: {stim_amp}')
     #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-    fn = f'{sim.plot_folder}/default_{typ}.pdf'
+    fn = f'{sim.plot_folder}/default_new.pdf'
     fig_volts.savefig(fn)
 
 
-
-
+#default_model()
 
 """
 
-# For HET
-mut_name = 'na12_R850P_old'
-sim = Na1612Model(mut_name = 'na12_R850P_old', mut16_name = 'na12_R850P_old', plots_folder = './Plots/Dev_12HMM/Het/' ) # Het
-sim.plot_fi_curve(0,2,8)
-fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
-sim.plot_stim(axs = axs,stim_amp = 0.05 ,dt=0.05, stim_dur = 100)
-axs.set_title(f'{mut_name},stim_amp: {0.05}')
-fn = f'{sim.plot_folder}/default.pdf'
-fig_volts.savefig(fn)
-
-
 # For WT
-sim = Na1612Model(plots_folder = './Plots/Dev_12HMM/WT/') #WT
-sim.plot_fi_curve(0,2,8)
-default_model()
-
+mut_name = 'na12_orig1'
+na12name = 'na12_orig1'
+na16name = 'na12_orig1'
+mut16_name = 'na12_orig1'
+sim = Developing_12HMM() #WT
+#sim = Developing_12HMM()
+fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
+sim.plot_stim(axs = axs,stim_amp = 0.5 ,dt=0.05, stim_dur = 100)
+axs.set_title('na12_orig1_WT, stim_amp: 1')
+fn = f'{sim.plot_folder}/default_new_WT.pdf'
+fig_volts.savefig(fn)
+"""
+"""
 #For Hom
-sim = Na1612Model(na12name = mut_name = na16_name = mut16_name = 'na12_R850P_old', plots_folder = './Plots/Dev_12HMM/Hom/' ) # Hom
+sim = Developing_12HMM(na12name = mut_name = na16_name = mut16_name = 'na12_R850P_old', plots_folder = './Plots/Dev_12HMM/Hom/' ) # Hom
 sim.plot_fi_curve(0,2,8, fn = ficurve_HET)
 default_model(na12name = mut_name = na16_name = mut16_name = 'na12_R850P_old')
 """
 
 
-
-#sim.plot_currents()
-#sim.get_ap_init_site()
-#scan_sec_na()
-#update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
-#sim.plot_volts_dvdt()
-#default_model(al1 = 'na12_orig1',al2 = 'na12_orig1',typ='WT')
-#scanK()
-#scanKT()
-#scanKv31()
-#scan12_16()
-##plot_mutant(na12name = 'na12_R850P',mut_name= 'na12_R850P')
-#sim.plot_axonal_ks()
