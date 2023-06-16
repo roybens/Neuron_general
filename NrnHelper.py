@@ -65,7 +65,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     else:
         ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black')
         #ax1.plot(x_axis,wt_data,'black')
-    fig.show()
+    #fig.show()
     fig.savefig(fn)
 
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):

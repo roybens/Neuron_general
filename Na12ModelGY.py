@@ -239,7 +239,7 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
-        """
+       
         sim = Na1612Model(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -266,8 +266,7 @@ def scanK():
         fig_volts.savefig(fn)
 
 
-        
-        """
+
         sim = Na1612Model(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))

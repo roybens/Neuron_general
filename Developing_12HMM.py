@@ -200,7 +200,7 @@ def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
         sim = Developing_12HMM(soma_na16=fac,soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.5)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na16_{fac}_Na12_{fac}.pdf'
         fig_volts.savefig(fn)
@@ -220,12 +220,12 @@ def scan_sec_na():
         fig_volts.savefig(fn)
         """
 def scan12_16():
-    for i12 in np.arange(2,0.4,-0.5):
-        for i16 in np.arange(2,0.4,-0.5):
+    for i12 in np.arange(4,2,-0.5):
+        for i16 in np.arange(4,2,-0.5):
             sim = Developing_12HMM(nav12=i12, nav16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+            sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.5)
             plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
             fn = f'{sim.plot_folder}/vs_dvdt12_{i12}_16_{i16}.pdf'
             fig_volts.savefig(fn)
@@ -233,8 +233,9 @@ def scan12_16():
 def scanK():
     for i in np.arange(0.1,5,0.5):
 
-        
 
+
+        """
         sim = Developing_12HMM(ais_ca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
@@ -250,7 +251,7 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
-        """
+       
         sim = Developing_12HMM(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
@@ -266,27 +267,25 @@ def scanK():
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/somaK_{i}_.pdf'
         fig_volts.savefig(fn)
-
+        
 
         sim = Developing_12HMM(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.5)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kp_{i}_.pdf'
         fig_volts.savefig(fn)
-
-
-        
         """
+
         sim = Developing_12HMM(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
-        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.5)
+        #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        #sim.plot_fi_curve(0,2,5,ax1 = axs[1])
         fn = f'{sim.plot_folder}/Kt_{i}_.pdf'
         fig_volts.savefig(fn)
-
 
 
 
@@ -334,6 +333,7 @@ def scanKT():
         fn = f'{sim.plot_folder}/kT_vshift_{i}_.pdf'
         fig_volts.savefig(fn)
     update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig)
+
 def test_params():
     for i in range(1,9):
         na16_name = f'na16WT{i}'
@@ -355,6 +355,22 @@ def default_model(mut_name = 'na12_orig1', na12name ='na12_orig1' ,na16name = 'n
     #plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
     fn = f'{sim.plot_folder}/default_new.pdf'
     fig_volts.savefig(fn)
+
+def scanK_ultra():
+    for i in np.arange(0.1,5,0.5):
+        for j in np.arange(0.1,5,0.5):
+            sim = Developing_12HMM(KT=i, KP=j)
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
+            sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.5)
+            #sim.plot_fi_curve(0,2,8,fn=f'fi_KT_{i}_KP_{j}.pdf')
+            fn = f'{sim.plot_folder}/KT_{i}_KP_{j}.pdf'
+            fig_volts.savefig(fn)
+
+
+#scanK_ultra()
+#scan12_16()
+scan_sec_na()
+
 
 
 #default_model()
