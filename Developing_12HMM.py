@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 import sys
 from pathlib import Path
 import numpy as np
+
 class Developing_12HMM:
-    def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/' ,nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Dev_12HMM/'):
+    def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/' ,nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Dev_12HMM/new/'):
         ais_Kca = 0.5
+
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         #ais_ca = 2
@@ -16,9 +18,9 @@ class Developing_12HMM:
         #nav16 = 1
         #KP = 0.1
         somaK = 2
-        KP=3
+        #KP=3
         K=3
-        KT = 0.5
+        #KT = 0.5
         nav12 = 1.2
         nav16 = 1.2
 
@@ -62,7 +64,7 @@ class Developing_12HMM:
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
-    def plot_stim(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
+    def plot_stim(self,stim_amp = 0.5,dt = 0.1 ,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
         self.dt = dt
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
@@ -369,8 +371,8 @@ def scanK_ultra():
 
 #scanK_ultra()
 #scan12_16()
-scan_sec_na()
-
+#scan_sec_na()
+#scanK()
 
 
 #default_model()
