@@ -32,7 +32,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16_G1625Rv6/'
+        self.plot_folder = f'{plots_folder}/Na16_G1625Rv7/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')

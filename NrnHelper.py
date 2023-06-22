@@ -45,10 +45,12 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.0
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
+    pik_height = 20
+    pik_dist = 2/dt
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
         curr_volts,_,_,_ = mdl.run_model(dt = dt)
-        curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
+        curr_peaks,_ = find_peaks(curr_volts[:stim_length],prominence = pik_height, distance = pik_dist)
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
     print(npeaks)
@@ -69,8 +71,11 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.0
     fig.savefig(fn)
 
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):
+    pik_height = 20
+    pik_dist = 2/dt
+
     if skip_first:
-        curr_peaks,_ = find_peaks(volts,height = -20)
+        curr_peaks,_ = find_peaks(volts,prominence = pik_height, distance = pik_dist)
         volts = volts[curr_peaks[0]+int(3/dt):]
     if axs is None:
         fig,axs = plt.subplots(1,1)
@@ -139,6 +144,7 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     print(f'par_value before{par_value} and after {assigned_value}')
+
 def multiply_param(mdl,mechs,p_name,multiplier):
     for curr_sec in mdl.sl:
         for curr_mech in mechs:
