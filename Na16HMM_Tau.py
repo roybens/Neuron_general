@@ -5,6 +5,8 @@ import sys
 from pathlib import Path
 import csv
 import numpy as np
+from currentscape.currentscape import plot_currentscape
+
 class Na1612Model:
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
@@ -91,6 +93,37 @@ class Na1612Model:
         file_path_to_save=f'{self.plot_folder}Ktrials2_{plot_fn}.pdf'
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi)
         return axs
+
+    def plot_current_scape(self,stim_amp = 0.5,dt = 0.01):
+        print("Inside current scape")
+        self.l5mdl.init_stim(amp=stim_amp,sweep_len = 200)
+        Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+        print(Vm)
+        print(I)
+        #current_names = ['Ca_HVA', 'SKv3_1', 'SK_E2', 'Ca_LVAst', 'Ih', 'na12', 'na12mut', 'na16', 'na16mut']
+        current_names = ["Sodium","Pottasium","Calcium"]
+        config = {
+        "output": {
+            "savefig": True,
+            "dir": ".",
+            "fname": "quickstart_plot",
+            "extension": "png",
+            "dpi": 300,
+            "transparent": False
+        },
+        "current": {"names": current_names},
+        "voltage": {"ylim": [-90, 50]},
+        "legendtextsize": 5,
+        "adjust": {
+            "left": 0.15,
+            "right": 0.8,
+            "top": 1.0,
+            "bottom": 0.0
+            }
+        }
+        fig = plot_currentscape(Vm, [I['K'], I['Na'], I['Ca']], config)
+        return fig
+
     def get_axonal_ks(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
         self.dt = dt
@@ -386,17 +419,28 @@ def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
             sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}mutX{mut_fac}_')
     else:
         sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_{mut_fac}_')
+
 def mut_ttx(g_factor,fnpre = 'mut_TTX',axon_KP = 1):
     sim = Na1612Model(KP=axon_KP)
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
     update_mod_param(sim.l5mdl,['na16'],0)
     update_mod_param(sim.l5mdl,['na16mut'],g_factor)
     sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}{g_factor*100}_')
+
 def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
     sim = Na1612Model(KP=axon_KP)
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
     sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}')
     #sim.plot_model_FI_Vs_dvdt([0.4,0.5],fnpre=f'{fnpre}',start = 0.45, end = 0.55,nruns= 3)
+
+def test_current_scape():
+    print("inside currentscape")
+    sim = Na1612Model(na16name = na16_name)
+    fig = sim.plot_current_scape()
+    file_path_to_save=f'./currentscape.pdf'
+    fig.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
+
+    return
 """   
 1. TTX_10.0_axonKP_0.7
 2. TTX_10.0_axonKP_0.8
@@ -404,41 +448,43 @@ def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
 4.TTX_5.0_axonKP_0.75 (2nd best) 
 5. TTX_5.0_axonKP_0.7(best)
 """
-i=0.1
-j=0.7
-overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# i=0.1
+# j=0.7
+# overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
 
-i=0.1
-j=0.8
-overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# i=0.1
+# j=0.8
+# overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
 
-i=0.02
-j=0.5
-overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# i=0.02
+# j=0.5
+# overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
 
-i=0.05
-j=0.75
-overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# i=0.05
+# j=0.75
+# overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
 
-i=0.05
-j=0.7
-overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-"""
-#plot_mutant()
-#i = 1.2
-for j in [0.6,0.7,0.8,0.9]:
-#for j in [0.75]:
-    for i in [0.02,0.05,0.1,0.15,0.2]:
-        #overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
-        #overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
-        overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-        mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-    #plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
-#print(np.linspace(0.45,0.55,3))
-#python3 Na16HMM_Tau.py
-"""
+# i=0.05
+# j=0.7
+# overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+# """
+# #plot_mutant()
+# #i = 1.2
+# for j in [0.6,0.7,0.8,0.9]:
+# #for j in [0.75]:
+#     for i in [0.02,0.05,0.1,0.15,0.2]:
+#         #overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
+#         #overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
+#         overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+#         mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+#     #plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
+# #print(np.linspace(0.45,0.55,3))
+# #python3 Na16HMM_Tau.py
+# """
+if __name__=="__main__":
+    test_current_scape()
