@@ -102,6 +102,7 @@ class NeuronModel:
         h("st.amp = " + str(amp))
         h.tstop = sweep_len
         h.dt = dt
+
     def run_model(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
         h.finitialize(start_Vm)
@@ -143,7 +144,116 @@ class NeuronModel:
         else:
             return Vm, I, t, stim
 
+    def run_sim_model(self,start_Vm = -72, dt= 0.1,sim_config = {
+                'section' : 'soma',
+                'segment' : 0.5,
+                'inward'  : ['ina','ica'],
+                'outward' : ['ik']
+            }):
+         
+        """
+        Runs a simulation model and returns voltage, current, time, and stimulation data.
 
+        Args:
+            start_Vm (float): Initial membrane potential (default: -72 mV).
+            dt (float): Time step size for the simulation (default: 0.1 ms).
+            sim_config (dict): Configuration dictionary for simulation parameters (default: see below).
+
+        Returns:
+            Vm (ndarray): Recorded membrane voltages over time.
+            I (dict): Current traces for different current types.
+            t (ndarray): Time points corresponding to the recorded data.
+            stim (ndarray): Stimulation amplitudes over time.
+
+        Description:
+            This function runs a simulation model and records the membrane voltage, current traces, time points,
+            and stimulation amplitudes over time. The simulation model is configured using the provided parameters.
+
+        Default Simulation Configuration:
+            'section': 'soma'
+            'segment': 0.5
+            'inward': ['ina', 'ica']
+            'outward': ['ik']
+
+        Example Usage:
+            Vm, I, t, stim = run_sim_model(start_Vm=-70, dt=0.05, sim_config={
+                'section': 'soma',
+                'segment': 0.5,
+                'inward': ['ina', 'ica'],
+                'outward': ['ik']
+            })
+        """
+         
+        h.dt=dt
+        h.finitialize(start_Vm)
+        timesteps = int(h.tstop/h.dt)
+        #initialise to zeros,
+        current_types = list(set(sim_config['inward'] + sim_config['outward']))
+        Vm = np.zeros(timesteps, dtype=np.float64)
+        I = {current_type: np.zeros(timesteps, dtype=np.float64) for current_type in current_types}
+        stim = np.zeros(timesteps, dtype=np.float64)
+        t = np.zeros(timesteps, dtype=np.float64)
+        section = sim_config['section']
+        segment = sim_config['segment']
+        volt_var  = "h.cell.{section}[0]({segment}).v".format(section=section, segment=segment)
+        curr_vars = {current_type : "h.cell.{section}[0]({segment}).{current_type}".format(section=section, segment=segment, current_type=current_type) for current_type in current_types}
+        for i in range(timesteps):
+            Vm[i] = h.cell.soma[0].v
+            for current_type in current_types:
+                I[current_type][i] = eval(curr_vars[current_type])
+            stim[i] = h.st.amp
+            t[i] = i*h.dt / 1000
+            h.fadvance()
+        return Vm, I, t, stim
+    
+  
 #######################
 # MAIN
 #######################
+
+
+
+"""
+
+  def run_sim_model(self, start_Vm=-72, dt=0.1, sim_config=None):     
+        if sim_config is None:
+            sim_config = {
+                'section': 'soma',
+                'segment': 0.5,
+                'inward': ['ina', 'ica'],
+                'outward': ['ik']
+            }
+
+        h.dt = dt
+        h.finitialize(start_Vm)
+        timesteps = int(h.tstop / h.dt)
+        current_types = list(set(sim_config['inward'] + sim_config['outward']))
+        Vm_vec = h.Vector()
+        I_vecs = {current_type: h.Vector() for current_type in current_types}
+        stim_vec = h.Vector()
+        t_vec = h.Vector()
+
+        section = sim_config['section']
+        segment = sim_config['segment']
+        compt_sec = getattr(h.cell, section)[0](segment)
+
+        Vm_vec.record(compt_sec._ref_v)
+        for current_type in current_types:
+            curr_var = getattr(compt_sec, "_ref_{current_type}".format(current_type=current_type))
+            I_vecs[current_type].record(curr_var)
+
+        stim_vec.record(h.st._ref_amp)
+        t_vec.record(h._ref_t)
+
+        h.frecord_init()  # Enable recording of state variables
+        h.continuerun(timesteps)  # Run the simulation
+
+        Vm = np.array(Vm_vec)
+        I = {current_type: np.array(I_vecs[current_type]) for current_type in current_types}
+        stim = np.array(stim_vec)
+        t = np.array(t_vec) / 1000.0
+
+        return Vm, I, t, stim
+
+
+"""
