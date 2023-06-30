@@ -6,7 +6,7 @@ TITLE na3
 NEURON {
 	SUFFIX na12
 	USEION na READ ena WRITE ina
-	RANGE  gbar, ar2, thegna
+	RANGE  gbar, ar2, thegna,ina_ina
 	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs
 }
 
@@ -58,6 +58,7 @@ UNITS {
 
 ASSIGNED {
 	ina 		(mA/cm2)
+	ina_ina     (mA/cm2)  : to monitor
 	thegna		(mho/cm2)
 	minf 		
 	hinf 		
@@ -74,6 +75,7 @@ BREAKPOINT {
         SOLVE states METHOD cnexp
         thegna = gbar*m*m*m*h*s
 	ina = thegna * (v - Ena)
+	ina_ina = thegna * (v -Ena) :to monitor
 } 
 
 INITIAL {
