@@ -5,6 +5,8 @@ import sys
 from pathlib import Path
 import csv
 import numpy as np
+from currentscape.currentscape import plot_currentscape
+
 class Na1612Model:
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
@@ -397,6 +399,39 @@ def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
     sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}')
     #sim.plot_model_FI_Vs_dvdt([0.4,0.5],fnpre=f'{fnpre}',start = 0.45, end = 0.55,nruns= 3)
+
+
+def make_currentscape_plot(sim_config={
+                'section' : 'soma',
+                'segment' : 0.5,
+                'inward'  : ['ina','ica'],
+                'outward' : ['ik']
+            }):
+    sim_obj = NeuronModel()   #TO DO : send in different parameters.
+    sim_obj.init_stim(amp=0.5,sweep_len = 200)
+    Vm, I, t, stim = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
+    current_names = sim_config['outward'] + sim_config['inward']
+    plot_config = {
+        "output": {
+            "savefig": True,
+            "dir": "./Plots",
+            "fname": "currentscape_plot",
+            "extension": "png",
+            "dpi": 300,
+            "transparent": False
+        },
+        "current": {"names": current_names},
+        "voltage": {"ylim": [-90, 50]},
+        "legendtextsize": 5,
+        "adjust": {
+            "left": 0.15,
+            "right": 0.8,
+            "top": 1.0,
+            "bottom": 0.0
+            }
+        }
+    plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config)
+
 """   
 1. TTX_10.0_axonKP_0.7
 2. TTX_10.0_axonKP_0.8
@@ -428,6 +463,14 @@ i=0.05
 j=0.7
 overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
 mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+
+sim_config = {
+                'section' : 'soma',
+                'segment' : 0.5,
+                'inward'  : ['ina','ica'],
+                'outward' : ['ik']
+            }
+make_currentscape_plot(sim_config)
 """
 #plot_mutant()
 #i = 1.2
