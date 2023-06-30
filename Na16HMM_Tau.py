@@ -401,26 +401,29 @@ def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
     #sim.plot_model_FI_Vs_dvdt([0.4,0.5],fnpre=f'{fnpre}',start = 0.45, end = 0.55,nruns= 3)
 
 
-def make_currentscape_plot(sim_config={
+def make_currentscape_plot(sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
-                'inward'  : ['ina','ica'],
-                'outward' : ['ik']
+                'section_num': 0,
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+                
             }):
-    sim_obj = NeuronModel()   #TO DO : send in different parameters.
+    sim_obj = NeuronModel()   #TO DO : send in different parameters???
     sim_obj.init_stim(amp=0.5,sweep_len = 200)
-    Vm, I, t, stim = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
-    current_names = sim_config['outward'] + sim_config['inward']
+    Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
+    current_names = sim_config['currents']
     plot_config = {
         "output": {
             "savefig": True,
-            "dir": "./Plots",
-            "fname": "currentscape_plot",
-            "extension": "png",
-            "dpi": 300,
+            "dir": "./Plots/Currentscape/",
+            "fname": "test_plot",
+            "extension": "pdf",
+            "dpi": 600,
             "transparent": False
         },
         "current": {"names": current_names},
+        "ions":{"names": ["ca", "k", "na"]},
         "voltage": {"ylim": [-90, 50]},
         "legendtextsize": 5,
         "adjust": {
@@ -430,7 +433,7 @@ def make_currentscape_plot(sim_config={
             "bottom": 0.0
             }
         }
-    plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config)
+    fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()])
 
 """   
 1. TTX_10.0_axonKP_0.7
