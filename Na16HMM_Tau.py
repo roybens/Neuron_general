@@ -34,7 +34,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16_G1625Rv7/'
+        self.plot_folder = f'{plots_folder}/Na16_G1625Rv9/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -186,7 +186,7 @@ class Na1612Model:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
     
     
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=3,nruns=61):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=3,nruns=21):
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
@@ -374,7 +374,8 @@ def plot_mutant():
 def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
     sim = Na1612Model(nav16 = wt_fac,KP=axon_KP)
     if plot_wt:
-        wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.8,0.85,0.9,0.95],fnpre=f'{fnpre}_FI_')
+        #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
     else:
         wt_fi = []
     print(f'wt_fi is {wt_fi}')
@@ -441,7 +442,12 @@ def make_currentscape_plot(sim_config = {
 3.TTX_2.0_axonKP_0.5 (3rd best)
 4.TTX_5.0_axonKP_0.75 (2nd best) 
 5. TTX_5.0_axonKP_0.7(best)
-"""
+
+i=0.05
+j=0.7
+overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+
 i=0.1
 j=0.7
 overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
@@ -477,9 +483,9 @@ make_currentscape_plot(sim_config)
 """
 #plot_mutant()
 #i = 1.2
-for j in [0.6,0.7,0.8,0.9]:
+for j in [1.2,1.5,2,5,10]:
 #for j in [0.75]:
-    for i in [0.02,0.05,0.1,0.15,0.2]:
+    for i in [0.05,0.1,0.15,0.2]:
         #overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
         #overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
         overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
@@ -487,4 +493,3 @@ for j in [0.6,0.7,0.8,0.9]:
     #plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
 #print(np.linspace(0.45,0.55,3))
 #python3 Na16HMM_Tau.py
-"""

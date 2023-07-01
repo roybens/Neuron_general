@@ -45,7 +45,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.0
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
-    pik_height = 20
+    pik_height = 25
     pik_dist = 2/dt
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
@@ -71,7 +71,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.0
     fig.savefig(fn)
 
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False):
-    pik_height = 20
+    pik_height = 25
     pik_dist = 2/dt
 
     if skip_first:
