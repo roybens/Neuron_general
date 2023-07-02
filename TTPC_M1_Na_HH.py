@@ -357,4 +357,4 @@ default_model()
 #scan12_16()
 sim = Na1612Model()
 sim.plot_model_FI_Vs_dvdt([0.3,0.4,0.5,0.6],fnpre='m1v1')
-#python3 RBS_TTPC_M1_Na_HH.py
+#python3 TTPC_M1_Na_HH.py
