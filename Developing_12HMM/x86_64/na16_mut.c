@@ -354,7 +354,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 na16mut /mnt/Developing_12HMM/mechanisms/na16_mut.mod\n");
+ 	ivoc_help("help ?1 na16mut /ghazaleh/Developing_12HMM/mechanisms/na16_mut.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -984,7 +984,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/mnt/Developing_12HMM/mechanisms/na16_mut.mod";
+static const char* nmodl_filename = "/ghazaleh/Developing_12HMM/mechanisms/na16_mut.mod";
 static const char* nmodl_file_text = 
   ": The data is from Na12.mod\n"
   ": Eight state kinetic sodium channel gating scheme\n"
