@@ -16,9 +16,9 @@ class Na12ModelGY:
         #nav16 = 1
         #KP = 0.1
         somaK = 2
-        KP=3
+        #KP=3
         K=3
-        KT = 0.5
+        #KT = 0.5
         nav12 = 1.2
         nav16 = 1.2
 
@@ -187,21 +187,21 @@ class Na12ModelGY:
         
 def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
-        sim = Na1612Model(soma_na16=fac,soma_na12=fac)
+        sim = Na12ModelGY(soma_na16=fac,soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na16_{fac}_Na12_{fac}.pdf'
         fig_volts.savefig(fn)
         """
-        sim = Na1612Model(soma_na12=fac)
+        sim = Na12ModelGY(soma_na12=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Na12_{fac}.pdf'
         fig_volts.savefig(fn)
 
-        sim = Na1612Model(node_na=fac)
+        sim = Na12ModelGY(node_na=fac)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
@@ -211,7 +211,7 @@ def scan_sec_na():
 def scan12_16():
     for i12 in np.arange(2,0.4,-0.5):
         for i16 in np.arange(2,0.4,-0.5):
-            sim = Na1612Model(nav12=i12, nav16=i16)
+            sim = Na12ModelGY(nav12=i12, nav16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -224,7 +224,7 @@ def scanK():
 
         
 
-        sim = Na1612Model(ais_ca=i)
+        sim = Na12ModelGY(ais_ca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -232,7 +232,7 @@ def scanK():
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
         
-        sim = Na1612Model(ais_Kca=i)
+        sim = Na12ModelGY(ais_Kca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -240,7 +240,7 @@ def scanK():
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
        
-        sim = Na1612Model(K=i)
+        sim = Na12ModelGY(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -248,7 +248,7 @@ def scanK():
         fn = f'{sim.plot_folder}/K_{i}_.pdf'
         fig_volts.savefig(fn)
         
-        sim = Na1612Model(somaK=i)
+        sim = Na12ModelGY(somaK=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -257,7 +257,7 @@ def scanK():
         fig_volts.savefig(fn)
 
 
-        sim = Na1612Model(KP=i)
+        sim = Na12ModelGY(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -267,7 +267,7 @@ def scanK():
 
 
 
-        sim = Na1612Model(KT=i)
+        sim = Na12ModelGY(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -284,7 +284,7 @@ def scanKv31():
     vtau_orig = 18.700
     vinf_orig = -46.560
     for i in np.arange(0,21,5):
-        sim = Na1612Model()
+        sim = Na12ModelGY()
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -294,7 +294,7 @@ def scanKv31():
         update_param_value(sim.l5mdl,['SKv3_1'],'vtau',vtau_orig)
 
         
-        sim = Na1612Model()
+        sim = Na12ModelGY()
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -304,7 +304,7 @@ def scanKv31():
         update_param_value(sim.l5mdl,['SKv3_1'],'vinf',vinf_orig)
     mtaumul_orig = 4
     for i in np.arange(0.1,1,0.2):
-        sim = Na1612Model()
+        sim = Na12ModelGY()
         update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',mtaumul_orig +i)
         fn = f'{sim.plot_folder}/kv31_shift_mtaumul_{i}_.pdf'
         sim.plot_axonal_ks(plot_fn = fn)
@@ -314,7 +314,7 @@ def scanKv31():
 def scanKT():
     vshift_orig = -10
     for i in np.arange(10,31,10):
-        sim = Na1612Model()
+        sim = Na12ModelGY()
         update_param_value(sim.l5mdl,['K_Tst'],'vshift',vshift_orig+i)
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -325,7 +325,7 @@ def scanKT():
 def test_params():
     for i in range(1,9):
         na16_name = f'na16WT{i}'
-        sim = Na1612Model(na16name = na16_name)
+        sim = Na12ModelGY(na16name = na16_name)
         sim.plot_currents()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
@@ -334,7 +334,7 @@ def test_params():
         fig_volts.savefig(fn)
 
 def default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= ''):
-    sim = Na1612Model(al1,al2)
+    sim = Na12ModelGY(al1,al2)
     #sim.plot_currents()
     fig_volts,axs = plt.subplots(1,figsize=(cm_to_in(16),cm_to_in(16)))
     sim.plot_stim(axs = axs,stim_amp = 0.7 ,dt=0.005, stim_dur = 500)
@@ -349,7 +349,7 @@ def default_model(al1 = 'na12_orig1', al2= 'na12_orig1', typ= ''):
 # yu don't need to run default anymore
 
 def dvdt_all(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp = 0.5, Typ = None, stim_dur = 500): #stim_amp = 0.5 #nA
-    sim = Na1612Model(al1,al2)
+    sim = Na12ModelGY(al1,al2)
     
     if al1 == al2 and al1 == 'na12_orig1':
         Typ = 'WT'
@@ -388,13 +388,13 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
 
 
 
-sim = Na1612Model('na12_orig1', 'na12_orig1')
+#sim = Na12ModelGY('na12_orig1', 'na12_orig1')
 #sim.plot_currents()
 #sim.get_ap_init_site()
 #scan_sec_na()
 #update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
 #sim.plot_volts_dvdt()
-sim.plot_fi_curve(0,1,20)
+#sim.plot_fi_curve(0,1,10)
 #default_model(al1 = 'na12_orig1',al2 = 'na12_orig1',typ='WT')
 #scanK()
 #scanKT()
