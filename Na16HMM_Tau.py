@@ -26,6 +26,32 @@ class Na1612Model:
         #nav12 = 1.2
         #nav16 = 1.2
 
+
+
+        nav12 = 3.5
+        nav16 = 1.2
+        ais_Kca = 0.03*ais_Kca
+        ais_ca = 0.04*ais_ca
+        KP = 1*KP
+        somaK = somaK
+        KP=1.1*KP
+        K = 4.8*K
+        KT = 0.025*0.5*KT
+        """
+        ais_Kca = 0.03*ais_Kca
+        #K = 0.6
+        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
+        ais_ca = 0.04*ais_ca
+        #soma_na16 = 0.7
+        #soma_na12 = 0.7
+        nav12 = 1.8 *nav12
+        nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
+        KP = 1.2*KP
+        somaK = 0.5 * somaK
+        KP=0.95*KP
+        K = 4.8*K
+        KT = 0.025*0.5*KT
+        """
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         #update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
         
@@ -34,7 +60,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16_G1625Rv9/'
+        self.plot_folder = f'{plots_folder}/Na16G1625R/v2_full/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -186,7 +212,7 @@ class Na1612Model:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
     
     
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=3,nruns=21):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
@@ -197,6 +223,11 @@ class Na1612Model:
             add_scalebar(axs[1])
             fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
             fig_volts.savefig(fn)
+            csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
+            with open(csv_volts, 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Voltage'])  # Write header row
+                writer.writerows(zip(self.volt_soma))
         fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
         with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
@@ -384,17 +415,17 @@ def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
         update_mod_param(sim.l5mdl,['na16mut'],mut_fac)
         sim.l5mdl.h.finitialize()
         if plot_wt:
-            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
         else:
-            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}mutX{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
     else:
-        sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_{mut_fac}_')
+        sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
 def mut_ttx(g_factor,fnpre = 'mut_TTX',axon_KP = 1):
     sim = Na1612Model(KP=axon_KP)
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
     update_mod_param(sim.l5mdl,['na16'],0)
     update_mod_param(sim.l5mdl,['na16mut'],g_factor)
-    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}{g_factor*100}_')
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}{g_factor*100}_')
 def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
     sim = Na1612Model(KP=axon_KP)
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
@@ -481,15 +512,20 @@ sim_config = {
             }
 make_currentscape_plot(sim_config)
 """
+
+#default_model()
+
 #plot_mutant()
 #i = 1.2
-for j in [1.2,1.5,2,5,10]:
+#for j in [0.7,0.9,1,1.1]:
+for j in [1]:
 #for j in [0.75]:
-    for i in [0.05,0.1,0.15,0.2]:
-        #overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
-        #overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
+    #for i in [0.05,0.1,0.15,0.2]:
+    for i in [0.05]:
+        overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
+        overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
         overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
         mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-    #plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
+    plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
 #print(np.linspace(0.45,0.55,3))
 #python3 Na16HMM_Tau.py
