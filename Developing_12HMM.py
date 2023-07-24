@@ -136,42 +136,12 @@ class Developing_12HMM:
         return Vm, I, t, stim
 
 
-    def plot_axonal_ks(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step_axon_ks',axs = None, stim_dur = 500):
-        if not axs:
-            fig,axs = plt.subplots(7,2,figsize=(cm_to_in(16),cm_to_in(70)))
+    def plot_axonal_ks(self,stim_amp = 2,dt = 0.01,clr = 'black',plot_fn = 'step_axon_ks',axs = None, stim_dur = 500):
+
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp,sweep_len = 500)
         Vm, I, t, stim = self.get_axonal_ks(dt=dt)
-        axs[0][0].plot(t,Vm, label='Vm', color=clr,linewidth=1)
-        plot_dvdt_from_volts(Vm,self.dt,axs[0][1])
-        axs[0][0].locator_params(axis='x', nbins=5)
-        axs[0][0].locator_params(axis='y', nbins=8)
-        
-        axs[1][0].plot(t,I['Na'],label = 'Na',color = 'red')
-        axs[1][0].legend()
-        plot_dg_dt(I['Na'],Vm,self.dt,axs[1][1])
-        axs[2][0].plot(t,I['K'],label = 'K',color = 'black')
-        plot_dg_dt(I['K'],Vm,self.dt,axs[2][1])
-        axs[2][0].legend()
-        axs[3][0].plot(t,I['K31'],label = 'K31',color = 'green')
-        plot_dg_dt(I['K31'],Vm,self.dt,axs[3][1])
-        axs[3][0].legend()
-        axs[4][0].plot(t,I['KP'],label = 'KP',color = 'orange')
-        plot_dg_dt(I['KP'],Vm,self.dt,axs[4][1])
-        axs[4][0].legend()
-        axs[5][0].plot(t,I['KT'],label = 'KT',color = 'yellow')
-        plot_dg_dt(I['KT'],Vm,self.dt,axs[5][1])
-        axs[5][0].legend()
-        axs[6][0].plot(t,I['KCa'],label = 'KCa',color = 'grey')
-        plot_dg_dt(I['KCa'],Vm,self.dt,axs[6][1])
-        axs[6][0].legend()
-        
 
-
-
-        #add_scalebar(axs)
-        file_path_to_save=plot_fn
-        plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
-        return axs
+        return I,t
         
     def plot_fi_curve(self,start,end,nruns,wt_data = None,ax1 = None, fig = None,fn = 'ficurve'):
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
