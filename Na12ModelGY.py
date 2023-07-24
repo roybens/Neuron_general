@@ -15,12 +15,26 @@ class Na12ModelGY:
         #nav12 = 3
         #nav16 = 1
         #KP = 0.1
-        somaK = 2
+        #somaK = 2
         #KP=3
-        K=3
+        #K=3
         #KT = 0.5
         nav12 = 1.2
         nav16 = 1.2
+        
+        #______________M1TTPC2
+        nav12 = 3.5
+        nav16 = 1.2
+        ais_Kca = 0.03*ais_Kca
+        ais_ca = 0.04*ais_ca
+        KP=1.1*KP
+        K = 4.8*K
+        KT = 0.025*0.5*KT
+        
+       #______________GY
+        KP= KP
+
+    
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
