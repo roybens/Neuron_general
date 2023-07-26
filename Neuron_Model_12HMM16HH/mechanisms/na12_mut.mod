@@ -65,7 +65,7 @@ ASSIGNED {
     ena  (mV)
     gna    (millimho/cm2)
     ina  (milliamp/cm2)
-   ina_ina  (milliamp/cm2)  :to monitor
+    ina_ina  (milliamp/cm2)  :to monitor
     a1   (/ms)
     b1   (/ms)
     a2   (/ms)

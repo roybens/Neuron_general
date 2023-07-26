@@ -61,7 +61,20 @@ class Na12ModelGY:
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
         """
 
+    def make_current_scape(self, sim_config = {
+                        'section' : 'soma',
+                        'segment' : 0.5,
+                        'section_num': 0,
+                        'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                        'ionic_concentrations' :["cai", "ki", "nai"]
+                        
+                    }):
 
+        self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config)
+        return Vm, I, t, stim, ionic
+        
+        
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 

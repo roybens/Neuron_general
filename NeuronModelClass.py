@@ -142,7 +142,102 @@ class NeuronModel:
             return Vm, I, t, stim,extra_Vms
         else:
             return Vm, I, t, stim
+        
+    def run_sim_model(self, start_Vm = -72, dt= 0.1, sim_config = {
+                'section' : 'soma',
+                'section_num' : 0,
+                'segment' : 0.5,
+                'currents'  :['ina','ica','ik'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+            }):
+         
+        """
+        Runs a simulation model and returns voltage, current, time, and stimulation data.
 
+        Args:
+            start_Vm (float): Initial membrane potential (default: -72 mV).
+            dt (float): Time step size for the simulation (default: 0.1 ms).
+            sim_config (dict): Configuration dictionary for simulation parameters (default: see below).
+
+        Returns:
+            Vm (ndarray): Recorded membrane voltages over time.
+            I (dict): Current traces for different current types.
+            t (ndarray): Time points corresponding to the recorded data.
+            stim (ndarray): Stimulation amplitudes over time.
+
+        Description:
+            This function runs a simulation model and records the membrane voltage, current traces, time points,
+            and stimulation amplitudes over time. The simulation model is configured using the provided parameters.
+
+        Default Simulation Configuration:
+            'section': 'soma'
+            'segment': 0.5
+            'section_num' : 0
+            'currents'  :['ina','ica','ik'],
+            'ionic_concentrations' :["cai", "ki", "nai"]
+
+        Example Usage:
+            Vm, I, t, stim = run_sim_model(start_Vm=-70, dt=0.05, sim_config={
+                'section': 'soma',
+                'section_num' : 0,
+                'segment': 0.5,
+                'currents'  :['ina','ica','ik'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+            })
+        """
+        
+        h.dt=dt
+        h.finitialize(start_Vm)
+        timesteps = int(h.tstop/h.dt)
+        #initialise to zeros,
+        #current_types = list(set(sim_config['inward'] + sim_config['outward']))
+        current_types = sim_config['currents']
+        ionic_types = sim_config['ionic_concentrations']
+        Vm = np.zeros(timesteps, dtype=np.float64)
+        I = {current_type: np.zeros(timesteps, dtype=np.float64) for current_type in current_types}
+        ionic = {ionic_type : np.zeros(timesteps,dtype=np.float64) for ionic_type in ionic_types}
+        #print(f"I : {I}")
+        stim = np.zeros(timesteps, dtype=np.float64)
+        t = np.zeros(timesteps, dtype=np.float64)
+        section = sim_config['section']
+        section_number = sim_config['section_num']
+        segment = sim_config['segment']
+        volt_var  = "h.cell.{section}[{section_number}]({segment}).v".format(section=section, section_number=section_number,segment=segment)
+        #print(eval("h.psection()"))
+        #print(h("topology()"))
+        #val = eval("h.cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0](0.5).na12mut.ina_ina")
+        #print(f"na16 mut {val}")
+        curr_vars={}
+        # for current_type in current_types:
+        #     if current_type == 'ina_ina_na12':
+        #         curr_vars[current_type] =  "h.cell.{section}[0].{current_type}".format(section=section, segment=segment, current_type=current_type) 
+        #     else:
+        #         curr_vars[current_type] = "h.cell.{section}[0]({segment}).{current_type}".format(section=section, segment=segment, current_type=current_type) 
+        curr_vars = {current_type : "h.cell.{section}[{section_number}]({segment}).{current_type}".format(section=section, section_number=section_number, segment=segment, current_type=current_type) for current_type in current_types}
+        print(f"current_vars : {curr_vars}")
+        ionic_vars = {ionic_type : "h.cell.{section}[{section_number}]({segment}).{ionic_type}".format(section=section , section_number=section_number, segment=segment, ionic_type=ionic_type) for ionic_type in ionic_types}
+        #print(f"ionic_vars : {ionic_vars}")
+        for i in range(timesteps):
+            Vm[i] =eval(volt_var)
+            try :
+                for current_type in current_types:
+                    I[current_type][i] = eval(curr_vars[current_type])
+
+                #getting the ionic concentrations
+                for ionic_type in ionic_types:
+                    ionic[ionic_type][i] = eval(ionic_vars[ionic_type])
+            except Exception as e:
+                print(e)
+                print("Check the config files for the correct Attribute")
+                sys.exit(1)
+
+            stim[i] = h.st.amp
+            t[i] = i*h.dt / 1000
+            h.fadvance()
+        #print(f"I : {I}")
+        return Vm, I, t, stim, ionic
+    
+      
 
 #######################
 # MAIN
