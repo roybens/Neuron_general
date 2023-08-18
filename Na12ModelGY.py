@@ -32,8 +32,8 @@ class Na12ModelGY:
         KT = 0.025*0.5*KT
         
        #______________GY
-        KP= KP
-
+       # KP= KP
+        
     
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
