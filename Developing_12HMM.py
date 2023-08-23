@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 from pathlib import Path
 import numpy as np
+import csv
 
 class Developing_12HMM:
     def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_orig1',  na12mechs = ['na12','na12mut'],na16name = 'na12_orig1', mut16_name = 'na12_orig1' ,na16mechs = ['na16','na16mut'], params_folder = './params/' ,nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Dev_12HMM/new/'):
@@ -64,7 +65,18 @@ class Developing_12HMM:
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
         """
+    def make_current_scape(self, sim_config = {
+                        'section' : 'soma',
+                        'segment' : 0.5,
+                        'section_num': 0,
+                        'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                        'ionic_concentrations' :["cai", "ki", "nai"]
+                        
+                    }):
 
+        self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config)
+        return Vm, I, t, stim, ionic
 
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
@@ -93,7 +105,41 @@ class Developing_12HMM:
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         plt.savefig(file_path_to_save, format='pdf')
         return axs
-
+    
+    def plot_crazy_stim(self, stim_csv = 'syn_stim.csv', clr = 'blue', stim_duration = 0.2, dt = 0.1): # physiological (noisy) stimulation 
+        self.dt = dt
+        #Read CSV file for stimulation amplitudes and add the to amplitude list
+        amplitudes = []
+        v_m = []
+        t_m = []
+        with  open(stim_csv, 'r') as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                ampl = float(row[0])
+                amplitudes.append(ampl)
+               
+        #Create an empty plot        
+        fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+        
+        #set stopping point and start the simulation with finitialize
+        self.l5mdl.start_stim(tstop = 800) 
+        
+        #Stimulate the models with amplitudes at fix time points (every 0.2 ms)
+        stim_start = 100
+        for ampl in amplitudes:
+            Vm, _, t, _ = self.l5mdl.run_model2(stim_start = stim_start ,stim_dur = stim_duration, amp = ampl, dt=dt)
+            v_m.append(Vm)
+            t_m.append(t)
+            stim_start = stim_start + 0.2
+            
+        axs.plot(t_m,v_m, label='Vm', color=clr,linewidth=1)
+        axs.locator_params(axis='x', nbins=5)
+        axs.locator_params(axis='y', nbins=8)
+        file_path_to_save=f'{self.plot_folder}crazy_stim.pdf'
+        plt.savefig(file_path_to_save, format='pdf')
+        
+        return axs
+    
     def plot_currents(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None, stim_dur = 500):
         if not axs:
             fig,axs = plt.subplots(4,figsize=(cm_to_in(8),cm_to_in(30)))

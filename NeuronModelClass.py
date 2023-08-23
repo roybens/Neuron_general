@@ -9,6 +9,7 @@ import numpy as np
 from vm_plotter import *
 from neuron import h
 import os
+import csv
 
 class NeuronModel:
     def __init__(self, mod_dir = './Developing_12HMM/',#'./Neuron_Model_HH/', 
@@ -92,7 +93,8 @@ class NeuronModel:
         h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
         h.working()
         os.chdir(run_dir)
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+        
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 0.2, amp = 0.3, dt = 0.1):
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA
@@ -102,10 +104,57 @@ class NeuronModel:
         h("st.amp = " + str(amp))
         h.tstop = sweep_len
         h.dt = dt
+    
+    def start_stim(self,tstop = 800, start_Vm = -72):
+        h.finitialize(start_Vm)
+        h.tstop = tstop
+        
+    def run_model2(self, stim_start = 100, stim_dur = 0.2, amp = 0.3, dt= 0.1,rec_extra = False): # works in combinition with stim_start for working with physiological stimultion
+        h.dt=dt
+        h("st.del = " + str(stim_start))
+        h("st.dur = " + str(stim_dur))
+        h("st.amp = " + str(amp))
+        timesteps = int(stim_dur/h.dt) # changed from h.tstop to stim_dur
+        Vm = np.zeros(timesteps)
+        I = {}
+        I['Na'] = np.zeros(timesteps)
+        I['Ca'] = np.zeros(timesteps)
+        I['K'] = np.zeros(timesteps)
+        stim = np.zeros(timesteps)
+        t = np.zeros(timesteps)
+        if rec_extra:
+            
+            extra_Vms = {}
+            extra_Vms['ais'] = np.zeros(timesteps)
+            extra_Vms['nexus'] = np.zeros(timesteps)
+            extra_Vms['dist_dend'] = np.zeros(timesteps)
+            extra_Vms['axon'] = np.zeros(timesteps)
+
+        for i in range(timesteps):
+            Vm[i] = h.cell.soma[0].v
+            I['Na'][i] = h.cell.soma[0](0.5).ina
+            I['Ca'][i] = h.cell.soma[0](0.5).ica
+            I['K'][i] = h.cell.soma[0](0.5).ik
+            stim[i] = h.st.amp
+            t[i] = (stim_start + i*h.dt) / 1000 #after each run_modl2 call, the stim_start is updated to the current time
+            if rec_extra:
+                nseg = int(self.h.L/10)*2 +1  # create 19 segments from this axon section
+                ais_end = 10/nseg # specify the end of the AIS as halfway down this section
+                ais_mid = 4/nseg # specify the middle of the AIS as 1/5 of this section 
+                extra_Vms['ais'][i] = self.ais(ais_mid).v
+                extra_Vms['nexus'][i] = self.nexus(0.5).v
+                extra_Vms['dist_dend'][i] = self.dist_dend(0.5).v
+                extra_Vms['axon'][i]=self.axon_proper(0.5).v
+            h.fadvance()
+        if rec_extra:
+            return Vm, I, t, stim,extra_Vms
+        else:
+            return Vm, I, t, stim
+        
     def run_model(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
-        h.finitialize(start_Vm)
-        timesteps = int(h.tstop/h.dt)
+        #h.finitialize(start_Vm)
+        timesteps = int(0.2/h.dt) # change later to h.tstop
 
         Vm = np.zeros(timesteps)
         I = {}
@@ -237,6 +286,9 @@ class NeuronModel:
         #print(f"I : {I}")
         return Vm, I, t, stim, ionic
     
+    def plot_crazy_stim(self, stim_csv, stim_duration=None):
+        if not stim_duration:
+            stim_duration = 0.2 #ms
       
 
 #######################

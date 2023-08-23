@@ -102,7 +102,44 @@ class Na12ModelGY:
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         plt.savefig(file_path_to_save, format='pdf')
         return axs
-
+    
+    def plot_crazy_stim(self, stim_csv, stim_duration = 0.2, dt = 0.1): # physiological (noisy) stimulation 
+        self.dt = dt
+        #Read CSV file for stimulation amplitudes and add the to amplitude list
+        amplitudes = []
+        v_m = []
+        t_m = []
+        with  open(stim_csv, 'r') as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                ampl = float(row[0])
+                amplitudes.append(ampl)
+                
+        #Create an empty plot        
+        fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+             
+        #Stimulate the models with amplitudes at fix time points (every 0.2 ms)
+        stim_start = 100
+        for ampl in amplitudes:
+            self.l5mdl.init_stim(sweep_len = 800, stim_start = stim_start , stim_dur = stim_duration, amp = ampl)
+            Vm, I, t, stim = self.l5mdl.run_model(dt=dt) 
+            self.volt_soma = Vm
+            self.I = I
+            self.t = t
+            self.stim = stim
+            stim_start = t
+            v_m.append(Vm)
+            t_m.append(t)
+            
+        axs.plot(t_m,v_m, label='Vm', color=clr,linewidth=1)
+        axs.locator_params(axis='x', nbins=5)
+        axs.locator_params(axis='y', nbins=8)
+        file_path_to_save=f'{self.plot_folder}{plot_crazy_stim}.pdf'
+        plt.savefig(file_path_to_save, format='pdf')
+        
+        return axs
+        
+            
     def plot_currents(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None, stim_dur = 500):
         if not axs:
             fig,axs = plt.subplots(4,figsize=(cm_to_in(8),cm_to_in(30)))
@@ -119,6 +156,7 @@ class Na12ModelGY:
         file_path_to_save=f'{self.plot_folder}Ktrials2_{plot_fn}.pdf'
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi)
         return axs
+    
     def get_axonal_ks(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
         self.dt = dt
