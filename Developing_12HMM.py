@@ -26,8 +26,8 @@ class Developing_12HMM:
         nav16 = 1.2
         ais_Kca = 0.03*ais_Kca
         ais_ca = 0.04*ais_ca
-        KP=1.1*KP
-        K = 3*K
+        KP=0.1*KP
+        K = 1*K
         KT = 0.025*0.5*KT
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
@@ -74,8 +74,8 @@ class Developing_12HMM:
                         
                     }):
 
-        self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
-        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config)
+        self.l5mdl.init_stim(amp=1.5,sweep_len = 500)
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(start_Vm = -60,dt=0.01,sim_config=sim_config)
         return Vm, I, t, stim, ionic
 
     def update_gfactor(self,gbar_factor = 1):
@@ -131,13 +131,12 @@ class Developing_12HMM:
             v_m.append(Vm)
             t_m.append(t)
             stim_start = stim_start + 0.2
-            
+
         axs.plot(t_m,v_m, label='Vm', color=clr,linewidth=1)
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         file_path_to_save=f'{self.plot_folder}crazy_stim.pdf'
-        plt.savefig(file_path_to_save, format='pdf')
-        
+        plt.savefig(file_path_to_save, format='pdf') 
         return axs
     
     def plot_currents(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None, stim_dur = 500):
@@ -156,6 +155,7 @@ class Developing_12HMM:
         file_path_to_save=f'{self.plot_folder}Ktrials2_{plot_fn}.pdf'
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi)
         return axs
+    
     def get_axonal_ks(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
         self.dt = dt
@@ -224,13 +224,10 @@ class Developing_12HMM:
         plt.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
         return axs
         
-    
-        
     def plot_fi_curve(self,start,end,nruns,wt_data = None,ax1 = None, fig = None,fn = 'ficurve'):
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
     
-
     def plot_volts_dvdt(self,stim_amp = 0.5):
         fig_volts,axs_volts = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         fig_dvdt,axs_dvdt = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
@@ -274,6 +271,7 @@ def scan_sec_na():
         fn = f'{sim.plot_folder}/node_na_{fac}.pdf'
         fig_volts.savefig(fn)
         """
+        
 def scan12_16():
     for i12 in np.arange(4,2,-0.5):
         for i16 in np.arange(4,2,-0.5):
@@ -287,9 +285,6 @@ def scan12_16():
 
 def scanK():
     for i in np.arange(0.1,5,0.5):
-
-
-
         """
         sim = Developing_12HMM(ais_ca=i)
         #sim.make_wt()
@@ -343,10 +338,7 @@ def scanK():
         fig_volts.savefig(fn)
 
 
-
-
 def scanKv31():
-    
     vtau_orig = 18.700
     vinf_orig = -46.560
     for i in np.arange(0,21,5):

@@ -3,17 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import NrnHelper as NH
 import Na12ModelGY as Mature
-#from currentscape.currentscape import plot_currentscape
+from currentscape.currentscape import plot_currentscape
 
 
 
 models= ['5may','6July_1','0208','0407','0607','0708','0906','0908_9','0908','0908g','1008','1107_11july','1207','1807','2407','3107','old','tauless_2002','tauless2000','UDB']
-sim = Dev.Developing_12HMM(na12name = 'na12_orig1', mut_name = 'na12_orig1' , na16name = 'na12_orig1' , mut16_name =  'na12_orig1')
-sim.plot_crazy_stim('syn_stim.csv',stim_duration=0.2)
+#sim = Dev.Developing_12HMM(na12name = 'na12_R850P_old', mut_name = 'na12_R850P_old' , na16name = 'na12_R850P_old' , mut16_name = 'na12_R850P_old')
+#sim.plot_crazy_stim('syn_stim.csv',stim_duration=0.2)
 
-"""
 # Currentscape 
-
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -32,7 +30,7 @@ for i in range(20):
         "output": {
             "savefig": True,
             "dir": "./Plots/Currentscape/",
-            "fname": f"Dev_{current_model}",
+            "fname": f"Dev_{current_model}_60mV",
             "extension": "pdf",
             "dpi": 600,
             "transparent": False
@@ -52,8 +50,8 @@ for i in range(20):
     sim = Dev.Developing_12HMM(na12name = current_model, mut_name =current_model , na16name = current_model , mut16_name = current_model)
     Vm, I, t, stim, ionic = sim.make_current_scape(sim_config=sim_config)
     plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()])
-
-
+    
+"""
 # Get FI data for each Model, and add to the list p 
 p=[]
 for i in range(20):

@@ -51,7 +51,7 @@ class NeuronModel:
         h.dend_na12 = 0.012/2
         h.dend_na16 = h.dend_na12
         h.dend_k = 0.004226 * soma_K
-
+        
 
         h.soma_na12 = 0.983955/10
         h.soma_na16 = h.soma_na12
@@ -83,7 +83,6 @@ class NeuronModel:
         h.gpas_all = 3e-5 * gpas_all
         h.cm_all = 1
 
-
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
@@ -94,7 +93,7 @@ class NeuronModel:
         h.working()
         os.chdir(run_dir)
         
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 0.2, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA
@@ -153,8 +152,8 @@ class NeuronModel:
         
     def run_model(self, start_Vm = -72, dt= 0.1,rec_extra = False):
         h.dt=dt
-        #h.finitialize(start_Vm)
-        timesteps = int(0.2/h.dt) # change later to h.tstop
+        h.finitialize(start_Vm)
+        timesteps = int(h.tstop/h.dt) # change later to h.tstop
 
         Vm = np.zeros(timesteps)
         I = {}
