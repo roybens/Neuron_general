@@ -132,7 +132,7 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
                         print(hoc_cmd)
     return param_dict
 
-def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
+def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar',print_flg = False):
     for curr_sec in mdl.sl:
         curr_name = h.secname(sec=curr_sec)
         for curr_mech in mechs:
@@ -143,7 +143,9 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar'):
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
-                    print(f'par_value before{par_value} and after {assigned_value}')
+                    if print_flg:
+                        print(f'{curr_name}_{curr_mech}_{seg}_par_value before{par_value} and after {assigned_value}')
+    
 
 def multiply_param(mdl,mechs,p_name,multiplier):
     for curr_sec in mdl.sl:

@@ -60,7 +60,7 @@ class Na1612Model:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/Na16G1625R/v2_full/'
+        self.plot_folder = f'{plots_folder}/Na16G1625R/v3/'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -216,7 +216,7 @@ class Na1612Model:
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
-            axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01)
             #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.05)
             axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
             add_scalebar(axs[0])
@@ -420,15 +420,25 @@ def overexp(wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
             sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
     else:
         sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
-def mut_ttx(g_factor,fnpre = 'mut_TTX',axon_KP = 1):
-    sim = Na1612Model(KP=axon_KP)
-    sim.make_mut(['na16mut'],'na16_G1625R.txt')
-    update_mod_param(sim.l5mdl,['na16'],0)
-    update_mod_param(sim.l5mdl,['na16mut'],g_factor)
-    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}{g_factor*100}_')
+def ttx(wt_factor,mut_factor,fnpre = 'mut_TTX',axon_KP = 1):
+    sim = Na1612Model(KP=axon_KP,nav12=0)
+    if mut_factor>0:
+        sim.make_mut(['na16mut'],'na16_G1625R.txt')
+    update_mod_param(sim.l5mdl,['na16'],wt_factor)
+    update_mod_param(sim.l5mdl,['na16mut'],mut_factor)
+    update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
+    
+    #make_currentscape_plot(fn_pre=fnpre,sim_obj = sim.l5mdl)
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
+
 def plot_het(fnpre = 'het_wtX1_mutX1_',axon_KP = 1):
     sim = Na1612Model(KP=axon_KP)
     sim.make_mut(['na16mut'],'na16_G1625R.txt')
+    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}')
+
+def plot_wt(fnpre = 'wt_no_change',axon_KP = 1):
+    sim = Na1612Model(KP=axon_KP)
+    #sim.make_mut(['na16mut'],'na16_G1625R.txt')
     sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}')
     #sim.plot_model_FI_Vs_dvdt([0.4,0.5],fnpre=f'{fnpre}',start = 0.45, end = 0.55,nruns= 3)
 
@@ -438,10 +448,11 @@ def make_currentscape_plot(sim_config = {
                 'segment' : 0.5,
                 'section_num': 0,
                 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
-                'ionic_concentrations' :["cai", "ki", "nai"]
-                
-            }):
-    sim_obj = NeuronModel()   #TO DO : send in different parameters???
+                'ionic_concentrations' :["cai", "ki", "nai"]},
+                fn_pre='',sim_obj = None):
+    if sim_obj is None:
+        sim_obj = Na1612Model()   #TO DO : send in different parameters???
+        sim_obj = sim_obj.l5mdl
     sim_obj.init_stim(amp=0.5,sweep_len = 200)
     Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
     current_names = sim_config['currents']
@@ -449,7 +460,7 @@ def make_currentscape_plot(sim_config = {
         "output": {
             "savefig": True,
             "dir": "./Plots/Currentscape/",
-            "fname": "test_plot",
+            "fname": f'test_plot_{fn_pre}',
             "extension": "pdf",
             "dpi": 600,
             "transparent": False
@@ -511,21 +522,27 @@ sim_config = {
                 'outward' : ['ik']
             }
 make_currentscape_plot(sim_config)
-"""
 
+make_currentscape_plot()
 #default_model()
-
+"""
 #plot_mutant()
 #i = 1.2
-#for j in [0.7,0.9,1,1.1]:
-for j in [1]:
+for j in [0.5,1,1.5]:
+#for j in [1]:
 #for j in [0.75]:
-    #for i in [0.05,0.1,0.15,0.2]:
-    for i in [0.05]:
-        overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
-        overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
-        overexp(wt_fac = i,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-        mut_ttx(i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
-    plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
+    for i in [0.2,0.4,0.6,0.8,1]:
+    #for i in [0.05]:
+        #overexp(wt_fac = 1+i,fnpre=f'Task_1/WT_200plus_{i*100}_axonKP_{j}_',axon_KP = j)   
+        #overexp(wt_fac = 2,mut_fac = i,plot_wt = False,fnpre=f'Task_2/WT_200_mut_{i*100}_axonKP_{j}_',axon_KP = j)
+        ttx(i,0,fnpre=f'Task_3/WT_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+        ttx(0,i,fnpre=f'Task_4/mut_TTX_{i*100}_axonKP_{j}_',axon_KP = j)
+    plot_wt(fnpre = f'Task_0/100_wt_100_wt_axonKP_{j}_',axon_KP = j)
+   #plot_het(fnpre = f'Task_5/100_wt_100_mut_axonKP_{j}_',axon_KP = j)
 #print(np.linspace(0.45,0.55,3))
 #python3 Na16HMM_Tau.py
+
+#ttx(0.05,0,fnpre=f'WT_TTX_')
+#ttx(0,0.05,fnpre=f'mut_TTX_')
+
+

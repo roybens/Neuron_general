@@ -1,4 +1,4 @@
-x86_64/.libs/libnrnmech.so
+x86_64/
 x86_64/vclmp_pl.o
 x86_64/vclmp_pl.c
 x86_64/special
@@ -98,3 +98,18 @@ x86_64/NaTs2_t.c
 x86_64/NaTs2_t.o
 x86_64/nax8st.c
 x86_64/nax8st.o
+Plots/Na16G1625R/
+Neuron_Model_12HH16HMM/x86_64/makemod2c_inc
+Neuron_Model_12HH16HMM/x86_64/mod_func.c
+Neuron_Model_12HH16HMM/x86_64/libnrnmech.so
+Neuron_Model_12HH16HMM/x86_64/makemod2c_inc
+Neuron_Model_12HH16HMM/x86_64/mod_func.c
+Neuron_Model_12HH16HMM/x86_64/mod_func.o
+Neuron_Model_12HH16HMM/x86_64/na12_mut.c
+Neuron_Model_12HH16HMM/x86_64/na12_mut.o
+Neuron_Model_12HH16HMM/x86_64/na12.c
+Neuron_Model_12HH16HMM/x86_64/na12.o
+Neuron_Model_12HH16HMM/x86_64/.libs/libnrnmech.so
+Plots/Paper_Plots/Fig1/n12hmm_dvdt_vs_0.3.pdf
+Plots/Paper_Plots/Fig1/n12hmm_dvdt_vs_0.5.pdf
+Plots/Paper_Plots/Fig1/step.pdf
