@@ -354,7 +354,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 na16 /ghazaleh/Developing_12HMM/mechanisms/na16.mod\n");
+ 	ivoc_help("help ?1 na16 /global/u2/t/tfenton/Neuron_general-2/Developing_12HMM/mechanisms/na16.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -984,7 +984,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ghazaleh/Developing_12HMM/mechanisms/na16.mod";
+static const char* nmodl_filename = "/global/u2/t/tfenton/Neuron_general-2/Developing_12HMM/mechanisms/na16.mod";
 static const char* nmodl_file_text = 
   ": The data is from Na12.mod\n"
   ": Eight state kinetic sodium channel gating scheme\n"
@@ -1054,7 +1054,7 @@ static const char* nmodl_file_text =
   "    ena  (mV)\n"
   "    gna    (millimho/cm2)\n"
   "    ina  (milliamp/cm2)\n"
-  "   ina_ina  (milliamp/cm2)  :to monitor\n"
+  "    ina_ina  (milliamp/cm2)  :to monitor\n"
   "    a1   (/ms)\n"
   "    b1   (/ms)\n"
   "    a2   (/ms)\n"

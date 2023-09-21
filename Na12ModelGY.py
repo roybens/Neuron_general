@@ -43,7 +43,8 @@ class Na12ModelGY:
         self.wt_mech = [na12mechs[0]]   #new from Namut
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/GY_R850P/'
+        #self.plot_folder = f'{plots_folder}/GY_R850P/'
+        self.plot_folder = f'{plots_folder}/TIMTEST/' #########################*****************$*$*$*$
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
 
      #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
@@ -153,7 +154,7 @@ class Na12ModelGY:
         axs[2].plot(t,I['K'],label = 'K',color = 'black')
         axs[3].plot(t,I['Ca'],label = 'Ca',color = 'green')
         #add_scalebar(axs)
-        file_path_to_save=f'{self.plot_folder}Ktrials2_{plot_fn}.pdf'
+        file_path_to_save=f'{self.plot_folder}/Ktrials2_{plot_fn}.pdf'
         plt.savefig(file_path_to_save+'.pdf', format='pdf', dpi=my_dpi)
         return axs
     

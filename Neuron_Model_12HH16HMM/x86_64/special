@@ -14,4 +14,4 @@ if test "" = "yes" ; then
 else
     NRNIV="${NRNBIN}/nrniv"
 fi
-"${NRNIV}" -dll "/global/homes/r/roybens/Neuron_general/Neuron_Model_12HH16HMM/x86_64/.libs/libnrnmech.so" "$@"
+"${NRNIV}" -dll "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HH16HMM/x86_64/.libs/libnrnmech.so" "$@"

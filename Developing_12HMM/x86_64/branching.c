@@ -171,7 +171,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 0;
   _initlists();
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 branching /ghazaleh/Developing_12HMM/mechanisms/branching.mod\n");
+ 	ivoc_help("help ?1 branching /global/u2/t/tfenton/Neuron_general-2/Developing_12HMM/mechanisms/branching.mod\n");
  }
 static int _reset;
 static char *modelname = "";
