@@ -320,7 +320,7 @@ class NeuronModel:
         section_number = sim_config['section_num']
         segment = sim_config['segment']
         volt_var  = "h.cell.{section}[{section_number}]({segment}).v".format(section=section, section_number=section_number,segment=segment)
-        #print(eval("h.psection()"))
+        print(eval("h.psection()"))
         #print(h("topology()"))
         #val = eval("h.cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0](0.5).na12mut.ina_ina")
         #print(f"na16 mut {val}")

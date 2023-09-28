@@ -1,0 +1,300 @@
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_12HH16HMM run dir is /global/u2/t/tfenton/Neuron_general-2
+	1 
+	1 
+Setting temperature to 34.000000 C
+Setting simulation time step to 0.100000 ms
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+ran working
+	1 
+	1 
+	1 
+**********************
+cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0]
+1 
+1 
+1 
+	1 
+ran working
+ran working
+	1 
+	1 
+ran working
+cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[114].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[1].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[1].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[122].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[115].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[3].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[2].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[121].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[116].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[5].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[4].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[120].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[117].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[17].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[6].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[119].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[118].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[113].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[18].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[12].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[7].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[30].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[19].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[14].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[13].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[11].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[8].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[34].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[31].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[27].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[20].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[16].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[15].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[10].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[9].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[36].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[35].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[33].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[32].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[29].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[28].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[24].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[21].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[38].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[37].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[26].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[25].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[23].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[22].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[40].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[39].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[52].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[41].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[54].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[53].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[47].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[42].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[64].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[55].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[51].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[48].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[46].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[43].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[66].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[65].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[59].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[56].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[50].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[49].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[45].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[44].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[98].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[67].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[61].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[60].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[58].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[57].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[104].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[99].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[69].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[68].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[63].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[62].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[112].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[105].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[103].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[100].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[77].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[70].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[107].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[106].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[102].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[101].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[83].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[78].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[76].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[71].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[111].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[108].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[95].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[84].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[80].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[79].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[75].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[72].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[110].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[109].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[97].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[96].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[92].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[85].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[82].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[81].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[74].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[73].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[94].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[93].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[87].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[86].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[91].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[88].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[90].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[89].mtaumul_SKv3_1 = 6
+ran working
+using wt_file na12_TF2
+updating ['na12'] with {'a1_0': 5.539357560221314, 'a1_1': 0.017156305698699303, 'b1_0': 0.47983709547820963, 'b1_1': 0.1378878043727311, 'a2_0': 488.74625840346766, 'a2_1': 0.15406843953665944, 'b2_0': 486.52151592010614, 'b2_1': 1.636901611663385, 'a3_0': 452.5687858531485, 'a3_1': 0.09050447265873518, 'b3_0': 3245.3240638682582, 'b3_1': 0.04701556175591079, 'bh_0': 1.1047307644921633, 'bh_1': 4.9359863202863465, 'bh_2': 0.1654300454861132, 'ah_0': 3.7367823333082164, 'ah_1': 8381.051994534631, 'ah_2': 0.021785162060336392, 'vshift': -21.46930902673176, 'vshift_inact': 3.432573383659952, 'maxrate': 2937.6762394997227}
+using mut_file na12_TF2
+updating ['na12_mut'] with {'a1_0': 5.539357560221314, 'a1_1': 0.017156305698699303, 'b1_0': 0.47983709547820963, 'b1_1': 0.1378878043727311, 'a2_0': 488.74625840346766, 'a2_1': 0.15406843953665944, 'b2_0': 486.52151592010614, 'b2_1': 1.636901611663385, 'a3_0': 452.5687858531485, 'a3_1': 0.09050447265873518, 'b3_0': 3245.3240638682582, 'b3_1': 0.04701556175591079, 'bh_0': 1.1047307644921633, 'bh_1': 4.9359863202863465, 'bh_2': 0.1654300454861132, 'ah_0': 3.7367823333082164, 'ah_1': 8381.051994534631, 'ah_2': 0.021785162060336392, 'vshift': -21.46930902673176, 'vshift_inact': 3.432573383659952, 'maxrate': 2937.6762394997227}
+using na16_file mut10_1_Na16hof
+updating ['na16', 'na16_mut'] with {'a1_0': 9.103385555187224, 'a1_1': 0.03783850434360721, 'b1_0': 0.38742598625486013, 'b1_1': 0.030267248666314545, 'a2_0': 9888.597056894025, 'a2_1': 0.3623039076124359, 'b2_0': 43.09264072213054, 'b2_1': 18.44760607210833, 'a3_0': 204.26064809165328, 'a3_1': 0.10525976451969495, 'b3_0': 44.808969698012845, 'b3_1': 0.06372029994752981, 'bh_0': 11.25907195065116, 'bh_1': 4.473778714261201, 'bh_2': 0.11184341073074883, 'ah_0': 2.1724573668995117, 'ah_1': 4651.872083959752, 'ah_2': 0.024479642017511592, 'vShift': -10.0, 'vShift_inact': 14.550793154053904, 'maxrate': 30.613217292143965}
+current_vars : {'ina': 'h.cell.soma[0](0.5).ina', 'ica': 'h.cell.soma[0](0.5).ica', 'ik': 'h.cell.soma[0](0.5).ik'}
+ionic_vars : {'cai': 'h.cell.soma[0](0.5).cai', 'ki': 'h.cell.soma[0](0.5).ki', 'nai': 'h.cell.soma[0](0.5).nai'}
+dict_keys(['ina', 'ica', 'ik'])
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_12HH16HMM run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[114].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[1].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[1].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[122].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[115].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[3].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[2].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[121].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[116].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[5].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[4].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[120].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[117].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[17].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[6].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[119].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[118].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[113].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[18].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[12].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[7].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[30].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[19].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[14].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[13].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[11].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[8].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[34].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[31].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[27].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[20].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[16].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[15].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[10].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[9].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[36].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[35].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[33].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[32].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[29].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[28].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[24].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[21].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[38].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[37].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[26].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[25].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[23].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[22].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[40].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[39].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[52].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[41].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[54].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[53].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[47].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[42].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[64].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[55].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[51].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[48].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[46].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[43].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[66].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[65].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[59].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[56].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[50].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[49].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[45].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[44].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[98].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[67].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[61].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[60].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[58].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[57].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[104].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[99].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[69].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[68].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[63].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[62].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[112].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[105].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[103].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[100].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[77].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[70].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[107].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[106].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[102].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[101].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[83].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[78].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[76].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[71].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[111].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[108].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[95].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[84].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[80].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[79].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[75].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[72].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[110].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[109].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[97].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[96].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[92].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[85].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[82].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[81].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[74].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[73].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[94].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[93].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[87].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[86].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[91].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[88].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[90].mtaumul_SKv3_1 = 6
+cADpyr232_L5_TTPC1_0fb1ca4724[0].apic[89].mtaumul_SKv3_1 = 6
+ran working
+using wt_file na12_TF2
+updating ['na12'] with {'a1_0': 5.539357560221314, 'a1_1': 0.017156305698699303, 'b1_0': 0.47983709547820963, 'b1_1': 0.1378878043727311, 'a2_0': 488.74625840346766, 'a2_1': 0.15406843953665944, 'b2_0': 486.52151592010614, 'b2_1': 1.636901611663385, 'a3_0': 452.5687858531485, 'a3_1': 0.09050447265873518, 'b3_0': 3245.3240638682582, 'b3_1': 0.04701556175591079, 'bh_0': 1.1047307644921633, 'bh_1': 4.9359863202863465, 'bh_2': 0.1654300454861132, 'ah_0': 3.7367823333082164, 'ah_1': 8381.051994534631, 'ah_2': 0.021785162060336392, 'vshift': -21.46930902673176, 'vshift_inact': 3.432573383659952, 'maxrate': 2937.6762394997227}
+using mut_file na12_TF2
+updating ['na12_mut'] with {'a1_0': 5.539357560221314, 'a1_1': 0.017156305698699303, 'b1_0': 0.47983709547820963, 'b1_1': 0.1378878043727311, 'a2_0': 488.74625840346766, 'a2_1': 0.15406843953665944, 'b2_0': 486.52151592010614, 'b2_1': 1.636901611663385, 'a3_0': 452.5687858531485, 'a3_1': 0.09050447265873518, 'b3_0': 3245.3240638682582, 'b3_1': 0.04701556175591079, 'bh_0': 1.1047307644921633, 'bh_1': 4.9359863202863465, 'bh_2': 0.1654300454861132, 'ah_0': 3.7367823333082164, 'ah_1': 8381.051994534631, 'ah_2': 0.021785162060336392, 'vshift': -21.46930902673176, 'vshift_inact': 3.432573383659952, 'maxrate': 2937.6762394997227}
+using na16_file na16_orig2
