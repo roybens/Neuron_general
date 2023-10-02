@@ -563,7 +563,9 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
     update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
     
     #make_currentscape_plot(fn_pre=fnpre,sim_obj = sim.l5mdl)
-    sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
+    # sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
+    sim.plot_model_FI_Vs_dvdt([1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
+
 
 ####____________________________________________________________________________________________
 
