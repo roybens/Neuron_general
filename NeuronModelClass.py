@@ -54,28 +54,59 @@ class NeuronModel:
         self.dist_dend = h.cell.apic[91]
         self.ais = h.cell.axon[0]
         self.axon_proper = h.cell.axon[1]
-        h.dend_na12 = 0.0006922
-        h.dend_na16 = 0.0009688
-        h.dend_k = 0.0176729 * soma_K
+        #h.dend_na12 = 0.0006922
+        #h.dend_na16 = 0.0009688
+        #h.dend_k = 0.0176729 * soma_K
 
 
-        h.soma_na12 = 0.2891301
-        h.soma_na16 = 0.1302487
-        h.soma_K = 0.1193942 * soma_K
+        # h.soma_na12 = 0.2891301
+        # h.soma_na16 = 0.1302487
+        # h.soma_K = 0.1193942 * soma_K
 
-        h.ais_na16 = 1.4544224
-        h.ais_na12 = 1.0805419
-        h.ais_ca = 0.0015458*ais_ca
-        h.ais_KCa = 0.0027819*ais_KCa
+        # h.ais_na16 = 1.4544224
+        # h.ais_na12 = 1.0805419
+        # h.ais_ca = 0.0015458*ais_ca
+        # h.ais_KCa = 0.0027819*ais_KCa
 
-        h.node_na = 0.2752364 * node_na
+        # h.node_na = 0.2752364 * node_na
 
-        h.axon_KP = 0.1498821 * axon_Kp
-        h.axon_KT = 1.1798011 * axon_Kt
-        h.axon_K = 0.1146702 * axon_K
-        h.axon_LVA = 0.0004512 * axon_LVA
-        h.axon_HVA = 0.0000134 * axon_HVA
-        h.axon_KCA = 0.6900045 * axon_Kca
+        # h.axon_KP = 0.1498821 * axon_Kp
+        # h.axon_KT = 1.1798011 * axon_Kt
+        # h.axon_K = 0.1146702 * axon_K
+        # h.axon_LVA = 0.0004512 * axon_LVA
+        # h.axon_HVA = 0.0000134 * axon_HVA
+        # h.axon_KCA = 0.6900045 * axon_Kca
+
+
+        #___________________Kaustubh params______________________________
+        h.dend_na12 = 2.48E-03
+        
+        h.dend_na16 = 5.05E-03
+        h.dend_k = 0.0043685576
+        
+        h.soma_na12 = 3.24E-02
+        h.soma_na16 = 7.88E-02
+        h.soma_K = 0.21330453
+        
+        h.ais_na16 = 7.2696676
+        h.ais_na12 = 1.03E+00
+        h.ais_ca = 0.0010125926
+        h.ais_KCa = 0.0009423347
+        
+        h.node_na = 0.9934221
+
+        h.axon_KP = 0.43260124
+        h.axon_KT = 1.38801
+        h.axon_K = 0.89699364
+        h.axon_LVA = 0.00034828275
+        h.axon_HVA = 1.05E-05
+        h.axon_KCA = 0.4008224
+        
+        h.gpas_all = 1.34E-05
+        h.cm_all = 1.6171424
+        	
+        #________________________________________________________________	
+        
 
 
         #h.cell.axon[0].gCa_LVAstbar_Ca_LVAst = 0.001376286159287454
@@ -86,8 +117,8 @@ class NeuronModel:
         h.myelin_na = h.naked_axon_na
         h.myelin_K = 0.303472
         h.myelin_scale = 10
-        h.gpas_all = 0.0000219 * gpas_all
-        h.cm_all = 1.4377617
+        # h.gpas_all = 0.0000219 * gpas_all
+        # h.cm_all = 1.4377617
 
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
