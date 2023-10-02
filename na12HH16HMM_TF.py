@@ -113,8 +113,12 @@ class na12HH16HMM_TF:
         self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
         Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
         return Vm, I, t, stim, ionic
-        
-        
+    
+    #__________added this function to get overexp and ttx to work   
+    def make_mut(self,mut_mech16,p_fn_na16mut): 
+        print(f'updating mut {mut_mech16} with {p_fn_na16mut}')
+        self.na16_p_mut = update_mech_from_dict(self.l5mdl, p_fn_na16mut, self.mut_mech16)
+
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
@@ -291,11 +295,12 @@ class na12HH16HMM_TF:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
 
     
-    ##_______Added to enable run of TTX and overexpression functions
+    ##_______________________Added to enable run of TTX and overexpression functions
     def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
-            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
+            #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
             axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01)
             #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.05)
             axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
@@ -304,6 +309,18 @@ class na12HH16HMM_TF:
             fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
             fig_volts.savefig(fn)
             csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
+            
+            ###
+            self.plot_volts_dvdt(stim_amp = curr_amp)
+
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
+            fn2 = f'{self.plot_folder}/{curr_amp}.pdf'
+            fig_volts.savefig(fn2)
+            ###
+
+
             with open(csv_volts, 'w', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow(['Voltage'])  # Write header row
@@ -313,7 +330,7 @@ class na12HH16HMM_TF:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             wr.writerow(fi_ans)
         return fi_ans
-    
+    ##_________________________________________________________________________________________________
             
 def scan12_16(na16name, na16mut, plots_folder):
     #i12 = 1
@@ -520,7 +537,7 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
 
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
 def overexp(na16name,na16mut,plots_folder, wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
-    sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
+    sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/')
     if plot_wt:
         wt_fi = sim.plot_model_FI_Vs_dvdt([0.8,0.85,0.9,0.95],fnpre=f'{fnpre}_FI_')
         #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
@@ -528,7 +545,7 @@ def overexp(na16name,na16mut,plots_folder, wt_fac = 1,mut_fac = None,plot_wt=Tru
         wt_fi = []
     print(f'wt_fi is {wt_fi}')
     if mut_fac:
-        sim.make_mut(['na16mut'],'na16_G1625R.txt')
+        #sim.make_mut('na16mut','na16mut44_092623.txt')
         update_mod_param(sim.l5mdl,['na16mut'],mut_fac)
         sim.l5mdl.h.finitialize()
         if plot_wt:
@@ -539,8 +556,8 @@ def overexp(na16name,na16mut,plots_folder, wt_fac = 1,mut_fac = None,plot_wt=Tru
         sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
 def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axon_KP = 1):
     sim = na12HH16HMM_TF(KP=axon_KP,nav12=0, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
-    if mut_factor>0:
-        sim.make_mut(['na16mut'],'na16_G1625R.txt')
+    # if mut_factor>0:
+    #     sim.make_mut('na16mut','na16mut44_092623.txt')
     update_mod_param(sim.l5mdl,['na16'],wt_factor)
     update_mod_param(sim.l5mdl,['na16mut'],mut_factor)
     update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
@@ -549,6 +566,9 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
     sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
 
 ####____________________________________________________________________________________________
+
+
+#    def make_mut(self,mut_mech16,p_fn_na16mut): 
 
 
 

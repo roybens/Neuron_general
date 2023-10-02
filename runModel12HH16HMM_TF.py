@@ -89,7 +89,7 @@ import os
 mutant = 'mut4_4'
 
 sim = tf.na12HH16HMM_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
-                        plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
+                        plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -146,8 +146,8 @@ plot_config = {
 
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
-print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-scan12_16(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
+# print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+# scan12_16(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #scanK(na16name = 'na16mut13_092623',na16mut = 'na16mut13_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
@@ -155,3 +155,8 @@ scan12_16(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', plots_fold
 #print ('dvdt_all &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #dvdt_all_plot() #requires hardcode changes in model to run
 #print(h.cell.soma.psection())
+
+# overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
+ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
+    plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/ttx/', wt_factor =0, mut_factor =1)
