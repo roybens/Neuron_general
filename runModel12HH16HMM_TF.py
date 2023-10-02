@@ -158,6 +158,7 @@ plot_config = {
 
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
-for i in range (.05,.2,.05):
+rng = [.05,.1,.15,.2]
+for i in rng:
     ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
-        plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/ttx00/', wt_factor =i, mut_factor =0)
+        plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/ttxWTrange/', wt_factor =i, mut_factor =0,fnpre =f'wt_{i}')

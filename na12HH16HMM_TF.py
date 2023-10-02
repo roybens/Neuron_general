@@ -300,31 +300,31 @@ class na12HH16HMM_TF:
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
-            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
-            axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01)
-            #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.05)
-            axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
-            add_scalebar(axs[0])
-            add_scalebar(axs[1])
-            fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
-            fig_volts.savefig(fn)
-            csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
+            # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
+            # axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01)
+            # #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.05)
+            # axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
+            # add_scalebar(axs[0])
+            # add_scalebar(axs[1])
+            # fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
+            # fig_volts.savefig(fn)
+            # csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
             
             ###
-            self.plot_volts_dvdt(stim_amp = curr_amp)
+            #self.plot_volts_dvdt(stim_amp = curr_amp)
 
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
             plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
-            fn2 = f'{self.plot_folder}/{curr_amp}.pdf'
+            fn2 = f'{self.plot_folder}/{fnpre}{curr_amp}.pdf'
             fig_volts.savefig(fn2)
             ###
 
 
-            with open(csv_volts, 'w', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(['Voltage'])  # Write header row
-                writer.writerows(zip(self.volt_soma))
+            # with open(csv_volts, 'w', newline='') as file:
+            #     writer = csv.writer(file)
+            #     writer.writerow(['Voltage'])  # Write header row
+            #     writer.writerows(zip(self.volt_soma))
         fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
         with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
