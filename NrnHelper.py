@@ -48,7 +48,8 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,ax1=None,fig = None,dt = 0.1
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
         curr_volts,_,_,_ = mdl.run_model()
-        curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
+        # curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
+        curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -30) #modified for na16 TTX experiments
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
     print(npeaks)
