@@ -78,7 +78,7 @@ class NeuronModel:
         # h.axon_KCA = 0.6900045 * axon_Kca
 
 
-        #___________________Kaustubh params______________________________
+        #___________________Kaustubh's params______________________________
         h.dend_na12 = 2.48E-03
         
         h.dend_na16 = 5.05E-03
