@@ -274,6 +274,8 @@ class na12HH16HMM_TF:
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
     
+    
+    
 
     def plot_volts_dvdt(self,stim_amp = 0.5):
         fig_volts,axs_volts = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
@@ -297,7 +299,9 @@ class na12HH16HMM_TF:
     
     ##_______________________Added to enable run of TTX and overexpression functions
     def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
-        #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
+        #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13] #Uncomment this to add WT line
+        #wt_fi=[0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]#mut.4ttx
+        wt_fi=[0, 0, 0, 0, 1, 9, 13, 16, 19, 22, 24, 26, 27, 28, 29, 30, 31, 32, 33, 33, 34] #wt.4ttx
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -325,18 +329,22 @@ class na12HH16HMM_TF:
             #     writer = csv.writer(file)
             #     writer.writerow(['Voltage'])  # Write header row
             #     writer.writerows(zip(self.volt_soma))
-        fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
+        fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
         with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             wr.writerow(fi_ans)
         return fi_ans
     ##_________________________________________________________________________________________________
-            
+    def plot_fi_curve_2line(self,start,end,nruns,wt_data,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
+        return fis
+
+
 def scan12_16(na16name, na16mut, plots_folder):
     #i12 = 1
     #i16 = 1
-    for i12 in np.arange(10,1,-1): #(2,0.4,-0.5)
-        for i16 in np.arange(10,1,-1):
+    for i12 in np.arange(3,1,-1): #(2,0.4,-0.5)
+        for i16 in np.arange(3,1,-1):
             sim = na12HH16HMM_TF(na16name=na16name, na16mut=na16mut, nav12=i12, nav16=i16, plots_folder = plots_folder) #TF added args to run from runModel12HH16HMM_TF.py script
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))

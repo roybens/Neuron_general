@@ -86,10 +86,10 @@ import os
 
 
 #mutant = 'mut'+str(i)+'_'+str(j)
-mutant = 'mut4_4'
+mutant = 'mut4_4MORANmut'
 
-sim = tf.na12HH16HMM_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
-                        plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
+sim = tf.na12HH16HMM_TF(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
+                        plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -142,12 +142,12 @@ plot_config = {
 # sim.plot_volts_dvdt()
 
 # print ('FI curve &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-# sim.plot_fi_curve(0,5,20,fn = f'16HMM_mut44_TF')
+# sim.plot_fi_curve(0,5,20,fn = f'16HMM_mut44MORANmut_TF')
 
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
 # print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-# scan12_16(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
+#scan12_16(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/')
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #scanK(na16name = 'na16mut13_092623',na16mut = 'na16mut13_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
@@ -159,7 +159,12 @@ plot_config = {
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 #rng = [.05,.1,.15,.2]
-rng = [.1, .2, .3, .4, .5, .6, .7, .8, .9, 1]
-for i in rng:
-    ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
-        plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/ttxWTrange10-100/', wt_factor =i, mut_factor =0,fnpre =f'wt_{i}')
+# rng = [.3, .4, .5, .6, .7, .8, .9, 1]
+# for i in rng:
+#     ttx(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
+#         plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttxWTrange5-100/', wt_factor =i, mut_factor =0,fnpre =f'mut_{i}')
+ttx(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
+    plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttx2line1/', wt_factor =.4, mut_factor =0,fnpre ='mut_.4')
+
+# ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
+#     plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttx2line/', wt_factor =.4, mut_factor =0,fnpre =f'mut_.4')
