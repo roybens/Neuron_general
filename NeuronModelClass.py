@@ -39,6 +39,7 @@ class NeuronModel:
         os.chdir(mod_dir)
         self.h = h  # NEURON h
         print(f'running model at {os.getcwd()} run dir is {run_dir}')
+        print (f'There is {nav16} of WT nav16')
         h.load_file("runModel.hoc")
         self.soma_ref = h.root.sec
         self.soma = h.secname(sec=self.soma_ref)

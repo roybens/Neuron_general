@@ -9,55 +9,55 @@ import csv
 class na12HH16HMM_TF:
     # def __init__(self,na12name = 'na12_TF2',mut_name= 'na12_TF2',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/HOF_params_JSON/',
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/mut/'):
-    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2',na16mut = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',
+    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/',
         nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/mut/'):
     
         
-        ais_Kca = 0.5
-        #K = 0.6
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        #ais_ca = 2
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 3
-        #nav16 = 1
-        #KP = 0.1
-        #somaK = 2
-        #KP=3
-        #K=3
-        #KT = 0.5
+        ###########ais_Kca = 0.5
+        # #K = 0.6
+        # #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
+        # #ais_ca = 2
+        # #soma_na16 = 0.7
+        # #soma_na12 = 0.7
+        # #nav12 = 3
+        # #nav16 = 1
+        # #KP = 0.1
+        # #somaK = 2
+        # #KP=3
+        # #K=3
+        # #KT = 0.5
         
-        #nav12 = 1.2
-        #nav16 = 1.2
+        # #nav12 = 1.2
+        # #nav16 = 1.2
         
-        #______________M1TTPC2
-        #nav12 = 3.5
-        #nav12 = 5 #Tim#######################
-        #nav16 = 1.2
-        # ais_Kca = 0.03*ais_Kca
-        # ais_ca = 0.04*ais_ca
-        # KP=1.1*KP
-        # K = 4.8*K
-        # KT = 0.025*0.5*KT
+        # #______________M1TTPC2
+        # #nav12 = 3.5
+        # #nav12 = 5 #Tim#######################
+        # #nav16 = 1.2
+        # # ais_Kca = 0.03*ais_Kca
+        # # ais_ca = 0.04*ais_ca
+        # # KP=1.1*KP
+        # # K = 4.8*K
+        # # KT = 0.025*0.5*KT
 
-        #___________________TTPC_M1_Na_HH.py from M1_TTPC2 branch
-        #ais_Kca = 0.03*ais_Kca
-        #K = 0.6
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        ais_ca = 0.04*ais_ca
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 1.8 *nav12
-        #nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
-        nav12 = 4.5
-        nav16 = 1.1*nav16
-        KP = 1.2*KP
-        somaK = 0.5 * somaK
-        KP=0.95*KP
-        K = 4.8*K
-        KT = 0.025*0.5*KT
-        #nav12 = 1.2
-        #nav16 = 1.2
+        # #___________________TTPC_M1_Na_HH.py from M1_TTPC2 branch
+        # #ais_Kca = 0.03*ais_Kca
+        # #K = 0.6
+        # #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
+        ###########ais_ca = 0.04*ais_ca
+        # #soma_na16 = 0.7
+        # #soma_na12 = 0.7
+        # #nav12 = 1.8 *nav12
+        # #nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
+        nav12 = 3.25
+        # #nav16 = 1.1*nav16
+        ###########KP = 1.2*KP
+        ###########somaK = 0.5 * somaK
+        # KP=0.95*KP
+        ###########K = 4.8*K
+        ###########KT = 0.025*0.5*KT
+        # #nav12 = 1.2
+        #nav16 = 5
         
        #______________GY
         #KP= KP
@@ -299,9 +299,36 @@ class na12HH16HMM_TF:
     
     ##_______________________Added to enable run of TTX and overexpression functions
     def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
-        #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13] #Uncomment this to add WT line
-        #wt_fi=[0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]#mut.4ttx
-        wt_fi=[0, 0, 0, 0, 1, 9, 13, 16, 19, 22, 24, 26, 27, 28, 29, 30, 31, 32, 33, 33, 34] #wt.4ttx
+        
+        #______________________na16 1.1 factor_______________________________________________________
+        #wt_fi = [0, 0, 7, 10, 13, 16, 18, 19, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 33]#wt1.4, mut1, added make_mut
+        #wt_fi = [0, 2, 7, 11, 15, 17, 19, 20, 22, 23, 25, 26, 27, 28, 29, 29, 31, 32, 33, 34, 35]#wt2.4, mutNONE, 
+        #wt_fi = [0, 2, 7, 11, 15, 17, 19, 20, 22, 23, 25, 26, 27, 28, 29, 29, 31, 32, 33, 34, 35]#wt2.4, mut0
+        #wt_fi = [0, 0, 7, 10, 13, 16, 18, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31, 32, 33]#wt1, mut1.4
+        #wt_fi = [0, 0, 7, 10, 14, 16, 18, 19, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 33]#wt1.2, mut1.4
+        #_____________________________________________________________________________________________
+
+        #_______________________FIXED! by taking away 1.1 factor______________________________________
+        #wt_fi = [0, 2, 7, 11, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 34] #wt2.4, mut0, nav16=1 (not 1.1*nav16) 120%WT
+        #wt_fi = [0, 2, 7, 11, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 34] #wt1.4, mut 1
+        #wt_fi = [0, 0, 5, 9, 12, 14, 17, 18, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31, 32] #100% wt, wt1, mut1
+        #wt_fi = [0, 0, 0, 1, 5, 8, 10, 12, 14, 16, 17, 18, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20% WT, wt.4, mut0
+        #_____________________________________________________________________________________________
+
+
+        #_______________________100523________________________________________________________________
+        #wt_fi = [0, 0, 5, 10, 12, 15, 17, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31, 32] #100%WT, wt2, mut0
+        #wt_fi = [0, 1, 6, 10, 13, 15, 17, 20, 20, 22, 23, 24, 26, 27, 28, 29, 29, 30, 31, 32, 33] #120% WT, wt2.4, mut0
+        #wt_fi = [0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 5, 6, 7, 7, 9, 9, 10] #100% G1625R, wt0, mut2
+        #wt_fi = [0, 0, 0, 1, 5, 8, 10, 12, 14, 16, 17, 18, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20% WT, wt.4, mut0
+        
+        #_______________Kaustubh's Params no modifiers_______________________________________________
+        #wt_fi = [0, 0, 7, 12, 16, 19, 21, 23, 25, 26, 27, 28, 29, 30, 31, 32, 32, 34, 34, 35, 36] #100%WT
+        #wt_fi = [0, 1, 8, 14, 17, 19, 21, 24, 24, 26, 27, 28, 30, 30, 31, 32, 33, 34, 35, 36, 37] #120% WT
+        
+        #____________________Kaustubh + Tim Params_________________________________________________________________________
+        #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] 100%WT
+        
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -329,16 +356,62 @@ class na12HH16HMM_TF:
             #     writer = csv.writer(file)
             #     writer.writerow(['Voltage'])  # Write header row
             #     writer.writerows(zip(self.volt_soma))
-        fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
-        with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            wr.writerow(fi_ans)
-        return fi_ans
+        
+        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi')
+        #fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
+        # with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
+        #     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+        #     wr.writerow(fi_ans)
+        # return fi_ans
     ##_________________________________________________________________________________________________
-    def plot_fi_curve_2line(self,start,end,nruns,wt_data,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14
+    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
+    
+####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '100WT',axon_KP = 1, na16mechs =['na16','na16mut']):
+    sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
+    if plot_wt:
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
+        #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
+    else:
+        wt_fi = []
+    print(f'wt_fi is {wt_fi}')
+    if mut_fac:
+        sim.make_mut(na16mechs[1],'./params/na16MORAN_100223.txt') #updates mech (Arg[1]) with new mod params dict (Arg[2])
+        print('making mut')
+        update_mod_param(sim.l5mdl,['na16mut'], mut_fac) #Adds multiplier to updated mod/mech parameters
+        print('updated mod params')
+        sim.l5mdl.h.finitialize()
+        if plot_wt:
+            sim.plot_model_FI_Vs_dvdt([0.5,1],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
+            #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
 
+        else:
+            #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}mutXtest{mut_fac}_')
+
+    else:
+        #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
+        ##sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_{mut_fac}_else')
+        return
+
+
+
+def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axon_KP = 1):
+    sim = na12HH16HMM_TF(KP=axon_KP,nav12=0, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
+    # if mut_factor>0:
+    #     sim.make_mut('na16mut','na16mut44_092623.txt')
+    update_mod_param(sim.l5mdl,['na16'],wt_factor)
+    update_mod_param(sim.l5mdl,['na16mut'],mut_factor)
+    update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
+    
+    #make_currentscape_plot(fn_pre=fnpre,sim_obj = sim.l5mdl)
+    # sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
+    sim.plot_model_FI_Vs_dvdt([1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
+
+
+####____________________________________________________________________________________________    
 
 def scan12_16(na16name, na16mut, plots_folder):
     #i12 = 1
@@ -543,39 +616,7 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
     fig_volts.savefig(fn)
 
 
-####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut,plots_folder, wt_fac = 1,mut_fac = None,plot_wt=True,fnpre = '',axon_KP = 1):
-    sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/')
-    if plot_wt:
-        wt_fi = sim.plot_model_FI_Vs_dvdt([0.8,0.85,0.9,0.95],fnpre=f'{fnpre}_FI_')
-        #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
-    else:
-        wt_fi = []
-    print(f'wt_fi is {wt_fi}')
-    if mut_fac:
-        #sim.make_mut('na16mut','na16mut44_092623.txt')
-        update_mod_param(sim.l5mdl,['na16mut'],mut_fac)
-        sim.l5mdl.h.finitialize()
-        if plot_wt:
-            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
-        else:
-            sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
-    else:
-        sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
-def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axon_KP = 1):
-    sim = na12HH16HMM_TF(KP=axon_KP,nav12=0, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
-    # if mut_factor>0:
-    #     sim.make_mut('na16mut','na16mut44_092623.txt')
-    update_mod_param(sim.l5mdl,['na16'],wt_factor)
-    update_mod_param(sim.l5mdl,['na16mut'],mut_factor)
-    update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
-    
-    #make_currentscape_plot(fn_pre=fnpre,sim_obj = sim.l5mdl)
-    # sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
-    sim.plot_model_FI_Vs_dvdt([1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
 
-
-####____________________________________________________________________________________________
 
 
 #    def make_mut(self,mut_mech16,p_fn_na16mut): 

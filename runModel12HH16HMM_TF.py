@@ -86,10 +86,11 @@ import os
 
 
 #mutant = 'mut'+str(i)+'_'+str(j)
-mutant = 'mut4_4MORANmut'
+mutant = 'mut4_4_100523'
 
-sim = tf.na12HH16HMM_TF(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
-                        plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/')
+#sim = tf.na12HH16HMM_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623')
+sim = tf.na12HH16HMM_TF()
+
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -163,8 +164,42 @@ plot_config = {
 # for i in rng:
 #     ttx(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
 #         plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttxWTrange5-100/', wt_factor =i, mut_factor =0,fnpre =f'mut_{i}')
-ttx(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
-    plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttx2line1/', wt_factor =.4, mut_factor =0,fnpre ='mut_.4')
+# ttx(na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', 
+#     plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttx2line1/', wt_factor =.4, mut_factor =0,fnpre ='mut_.4')
 
 # ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #     plots_folder = f'./Plots/12HH16HMM_TF/100323/{mutant}/ttx2line/', wt_factor =.4, mut_factor =0,fnpre =f'mut_.4')
+
+####______________100423 Experiments________________________
+# overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', wt_fac =2.2, mut_fac=None, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100423/120WT/')
+####________________________________________________________
+
+
+
+####______________100523 Experiments________________________
+
+overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0, 
+  plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/100WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/120WT_v_100WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 2, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/100WT_test02/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0.4, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/100WT20G1625R_v_120WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/20WT_v_100WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 0.4, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/20G1625R_v_20WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1 ,mut_fac = 1, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100523/TimParams/50WT50G1625R_v_100WT/')
+
+
+
+#____________________________________________________________

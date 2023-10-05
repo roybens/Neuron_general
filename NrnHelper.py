@@ -128,14 +128,14 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
                   #      print(hoc_cmd)
     return param_dict
 
-def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
+def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):
     for curr_sec in mdl.sl:
         curr_name = h.secname(sec=curr_sec)
         for curr_mech in mechs:
             if h.ismembrane(curr_mech, sec=curr_sec):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
-                    #print(hoc_cmd)
+                    print(hoc_cmd)
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
