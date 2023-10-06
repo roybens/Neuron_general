@@ -327,7 +327,9 @@ class na12HH16HMM_TF:
         #wt_fi = [0, 1, 8, 14, 17, 19, 21, 24, 24, 26, 27, 28, 30, 30, 31, 32, 33, 34, 35, 36, 37] #120% WT
         
         #____________________Kaustubh + Tim Params_________________________________________________________________________
-        #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] 100%WT
+        #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT
+        wt_fi = [0, 1, 6, 11, 14, 16, 18, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 31, 32, 33, 34] #120%WT
+        #wt_fi = [0, 0, 0, 1, 5, 8, 11, 13, 15, 16, 17, 19, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20%WT
         
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
@@ -369,10 +371,10 @@ class na12HH16HMM_TF:
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '100WT',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '120G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
-        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
         #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
     else:
         wt_fi = []
@@ -384,12 +386,12 @@ def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = 
         print('updated mod params')
         sim.l5mdl.h.finitialize()
         if plot_wt:
-            sim.plot_model_FI_Vs_dvdt([0.5,1],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.5,1,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
 
         else:
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
-            sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}mutXtest{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}mutXtest{mut_fac}_')
 
     else:
         #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
