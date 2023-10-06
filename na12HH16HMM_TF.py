@@ -371,7 +371,7 @@ class na12HH16HMM_TF:
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '120G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '100WT20G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
         wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
