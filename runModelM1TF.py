@@ -91,7 +91,9 @@ import os
 # sim = tf.Na1612Model_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #                         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 
-sim = tf.Na1612Model_TF()
+
+
+sim = tf.Na1612Model_TF(plots_folder=f'./Plots/12HH16HH/100623/Tune1216/')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -157,6 +159,9 @@ scan12_16()
 #print ('dvdt_all &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #dvdt_all_plot() #requires hardcode changes in model to run
 #print(h.cell.soma.psection())
+
+
+#sim.plot_model_FI_Vs_dvdt([0.25,0.5,1,2], fnpre='3_3') #[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
 
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')

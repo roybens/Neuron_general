@@ -11,21 +11,32 @@ class Na1612Model_TF:
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     def __init__(self, na12mechs = ['na12','na12mut'], na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HH/'):
+        
+        
         ais_Kca = 0.03*ais_Kca
-        #K = 0.6
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         ais_ca = 0.04*ais_ca
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        nav12 = 1.8 *nav12
-        nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
+        # nav12 = 1.8 *nav12
+        # nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
+        # nav16 = 3.6 #2*1.8
+        # nav12 = 3.6 #2*1.8
+        
+        nav16 = 3
+        nav12 = 3
+        
+        
         KP = 1.2*KP
         somaK = 0.5 * somaK
         KP=0.95*KP
         K = 4.8*K
         KT = 0.025*0.5*KT
+        
+        
         #nav12 = 1.2
         #nav16 = 1.2
+        #soma_na16 = 0.7
+        #soma_na12 = 0.7
+        #K = 0.6
+        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         
 
         self.l5mdl = NeuronModel(mod_dir = './Neuron_Model_HH/',nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
@@ -37,7 +48,7 @@ class Na1612Model_TF:
         self.na12mechs = na12mechs
         self.na16mechs = na16mechs
         self.plot_folder = plots_folder 
-        self.plot_folder = f'{plots_folder}/forM1/'
+        self.plot_folder = f'{plots_folder}'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         """
         print(f'using na12_file {na12name}')
@@ -189,24 +200,52 @@ class Na1612Model_TF:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
     
     
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=0.6,nruns=7):
-        print('plot_model_FI_Vs_dvdt' + fnpre)
-        #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
-        for curr_amp in vs_amp:
-            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
-            axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.025)
-            #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
-            axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
-            add_scalebar(axs[0])
-            add_scalebar(axs[1])
-            fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
-            fig_volts.savefig(fn)
-        fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
-        with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            wr.writerow(fi_ans)
-        return fi_ans
 
+    #________________Original plot_model_FI_Vs_dvdt___________________________________________
+    # def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=30):
+    #     print('plot_model_FI_Vs_dvdt' + fnpre)
+    #     #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
+    #     for curr_amp in vs_amp:
+    #         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
+    #         axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.025)
+    #         #axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+    #         axs[1] = plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
+    #         add_scalebar(axs[0])
+    #         add_scalebar(axs[1])
+    #         fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
+    #         fig_volts.savefig(fn)
+    #     fi_ans = self.plot_fi_curve(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
+    #     with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
+    #         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    #         wr.writerow(fi_ans)
+    #     return fi_ans
+    #_________________________________________________________________________________________
+
+    ##############################################################################################
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
+        
+        
+        #wt_fi = [0, 0, 0, 1, 5, 8, 11, 13, 15, 16, 17, 19, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20%WT
+
+        for curr_amp in vs_amp:
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01,plot_fn = f'{fnpre}_step')
+            plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
+            fn2 = f'{self.plot_folder}/{fnpre}_{curr_amp}.pdf'
+            fig_volts.savefig(fn2)
+            
+        
+        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi')
+        
+    ##_________________________________________________________________________________________________
+    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
+        return fis
+    
+    
+    
+    ##############################################################################################
+    
 def default_model():
     sim = Na1612Model_TF()
     #sim.plot_currents()
@@ -333,15 +372,15 @@ def scanK():
         fig_volts.savefig(fn)
 
 def scan12_16():
-    for i12 in np.arange(2,8,1): #(.4,2,.5)
-        for i16 in np.arange(2,8,1):
+    for i12 in np.arange(.5,1.2,.1): #(.4,2,.5)
+        for i16 in np.arange(.5,1.2,.1):
             print(f'nav12={i12}, nav16={i16}')
             sim = Na1612Model_TF(nav12=i12, nav16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             sim.plot_stim(axs = axs[0],stim_amp = 0.6,dt=0.025)
             plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-            fn = f'{sim.plot_folder}/vs_dvdt12_{i12}_16_{i16}.pdf'
+            fn = f'{sim.plot_folder}/12_{i12}_16_{i16}.pdf'
             fig_volts.savefig(fn)
 
 
@@ -352,9 +391,9 @@ Main
 """
 
 
-default_model()
-#scanK()
-#scan12_16()
-sim = Na1612Model_TF()
-sim.plot_model_FI_Vs_dvdt([0.3,0.4,0.5,0.6],fnpre='m1v1')
-#python3 TTPC_M1_Na_HH.py
+# default_model()
+# #scanK()
+# #scan12_16()
+# sim = Na1612Model_TF()
+# sim.plot_model_FI_Vs_dvdt([0.3,0.4,0.5,0.6],fnpre='m1v1')
+# #python3 TTPC_M1_Na_HH.py
