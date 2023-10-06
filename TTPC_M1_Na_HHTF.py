@@ -172,7 +172,7 @@ class Na1612Model_TF:
     def plot_volts_dvdt(self,stim_amp = 0.5):
         fig_volts,axs_volts = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         fig_dvdt,axs_dvdt = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
-        self.plot_stim(axs = axs_volts,dt=0.02)
+        self.plot_stim(axs = axs_volts,dt=0.01)
         plot_dvdt_from_volts(self.volt_soma,self.dt,axs_dvdt)
         file_path_to_save=f'{self.plot_folder}AnnaModel_volts_dvdt_{stim_amp}.pdf'
         fig_dvdt.savefig(file_path_to_save, format='pdf', dpi=my_dpi)
@@ -189,7 +189,7 @@ class Na1612Model_TF:
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
     
     
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=0.6,nruns=7):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=3,nruns=30):
         print('plot_model_FI_Vs_dvdt' + fnpre)
         #wt_fi = [0, 0, 0, 0, 3, 5, 7, 9, 10, 12, 13]
         for curr_amp in vs_amp:
@@ -333,8 +333,8 @@ def scanK():
         fig_volts.savefig(fn)
 
 def scan12_16():
-    for i12 in np.arange(2,8,1): #(.4,2,.5)
-        for i16 in np.arange(2,8,1):
+    for i12 in np.arange(1,3,1): #(.4,2,.5)
+        for i16 in np.arange(1,3,1):
             print(f'nav12={i12}, nav16={i16}')
             sim = Na1612Model_TF(nav12=i12, nav16=i16)
             #sim.make_wt()

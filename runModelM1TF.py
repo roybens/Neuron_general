@@ -146,6 +146,11 @@ plot_config = {
 # print ('FI curve &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 # sim.plot_fi_curve(0,5,20,fn = f'16HMM_mut44_TF')
 
+
+print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='M1')
+
+
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
 # print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
