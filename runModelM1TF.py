@@ -93,7 +93,7 @@ import os
 
 
 
-sim = tf.Na1612Model_TF(plots_folder=f'./Plots/12HH16HH/100623/Tune1216/')
+sim = tf.Na1612Model_TF(plots_folder=f'./Plots/12HH16HH/100923/ParamSearch_1nA/')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -151,18 +151,20 @@ plot_config = {
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
 # print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-scan12_16()
+#scan12_16()
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-#scanK(na16name = 'na16mut13_092623',na16mut = 'na16mut13_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
+#scanK()
 
 #print ('dvdt_all &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #dvdt_all_plot() #requires hardcode changes in model to run
 #print(h.cell.soma.psection())
 
 
-#sim.plot_model_FI_Vs_dvdt([0.25,0.5,1,2], fnpre='3_3') #[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
+#sim.plot_model_FI_Vs_dvdt([0.5,1], fnpre='soma_na12_10') #[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
 
+#scan_soma_12_16()
+scan_soma_12_16_point5nA
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 #rng = [.05,.1,.15,.2]

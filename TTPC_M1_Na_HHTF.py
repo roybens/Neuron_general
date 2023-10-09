@@ -10,11 +10,12 @@ import numpy as np
 class Na1612Model_TF:
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
-    def __init__(self, na12mechs = ['na12','na12mut'], na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HH/100923/'):
+    def __init__(self, na12mechs = ['na12','na12mut'], na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HH/100923/scan_soma1216_.5nA/'):
         
         
-        ais_Kca = 0.03*ais_Kca
-        ais_ca = 0.04*ais_ca
+        # ais_Kca = 0.03*ais_Kca
+        # ais_ca = 0.04*ais_ca
+        
         # nav12 = 1.8 *nav12
         # nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
         # nav16 = 3.6 #2*1.8
@@ -24,12 +25,23 @@ class Na1612Model_TF:
         nav12 = 3
         
         
-        KP = 1.2*KP
-        somaK = 0.5 * somaK
-        KP=0.95*KP
-        K = 4.8*K
-        KT = 0.025*0.5*KT
-        
+        # KP = 1.2*KP
+        # somaK = 0.5 * somaK
+        # KP=0.95*KP
+        # K = 4.8*K
+        # KT = 0.025*0.5*KT
+
+        ##Tim Param Search
+        # ais_Kca = 4
+        # ais_ca = 1
+        # KP = 4
+        # somaK = 4
+        # KP=4
+        # K = 10
+        # KT = 4
+        # soma_na16 = 1
+        soma_na12 = 10
+
         
         #nav12 = 1.2
         #nav16 = 1.2
@@ -288,16 +300,16 @@ def make_currentscape_plot(sim_config = {
             }
         }
     fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()])
+
+
 def scanK():
-    for i in np.arange(0.7,2,0.2):
-
-        """
-
+    for i in np.arange(5,15,1):
+        
         sim = Na1612Model_TF(ais_ca=i)
         print(f'ais_ca={i}')
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.6,dt=0.025)
+        sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025) #stim_amp = 0.6
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -306,67 +318,63 @@ def scanK():
         print(f'ais_Kca={i}')
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.6,dt=0.025)
+        sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025) #stim_amp = 0.6
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
-        """
+        
         sim = Na1612Model_TF(K=i)
         print(f'K={i}')
         #sim.make_wt()
         
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        stim_amp = 0.6
+        stim_amp = 1 #stim_amp = 0.6
         sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/K_{i}_amp_{stim_amp}.pdf'
         fig_volts.savefig(fn)
-        stim_amp = 0.3
-        sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
-        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'{sim.plot_folder}/K_{i}_amp_{stim_amp}.pdf'
-        fig_volts.savefig(fn)
+        # stim_amp = 0.3 #stim_amp = 0.6
+        # sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
+        # plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        # fn = f'{sim.plot_folder}/K_{i}_amp_{stim_amp}.pdf'
+        # fig_volts.savefig(fn)
         
         sim = Na1612Model_TF(somaK=i)
         print(f'somaK={i}')
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        stim_amp = 0.6
+        stim_amp = 1 #stim_amp = 0.6
         sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/somaK_{i}_amp_{stim_amp}.pdf'
         fig_volts.savefig(fn)
-        stim_amp = 0.3
-        sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
-        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'{sim.plot_folder}/somaK_{i}_amp_{stim_amp}.pdf'
-        fig_volts.savefig(fn)
-
+        # stim_amp = 0.3
+        # sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
+        # plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        # fn = f'{sim.plot_folder}/somaK_{i}_amp_{stim_amp}.pdf'
+        # fig_volts.savefig(fn)
 
 
         sim = Na1612Model_TF(KP=i)
         print(f'KP={i}')
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
-        stim_amp = 0.6
+        stim_amp = 1 #stim_amp = 0.6
         sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kp_{i}_amp_{stim_amp}.pdf'
         fig_volts.savefig(fn)
-        stim_amp = 0.3
-        sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
-        plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
-        fn = f'{sim.plot_folder}/Kp_{i}_amp_{stim_amp}.pdf'
-        fig_volts.savefig(fn)
-
-
-        
+        # stim_amp = 0.3
+        # sim.plot_stim(axs = axs[0],stim_amp = stim_amp,dt=0.025)
+        # plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+        # fn = f'{sim.plot_folder}/Kp_{i}_amp_{stim_amp}.pdf'
+        # fig_volts.savefig(fn)        
         
         sim = Na1612Model_TF(KT=i)
         print(f'KT={i}')
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.6,dt=0.025)
+        sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025) #stim_amp = 0.6
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kt_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -376,6 +384,31 @@ def scan12_16():
         for i16 in np.arange(.5,1.2,.1):
             print(f'nav12={i12}, nav16={i16}')
             sim = Na1612Model_TF(nav12=i12, nav16=i16)
+            #sim.make_wt()
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025)
+            plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+            fn = f'{sim.plot_folder}/12_{i12}_16_{i16}.pdf'
+            fig_volts.savefig(fn)
+
+def scan_soma_12_16():
+    for i12 in np.arange(.5,5,1): #(.4,2,.5)
+        for i16 in np.arange(.5,5,1):
+            print(f'soma_nav12={i12}, soma_nav16={i16}')
+            sim = Na1612Model_TF(soma_na12=i12, soma_na16=i16)
+            #sim.make_wt()
+            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025)
+            plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
+            fn = f'{sim.plot_folder}/12_{i12}_16_{i16}.pdf'
+            fig_volts.savefig(fn)
+
+
+def scan_soma_12_16_point5nA():
+    for i12 in np.arange(.5,5,1): #(.4,2,.5)
+        for i16 in np.arange(.5,5,1):
+            print(f'soma_nav12={i12}, soma_nav16={i16}')
+            sim = Na1612Model_TF(soma_na12=i12, soma_na16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
             sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025)
