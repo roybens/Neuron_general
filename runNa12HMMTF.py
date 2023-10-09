@@ -91,13 +91,13 @@ import os
 # sim = tf.Na1612Model_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #                         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 
-sim = tf.Na12Model_TF()
+sim = tf.Na12Model_TF(na12name = 'na12_HMM_TF100923', mut_name ='na12_HMM_TF100923')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
                 'section_num': 0,
-                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
-                'currents' : ['ina','ica','ik'],
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                # 'currents' : ['ina','ica','ik'],
                 'ionic_concentrations' :["cai", "ki", "nai"]
                 
             }
@@ -148,13 +148,13 @@ plot_config = {
 
 
 print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='M1')
+sim.plot_model_FI_Vs_dvdt([0.2,0.3,0.5,0.75,1,2,3,4,5,6], fnpre='nav12_')
 
 
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
 # print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-scan12_16()
+#scan12_16()
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #scanK(na16name = 'na16mut13_092623',na16mut = 'na16mut13_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
