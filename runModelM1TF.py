@@ -163,8 +163,8 @@ plot_config = {
 
 #sim.plot_model_FI_Vs_dvdt([0.5,1], fnpre='soma_na12_10') #[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
 
-#scan_soma_12_16()
-scan_soma_12_16_point5nA
+scan_soma_12_16()
+#scan_soma_12_16_point5nA
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 #rng = [.05,.1,.15,.2]

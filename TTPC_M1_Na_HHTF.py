@@ -10,7 +10,7 @@ import numpy as np
 class Na1612Model_TF:
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
     #def __init__(self,na12name = 'na12_orig1', na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/'):
-    def __init__(self, na12mechs = ['na12','na12mut'], na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HH/100923/scan_soma1216_.5nA/'):
+    def __init__(self, na12mechs = ['na12','na12mut'], na16mechs = ['na16','na16mut'], params_folder = './params/',nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HH/100923/scan_soma1216_1nA/'):
         
         
         # ais_Kca = 0.03*ais_Kca
@@ -411,7 +411,7 @@ def scan_soma_12_16_point5nA():
             sim = Na1612Model_TF(soma_na12=i12, soma_na16=i16)
             #sim.make_wt()
             fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            sim.plot_stim(axs = axs[0],stim_amp = 1,dt=0.025)
+            sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.025)
             plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
             fn = f'{sim.plot_folder}/12_{i12}_16_{i16}.pdf'
             fig_volts.savefig(fn)

@@ -1,0 +1,31 @@
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=10, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=1, ais_KCa=1, axon_Kp=1, axon_Kt=1, axon_K=1, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=1, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+	1 
+	1 
+Setting temperature to 34.000000 C
+Setting simulation time step to 0.100000 ms
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+ran working
+	1 
+	1 
+	1 
+**********************
+cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0]
+1 
+1 
+1 
+	1 
+ran working
+ran working
+	1 
+	1 
+ran working
