@@ -1,0 +1,227 @@
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+	1 
+	1 
+Setting temperature to 34.000000 C
+Setting simulation time step to 0.100000 ms
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+	1 
+ran working
+	1 
+	1 
+	1 
+**********************
+cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0]
+1 
+1 
+1 
+	1 
+ran working
+ran working
+	1 
+	1 
+ran working
+nav12=0.5, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.5, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.6, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.7999999999999999, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.8999999999999999, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=0.9999999999999999, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.5
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.6
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.7
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.7999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.8999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=0.9999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
+nav12=1.0999999999999999, nav16=1.0999999999999999
+nav12=3, nav16=3, dend_nav12=1, soma_nav12=1, ais_nav12=1, dend_nav16=1, soma_nav16=1, ais_nav16=1, ais_ca=0.04, ais_KCa=0.03, axon_Kp=1.14, axon_Kt=0.0125, axon_K=4.8, axon_Kca=1, axon_HVA=1, axon_LVA=1, node_na=1, soma_K=0.5, dend_K=1, gpas_all=1
+running model at /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_HH run dir is /global/u2/t/tfenton/Neuron_general-2
+ran working
