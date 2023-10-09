@@ -8,7 +8,18 @@ class Na12Model_TF:
     def __init__(self,na12name = 'na12_orig1',mut_name= 'na12_R850P_5may',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/',
                  nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/Tim/'):
         
-        ais_Kca = 0.5
+
+        ###Active params commented as starting point TF
+        # ais_Kca = 0.5
+        # ais_ca = 0.04*ais_ca
+        # nav12 = 4.5
+        # nav16 = 1.1*nav16
+        # KP = 1.2*KP
+        # somaK = 0.5 * somaK
+        # KP=0.95*KP
+        # K = 4.8*K
+        # KT = 0.025*0.5*KT
+
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         #ais_ca = 2
@@ -39,18 +50,11 @@ class Na12Model_TF:
         #ais_Kca = 0.03*ais_Kca
         #K = 0.6
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        ais_ca = 0.04*ais_ca
         #soma_na16 = 0.7
         #soma_na12 = 0.7
         #nav12 = 1.8 *nav12
         #nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
-        nav12 = 4.5
-        nav16 = 1.1*nav16
-        KP = 1.2*KP
-        somaK = 0.5 * somaK
-        KP=0.95*KP
-        K = 4.8*K
-        KT = 0.025*0.5*KT
+        
         #nav12 = 1.2
         #nav16 = 1.2
         
