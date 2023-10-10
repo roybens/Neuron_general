@@ -12,7 +12,7 @@ import os
 import csv
 
 class NeuronModel:
-    def __init__(self, mod_dir = './Neuron_Model_HH/',#'./Neuron_Model_HH/', 
+    def __init__(self, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 
     
                       nav12=1,
                       nav16=1,
