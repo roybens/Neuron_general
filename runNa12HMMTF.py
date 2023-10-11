@@ -23,6 +23,7 @@ import NrnHelper as NH
 from Na12HMMModel_TF import *
 import Na12HMMModel_TF as tf
 import os
+import efel_feature_extractor as ef
 
 
 #_____________For Looping through mutants________________________________________________________________________
@@ -85,13 +86,16 @@ import os
 ###___________________________________________________________________________________________________________
 
 
+
+
+
 #mutant = 'mut'+str(i)+'_'+str(j)
 #mutant = 'mut4_4'
 
 # sim = tf.Na1612Model_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #                         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 
-sim = tf.Na12Model_TF(na12name = 'na12_HMM_TF100923', mut_name ='na12_HMM_TF100923')
+sim = tf.Na12Model_TF(na12name = 'na12_HMM_TF100923', mut_name ='na12_HMM_TF100923',plots_folder = f'./Plots/12HMM16HH_TF/TimParams_.25_2.1_best/')
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -147,22 +151,33 @@ plot_config = {
 # sim.plot_fi_curve(0,5,20,fn = f'16HMM_mut44_TF')
 
 
-print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-sim.plot_model_FI_Vs_dvdt([0.2,0.3,0.5,0.75,1,2,3,4,5,6], fnpre='nav12_')
+####________________Spikes + dvdt stacked plots_____________________________
+# print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+# sim.plot_model_FI_Vs_dvdt([.1,.4,.6,.7,.8,.9,], fnpre='nav12_')
 
 
 #sim.get_axonal_ks()
 #sim.plot_axonal_ks()
+
+
+
+#_____________________________Fine Tune Scans__________________________
+
 # print ('scan12_16 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #scan12_16()
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-#scanK(na16name = 'na16mut13_092623',na16mut = 'na16mut13_092623', plots_folder = f'./Plots/12HH16HMM_TF/092623/{mutant}/')
+scanK()
 
 #print ('dvdt_all &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #dvdt_all_plot() #requires hardcode changes in model to run
 #print(h.cell.soma.psection())
+#______________________________________________________________________
 
+
+
+
+#_____________________________Overexpression and TTX experiments__________________________
 # overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 #rng = [.05,.1,.15,.2]
@@ -170,3 +185,9 @@ sim.plot_model_FI_Vs_dvdt([0.2,0.3,0.5,0.75,1,2,3,4,5,6], fnpre='nav12_')
 # for i in rng:
 #     ttx(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/ttxWTrange10-100/', wt_factor =i, mut_factor =0,fnpre =f'wt_{i}')
+#_________________________________________________________________________________________
+
+
+##____________Electrophys Feature Extraction Library efel______________________________
+# ef.get_sim_volt_values(mutant_name = 'na12_HMM_TF100923')
+# ef.get_features(mutant_name = 'na12_HMM_TF100923')

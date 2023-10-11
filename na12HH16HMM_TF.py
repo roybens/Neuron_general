@@ -328,7 +328,7 @@ class na12HH16HMM_TF:
         
         #____________________Kaustubh + Tim Params_________________________________________________________________________
         #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT
-        wt_fi = [0, 1, 6, 11, 14, 16, 18, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 31, 32, 33, 34] #120%WT
+        #wt_fi = [0, 1, 6, 11, 14, 16, 18, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 31, 32, 33, 34] #120%WT
         #wt_fi = [0, 0, 0, 1, 5, 8, 11, 13, 15, 16, 17, 19, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20%WT
         
         for curr_amp in vs_amp:
@@ -341,7 +341,7 @@ class na12HH16HMM_TF:
             # add_scalebar(axs[1])
             # fn = f'{self.plot_folder}/{fnpre}dvdt_vs_{curr_amp}.pdf'
             # fig_volts.savefig(fn)
-            # csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
+            csv_volts = f'{self.plot_folder}/{fnpre}vs_{curr_amp}.csv'
             
             ###
             #self.plot_volts_dvdt(stim_amp = curr_amp)
@@ -354,24 +354,24 @@ class na12HH16HMM_TF:
             ###
 
 
-            # with open(csv_volts, 'w', newline='') as file:
-            #     writer = csv.writer(file)
-            #     writer.writerow(['Voltage'])  # Write header row
-            #     writer.writerows(zip(self.volt_soma))
+            with open(csv_volts, 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Voltage'])  # Write header row
+                writer.writerows(zip(self.volt_soma))
         
         self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi')
-        #fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
-        # with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
-        #     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-        #     wr.writerow(fi_ans)
-        # return fi_ans
+        fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
+        with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            wr.writerow(fi_ans)
+        return fi_ans
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '100WT20G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '50WT50G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
         wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated

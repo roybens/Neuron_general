@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'na12_HMM_TF100923',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/',
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HMM16HH_TF/TimParams_.25_2.1/'):
+                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/scanK.1/'):
         
 
         ###Active params commented as starting point TF
@@ -421,7 +421,7 @@ def scanK():
         sim = Na12Model_TF(ais_ca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_CA_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -429,7 +429,7 @@ def scanK():
         sim = Na12Model_TF(ais_Kca=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/ais_Kca_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -437,7 +437,7 @@ def scanK():
         sim = Na12Model_TF(K=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/K_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -445,7 +445,7 @@ def scanK():
         sim = Na12Model_TF(somaK=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9.5),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/somaK_{i}_.pdf'
         fig_volts.savefig(fn)
@@ -454,17 +454,15 @@ def scanK():
         sim = Na12Model_TF(KP=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kp_{i}_.pdf'
         fig_volts.savefig(fn)
 
-
-
         sim = Na12Model_TF(KT=i)
         #sim.make_wt()
         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
-        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005)
+        sim.plot_stim(axs = axs[0],stim_amp = 0.1,dt=0.005)
         plot_dvdt_from_volts(sim.volt_soma,sim.dt,axs[1])
         fn = f'{sim.plot_folder}/Kt_{i}_.pdf'
         fig_volts.savefig(fn)

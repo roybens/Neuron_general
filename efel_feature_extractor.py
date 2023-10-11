@@ -1,4 +1,4 @@
-from NaMut import *
+from Na12HMMModel_TF import *
 import matplotlib.pyplot as plt
 import numpy as np
 import NrnHelper as NH
@@ -12,9 +12,9 @@ from scipy.signal import find_peaks
 
 def get_sim_volt_values(mutant_name,rec_extra = False,dt = 0.005,stim_amp = 0.3):
 
-    sim = NaMut(mutant_name)
+    sim = Na12Model_TF(mutant_name)
     sim.dt= dt
-    sim.make_het()
+    #sim.make_het()
     rec_extra = True
     sim.l5mdl.init_stim(amp=stim_amp)
     if rec_extra:
@@ -26,7 +26,7 @@ def get_sim_volt_values(mutant_name,rec_extra = False,dt = 0.005,stim_amp = 0.3)
 
     return Vm,t,extra_vms,I,stim
 
-def get_features(mutant_name = 'na12WT2',rec_extra=True):
+def get_features(mutant_name = 'na12_HMM_TF100923',rec_extra=True):
     print("running routine")
     dt=0.005
     Vm,t,extra_vms,_,__ = get_sim_volt_values(mutant_name,rec_extra=rec_extra)
@@ -103,7 +103,7 @@ def get_features(mutant_name = 'na12WT2',rec_extra=True):
 # mut_names = ['R853Q','E1211K','A1773T','G879R','A880S','A427D','E430A','E999K','E1211K','E1880K','G879R',
 #            'K1260E','K1260Q','M1879T','R571H','R850P','R1319L','R1626Q','R1882L','R1882Q','S1780I','Y816F','na12WT2']
 
-mut_names = ['R853Q','E1211K']
+mut_names = ['na12_HMM_TF100923']
 mut_not_found = {}
 feature_row=None
 for mut_name in mut_names:
