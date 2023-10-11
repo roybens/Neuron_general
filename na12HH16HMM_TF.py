@@ -368,10 +368,11 @@ class na12HH16HMM_TF:
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
+        print()
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '50WT50G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '50WT50G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
         wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
@@ -391,7 +392,7 @@ def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = 
 
         else:
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
-            sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}mutXtest{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.3],fnpre=f'{fnpre}mutXtest{mut_fac}_')
 
     else:
         #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
