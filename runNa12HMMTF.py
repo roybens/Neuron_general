@@ -153,7 +153,7 @@ plot_config = {
 
 ####________________Spikes + dvdt stacked plots_____________________________
 # print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-sim.plot_model_FI_Vs_dvdt([.5,1], fnpre='k10na7_')
+sim.plot_model_FI_Vs_dvdt([1], fnpre='k10na200_')
 
 
 #sim.get_axonal_ks()

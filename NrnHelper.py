@@ -64,13 +64,13 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         fig.savefig(fn)
         return npeaks
     else:
-        ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black')
+        ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black') #mutant will be red
         ax1.plot(x_axis,wt2_data,marker = 'o', linestyle='-', color = 'blue')
         #ax1.plot(x_axis,wt_data,'black')
     #fig.show()
     fig.savefig(fn)
 
-def plot_dvdt_from_volts(volts,dt,axs=None,clr = '#6cc9ff',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
+def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
     if skip_first:
         curr_peaks,_ = find_peaks(volts,height = -20)
         volts = volts[curr_peaks[0]+int(3/dt):]

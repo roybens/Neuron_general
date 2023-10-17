@@ -26,7 +26,7 @@ class Na12Model_TF:
 
         #Change K and Na to move FI
         K = 10
-        node_na = 7
+        node_na = 200
 
 
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
