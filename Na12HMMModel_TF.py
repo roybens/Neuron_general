@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'na12_HMM_TF100923',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/',
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/scanK.1/'):
+                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/101723/K10WT/'):
         
 
         ###Active params commented as starting point TF
@@ -24,7 +24,11 @@ class Na12Model_TF:
         nav16 = 2.1
         nav12 = 0.25
 
-        #K = 0.6
+        #Change K and Na to move FI
+        K = 10
+        node_na = 7
+
+
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
         #ais_ca = 2
         #soma_na16 = 0.7
@@ -288,10 +292,22 @@ class Na12Model_TF:
 
 
 ##_______________________Added to enable run of TTX and overexpression functions
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None, start=0,end=2,nruns=21):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21):
         
-        #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
-        
+        ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
+
+
+        #wt2_data = [0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 36, 37, 39, 40, 41, 42, 42, 43] #K4 to move FI --blue
+        wt2_data = [0, 0, 0, 0, 0, 0, 15, 20, 24, 26, 28, 30, 32, 33, 35, 36, 37, 38, 39, 40, 41] #K10 Na0 --blue
+        wt_fi = [0, 0, 16, 21, 23, 25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44] #WT --black
+        #wt2_data = [0, 0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43] #K6
+        #[0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 5, 5] #K=.1
+        #[0, 8, 15, 20, 23, 25, 26, 28, 30, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43] #K=.5
+        #[0, 6, 16, 20, 23, 25, 27, 29, 30, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44] #K=.75
+        #[0, 6, 15, 20, 22, 24, 26, 28, 29, 30, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42] #node_na=10
+        #[0, 6, 16, 21, 23, 25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44] #node_na=.1
+
+
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -320,15 +336,18 @@ class Na12Model_TF:
             #     writer.writerow(['Voltage'])  # Write header row
             #     writer.writerows(zip(self.volt_soma))
         
-        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi')
+        ###################
+        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi,wt2_data = wt2_data, fn = fnpre + '_fi')
+        ###################
+        
         #fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
         # with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
         #     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         #     wr.writerow(fi_ans)
         # return fi_ans
     ##_________________________________________________________________________________________________
-    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
-        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
+    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,wt2_data = None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data, ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
@@ -414,7 +433,7 @@ def scan12_16():
         fig_volts.savefig(fn)
 
 def scanK():
-    for i in np.arange(0.1,2,0.5): #(.1,5,.5)
+    for i in np.arange(0.2,2,.4): #(.1,5,.5)
 
         
 

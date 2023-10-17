@@ -12,7 +12,7 @@ import os
 import csv
 
 class NeuronModel:
-    def __init__(self, mod_dir = './Neuron_Model_12HH16HMM/', #'./Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 
+    def __init__(self, mod_dir = './Neuron_Model_12HMM16HH/', #'./Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 
     
                       nav12=1,
                       nav16=1,
@@ -121,30 +121,30 @@ class NeuronModel:
         
         
         #___________________Kaustubh params
-        h.dend_na12 = 2.48E-03
+        h.dend_na12 = 2.48E-03 * dend_nav12
         
-        h.dend_na16 = 5.05E-03
-        h.dend_k = 0.0043685576
+        h.dend_na16 = 5.05E-03 * dend_nav16
+        h.dend_k = 0.0043685576 * dend_K
         
-        h.soma_na12 = 3.24E-02
-        h.soma_na16 = 7.88E-02
-        h.soma_K = 0.21330453
+        h.soma_na12 = 3.24E-02 * soma_nav12
+        h.soma_na16 = 7.88E-02 * soma_nav16
+        h.soma_K = 0.21330453 * soma_K
         
-        h.ais_na16 = 7.2696676
-        h.ais_na12 = 1.03E+00
-        h.ais_ca = 0.0010125926
-        h.ais_KCa = 0.0009423347
+        h.ais_na16 = 7.2696676 * ais_nav16
+        h.ais_na12 = 1.03E+00 * ais_nav12
+        h.ais_ca = 0.0010125926 * ais_ca
+        h.ais_KCa = 0.0009423347 * ais_KCa
         
-        h.node_na = 0.9934221
+        h.node_na = 0.9934221 * node_na
 
-        h.axon_KP = 0.43260124
-        h.axon_KT = 1.38801
-        h.axon_K = 0.89699364
-        h.axon_LVA = 0.00034828275
-        h.axon_HVA = 1.05E-05
-        h.axon_KCA = 0.4008224
+        h.axon_KP = 0.43260124 * axon_Kp
+        h.axon_KT = 1.38801 * axon_Kt
+        h.axon_K = 0.89699364 *2.1* axon_K
+        h.axon_LVA = 0.00034828275 * axon_LVA
+        h.axon_HVA = 1.05E-05 * axon_HVA
+        h.axon_KCA = 0.4008224 * axon_Kca
         
-        h.gpas_all = 1.34E-05
+        h.gpas_all = 1.34E-05 * gpas_all
         h.cm_all = 1.6171424
         	
         	

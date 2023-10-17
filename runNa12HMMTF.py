@@ -95,7 +95,7 @@ import efel_feature_extractor as ef
 # sim = tf.Na1612Model_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #                         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 
-sim = tf.Na12Model_TF(na12name = 'na12_HMM_TF100923', mut_name ='na12_HMM_TF100923',plots_folder = f'./Plots/12HMM16HH_TF/TimParams_.25_2.1_best/')
+sim = tf.Na12Model_TF()
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -153,7 +153,7 @@ plot_config = {
 
 ####________________Spikes + dvdt stacked plots_____________________________
 # print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-# sim.plot_model_FI_Vs_dvdt([.1,.4,.6,.7,.8,.9,], fnpre='nav12_')
+sim.plot_model_FI_Vs_dvdt([.5,1], fnpre='k10na7_')
 
 
 #sim.get_axonal_ks()
@@ -167,7 +167,7 @@ plot_config = {
 #scan12_16()
 
 #print ('scanK &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-scanK()
+#scanK()
 
 #print ('dvdt_all &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 #dvdt_all_plot() #requires hardcode changes in model to run
