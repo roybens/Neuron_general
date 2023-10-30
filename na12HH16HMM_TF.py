@@ -321,16 +321,27 @@ class na12HH16HMM_TF:
         #wt_fi = [0, 1, 6, 10, 13, 15, 17, 20, 20, 22, 23, 24, 26, 27, 28, 29, 29, 30, 31, 32, 33] #120% WT, wt2.4, mut0
         #wt_fi = [0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 5, 6, 7, 7, 9, 9, 10] #100% G1625R, wt0, mut2
         #wt_fi = [0, 0, 0, 1, 5, 8, 10, 12, 14, 16, 17, 18, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20% WT, wt.4, mut0
-        
+        #_____________________________________________________________________________________________
+
+               
         #_______________Kaustubh's Params no modifiers_______________________________________________
         #wt_fi = [0, 0, 7, 12, 16, 19, 21, 23, 25, 26, 27, 28, 29, 30, 31, 32, 32, 34, 34, 35, 36] #100%WT
         #wt_fi = [0, 1, 8, 14, 17, 19, 21, 24, 24, 26, 27, 28, 30, 30, 31, 32, 33, 34, 35, 36, 37] #120% WT
         
-        #____________________Kaustubh + Tim Params_________________________________________________________________________
+        #____________________Kaustubh + Tim Params Na16 paper first round__________________________________
         #wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT
-        #wt_fi = [0, 1, 6, 11, 14, 16, 18, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 31, 32, 33, 34] #120%WT
+        wt_fi = [0, 1, 6, 11, 14, 16, 18, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 31, 32, 33, 34] #120%WT
         #wt_fi = [0, 0, 0, 1, 5, 8, 11, 13, 15, 16, 17, 19, 20, 21, 22, 22, 23, 24, 25, 25, 26] #20%WT
         
+        #____________________103023 +200% G1625R raw data____________________________________________________________
+        #wt_fi =  [0, 0, 4, 8, 12, 15, 17, 19, 21, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35] 100%WT + 20%(40%)G1625R
+        #wt_fi = [0, 0, 2, 5, 9, 12, 14, 16, 18, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31]50%WT + 50%(100%) G1625R
+        #wt_fi = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3] 20%(40%)G1625R
+        #___________________________________________________________________________________________________
+
+
+
+
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -372,7 +383,7 @@ class na12HH16HMM_TF:
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '50WT50G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '100WT20G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
         wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
@@ -392,7 +403,7 @@ def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre =
 
         else:
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
-            sim.plot_model_FI_Vs_dvdt([0.3],fnpre=f'{fnpre}mutXtest{mut_fac}_')
+            sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}mutXtest{mut_fac}_')
 
     else:
         #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')

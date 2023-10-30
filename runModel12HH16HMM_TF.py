@@ -197,12 +197,40 @@ plot_config = {
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 0.4, 
 #   plots_folder = f'./Plots/12HH16HMM_TF/101123/TimParamsCSVs/20G1625R/')
 
-overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1 ,mut_fac = 1, 
-  plots_folder = f'./Plots/12HH16HMM_TF/101123/TimParamsCSVs/50WT50G1625R/')
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1 ,mut_fac = 1, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/101123/TimParamsCSVs/50WT50G1625R/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = .4, 
 #   plots_folder = f'./Plots/12HH16HMM_TF/101123/TimParamsCSVs/100WT20G1625R_v_120WT/')
 
-
-
 #____________________________________________________________
+
+
+
+############################################################
+####______________103023 Experiments: increase Na16 by 200%________________________
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/100WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/120WT/')
+
+overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0.8, 
+  plots_folder = f'./Plots/12HH16HMM_TF/103023/100WT20G1625R/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/20WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 0.8, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/20G1625R/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1 ,mut_fac = 2, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/50WT50G1625R/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = .4, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/103023/100WT20G1625R_v_120WT/')
+
+
+
+#_________________________________________________________________________________
