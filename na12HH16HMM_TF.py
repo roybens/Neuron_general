@@ -9,8 +9,8 @@ import csv
 class na12HH16HMM_TF:
     # def __init__(self,na12name = 'na12_TF2',mut_name= 'na12_TF2',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/HOF_params_JSON/',
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/mut/'):
-    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/',
-        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/103123/currents/'):
+    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623_vshiftPLUS10',na16mut = 'na16MORAN_100223', na16mechs = ['na16','na16mut'], params_folder = './params/',
+        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/103123/Mut_currents_vshiftplus10/'):
     
 
         #na16mut44_092623_vshiftPLUS10     currents_vshiftplus10
@@ -186,7 +186,7 @@ class na12HH16HMM_TF:
         return axs
         
             
-    def plot_currents(self,stim_amp = 1,dt = 0.01,clr = 'black',plot_fn = 'Na16_1_150ms',axs = None, stim_dur = 500):
+    def plot_currents(self,stim_amp = 1,dt = 0.01,clr = 'black',plot_fn = 'Na16mut_vsh_1_150ms',axs = None, stim_dur = 500):
         if not axs:
             fig,axs = plt.subplots(4,figsize=(cm_to_in(8),cm_to_in(30)))
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp,sweep_len = 150) #sweep_len = time in ms?
