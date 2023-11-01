@@ -232,7 +232,7 @@ plot_config = {
 #   plots_folder = f'./Plots/12HH16HMM_TF/103123/100WT20G1625R_v_120WT/')
 
 
-sim.plot_currents()
-
+#sim.plot_currents()
+sim.make_currentscape_plot()
 
 #_________________________________________________________________________________

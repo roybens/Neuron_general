@@ -10,6 +10,7 @@ from vm_plotter import *
 from neuron import h
 import os
 import csv
+import sys
 
 class NeuronModel:
     def __init__(self, mod_dir = './Neuron_Model_12HH16HMM/', #'./Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 

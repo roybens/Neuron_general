@@ -5,15 +5,17 @@ import sys
 from pathlib import Path
 import numpy as np
 import csv
+from currentscape.currentscape import plot_currentscape
 
+    
 class na12HH16HMM_TF:
     # def __init__(self,na12name = 'na12_TF2',mut_name= 'na12_TF2',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/HOF_params_JSON/',
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/mut/'):
-    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623_vshiftPLUS10',na16mut = 'na16MORAN_100223', na16mechs = ['na16','na16mut'], params_folder = './params/',
-        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/103123/Mut_currents_vshiftplus10/'):
+    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', na16mechs = ['na16','na16mut'], params_folder = './params/',
+        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/103123/WT_currentscape_vshift/'):
     
 
-        #na16mut44_092623_vshiftPLUS10     currents_vshiftplus10
+        #na16mut44_092623_vshiftPLUS10     currents_vshiftplus10  na16MORAN_100223
         
         ###########ais_Kca = 0.5
         # #K = 0.6
@@ -115,6 +117,48 @@ class na12HH16HMM_TF:
         self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
         Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
         return Vm, I, t, stim, ionic
+    
+    def make_currentscape_plot(self,sim_config = {
+                'section' : 'soma',
+                'segment' : 0.5,
+                'section_num': 0,
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                #'currents'  : ['na12.ina','na12mut.ina','na16.ina','na16mut.ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+                #'currents'  : ['na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #'na12.ina_ina','na12mut.ina_ina','na16.ina_ina' test_plot_TF2
+                'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3
+                #'currents'  :['ina','ica','ik'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+                
+            }):
+        #sim_obj = NeuronModel()   #TO DO : send in different parameters???
+        self.l5mdl.init_stim(amp=1,sweep_len = 200)
+        #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
+
+        current_names = sim_config['currents']
+        plot_config = {
+            "output": {
+                "savefig": True,
+                "dir": "./Plots/12HH16HMM_TF/103123/Currentscape/",
+                "fname": "Na16_hom_1nA",
+                "extension": "pdf",
+                "dpi": 600,
+                "transparent": False
+            },
+            "current": {"names": current_names},
+            "ions":{"names": ["ca", "k", "na"]},
+            "voltage": {"ylim": [-90, 50]},
+            "legendtextsize": 5,
+            "adjust": {
+                "left": 0.15,
+                "right": 0.8,
+                "top": 1.0,
+                "bottom": 0.0
+                }
+            }
+        fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()])
+
+
     
     #__________added this function to get overexp and ttx to work   
     def make_mut(self,mut_mech16,p_fn_na16mut): 
@@ -630,7 +674,6 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
     axs.legend()
     fn = f'./Plots/Tim/{al2}_{stim_amp}_{stim_dur}.pdf'
     fig_volts.savefig(fn)
-
 
 
 
