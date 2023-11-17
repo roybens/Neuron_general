@@ -178,7 +178,8 @@ proc biophys() {
 		forsec $o1.all {
 		g_pas = 7.120456108418522658e-06
 		//e_pas = -1.354672766109964641e+02
-		e_pas = -100
+		e_pas = -100 //used for currentscapes
+		//e_pas = -65
 		}
 	forsec $o1.axonal{
 		gK_Tstbar_K_Tst = 7.057598347931356431e-01

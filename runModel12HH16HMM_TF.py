@@ -211,28 +211,78 @@ plot_config = {
 ####______________103023 Experiments: increase Na16 by 200%________________________
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103023/100WT/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/111423noINA_INA/100WT/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2.4 ,mut_fac = 0, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103023/120WT/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/120WT/')
 
-# overexp(na16name = 'na16mut44_092623_vshiftPLUS10',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0.8, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103123/100WT20G1625R/')
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0.8, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/100WT20G1625R/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0.4 ,mut_fac = 0, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103123/20WT/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/20WT/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 0.8, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103123/20G1625R/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/20G1625R/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1 ,mut_fac = 2, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103123/50WT50G1625R/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/50WT50G1625R/')
 
 # overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = .4, 
-#   plots_folder = f'./Plots/12HH16HMM_TF/103123/100WT20G1625R_v_120WT/')
+#   plots_folder = f'./Plots/12HH16HMM_TF/110623/100WT20G1625R_v_120WT/')
 
 
+####______________111723 Experiments: Double Checking data and that wt_fac wasn't updated twice________________________
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/111723/20WT/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =0 ,mut_fac = 0.4, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/111723/20G1625R/')
+
+# overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2.4 ,mut_fac = 0, 
+#   plots_folder = f'./Plots/12HH16HMM_TF/111723/120WT5_removeINA_INA/')
+
+overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =2 ,mut_fac = 0, 
+  plots_folder = f'./Plots/12HH16HMM_TF/111723/base/100WT2/')
+
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =2, mut_fac = 0, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111723/na12mechchange',
+#                                fnpre = '100WT', wtorhet = 'WT')
+
+
+
+###______________111523 Experiments to make TTX currentscape plots______________________________
 #sim.plot_currents()
-sim.make_currentscape_plot()
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =2, mut_fac = 0, 
+#                                amp = 0.5, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/100WT/',
+#                                fnpre = '100WT_w2m0_111623', wtorhet = 'WT')
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =2, mut_fac = 0, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/100WT/',
+#                                fnpre = '100WT_w2m0_111623', wtorhet = 'WT')
 
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =0.2, mut_fac = 0.2, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/20WT',
+#                                fnpre = '20WT_.2.2', wtorhet = 'WT')
+
+
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =0.4, mut_fac = 0, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/20WT/',
+#                                fnpre = '20WT_wt.4', wtorhet = 'WT')
+
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =1, mut_fac = 2, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/wt1mut2tTEST1/',
+#                                fnpre = '100WT_wt1mut2', wtorhet = 'WT')
+
+
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1, mut_fac = 1, 
+#                                amp = 0.5, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/5050HET/',
+#                                fnpre = 'HET_111523', wtorhet = 'HET')
+
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16MORAN_100223', wt_fac =1, mut_fac = 1, 
+#                                amp = 1, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/5050HET/',
+#                                fnpre = 'HET_111523', wtorhet = 'HET')
+
+
+# #na16MORAN_100223
 #_________________________________________________________________________________

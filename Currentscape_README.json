@@ -1,0 +1,158 @@
+{
+    "show": {
+        "currentscape": true,
+        "ylabels": true,
+        "yticklabels": true,
+        "xlabels": false,
+        "xticklabels": false,
+        "_comment1": "If enabled, xgridlines plot vertical lines in all plots at xticks positions.",
+        "xgridlines": false,
+        "legend": true,
+        "all_currents": false,
+        "_comment2": "total contribution plots two pie charts (positive and negative) showing the contribution of each current over the whole simulation.",
+        "total_contribution": false
+    },
+    "current": {
+        "_comment1": "is not set by default.  The current names should appear in the same order as in the currents argument. Is mandatory if ['show']['legend'] is true",
+        "names": [
+            "Na",
+            "CaT",
+            "CaS",
+            "A",
+            "KCa",
+            "Kd",
+            "H",
+            "L"
+        ],
+        "_comment2": "if True, reorder currents with decreasing order of %.",
+        "reorder": true,
+        "_comment3": "if True, do not take into account ticks and ylim below.",
+        "autoscale_ticks_and_ylim": true,
+        "_comment4": "only taken into account if autoscale_ticks_and_ylim is False",
+        "ticks": [
+            5,
+            50,
+            500
+        ],
+        "_comment5": "only taken into account if autoscale_ticks_and_ylim is False",
+        "ylim": [
+            0.01,
+            1500
+        ],
+        "units": "[pA]",
+        "_comment6": "color for summed currents.",
+        "color": "black",
+        "_comment7": "True to plot absolute currents with stackplots, False to plot them with lines",
+        "stackplot": false,
+        "_comment8": "thickness of black line separating the inward & outward stackplots. in %age of y size of plot.",
+        "black_line_thickness": 2,
+        "_comment9": "only used if stackplot is True",
+        "legacy_method": false
+    },
+    "currentscape": {
+        "in_label": "inward %",
+        "out_label": "outward %",
+        "_comment1": "only used when legacy_method is true. if too low, white pixels can appear at the bottom of Currentscape plots because of rounding errors. Only used when use_legacy_method is True.",
+        "y_resolution": 10000,
+        "legacy_method": false
+    },
+    "ions": {
+        "_comment1": "if True, do not take into account ticks and ylim below.",
+        "autoscale_ticks_and_ylim": true,
+        "_comment2": "only taken into account if autoscale_ticks_and_ylim is False",
+        "ticks": [
+            0.0005,
+            0.05,
+            5
+        ],
+        "_comment3": "only taken into account if autoscale_ticks_and_ylim is False",
+        "ylim": [
+            0.00001,
+            100
+        ],
+        "units": "[mM]",
+        "_comment4": "if True, reorder currents with decreasing order",
+        "reorder": true,
+        "_comment5": "is not set by default.  The ions concentration names should appear in the same order as in the ions argument. Is mandatory if ['show']['legend'] is true",
+        "names": [
+            "cai",
+            "ki",
+            "nai"
+        ]
+    },
+    "colormap": {
+        "name": "Set1",
+        "_comment1": "color number. Taken into account only if pattern use is True",
+        "n_colors": 8
+    },
+    "stackplot": {
+        "_comment1": "only used when ['currentscape']['legacy_method'] is true. data along x axis are summed up into chunks when pattern use is True. Put to 1 to disable.",
+        "x_chunksize": 50
+    },
+    "pattern": {
+        "use": false,
+        "patterns": ["", "/", "\\", "x", ".", "o", "+"],
+        "density": 5,
+        "linewidth": 0.2,
+        "_comment1": "since the pattern color is defined by the edgecolor, this parameter also changes the edgecolor of the pie charts",
+        "color": "black"
+    },
+    "line": {
+        "_comment1": "Is used when ['pattern']['use'] and ['show']['all_currents'] are True and ['current']['stackplot'] is False. Should have the same length as ['pattern']['patterns']",
+        "styles": [
+            "solid",
+            [0, [1, 1]],
+            [0, [2, 1]],
+            [0, [2, 1, 1, 1]],
+            [0, [2, 1, 1, 1, 1, 1]],
+            [0, [2, 1, 2, 1, 1, 1]],
+            [0, [2, 1, 2, 1, 1, 1, 1, 1]]
+        ]
+    },
+    "voltage": {
+        "ylim": [-90, 30],
+        "ticks":[-50, -20],
+        "units": "[mV]",
+        "color": "black",
+        "horizontal_lines": true
+    },
+    "xaxis": {
+        "units": "[ms]",
+        "_comment1": "if None, xticks are generated automatically. Can put a list of xticks to force custom xticks.",
+        "xticks": null,
+        "gridline_width": 1,
+        "gridline_color": "black",
+        "gridline_style": "--"
+    },
+    "output": {
+        "savefig": false,
+        "dir": ".",
+        "fname": "test_1",
+        "extension": "pdf",
+        "dpi": 400,
+        "transparent": false
+    },
+    "legend": {
+        "textsize": 4,
+        "bgcolor": "lightgrey",
+        "_comment1": "1. : top of legend is at the same level as top of Currentscape plot. higher value put legend higher in figure.",
+        "ypos": 1.0,
+        "_comment2": "forced to 0 if ['pattern']['use'] is False and ['current']['stackplot'] is False",
+        "handlelength": 1.4
+    },
+    "figsize": [
+        3,
+        4
+    ],
+    "title": null,
+    "titlesize": 12,
+    "labelpad": 1,
+    "textsize": 6,
+    "lw": 0.5,
+    "adjust": {
+        "left": 0.15,
+        "right": 0.85,
+        "top": 0.95,
+        "bottom": 0.0
+    }
+}

@@ -11,8 +11,13 @@ from currentscape.currentscape import plot_currentscape
 class na12HH16HMM_TF:
     # def __init__(self,na12name = 'na12_TF2',mut_name= 'na12_TF2',  na12mechs = ['na12','na12_mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16_mut'], params_folder = './params/HOF_params_JSON/',
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/mut/'):
-    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16MORAN_100223',na16mut = 'na16MORAN_100223', na16mechs = ['na16','na16mut'], params_folder = './params/',
-        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/103123/WT_currentscape_vshift/'):
+    
+    # def __init__(self, na12mechs = ['na12','na12mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/', #changed to two Na12's for currentscape plots 
+    #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
+    
+    #testing single Na12 TF111723, changed na12mut to na12_mut
+    def __init__(self, na12mechs = ['na12','na12mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/', #changed to two Na12's for currentscape plots 
+        nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
     
 
         #na16mut44_092623_vshiftPLUS10     currents_vshiftplus10  na16MORAN_100223
@@ -69,10 +74,14 @@ class na12HH16HMM_TF:
     
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
+        
+
+        
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
    
         self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
         self.wt_mech = [na12mechs[0]]   #new from Namut
+        
         #self.na16mechs = na16mechs
         
         
@@ -88,20 +97,24 @@ class na12HH16HMM_TF:
         self.l5mdl.h.working()
 
         ###______Commented the following lines to not use na12 params
-
         # p_fn_na12 = f'{params_folder}{na12name}.txt'  
         # p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
         # print(f'using wt_file {na12name}')
         # self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.wt_mech) 
         # print(f'using mut_file {mut_name}')
         # self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech)
+        ###___________________________________________
         
         print(f'using na16_file {na16name}')
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.wt_mech16)
+        print(eval("h.psection()"))
+
         print(f'using na16_mut_file {na16mut}')
         p_fn_na16mut = f'{params_folder}{na16mut}.txt'
         self.na16_pmut = update_mech_from_dict(self.l5mdl, p_fn_na16mut, self.mut_mech16)
+        print(eval("h.psection()"))
+
 
         
     def make_current_scape(self, sim_config = {
@@ -120,33 +133,80 @@ class na12HH16HMM_TF:
     
     def make_currentscape_plot(self,sim_config = {
                 'section' : 'soma',
-                'segment' : 0.5,
+                'segment' : 0.5, #0.5 should be half way down AIS
                 'section_num': 0,
                 #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na12.ina','na12mut.ina','na16.ina','na16mut.ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #'na12.ina_ina','na12mut.ina_ina','na16.ina_ina' test_plot_TF2
-                'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3
+                #'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3 + others, needs Na12 currents
+                
+                #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
+                'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','i_pas'],
+                #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
+
                 #'currents'  :['ina','ica','ik'],
                 'ionic_concentrations' :["cai", "ki", "nai"]
                 
             }):
         #sim_obj = NeuronModel()   #TO DO : send in different parameters???
-        self.l5mdl.init_stim(amp=1,sweep_len = 200)
+        
+        #current_names = ['na12','na16','na16 mut','Ca_HVA','Ca_LVAst','Ih','SK_E2','SKv3_1','pas']
+        current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','pas']
+        #current_names = sim_config['outward'] + sim_config['inward']
+
+        self.l5mdl.init_stim(amp=1,sweep_len = 75) #modify stim_start to look at different time points?
         #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
         Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
 
-        current_names = sim_config['currents']
+        #Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(start_Vm=-70, dt=0.01,sim_config=sim_config) #change time steps here
+        
+        #####*** Below for plotting user-specified time steps
+        sweep_len = 75
+        dt = 0.01
+        time1 = 53 #start time in ms. Must be between 0 < x < sweep_len 53het 50ms->59msWT
+        time2 = 62 #end time in ms. Must be between 0 < x < sweep_len 62het
+        step1 = int((time1/dt))
+        step2 = int((time2/dt))
+        Vmsteplist = Vm[step1:step2] #assign new list for range selected between two steps
+        maxvm = max(Vm[step1:step2]) #gets max voltage
+        indexmax = Vmsteplist.argmax() #gets index (time point in Vmsteplist) where max voltage is
+        #####***
+
+        print(I)
+        print([x for x in I.keys()])
+        print([x for x in ionic.keys()])
+        #current_names = sim_config['currents']
         plot_config = {
             "output": {
                 "savefig": True,
-                "dir": "./Plots/12HH16HMM_TF/103123/Currentscape/",
-                "fname": "Na16_hom_1nA",
+                "dir": "./Plots/12HH16HMM_TF/111423/Currentscape/",
+                "fname": "Na16_WT_1nA_75ms", ########################################################_________________Change file name here
                 "extension": "pdf",
+                #"extension": "jpg",
                 "dpi": 600,
-                "transparent": False
-            },
-            "current": {"names": current_names},
-            "ions":{"names": ["ca", "k", "na"]},
+                "transparent": False},
+
+            "show":{#"total_contribution":True,
+                    "all_currents":True,
+                    "currentscape": True},
+
+            "colormap": {"name":"colorbrewer.qualitative.Paired_10"},
+            #"colormap": {"name":"cartocolors.qualitative.Prism_10"},
+            #"colormap": {"name":"cmocean.diverging.Balance_10"},
+            
+            "xaxis":{"xticks":[25,50,75],
+                     "gridline_width":0.2,},
+
+            "current": {"names": current_names,
+                        "reorder":False,
+                        # "autoscale_ticks_and_ylim":False,
+                        # "ticks":[0.00001, 0.001, 0.1], #3 xaxis lines???
+                        # "ylim":[0.00001,0.01] #yaxis lims[min,max]
+                        },
+
+            "ions":{"names": ["ca", "k", "na"],
+                    "reorder": False},
+
             "voltage": {"ylim": [-90, 50]},
             "legendtextsize": 5,
             "adjust": {
@@ -156,8 +216,50 @@ class na12HH16HMM_TF:
                 "bottom": 0.0
                 }
             }
-        fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()])
+        
+        print(plot_config['current'])
+        print('step at max value for vm')
+        # print(Vmsteplist)
+        print(f"the max voltage value is {maxvm}")        
+        print(f"The index at which the max voltage happens is {indexmax}")
+        
+        fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()]) #Default version that plots full sweep_len (full simulation)
+        #fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config,[ionic[x][step1:step2] for x in ionic.keys()]) #Use this version to add time steps
+        
+        print('ihcn_Ih')
+        print(I['ihcn_Ih'][step1:step2])
+        print('ica_Ca_HVA')
+        print(I['ica_Ca_HVA'][step1:step2])
+        print('ica_Ca_LVAst')
+        print(I['ica_Ca_LVAst'][step1:step2])
+        print('ik_SKv3_1')
+        print(I['ik_SKv3_1'][step1:step2])
+        print('ik_SK_E2')
+        print(I['ik_SK_E2'][step1:step2])
+        print('na16.ina_ina')
+        print(I['na16.ina_ina'][step1:step2])
+        print('na16mut.ina_ina')
+        print(I['na16mut.ina_ina'][step1:step2])
+        print('na12.ina_ina')
+        print(I['na12.ina_ina'][step1:step2])
+        print('i_pas')
+        print(I['i_pas'][step1:step2])
+        print('Vm')
+        print(Vm[step1:step2])
 
+        
+        ###### Writing all raw data to csv
+        with open("./Plots/12HH16HMM_TF/111423/Currentscape/Na16_WT_1na_75ms_rawdata.csv",'w',newline ='') as csvfile:
+            writer = csv.writer(csvfile, delimiter = ',')
+            #writer.writerow(current_names)
+            writer.writerow(I.keys())
+            
+            writer.writerows(I[x] for x in I) # This and line below for writing data from entire sweep_len
+            writer.writerow(Vm)
+            
+            # writer.writerows(I[x][step1:step2] for x in I) ####This and below line are used when time steps are used
+            # writer.writerow(Vm[step1:step2])
+        
 
     
     #__________added this function to get overexp and ttx to work   
@@ -388,6 +490,8 @@ class na12HH16HMM_TF:
 
 
 
+
+
         for curr_amp in vs_amp:
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -411,17 +515,17 @@ class na12HH16HMM_TF:
             ###
 
 
-            with open(csv_volts, 'w', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(['Voltage'])  # Write header row
-                writer.writerows(zip(self.volt_soma))
+            # with open(csv_volts, 'w', newline='') as file:
+            #     writer = csv.writer(file)
+            #     writer.writerow(['Voltage'])  # Write header row
+            #     writer.writerows(zip(self.volt_soma))
         
         self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi')
-        fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
-        with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            wr.writerow(fi_ans)
-        return fi_ans
+        # fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
+        # with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
+        #     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+        #     wr.writerow(fi_ans)
+        return #fi_ans
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
@@ -429,31 +533,39 @@ class na12HH16HMM_TF:
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '100WT20G1625R',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '111723',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
-        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
         #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
+
     else:
         wt_fi = []
     print(f'wt_fi is {wt_fi}')
     if mut_fac:
         sim.make_mut(na16mechs[1],'./params/na16MORAN_100223.txt') #updates mech (Arg[1]) with new mod params dict (Arg[2])
+        
+        
         print('making mut')
         update_mod_param(sim.l5mdl,['na16mut'], mut_fac) #Adds multiplier to updated mod/mech parameters
         print('updated mod params')
         sim.l5mdl.h.finitialize()
+        print(eval("h.psection()"))
+
         if plot_wt:
             sim.plot_model_FI_Vs_dvdt([0.5,1,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],wt_fi = wt_fi,fnpre=f'{fnpre}mutX{mut_fac}_')
+            
 
         else:
             #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}mutX{mut_fac}_')
             sim.plot_model_FI_Vs_dvdt([0.5,1,2],fnpre=f'{fnpre}mutXtest{mut_fac}_')
 
+
     else:
         #sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}_{mut_fac}_')
-        ##sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_{mut_fac}_else')
+        sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_{mut_fac}_else')
+
         return
 
 
@@ -713,3 +825,162 @@ for i in range (6,12):
 
 #dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.7,  stim_dur = 500 )
 #dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=0.7,  stim_dur = 500 )
+
+
+
+
+#note: Model updates both na16 and na16mut with wt_fac upon initialization. Then mut_fac is applied to updated WT value. So, if doing .2 of WT, .2 of mut,
+# you will get .2 WT and .2*.2 mut, not .2 of each. 
+def make_currentscape_plot_overexp(wt_fac, mut_fac,na16name,na16mut, plots_folder, amp, sweep_len,
+                                   fnpre = '20WT_111523',axon_KP = 1, na16mechs =['na16','na16mut'],wtorhet='wt', sim_config = {
+            'section' : 'soma',
+            'segment' : 0.5, #0.5 should be half way down AIS
+            'section_num': 0,
+            #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+            #'currents'  : ['na12.ina','na12mut.ina','na16.ina','na16mut.ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
+            #'currents'  : ['na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #'na12.ina_ina','na12mut.ina_ina','na16.ina_ina' test_plot_TF2
+            #'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3 + others, needs Na12 currents
+            
+            #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
+            'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','i_pas'],
+            #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
+
+            #'currents'  :['ina','ica','ik'],
+            'ionic_concentrations' :["cai", "ki", "nai"]
+            
+        }):
+    #sim_obj = NeuronModel()   #TO DO : send in different parameters???
+
+    #######_________Adding different model params below
+    sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
+    print(f'{na16name} IS THE NA16 NAME WT PARAMS')
+    print(f'{na16mut} IS BEING USED AS NA16 MUTANT')
+    # if mut_fac:
+    #sim.make_mut(na16mechs[1],'./params/na16MORAN_100223.txt') #updates mech (Arg[1]) with new mod params dict (Arg[2])
+    print('\n\n\n\n THE BELOW IS pSECTION BEFOREEEEEE MUT_FAC ADDED TO NA16MUT @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    
+    mut_fac_test = mut_fac*(1/wt_fac) 
+    print(f'mut_fac_test = {mut_fac_test}')
+    sim.make_mut(na16mechs[1],f'./params/{na16mut}.txt') #updates mech (Arg[1]) with new mod params dict (Arg[2])
+    print('making mut')
+    print(eval("h.psection()"))
+    # update_mod_param(sim.l5mdl,['na16mut'], mut_fac) #Adds multiplier to updated mod/mech parameters
+    update_mod_param(sim.l5mdl,['na16mut'], mut_fac_test) #Adds multiplier to updated mod/mech parameters
+    
+    print('updated mod params')
+    print('\n\n\n\n THE BELOW IS pSECTION AFTER MUT_FAC ADDED TO NA16MUT @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    print(eval("h.psection()"))
+    sim.l5mdl.h.finitialize()
+
+    #######____________________________________________
+
+
+
+    #current_names = ['na12','na16','na16 mut','Ca_HVA','Ca_LVAst','Ih','SK_E2','SKv3_1','pas']
+    current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','pas']
+    #current_names = sim_config['outward'] + sim_config['inward']
+
+    sim.l5mdl.init_stim(stim_start = 100, amp=amp,sweep_len = sweep_len) #Default stimstart 100, change to 30 for zoom in
+    #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
+    Vm, I, t, stim, ionic = sim.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
+
+    #Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(start_Vm=-70, dt=0.01,sim_config=sim_config) #change time steps here
+
+    #####*** Below for plotting user-specified time steps
+    dt = 0.01
+    time1 = 40 #start time in ms. Must be between 0 < x < sweep_len 53het 50ms->59msWT
+    time2 = 60 #end time in ms. Must be between 0 < x < sweep_len 62het
+    step1 = int((time1/dt))
+    step2 = int((time2/dt))
+    Vmsteplist = Vm[step1:step2] #assign new list for range selected between two steps
+    maxvm = max(Vm[step1:step2]) #gets max voltage
+    indexmax = Vmsteplist.argmax() #gets index (time point in Vmsteplist) where max voltage is
+    #####***
+
+    print(I)
+    print([x for x in I.keys()])
+    print([x for x in ionic.keys()])
+    #current_names = sim_config['currents']
+    plot_config = {
+        "output": {
+            "savefig": True,
+            "dir": plots_folder,
+            "fname": f"Na16_{wtorhet}_{amp}nA_{sweep_len}ms_{fnpre}", ########################################################_________________Change file name here
+            "extension": "pdf",
+            #"extension": "jpg",
+            "dpi": 600,
+            "transparent": False},
+
+        "show":{#"total_contribution":True,
+                "all_currents":True,
+                "currentscape": True},
+
+        "colormap": {"name":"colorbrewer.qualitative.Paired_10"},
+        #"colormap": {"name":"cartocolors.qualitative.Prism_10"},
+        #"colormap": {"name":"cmocean.diverging.Balance_10"},
+        
+        "xaxis":{"xticks":[25,50,75],
+                    "gridline_width":0.2,},
+
+        "current": {"names": current_names,
+                    "reorder":False,
+                    # "autoscale_ticks_and_ylim":False,
+                    # "ticks":[0.00001, 0.001, 0.1], #3 xaxis lines???
+                    # "ylim":[0.00001,0.01] #yaxis lims[min,max]
+                    },
+
+        "ions":{"names": ["ca", "k", "na"],
+                "reorder": False},
+
+        "voltage": {"ylim": [-90, 50]},
+        "legendtextsize": 5,
+        "adjust": {
+            "left": 0.15,
+            "right": 0.8,
+            "top": 1.0,
+            "bottom": 0.0
+            }
+        }
+
+    print(plot_config['current'])
+    print('step at max value for vm')
+    # print(Vmsteplist)
+    print(f"the max voltage value is {maxvm}")        
+    print(f"The index at which the max voltage happens is {indexmax}")
+
+    fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()]) #Default version that plots full sweep_len (full simulation)
+    #fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config,[ionic[x][step1:step2] for x in ionic.keys()]) #Use this version to add time steps
+
+    print('ihcn_Ih')
+    print(I['ihcn_Ih'][step1:step2])
+    print('ica_Ca_HVA')
+    print(I['ica_Ca_HVA'][step1:step2])
+    print('ica_Ca_LVAst')
+    print(I['ica_Ca_LVAst'][step1:step2])
+    print('ik_SKv3_1')
+    print(I['ik_SKv3_1'][step1:step2])
+    print('ik_SK_E2')
+    print(I['ik_SK_E2'][step1:step2])
+    print('na16.ina_ina')
+    print(I['na16.ina_ina'][step1:step2])
+    print('na16mut.ina_ina')
+    print(I['na16mut.ina_ina'][step1:step2])
+    print('na12.ina_ina')
+    print(I['na12.ina_ina'][step1:step2])
+    print('i_pas')
+    print(I['i_pas'][step1:step2])
+    print('Vm')
+    print(Vm[step1:step2])
+
+
+    ###### Writing all raw data to csv
+    # with open(f"{plots_folder}Na16_{wtorhet}_{amp}na_{sweep_len}ms_{fnpre}.csv",'w',newline ='') as csvfile:
+    #     writer = csv.writer(csvfile, delimiter = ',')
+    #     #writer.writerow(current_names)
+    #     writer.writerow(I.keys())
+        
+    #     writer.writerows(I[x] for x in I) # This and line below for writing data from entire sweep_len
+    #     writer.writerow(Vm)
+        
+        # writer.writerows(I[x][step1:step2] for x in I) ####This and below line are used when time steps are used
+        # writer.writerow(Vm[step1:step2])

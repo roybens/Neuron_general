@@ -41,6 +41,7 @@ class NeuronModel:
         self.h = h  # NEURON h
         print(f'running model at {os.getcwd()} run dir is {run_dir}')
         print (f'There is {nav16} of WT nav16')
+        print(f'There is {nav12} of WT nav12')
         h.load_file("runModel.hoc")
         self.soma_ref = h.root.sec
         self.soma = h.secname(sec=self.soma_ref)
@@ -146,12 +147,41 @@ class NeuronModel:
         h.axon_KCA = 0.4008224 * axon_Kca
         
         h.gpas_all = 1.34E-05 * gpas_all
-        h.cm_all = 1.6171424
-        	
-        	
-        ##############################
-        	   
 
+
+        h.cm_all = 1.6171424
+
+        #added gpas to see if i_pas changes on currentscape
+        #h.gpas_all = .001
+
+        	
+        ############################## Testing 11/17/23, temporarily removed *factor and removing ina_ina from mechs
+        # h.dend_na12 = 2.48E-03  
+        
+        # h.dend_na16 = 5.05E-03 
+        # h.dend_k = 0.0043685576 
+        
+        # h.soma_na12 = 3.24E-02  
+        # h.soma_na16 = 7.88E-02  
+        # h.soma_K = 0.21330453  
+        
+        # h.ais_na16 = 7.2696676  
+        # h.ais_na12 = 1.03E+00  
+        # h.ais_ca = 0.0010125926  
+        # h.ais_KCa = 0.0009423347  
+        
+        # h.node_na = 0.9934221  
+
+        # h.axon_KP = 0.43260124  
+        # h.axon_KT = 1.38801  
+        # h.axon_K = 0.89699364 *2.1 
+        # h.axon_LVA = 0.00034828275  
+        # h.axon_HVA = 1.05E-05  
+        # h.axon_KCA = 0.4008224 
+        
+        # h.gpas_all = 1.34E-05
+        # h.cm_all = 1.6171424	   
+        ##############################
         
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
@@ -164,7 +194,9 @@ class NeuronModel:
         h.working()
         os.chdir(run_dir)
         
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args
+    #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
+
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA
@@ -337,6 +369,7 @@ class NeuronModel:
         print(f"current_vars : {curr_vars}")
         ionic_vars = {ionic_type : "h.cell.{section}[{section_number}]({segment}).{ionic_type}".format(section=section , section_number=section_number, segment=segment, ionic_type=ionic_type) for ionic_type in ionic_types}
         print(f"ionic_vars : {ionic_vars}")
+        print(f"############################## Timesteps____________{timesteps}")
         for i in range(timesteps):
            
             Vm[i] =eval(volt_var)
@@ -347,6 +380,7 @@ class NeuronModel:
                 #getting the ionic concentrations
                 for ionic_type in ionic_types:
                     ionic[ionic_type][i] = eval(ionic_vars[ionic_type])
+                    #print(str(ionic_type) + "------" + str(i) + "-----" + str(eval(ionic_vars[ionic_type]))) ###for debugging
             except Exception as e:
                 print(e)
                 print("Check the config files for the correct Attribute")

@@ -798,7 +798,7 @@ static const char* nmodl_file_text =
   "BREAKPOINT {\n"
   "        SOLVE states METHOD cnexp\n"
   "        thegna = gbar*m*m*m*h*s\n"
-  "	ina = thegna * (v - Ena)\n"
+  "		ina = thegna * (v - Ena)\n"
   "} \n"
   "\n"
   "INITIAL {\n"

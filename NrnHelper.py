@@ -149,12 +149,17 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
                     print(hoc_cmd)
+                    print(f'this is the par value')
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
-                    print(f'par_value before{par_value} and after {assigned_value}')
+                    print(f'this is the assigned value')
+                    #h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
+                   
+                    # print(f'par_value before{par_value} and after {assigned_value}')
                     if print_flg:
-                       print(f'{curr_name}_{curr_mech}_{seg}_par_value before{par_value} and after {assigned_value}')
+                       print(f'{curr_name}_{curr_mech}_{seg}_par_value before {par_value} and after {assigned_value}')
+                       print(f'**********##### There is now {mltplr} of nav16mut\n\n\n')
 def multiply_param(mdl,mechs,p_name,multiplier):
     for curr_sec in mdl.sl:
         for curr_mech in mechs:
