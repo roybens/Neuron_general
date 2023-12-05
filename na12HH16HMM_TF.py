@@ -16,7 +16,7 @@ class na12HH16HMM_TF:
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
     
     #testing single Na12 TF111723, changed na12mut to na12_mut
-    def __init__(self, na12mechs = ['na12','na12mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/', #changed to two Na12's for currentscape plots 
+    def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/', #changed to two Na12's for currentscape plots 
         nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
     
 
@@ -74,17 +74,14 @@ class na12HH16HMM_TF:
     
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na)
-        
-
-        
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
    
-        self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
-        self.wt_mech = [na12mechs[0]]   #new from Namut
+        self.mut_mech = [na12mechs[1]]  #Added for currentscape, commented to debug
+        self.wt_mech = [na12mechs[0]]   #Added for currentscape, commented to debug
         
         #self.na16mechs = na16mechs
-        
-        
+
+           
         self.wt_mech16 = [na16mechs[0]]   #TF adding ability to control na16 params (WT, het, hom)
         self.mut_mech16 = [na16mechs[1]]
 
@@ -131,6 +128,14 @@ class na12HH16HMM_TF:
         Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
         return Vm, I, t, stim, ionic
     
+
+
+
+
+
+
+
+
     def make_currentscape_plot(self,sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5, #0.5 should be half way down AIS
@@ -141,7 +146,11 @@ class na12HH16HMM_TF:
                 #'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3 + others, needs Na12 currents
                 
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
+                
+                
                 'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','i_pas'],
+                
+                
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
 
                 #'currents'  :['ina','ica','ik'],
@@ -151,10 +160,12 @@ class na12HH16HMM_TF:
         #sim_obj = NeuronModel()   #TO DO : send in different parameters???
         
         #current_names = ['na12','na16','na16 mut','Ca_HVA','Ca_LVAst','Ih','SK_E2','SKv3_1','pas']
-        current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','pas']
+        current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','pas'] #Na16 WT current names (double na16 WT)
+
+        # current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 MUT','Na12','pas']
         #current_names = sim_config['outward'] + sim_config['inward']
 
-        self.l5mdl.init_stim(amp=1,sweep_len = 75) #modify stim_start to look at different time points?
+        self.l5mdl.init_stim(amp=1,sweep_len = 800) #modify stim_start to look at different time points?
         #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
         Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
 
@@ -163,8 +174,8 @@ class na12HH16HMM_TF:
         #####*** Below for plotting user-specified time steps
         sweep_len = 75
         dt = 0.01
-        time1 = 53 #start time in ms. Must be between 0 < x < sweep_len 53het 50ms->59msWT
-        time2 = 62 #end time in ms. Must be between 0 < x < sweep_len 62het
+        time1 = 51 #start time in ms. Must be between 0 < x < sweep_len 54het 51ms->60msWT
+        time2 = 60 #end time in ms. Must be between 0 < x < sweep_len 63het
         step1 = int((time1/dt))
         step2 = int((time2/dt))
         Vmsteplist = Vm[step1:step2] #assign new list for range selected between two steps
@@ -179,15 +190,15 @@ class na12HH16HMM_TF:
         plot_config = {
             "output": {
                 "savefig": True,
-                "dir": "./Plots/12HH16HMM_TF/111423/Currentscape/",
-                "fname": "Na16_WT_1nA_75ms", ########################################################_________________Change file name here
+                "dir": "./Plots/12HH16HMM_TF/112723/Currentscape/",
+                "fname": "Na16_WT_1nA_800ms", ########################################################_________________Change file name here
                 "extension": "pdf",
                 #"extension": "jpg",
                 "dpi": 600,
                 "transparent": False},
 
             "show":{#"total_contribution":True,
-                    "all_currents":True,
+                    #"all_currents":True,
                     "currentscape": True},
 
             "colormap": {"name":"colorbrewer.qualitative.Paired_10"},
@@ -225,7 +236,8 @@ class na12HH16HMM_TF:
         
         fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()]) #Default version that plots full sweep_len (full simulation)
         #fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config,[ionic[x][step1:step2] for x in ionic.keys()]) #Use this version to add time steps
-        
+        #fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config) #112723 removing ionic currents at bottom
+
         print('ihcn_Ih')
         print(I['ihcn_Ih'][step1:step2])
         print('ica_Ca_HVA')
@@ -249,17 +261,24 @@ class na12HH16HMM_TF:
 
         
         ###### Writing all raw data to csv
-        with open("./Plots/12HH16HMM_TF/111423/Currentscape/Na16_WT_1na_75ms_rawdata.csv",'w',newline ='') as csvfile:
-            writer = csv.writer(csvfile, delimiter = ',')
-            #writer.writerow(current_names)
-            writer.writerow(I.keys())
+        # with open("./Plots/12HH16HMM_TF/111423/Currentscape/Na16_WT_1na_75ms_rawdata.csv",'w',newline ='') as csvfile:
+        #     writer = csv.writer(csvfile, delimiter = ',')
+        #     #writer.writerow(current_names)
+        #     writer.writerow(I.keys())
             
-            writer.writerows(I[x] for x in I) # This and line below for writing data from entire sweep_len
-            writer.writerow(Vm)
+        #     writer.writerows(I[x] for x in I) # This and line below for writing data from entire sweep_len
+        #     writer.writerow(Vm)
             
             # writer.writerows(I[x][step1:step2] for x in I) ####This and below line are used when time steps are used
             # writer.writerow(Vm[step1:step2])
-        
+
+
+
+
+
+
+
+
 
     
     #__________added this function to get overexp and ttx to work   
@@ -525,19 +544,18 @@ class na12HH16HMM_TF:
         # with open(f'{self.plot_folder}/{fnpre}.csv', 'w+', newline='') as myfile:
         #     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         #     wr.writerow(fi_ans)
-        return #fi_ans
+        #return #fi_ans
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line)
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
-        print()
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
-def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre = '111723',axon_KP = 1, na16mechs =['na16','na16mut']):
+def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=True,fnpre = '112023',axon_KP = 1, na16mechs =['na16','na16mut']):
     sim = na12HH16HMM_TF(nav16 = wt_fac,KP=axon_KP, na16name=na16name,na16mut=na16mut, plots_folder = plots_folder,params_folder = './params/', na16mechs=na16mechs)
     if plot_wt:
-        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
-        #wt_fi = sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2,2.5,3],fnpre=f'{fnpre}_FI_')
+        #wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_') #Even if change mut_fac/wt_fac, will use old na16mut mech params since mut not updated
+        wt_fi = sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}_FI_')
 
     else:
         wt_fi = []
@@ -571,16 +589,16 @@ def overexp(na16name,na16mut, plots_folder, wt_fac,mut_fac,plot_wt=False,fnpre =
 
 
 def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axon_KP = 1):
-    sim = na12HH16HMM_TF(KP=axon_KP,nav12=0, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
+    sim = na12HH16HMM_TF(KP=axon_KP,nav12=1, na16name=na16name, na16mut=na16mut, plots_folder = plots_folder)
     # if mut_factor>0:
     #     sim.make_mut('na16mut','na16mut44_092623.txt')
     update_mod_param(sim.l5mdl,['na16'],wt_factor)
     update_mod_param(sim.l5mdl,['na16mut'],mut_factor)
-    update_mod_param(sim.l5mdl,['na12','na12mut'],0,print_flg = True)
+    update_mod_param(sim.l5mdl,['na12','na12mut'],1,print_flg = True)
     
     #make_currentscape_plot(fn_pre=fnpre,sim_obj = sim.l5mdl)
     # sim.plot_model_FI_Vs_dvdt([0.3,0.5,1,1.5,2],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_')
-    sim.plot_model_FI_Vs_dvdt([1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
+    sim.plot_model_FI_Vs_dvdt([0.5,1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
 
 
 ####____________________________________________________________________________________________    

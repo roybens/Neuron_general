@@ -87,14 +87,6 @@
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 
-./branching.c: .././mechanisms//branching.mod
-	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
-	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) branching.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HH16HMM/x86_64")
-
-./branching.o: ./branching.c
-	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
-	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
-
 ./na12.c: .././mechanisms//na12.mod
 	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
 	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HH16HMM/x86_64")

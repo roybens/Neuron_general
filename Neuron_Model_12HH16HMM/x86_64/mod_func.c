@@ -14,7 +14,6 @@ extern void _ProbAMPANMDA_EMS_reg(void);
 extern void _ProbGABAAB_EMS_reg(void);
 extern void _SK_E2_reg(void);
 extern void _SKv3_1_reg(void);
-extern void _branching_reg(void);
 extern void _na12_reg(void);
 extern void _na12_mut_reg(void);
 extern void _na16_reg(void);
@@ -36,7 +35,6 @@ void modl_reg(){
     fprintf(stderr," \"./mechanisms//ProbGABAAB_EMS.mod\"");
     fprintf(stderr," \"./mechanisms//SK_E2.mod\"");
     fprintf(stderr," \"./mechanisms//SKv3_1.mod\"");
-    fprintf(stderr," \"./mechanisms//branching.mod\"");
     fprintf(stderr," \"./mechanisms//na12.mod\"");
     fprintf(stderr," \"./mechanisms//na12_mut.mod\"");
     fprintf(stderr," \"./mechanisms//na16.mod\"");
@@ -55,7 +53,6 @@ void modl_reg(){
   _ProbGABAAB_EMS_reg();
   _SK_E2_reg();
   _SKv3_1_reg();
-  _branching_reg();
   _na12_reg();
   _na12_mut_reg();
   _na16_reg();

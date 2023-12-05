@@ -13,7 +13,7 @@ import csv
 import sys
 
 class NeuronModel:
-    def __init__(self, mod_dir = './Neuron_Model_12HH16HMM/', #'./Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 
+    def __init__(self, mod_dir = './Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
     
                       nav12=1,
                       nav16=1,
@@ -151,6 +151,8 @@ class NeuronModel:
 
         h.cm_all = 1.6171424
 
+        
+        
         #added gpas to see if i_pas changes on currentscape
         #h.gpas_all = .001
 
