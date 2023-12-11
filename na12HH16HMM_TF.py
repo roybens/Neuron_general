@@ -16,6 +16,7 @@ class na12HH16HMM_TF:
     #     nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
     
     #testing single Na12 TF111723, changed na12mut to na12_mut
+    ##### CHANGE na12_mut TO na12mut OR ELSE IT WON'T READ MOD FILE SUFFIX!!!!!!
     def __init__(self, na12mechs = ['na12','na12_mut'],na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', na16mechs = ['na16','na16mut'], params_folder = './params/', #changed to two Na12's for currentscape plots 
         nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = f'./Plots/12HH16HMM_TF/111423/'):
     
@@ -271,7 +272,6 @@ class na12HH16HMM_TF:
             
             # writer.writerows(I[x][step1:step2] for x in I) ####This and below line are used when time steps are used
             # writer.writerow(Vm[step1:step2])
-
 
 
 

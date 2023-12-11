@@ -67,7 +67,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None, ax1=None,fig = None,dt = 0.
         ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black') #mutant will be red
         #ax1.plot(x_axis,wt2_data,marker = 'o', linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
         #ax1.plot(x_axis,wt_data,'black')
-    #fig.show()
+    fig.show()
     fig.savefig(fn)
 
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
@@ -87,8 +87,33 @@ def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #r
     # print(type(dvdt))
     # print(len(dvdt))
     #dvdt = np.gradient(volts)/dt
+    
     axs.plot(volts, dvdt, color = clr)
     #axs.plot(volts[1:20000], dvdt[1:20000], color = clr)#plot first peak only
+
+    return axs
+
+#plot first AP only
+def plot_dvdt_from_volts_firstpeak(volts,dt,axs=None,clr = 'black',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
+    if skip_first:
+        curr_peaks,_ = find_peaks(volts,height = -20)
+        volts = volts[curr_peaks[0]+int(3/dt):]
+    if axs is None:
+        fig,axs = plt.subplots(1,1)
+    dvdt = np.gradient(volts)/dt 
+    
+    # print(volts)
+    # print(dt)
+    # print(dvdt)
+    # print(type(volts))
+    # print(len(volts))
+    # print(type(dt))
+    # print(type(dvdt))
+    # print(len(dvdt))
+    #dvdt = np.gradient(volts)/dt
+    
+    #axs.plot(volts, dvdt, color = clr)
+    axs.plot(volts[1:20000], dvdt[1:20000], color = clr)#plot first peak only [1:20000] was original
 
     return axs
 
@@ -115,7 +140,7 @@ def plot_extra_volts(t,extra_vms,axs = None,clr = 'black'):
     axs[2].set_title('dist_dend')
 
 
-def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
+def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0'):
     if input_dict:
         param_dict = dict_fn
     else:
@@ -123,22 +148,32 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False):
             data = f.read()
         param_dict = json.loads(data)
     print(f'updating {mechs} with {param_dict}')
+    
     for curr_sec in mdl.sl:
-        #print(curr_sec)
+        print(f'current section {curr_sec}') ###120523 TF
         for curr_mech in mechs:
-            #print(curr_mech)
+            print(f'Current Mech {curr_mech}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
-                #print(curr_name)
+                #print(f'Current Name {curr_name}')###120523 TF
+                sec = h.Section()
+                #print(sec)
+                #print(eval(f'h.psection(sec=sec)'))
+                #print(h.Section())
+
+
                 for p_name in param_dict.keys():
-                    #print(p_name)
+                    #print(f' p name {p_name}') ###120523 TF
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                    #print(hoc_cmd)
+                    #print(f'hoc command {hoc_cmd}') ###120523 TF
                     h(hoc_cmd)
+                    
+
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
                   #      print(hoc_cmd)
+    
     return param_dict
 
 def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):

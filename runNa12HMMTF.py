@@ -145,7 +145,7 @@ plot_config = {
 
 
 # print ('volts dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-# sim.plot_volts_dvdt()
+#sim.plot_volts_dvdt()
 
 # print ('FI curve &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 # sim.plot_fi_curve(0,5,20,fn = f'16HMM_mut44_TF')
@@ -153,7 +153,7 @@ plot_config = {
 
 ####________________Spikes + dvdt stacked plots_____________________________
 # print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-sim.plot_model_FI_Vs_dvdt([1], fnpre='K4Na100_')
+sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='mut22het_')
 
 
 #sim.get_axonal_ks()
@@ -191,3 +191,15 @@ sim.plot_model_FI_Vs_dvdt([1], fnpre='K4Na100_')
 ##____________Electrophys Feature Extraction Library efel______________________________
 # ef.get_sim_volt_values(mutant_name = 'na12_HMM_TF100923')
 # ef.get_features(mutant_name = 'na12_HMM_TF100923')
+
+
+###__________________120523 Experiments synth 12hmm muts__________________________________
+# overexp(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
+#   plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
+
+
+
+#Example for overexp for which things to put in as args
+# make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =2, mut_fac = 0, 
+#                                amp = 0.5, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/100WT/',
+#                                fnpre = '100WT_w2m0_111623', wtorhet = 'WT')
