@@ -25,8 +25,12 @@ class Na12Model_TF:
         # KT = 0.025*0.5*KT
         ####################
         
-        nav16 = 2.1
-        nav12 = 0.25       
+        #nav16 = 2.1
+        #nav12 = 0.25 ##.25 seemed a little low since the synth muts didn't change much, increasing       
+        
+        ##Trying varying levels of nav12 to see which is best
+        #nav12 = 2.5#2#1.5 #1 #looked better 121323
+
 
         #Change K and Na to move FI
         K = 4
@@ -295,7 +299,54 @@ class Na12Model_TF:
         #add_scalebar(axs)
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         plt.savefig(file_path_to_save, format='pdf')
-        return axs
+        return
+    
+
+    def plot_wtvmut_stim(self,wt_Vm,wt_t,
+                         stim_amp = 0.5,dt = 0.005,clr = 'red',
+                         plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
+        self.dt = dt
+        if not axs:
+            fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
+        if rec_extra:
+            Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+            self.extra_vms = extra_vms
+        else:
+            Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+            
+        self.volt_soma = Vm
+        self.I = I
+        self.t = t
+        self.stim = stim
+        
+        vlength = len(Vm)
+        tlength = len(t)
+
+        print(f'tlength is {tlength}')
+        print(f'vlength is {vlength}')
+
+        axs.plot(t,Vm, label='Vm', color=clr,linewidth=0.5)
+        axs.plot(wt_t[0:tlength],wt_Vm[0:vlength], label='WT_Vm', color='black',linewidth=0.5, alpha=0.8)
+        axs.locator_params(axis='x', nbins=5)
+        axs.locator_params(axis='y', nbins=8)
+        #plt.show()
+        #add_scalebar(axs)
+        # file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf' ##Commented 121323 prior to batch run TF
+        # plt.savefig(file_path_to_save, format='pdf')
+        return
+    
+    #Function for getting raw data from WT to superimpose under mut plots
+    def get_stim_raw_data(self,stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500):
+        self.dt = dt
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
+        if rec_extra:
+            Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+            self.extra_vms = extra_vms
+        else:
+            Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+
+        return Vm, I, t, stim
     
     
     def plot_stim_firstpeak(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False,stim_start = 30, stim_dur = 500):
@@ -314,7 +365,7 @@ class Na12Model_TF:
         self.t = t
         self.stim = stim
         
-        axs.plot(t[1:20000],Vm[1:20000], label='Vm', color=clr,linewidth=1)
+        axs.plot(t[1:12500],Vm[1:12500], label='Vm', color=clr,linewidth=1)
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #plt.show()
@@ -473,7 +524,7 @@ class Na12Model_TF:
 
 
 ##_______________________Added to enable run of TTX and overexpression functions
-    def plot_model_FI_Vs_dvdt(self,vs_amp,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005):
         
         ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
         #wt2_data = [0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 36, 37, 39, 40, 41, 42, 42, 43] #K4 to move FI --blue
@@ -490,14 +541,10 @@ class Na12Model_TF:
         # wt_fi = [0, 0, 0, 0, 0, 0, 16, 20, 23, 25, 27, 29, 30, 32, 33, 34, 35, 36, 37, 38, 39] #K10Na20  --Black 'wt'
         
         ###_________________________120523 muts experiments_______________________________________________
-        wt_fi = [0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #na12_HMM_TF100923 WT values
-                #[0, 0, 2, 10, 18, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut2_2 hom
-                #[0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut2_3 hom
-                #[0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut4_2 hom
-                #[0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut4_3 hom
-                #[0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut10_2 hom
-                #[0, 0, 2, 10, 18, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #mut10_3 hom
-        for curr_amp in vs_amp:
+        #wt_fi = [0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #na12_HMM_TF100923 WT values ----incorrect, was not using na12mut mech (had it as na12_mut)
+        wt_fi = [0, 0, 0, 8, 12, 16, 19, 22, 24, 26, 28, 28, 30, 31, 32, 33, 35, 36, 37, 38, 39]#na12_HMM_TF100923 WT values w/correct na12mut mech
+        
+        for curr_amp in vs_amp: #vs_amp is list
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
             # axs[0] = self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.01)
@@ -513,18 +560,32 @@ class Na12Model_TF:
             #self.plot_volts_dvdt(stim_amp = curr_amp)
             figures = []
 
-            figures.append(plt.figure())
-            fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
-            plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
-            fn2 = f'{self.plot_folder}/{fnpre}{curr_amp}.pdf'
-            fig_volts.savefig(fn2)
+            # figures.append(plt.figure())
+            # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            # self.plot_stim(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            # plot_dvdt_from_volts(self.volt_soma,self.dt,axs[1])
+            # fn2 = f'{self.plot_folder}/{fnpre}{curr_amp}.pdf'
+            # fig_volts.savefig(fn2)
             
-            fig_volts2,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            self.plot_stim_firstpeak(axs = axs[0],stim_amp = curr_amp,dt=0.005)
-            plot_dvdt_from_volts_firstpeak(self.volt_soma,self.dt,axs[1])
-            fn3 = f'{self.plot_folder}/{fnpre}{curr_amp}_single.pdf'
-            fig_volts2.savefig(fn3)
+            # fig_volts2,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            # self.plot_stim_firstpeak(axs = axs[0],stim_amp = curr_amp,dt=0.005)
+            # plot_dvdt_from_volts_firstpeak(self.volt_soma,self.dt,axs[1])
+            # fn3 = f'{self.plot_folder}/{fnpre}{curr_amp}_single.pdf'
+            # fig_volts2.savefig(fn3)
+
+            #Attempting wt and het on same plot
+            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt)
+            print(wt_Vm)
+            print(len(wt_Vm))
+            print(wt_t)
+            print(len(wt_t))
+            print(self.volt_soma)
+            print(len(self.volt_soma))
+            plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1])
+            fn4 = f'{self.plot_folder}/{fnpre}{curr_amp}_wtvmut.pdf'
+            fig_volts3.savefig(fn4)
+            
 
             #plt.show()
             ###

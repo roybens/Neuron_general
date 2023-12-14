@@ -16,4 +16,4 @@ export OMP_PROC_BIND=spread
 
 #run the application:
 
-srun  -n 1 -c 64 --output=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.out --error=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.err shifter python3 /global/homes/t/tfenton/Neuron_general-2/runModel12HH16HMM_TF.py
+srun  -n 1 -c 64 --output=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.out --error=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.err shifter python3 /global/homes/t/tfenton/Neuron_general-2/runNa12HMMTF.py

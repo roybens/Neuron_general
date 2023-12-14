@@ -113,8 +113,34 @@ def plot_dvdt_from_volts_firstpeak(volts,dt,axs=None,clr = 'black',skip_first = 
     #dvdt = np.gradient(volts)/dt
     
     #axs.plot(volts, dvdt, color = clr)
-    axs.plot(volts[1:20000], dvdt[1:20000], color = clr)#plot first peak only [1:20000] was original
+    axs.plot(volts[1:12500], dvdt[1:12500], color = clr)#plot first peak only [1:20000] was original
 
+    return axs
+
+def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,clr = 'red',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
+    if skip_first:
+        curr_peaks,_ = find_peaks(volts,height = -20)
+        volts = volts[curr_peaks[0]+int(3/dt):]
+    if axs is None:
+        fig,axs = plt.subplots(1,1)
+    dvdtwt = np.gradient(wt_Vm)/dt
+    dvdt = np.gradient(volts)/dt
+     
+    
+    # print(volts)
+    # print(dt)
+    # print(dvdt)
+    # print(type(volts))
+    # print(len(volts))
+    # print(type(dt))
+    # print(type(dvdt))
+    # print(len(dvdt))
+    #dvdt = np.gradient(volts)/dt
+    
+    #axs.plot(volts, dvdt, color = clr)
+    
+    axs.plot(volts, dvdt, color = clr,linewidth=0.5)#plot first peak only [1:20000] was original
+    axs.plot(wt_Vm,dvdtwt,color='black', alpha=0.8,linewidth=0.5)
     return axs
 
 def plot_dg_dt(g,volts,dt,axs=None,clr = 'black'):
@@ -156,19 +182,17 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 #print(f'Current Name {curr_name}')###120523 TF
-                sec = h.Section()
+                #sec = h.Section()
                 #print(sec)
                 #print(eval(f'h.psection(sec=sec)'))
                 #print(h.Section())
-
 
                 for p_name in param_dict.keys():
                     #print(f' p name {p_name}') ###120523 TF
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
                     #print(f'hoc command {hoc_cmd}') ###120523 TF
                     h(hoc_cmd)
-                    
-
+              
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'

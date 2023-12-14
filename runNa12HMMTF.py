@@ -16,15 +16,20 @@
 # #sim.plot_stim()
 
 #import Developing_12HMM as dev
+from NeuronModelClass import NeuronModel
+from NrnHelper import *
+import NrnHelper as nh
 import matplotlib.pyplot as plt
+import sys
+from pathlib import Path
 import numpy as np
-import NrnHelper as NH
-#import Na12ModelGY as Mature
 from Na12HMMModel_TF import *
 import Na12HMMModel_TF as tf
 import os
 import efel_feature_extractor as ef
-
+from currentscape.currentscape import plot_currentscape
+import logging
+import pandas as pd
 
 #_____________For Looping through mutants________________________________________________________________________
 # for i in range(1,13):
@@ -95,7 +100,7 @@ import efel_feature_extractor as ef
 # sim = tf.Na1612Model_TF(na16name = 'na16mut44_092623',na16mut = 'na16mut44_092623', 
 #                         plots_folder = f'./Plots/12HH16HMM_TF/100223/{mutant}/')
 
-sim = tf.Na12Model_TF()
+#sim = tf.Na12Model_TF()
 sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -153,7 +158,7 @@ plot_config = {
 
 ####________________Spikes + dvdt stacked plots_____________________________
 # print ('plot_model_FI_VS_dvdt &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='mut22het_')
+#sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='mut22het_')
 
 
 #sim.get_axonal_ks()
@@ -203,3 +208,55 @@ sim.plot_model_FI_Vs_dvdt([0.5,1,2], fnpre='mut22het_')
 # make_currentscape_plot_overexp(na16name = 'na16mut44_092623',na16mut='na16mut44_092623', wt_fac =2, mut_fac = 0, 
 #                                amp = 0.5, sweep_len = 800, plots_folder = './Plots/12HH16HMM_TF/111623/100WT/',
 #                                fnpre = '100WT_w2m0_111623', wtorhet = 'WT')
+
+
+
+#################################################################################
+for i12 in np.arange (0.5,3.25,0.25):
+    for i16 in np.arange(0.5,3.25,0.25):
+        root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa1216_121323-2/'
+        if not os.path.exists(root_path_out):
+                os.mkdir(root_path_out)
+
+
+        #Make WT and save data for comparison later
+        sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+                        params_folder = './params/na12HMM_HOF_params/',
+                        plots_folder = f'{root_path_out}_12-{i12}_16-{i16}', pfx=f'WT_')
+
+        wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500)
+
+        ###  Make directories with names from list in txt file (mutant_names.txt)
+        file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r')
+        Lines = file.readlines()
+        for line in Lines:
+            print (line)
+            mutTXT = line.strip()
+            path = os.path.join(root_path_out,mutTXT)
+            if not os.path.exists(path):
+                os.mkdir(path)
+            
+            print (mutTXT)
+            print(line)
+
+            
+        
+            sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = mutTXT+'_121123',
+                            params_folder = './params/na12HMM_allsynthmuts_HOFs/',
+                            plots_folder = f'{root_path_out}/{mutTXT}_na12-{i12}_na16-{i16}/', pfx=f'{mutTXT}_{i12}_{i16}')
+            
+
+            #make spiking and dvdt plots
+            sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre='test_')
+            #plt.show()
+            
+            #make currentscape plots
+            sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
+            #plt.show()
+            sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
+            #plt.show()
+
+
+            #Electrophys Feature Extraction Library efel
+            # features_df = ef.get_features(sim=sim, mut_name = mutTXT+'_121123')
+            # features_df.to_csv(f'{root_path_out}/{mutTXT}/{mutTXT}_features.csv', index=False) ##save efeatures to csv

@@ -10,9 +10,10 @@ import pandas as pd
 import math
 from scipy.signal import find_peaks
 
-def get_sim_volt_values(mutant_name,rec_extra = False,dt = 0.005,stim_amp = 0.3):
+def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.3): #originally had mutant_name, changed to mut_name 121223TF
 
-    sim = Na12Model_TF(mutant_name)
+    # sim = Na12Model_TF(mutant_name)
+    #sim = Na12Model_TF(mut_name)
     sim.dt= dt
     #sim.make_het()
     rec_extra = True
@@ -26,10 +27,10 @@ def get_sim_volt_values(mutant_name,rec_extra = False,dt = 0.005,stim_amp = 0.3)
 
     return Vm,t,extra_vms,I,stim
 
-def get_features(mutant_name = 'na12_HMM_TF100923',rec_extra=True):
+def get_features(sim,mut_name = 'na12_HMM_TF100923',rec_extra=True):
     print("running routine")
     dt=0.005
-    Vm,t,extra_vms,_,__ = get_sim_volt_values(mutant_name,rec_extra=rec_extra)
+    Vm,t,extra_vms,_,__ = get_sim_volt_values(sim,mut_name,rec_extra=rec_extra)
     #creating the trace file
     stim_start = 100
     stim_end = 600
@@ -92,8 +93,8 @@ def get_features(mutant_name = 'na12_HMM_TF100923',rec_extra=True):
     
     features = pd.DataFrame(features)
     features = features.drop(columns =['all_ISI_values'])
-    features.insert(0,'Type',mutant_name)
-    
+    features.insert(0,'Type',mut_name)
+    #features.to_csv(f'{paramlog_folder_path}/combined_paramlogs_{out_sfx}.csv', index=False) #Modify for saving features to csv
     return features
     
 

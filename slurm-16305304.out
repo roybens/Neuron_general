@@ -1,1 +1,0 @@
-/var/spool/slurmd/job16305304/slurm_script: line 19: 2350438 Killed                  srun -n 1 -c 64 --output=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.out --error=/global/homes/t/tfenton/Neuron_general-2/output_log_files/%A.err shifter python3 /global/homes/t/tfenton/Neuron_general-2/runModel12HH16HMM_TF.py
