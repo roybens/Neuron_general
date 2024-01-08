@@ -211,52 +211,77 @@ plot_config = {
 
 
 
+
+##Scan na12na16 for all mutants in jupytermutant list.
 #################################################################################
-for i12 in np.arange (0.5,3.25,0.25):
-    for i16 in np.arange(0.5,3.25,0.25):
-        root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa1216_121323-2/'
-        if not os.path.exists(root_path_out):
-                os.mkdir(root_path_out)
+# for i12 in np.arange (1.75,2.5,0.25):
+#     #for i16 in np.arange(1.75,2.5,0.25):
+#     i16 = 2
+#     root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523/'
+#     if not os.path.exists(root_path_out):
+#             os.mkdir(root_path_out)
 
 
-        #Make WT and save data for comparison later
-        sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-                        params_folder = './params/na12HMM_HOF_params/',
-                        plots_folder = f'{root_path_out}_12-{i12}_16-{i16}', pfx=f'WT_')
+#     #Make WT and save data for comparison later
+#     sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+#                     params_folder = './params/na12HMM_HOF_params/',
+#                     plots_folder = f'{root_path_out}_12-{i12}_16-{i16}', pfx=f'WT_')
 
-        wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500)
+#     wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500)
 
-        ###  Make directories with names from list in txt file (mutant_names.txt)
-        file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r')
-        Lines = file.readlines()
-        for line in Lines:
-            print (line)
-            mutTXT = line.strip()
-            path = os.path.join(root_path_out,mutTXT)
-            if not os.path.exists(path):
-                os.mkdir(path)
-            
-            print (mutTXT)
-            print(line)
-
-            
+#     ###  Make directories with names from list in txt file (mutant_names.txt)
+#     file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r')
+#     Lines = file.readlines()
+#     for line in Lines:
+#         print (line)
+#         mutTXT = line.strip()
+#         path = os.path.join(root_path_out,mutTXT)
+#         if not os.path.exists(path):
+#             os.mkdir(path)
         
-            sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = mutTXT+'_121123',
-                            params_folder = './params/na12HMM_allsynthmuts_HOFs/',
-                            plots_folder = f'{root_path_out}/{mutTXT}_na12-{i12}_na16-{i16}/', pfx=f'{mutTXT}_{i12}_{i16}')
-            
+#         print (mutTXT)
+#         print(line)
 
-            #make spiking and dvdt plots
-            sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre='test_')
-            #plt.show()
-            
-            #make currentscape plots
-            sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
-            #plt.show()
-            sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
-            #plt.show()
+        
+    
+#         sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = mutTXT+'_121123',
+#                         params_folder = './params/na12HMM_allsynthmuts_HOFs/',
+#                         plots_folder = f'{root_path_out}/{mutTXT}_na12-{i12}_na16-{i16}/', pfx=f'{mutTXT}_{i12}_{i16}')
+        
+
+#         #make spiking and dvdt plots
+#         sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre=f'{mutTXT}_Na16-{i16}')
+#         #plt.show()
+        
+#         #make currentscape plots
+#         sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
+#         #plt.show()
+#         sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
+#         #plt.show()
 
 
-            #Electrophys Feature Extraction Library efel
-            # features_df = ef.get_features(sim=sim, mut_name = mutTXT+'_121123')
-            # features_df.to_csv(f'{root_path_out}/{mutTXT}/{mutTXT}_features.csv', index=False) ##save efeatures to csv
+#         #Electrophys Feature Extraction Library efel
+#         # features_df = ef.get_features(sim=sim, mut_name = mutTXT+'_121123')
+#         # features_df.to_csv(f'{root_path_out}/{mutTXT}/{mutTXT}_features.csv', index=False) ##save efeatures to csv
+
+#################################################################################
+
+
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/Fig5_WT_010824/'
+if not os.path.exists(root_path_out):
+            os.mkdir(root_path_out)
+
+
+#Make WT and save data for comparison later
+sim = tf.Na12Model_TF(nav12=2,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+                params_folder = './params/na12HMM_HOF_params/',
+                plots_folder = f'{root_path_out}', pfx=f'WT_')
+
+wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500)
+
+#make spiking and dvdt plots
+sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre='WT')
+
+#make currentscape plots
+sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
+sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)

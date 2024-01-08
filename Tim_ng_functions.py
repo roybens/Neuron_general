@@ -117,66 +117,66 @@ def combine_and_sort_ef_csvs(root_path, out_sfx):
 
 
 #####NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!
-def make_ppt_from_pdf(pdf_path, output_ppt_path):
-    # Define paths and presentation object
+# def make_ppt_from_pdf(pdf_path, output_ppt_path):
+#     # Define paths and presentation object
     
-    prs = Presentation()
-    blank_slide_layout = prs.slide_layouts[6]
-    slide = prs.slides.add_slide(blank_slide_layout)
-    left = top = width = height = Inches(0.5)
-    top = 0.2
-    width = 6
-    height=2
+#     prs = Presentation()
+#     blank_slide_layout = prs.slide_layouts[6]
+#     slide = prs.slides.add_slide(blank_slide_layout)
+#     left = top = width = height = Inches(0.5)
+#     top = 0.2
+#     width = 6
+#     height=2
     
-    file = open("/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt", "r")
-    lines = file.readlines()
+#     file = open("/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt", "r")
+#     lines = file.readlines()
 
     
 
-    for line in lines: #mut1_1,mut1_2 etc.
-        mut_txt = line.strip()
-        print(mut_txt)
+#     for line in lines: #mut1_1,mut1_2 etc.
+#         mut_txt = line.strip()
+#         print(mut_txt)
 
-        for filename in os.listdir(f"{pdf_path}{mut_txt}"): #files within each mut folder
-            if filename.endswith(".pdf"):
-                reader = PdfReader(os.path.join(f"{pdf_path}{mut_txt}", filename))
-                print(os.path.join(f"{pdf_path}/{mut_txt}", filename))
-                file = os.path.join(f"{pdf_path}/{mut_txt}", filename)
+#         for filename in os.listdir(f"{pdf_path}{mut_txt}"): #files within each mut folder
+#             if filename.endswith(".pdf"):
+#                 reader = PdfReader(os.path.join(f"{pdf_path}{mut_txt}", filename))
+#                 print(os.path.join(f"{pdf_path}/{mut_txt}", filename))
+#                 file = os.path.join(f"{pdf_path}/{mut_txt}", filename)
 
-                pdf_file = fitz.open(file)
-                for page_index in range(len(pdf_file)):
-                   page = pdf_file[page_index]
-                   image_list = page.getImageList()
-                   if image_list:
-                        print(f"[+] Found a total of {len(image_list)} images in page {page_index}")
-                   else:
-                        print("[!] No images found on page", page_index) 
+#                 pdf_file = fitz.open(file)
+#                 for page_index in range(len(pdf_file)):
+#                    page = pdf_file[page_index]
+#                    image_list = page.getImageList()
+#                    if image_list:
+#                         print(f"[+] Found a total of {len(image_list)} images in page {page_index}")
+#                    else:
+#                         print("[!] No images found on page", page_index) 
                       
-                   for image_index, img in enumerate(page.getImageList(), start=1): 
-                        slide = prs.slides.add_slide(blank_slide_layout)
-                        txBox = slide.shapes.add_textbox(left,top,width,height)
-                        tf = txBox.text_frame
-                        tf.text = mut_txt
-                        # get the XREF of the image 
-                        xref = img[0] 
+#                    for image_index, img in enumerate(page.getImageList(), start=1): 
+#                         slide = prs.slides.add_slide(blank_slide_layout)
+#                         txBox = slide.shapes.add_textbox(left,top,width,height)
+#                         tf = txBox.text_frame
+#                         tf.text = mut_txt
+#                         # get the XREF of the image 
+#                         xref = img[0] 
                   
-                        # extract the image bytes 
-                        base_image = pdf_file.extractImage(xref) 
-                        image_bytes = base_image["image"] 
+#                         # extract the image bytes 
+#                         base_image = pdf_file.extractImage(xref) 
+#                         image_bytes = base_image["image"] 
                   
-                        # get the image extension 
-                        image_ext = base_image["ext"] 
-                        pil_image = Image.open(io.BytesIO(base_image))
-                        pil_image = pil_image.convert("RGB")
-                        # image_path = os.path.join(image_folder, f"{mut_txt}_{count}.jpg")
-                        # pil_image.save(image_path)
-                        # count += 1
-                        # Add the saved image to the slide
-                        slide.shapes.add_picture(pil_image)
+#                         # get the image extension 
+#                         image_ext = base_image["ext"] 
+#                         pil_image = Image.open(io.BytesIO(base_image))
+#                         pil_image = pil_image.convert("RGB")
+#                         # image_path = os.path.join(image_folder, f"{mut_txt}_{count}.jpg")
+#                         # pil_image.save(image_path)
+#                         # count += 1
+#                         # Add the saved image to the slide
+#                         slide.shapes.add_picture(pil_image)
  
 
-    prs.save(output_ppt_path)
-    print(f"Successfully converted PDFs to PowerPoint presentation: {output_ppt_path}")
+#     prs.save(output_ppt_path)
+#     print(f"Successfully converted PDFs to PowerPoint presentation: {output_ppt_path}")
 
 
 
@@ -193,19 +193,13 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
   #   mut_txt = line.strip()
   #   print(mut_txt)
     
-  
-  
-  
-  
-  for folder in os.listdir(pdf_path):
-      # Check if it's a directory and not a file      
-      if os.path.isdir(os.path.join(pdf_path, folder)):
-        # Access files within the folder using another loop
-        slide = prs.slides.add_slide(blank_slide_layout)
-        txBox = slide.shapes.add_textbox(left,top,width,height)
+  for folder in sorted(os.listdir(pdf_path)): #Sort the listed directories so output pptx is somewhat in order 
+      if os.path.isdir(os.path.join(pdf_path, folder)):# Check if it's a directory
+        slide = prs.slides.add_slide(blank_slide_layout) #Add slide for each folder. Each slide will have multiple plots on it
+        txBox = slide.shapes.add_textbox(left,top,width,height) #Add text box for title
         tf = txBox.text_frame
         page_count = 0
-        for filename in os.listdir(os.path.join(pdf_path, folder)):
+        for filename in sorted(os.listdir(os.path.join(pdf_path, folder))):# Access files within the folder, and sort them to appear in sam order on slide
           if filename.endswith(".pdf"):
   
             file = os.path.join(pdf_path,folder, filename) #pdf file path
@@ -215,11 +209,11 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
             
             doc = fitz.open(file)
             for page in doc:  # iterate through the pages
-              pix = page.get_pixmap(dpi=300)  # render page to an image
-              pix.save(f"{folder}-{filename}.png")  # store image as a PNG
+              pix = page.get_pixmap(dpi=150)  # render page to an image
+              pix.save(f"{pdf_path}/{folder}-{filename}.png")  # store image as a PNG
               
               
-              slide.shapes.add_picture(f"{folder}-{filename}.png",left=Inches(page_count*2.5),top=Inches(1), width=Inches(2.5))
+              slide.shapes.add_picture(f"{pdf_path}/{folder}-{filename}.png",left=Inches(page_count*2.5),top=Inches(1), width=Inches(2.5))
               print(page_count)
           page_count+=1
           
@@ -237,8 +231,8 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
 
 #combine_and_sort_ef_csvs(root_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/AllSynthMuts_121223/', out_sfx='allsynthmuts_121323_sorted')
 
-make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa1216_121323-2',
-                  output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa1216_121323-2/ScanNa1216_synthmuts.pptx')
+make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523',
+                  output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523/ScanNa12_synthmuts_010224.pptx')
 
 
 
