@@ -297,9 +297,10 @@ class NeuronModel:
             return Vm, I, t, stim
         
     def run_sim_model(self, start_Vm = -72, dt= 0.1, sim_config = {
-                'section' : 'soma',
-                'section_num' : 0,
-                'segment' : 0.5,
+        #changing to get different firing at different points along neuron TF 011624
+                'section' : 'axon',
+                'segment' : 0.1,
+                'section_num' : 0,                
                 'currents'  :['ina','ica','ik'],
                 'ionic_concentrations' :["cai", "ki", "nai"]
             }):
@@ -328,6 +329,11 @@ class NeuronModel:
             'section_num' : 0
             'currents'  :['ina','ica','ik'],
             'ionic_concentrations' :["cai", "ki", "nai"]
+
+        #Section: axon, section_num:0, segment:0 == AIS
+        #Section: dend, section_num: 70, segment: 0.5 == Basal dendrite mid-shaft ***should check this in gui
+        #Section: apic, section_num:77, segment:0       77(0) or 66(1)  == Apical Nexus
+        #Section: apic, section_num:90, segment:0.5   == Most distal apical dendrite
 
         Example Usage:
             Vm, I, t, stim = run_sim_model(start_Vm=-70, dt=0.05, sim_config={

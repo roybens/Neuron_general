@@ -14,6 +14,7 @@ import io
 import fitz
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
 
 def combine_pdfs(folder_path, out_sfx): #input folder pather where pdfs are stored, out_sfx = output suffix
     file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r') #put mutant names in here
@@ -223,6 +224,22 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
   return
 
 
+#This function plots efel efeatures as bar graphs (in this case HH and HMM)
+def plot_efeatures_bar(plot_folder,pfx):
+    x = ['HH','HMM']
+    data1 = np.genfromtxt('na12_orig1_efel.csv',delimiter=',')
+    data2 = np.genfromtxt('na12_HMM_TF100923_efel.csv',delimiter=',')
+    for i in range(1,15):
+      y = [data1[1,i],data2[1,i]]
+      print(y)
+      fig, ax = plt.subplots()
+      ax.bar(x,y,width=0.3,edgecolor='white')
+      file_path_to_save=f'{plot_folder}{pfx}_{i}.pdf'
+      plt.savefig(file_path_to_save, format='pdf')
+
+    return
+
+
 
 
 
@@ -231,9 +248,10 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
 
 #combine_and_sort_ef_csvs(root_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/AllSynthMuts_121223/', out_sfx='allsynthmuts_121323_sorted')
 
-make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523',
-                  output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523/ScanNa12_synthmuts_010224.pptx')
+# make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523',
+#                   output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523/ScanNa12_synthmuts_010224.pptx')
 
+plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
 
 

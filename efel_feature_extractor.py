@@ -20,14 +20,16 @@ def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.3
     sim.l5mdl.init_stim(amp=stim_amp)
     if rec_extra:
         Vm, I, t, stim,extra_vms = sim.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+
         sim.extra_vms = extra_vms
     else:
         Vm, I, t, stim = sim.l5mdl.run_model(dt=dt)
+
         extra_vms = {}
 
     return Vm,t,extra_vms,I,stim
 
-def get_features(sim,mut_name = 'na12_HMM_TF100923',rec_extra=True):
+def get_features(sim,mut_name = 'na12_HMM_TF100923',rec_extra=True): #added sim_config to allow run_sim_model instead of run_model 011924TF
     print("running routine")
     dt=0.005
     Vm,t,extra_vms,_,__ = get_sim_volt_values(sim,mut_name,rec_extra=rec_extra)
@@ -94,6 +96,9 @@ def get_features(sim,mut_name = 'na12_HMM_TF100923',rec_extra=True):
     features = pd.DataFrame(features)
     features = features.drop(columns =['all_ISI_values'])
     features.insert(0,'Type',mut_name)
+    with open (f'{mut_name}_efel.csv','w') as f:
+        features.to_csv(f,index=False)
+    f.close()
     #features.to_csv(f'{paramlog_folder_path}/combined_paramlogs_{out_sfx}.csv', index=False) #Modify for saving features to csv
     return features
     

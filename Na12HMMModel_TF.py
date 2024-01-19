@@ -49,8 +49,10 @@ class Na12Model_TF:
         #K=3
         #KT = 0.5
         
-        #nav12 = 1.2
-        #nav16 = 1.2
+
+        #***Nav12/16 densities 011624, altered in args of runNa12HMMTF.py
+        # nav12 = 2.25
+        # nav16 = 2
         
         #______________M1TTPC2
         #nav12 = 3.5
@@ -101,6 +103,10 @@ class Na12Model_TF:
         print(f'using mut_file {mut_name}')
         self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
         print(eval("h.psection()"))
+
+        # print("TOPOLOGY BELOW ######################################################")
+        # print(h("topology()"))
+
         
 
 
@@ -129,9 +135,13 @@ class Na12Model_TF:
 
     #need to alter currents and current names to work for na12hmm
     def make_currentscape_plot(self,amp,time1,time2,stim_start =100,sweep_len=800,sim_config = {
-                'section' : 'soma',
-                'segment' : 0.5, #0.5 should be half way down AIS
+                'section' : 'axon',
+                'segment' : 0.1,
                 'section_num': 0,
+                # 'section': 'axon',
+                # 'segment': 0,
+                # 'section_num':0,
+
                 #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na12.ina','na12mut.ina','na16.ina','na16mut.ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #'na12.ina_ina','na12mut.ina_ina','na16.ina_ina' test_plot_TF2
@@ -140,19 +150,26 @@ class Na12Model_TF:
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
                 
                 
-                'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
-                
+                #'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'], #Normal currents for Na12 soma
+                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'], #Currents for axon (no Ih)
+               
                 
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
 
                 #'currents'  :['ina','ica','ik'],
-                'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["cai", "ki", "nai"],
+
+                'current_names' : ['Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'] #Na16 WT current names (double na16 WT)
+
                 
             }):
         #sim_obj = NeuronModel()   #TO DO : send in different parameters???
         
         #current_names = ['na12','na16','na16 mut','Ca_HVA','Ca_LVAst','Ih','SK_E2','SKv3_1','pas']
-        current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'] #Na16 WT current names (double na16 WT)
+        #current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'] #Na16 WT current names (double na16 WT)
+        #current_names = ['Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'] #Na16 WT current names (double na16 WT)
+
+        current_names = sim_config['current_names']
 
         # current_names = ['Ih','Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 MUT','Na12','pas']
         #current_names = sim_config['outward'] + sim_config['inward']
@@ -304,16 +321,22 @@ class Na12Model_TF:
 
     def plot_wtvmut_stim(self,wt_Vm,wt_t,
                          stim_amp = 0.5,dt = 0.005,clr = 'red',
-                         plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
+                         plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500, sim_config={
+                        # 'section' : 'axon',
+                        # 'section_num' : 0,
+                        # 'segment' : 0,
+                        # 'currents'  :['ina','ica','ik'],
+                        # 'ionic_concentrations' :["cai", "ki", "nai"]
+            }):
         self.dt = dt
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
-            Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+            Vm, I, t, stim,extra_vms = self.l5mdl.run_sim_model(dt=dt,rec_extra = rec_extra, sim_config=sim_config) #changed run_model to run_sim_model to capture other segments
             self.extra_vms = extra_vms
         else:
-            Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+            Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=dt,sim_config=sim_config)#changed run_model to run_sim_model to capture other segments
             
         self.volt_soma = Vm
         self.I = I
@@ -336,15 +359,24 @@ class Na12Model_TF:
         # plt.savefig(file_path_to_save, format='pdf')
         return
     
+    
+    
     #Function for getting raw data from WT to superimpose under mut plots
-    def get_stim_raw_data(self,stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500):
+    def get_stim_raw_data(self,stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500,sim_config = {
+        #changing to get different firing at different points along neuron TF 011624
+                # 'section' : 'axon',
+                # 'section_num' : 0,
+                # 'segment' : 0,
+                # 'currents'  :['ina','ica','ik'],
+                # 'ionic_concentrations' :["cai", "ki", "nai"]
+            }):
         self.dt = dt
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
-            Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
+            Vm, I, t, stim,extra_vms = self.l5mdl.run_sim_model(dt=dt,rec_extra = rec_extra, sim_config=sim_config)#changed run_model to run_sim_model to capture other segments
             self.extra_vms = extra_vms
         else:
-            Vm, I, t, stim = self.l5mdl.run_model(dt=dt)
+            Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=dt, sim_config=sim_config)#changed run_model to run_sim_model to capture other segments
 
         return Vm, I, t, stim
     
@@ -524,7 +556,7 @@ class Na12Model_TF:
 
 
 ##_______________________Added to enable run of TTX and overexpression functions
-    def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005):
+    def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005):
         
         ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
         #wt2_data = [0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 36, 37, 39, 40, 41, 42, 42, 43] #K4 to move FI --blue
@@ -542,8 +574,11 @@ class Na12Model_TF:
         
         ###_________________________120523 muts experiments_______________________________________________
         #wt_fi = [0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #na12_HMM_TF100923 WT values ----incorrect, was not using na12mut mech (had it as na12_mut)
-        wt_fi = [0, 0, 0, 8, 12, 16, 19, 22, 24, 26, 28, 28, 30, 31, 32, 33, 35, 36, 37, 38, 39]#na12_HMM_TF100923 WT values w/correct na12mut mech
-        
+        #wt_fi = [0, 0, 0, 8, 12, 16, 19, 22, 24, 26, 28, 28, 30, 31, 32, 33, 35, 36, 37, 38, 39]#na12_HMM_TF100923 WT values w/correct na12mut mech
+        ###_________________________Making manuscript figures HH and HMM WTs 011624
+        #wt_fi = [0, 0, 0, 7, 12, 16, 18, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]#na12_HMM_TF100923 HMM WT values as of 011624
+        wt_fi = [0, 0, 0, 8, 12, 16, 19, 21, 23, 24, 26, 27, 29, 30, 31, 32, 33, 35, 35, 37, 38] #na12_orig1 HH WT values
+
         for curr_amp in vs_amp: #vs_amp is list
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
             # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(9),cm_to_in(10.5)))
@@ -575,7 +610,7 @@ class Na12Model_TF:
 
             #Attempting wt and het on same plot
             fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt)
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config)
             print(wt_Vm)
             print(len(wt_Vm))
             print(wt_t)
