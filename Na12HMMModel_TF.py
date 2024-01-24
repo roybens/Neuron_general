@@ -576,8 +576,8 @@ class Na12Model_TF:
         #wt_fi = [0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #na12_HMM_TF100923 WT values ----incorrect, was not using na12mut mech (had it as na12_mut)
         #wt_fi = [0, 0, 0, 8, 12, 16, 19, 22, 24, 26, 28, 28, 30, 31, 32, 33, 35, 36, 37, 38, 39]#na12_HMM_TF100923 WT values w/correct na12mut mech
         ###_________________________Making manuscript figures HH and HMM WTs 011624
-        #wt_fi = [0, 0, 0, 7, 12, 16, 18, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]#na12_HMM_TF100923 HMM WT values as of 011624
-        wt_fi = [0, 0, 0, 8, 12, 16, 19, 21, 23, 24, 26, 27, 29, 30, 31, 32, 33, 35, 35, 37, 38] #na12_orig1 HH WT values
+        wt_fi = [0, 0, 0, 7, 12, 16, 18, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]#na12_HMM_TF100923 HMM WT values as of 011624
+        #wt_fi = [0, 0, 0, 8, 12, 16, 19, 21, 23, 24, 26, 27, 29, 30, 31, 32, 33, 35, 35, 37, 38] #na12_orig1 HH WT values
 
         for curr_amp in vs_amp: #vs_amp is list
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))

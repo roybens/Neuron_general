@@ -175,56 +175,152 @@ import pandas as pd
 
 
 ##Scan na12na16 for all mutants in jupytermutant list.
+# Run all synth muts at multiple points along neuron 012324
 #################################################################################
-# for i12 in np.arange (1.75,2.5,0.25):
-#     #for i16 in np.arange(1.75,2.5,0.25):
-#     i16 = 2
-#     root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/SynthMuts_scanNa12_121523/'
-#     if not os.path.exists(root_path_out):
-#             os.mkdir(root_path_out)
+
+#1
+sim_config_soma = {
+                'section' : 'soma',
+                'segment' : 0.5,
+                'section_num': 0,
+                #'currents' : ['ina','ica','ik'],
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                #'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+                #'ionic_concentrations' :["ki", "nai"]
+                }
+#2
+sim_config_ais = {
+                'section' : 'axon',
+                'segment' : 0,
+                'section_num': 0,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                #'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
+#3
+sim_config_basaldend = {
+                'section' : 'dend',
+                'segment' : 0.5,
+                'section_num': 70,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
+#4
+sim_config_nexus = {
+                'section' : 'apic',
+                'segment' : 0,
+                'section_num': 77,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
+#5
+sim_config_apicaldend = {
+                'section' : 'apic',
+                'segment' : 0.5,
+                'section_num': 90,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
 
 
-#     #Make WT and save data for comparison later
-#     sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-#                     params_folder = './params/na12HMM_HOF_params/',
-#                     plots_folder = f'{root_path_out}_12-{i12}_16-{i16}', pfx=f'WT_')
-
-#     wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500)
-
-#     ###  Make directories with names from list in txt file (mutant_names.txt)
-#     file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r')
-#     Lines = file.readlines()
-#     for line in Lines:
-#         print (line)
-#         mutTXT = line.strip()
-#         path = os.path.join(root_path_out,mutTXT)
-#         if not os.path.exists(path):
-#             os.mkdir(path)
-        
-#         print (mutTXT)
-#         print(line)
-
-        
-    
-#         sim = tf.Na12Model_TF(nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = mutTXT+'_121123',
-#                         params_folder = './params/na12HMM_allsynthmuts_HOFs/',
-#                         plots_folder = f'{root_path_out}/{mutTXT}_na12-{i12}_na16-{i16}/', pfx=f'{mutTXT}_{i12}_{i16}')
-        
-
-#         #make spiking and dvdt plots
-#         sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre=f'{mutTXT}_Na16-{i16}')
-#         #plt.show()
-        
-#         #make currentscape plots
-#         sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
-#         #plt.show()
-#         sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
-#         #plt.show()
+#root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/SynthMuts012324/'
+root_path_out = '/pscratch/sd/t/tfenton/ManuscriptFigs/SynthMuts012324/'
+if not os.path.exists(root_path_out):
+        os.mkdir(root_path_out)
 
 
-#         #Electrophys Feature Extraction Library efel
-#         # features_df = ef.get_features(sim=sim, mut_name = mutTXT+'_121123')
-#         # features_df.to_csv(f'{root_path_out}/{mutTXT}/{mutTXT}_features.csv', index=False) ##save efeatures to csv
+#Make WT and save data for comparison later
+sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+                params_folder = './params/na12HMM_allsynthmuts_HOFs/',
+                plots_folder = f'{root_path_out}_hmmWT', pfx=f'WT_')
+
+wt_Vm1,wt_I1,wt_t1,wt_stim1 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+features_df = ef.get_features(sim=sim,mutTXT='WT_soma', mut_name = 'na12_HMM_TF100923')
+
+wt_Vm2,wt_I2,wt_t2,wt_stim2 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_ais)
+features_df = ef.get_features(sim=sim,mutTXT='WT_ais', mut_name = 'na12_HMM_TF100923')
+
+wt_Vm3,wt_I3,wt_t3,wt_stim3 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_basaldend)
+features_df = ef.get_features(sim=sim,mutTXT='WT_basaldend', mut_name = 'na12_HMM_TF100923')
+
+wt_Vm4,wt_I4,wt_t4,wt_stim4 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_nexus)
+features_df = ef.get_features(sim=sim,mutTXT='WT_nexus', mut_name = 'na12_HMM_TF100923')
+
+wt_Vm5,wt_I5,wt_t5,wt_stim5 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_apicaldend)
+features_df = ef.get_features(sim=sim,mutTXT='WT_apicaldend', mut_name = 'na12_HMM_TF100923')
+
+###  Make directories with names from list in txt file (mutant_names.txt)
+file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r')
+Lines = file.readlines()
+for line in Lines:
+        print (line)
+        mutTXT = line.strip()
+        path = os.path.join(root_path_out,mutTXT)
+        if not os.path.exists(path):
+                os.mkdir(path)
+
+        print (mutTXT)
+        print(line)
+
+
+
+        sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = mutTXT+'_121123',
+                        params_folder = './params/na12HMM_allsynthmuts_HOFs/',
+                        plots_folder = f'{root_path_out}/{mutTXT}_soma/', pfx=f'{mutTXT}')
+
+
+        #make spiking and dvdt plots
+        #sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,vs_amp=[0.5], fnpre=f'{mutTXT}_Na16-{i16}')
+        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutTXT}_soma')
+        features_df = ef.get_features(sim=sim,mutTXT=f'{mutTXT}_soma', mut_name = mutTXT+'_121123')
+
+        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm2,wt_t=wt_t2,sim_config=sim_config_ais,vs_amp=[0.5], fnpre=f'{mutTXT}_ais')
+        features_df = ef.get_features(sim=sim,mutTXT=f'{mutTXT}_ais', mut_name = mutTXT+'_121123')
+
+        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm3,wt_t=wt_t3,sim_config=sim_config_basaldend,vs_amp=[0.5], fnpre=f'{mutTXT}_basaldend')
+        features_df = ef.get_features(sim=sim,mutTXT=f'{mutTXT}_basaldend', mut_name = mutTXT+'_121123')
+
+        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm4,wt_t=wt_t4,sim_config=sim_config_nexus,vs_amp=[0.5], fnpre=f'{mutTXT}_nexus')
+        features_df = ef.get_features(sim=sim,mutTXT=f'{mutTXT}_nexus', mut_name = mutTXT+'_121123')
+
+        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm5,wt_t=wt_t5,sim_config=sim_config_apicaldend,vs_amp=[0.5], fnpre=f'{mutTXT}_apicaldend')
+        features_df = ef.get_features(sim=sim,mutTXT=f'{mutTXT}_apicaldend', mut_name = mutTXT+'_121123')
+
+        #make currentscape plots
+        # sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75)
+        # sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
+
+
+        #Electrophys Feature Extraction Library efel
+        # features_df = ef.get_features(sim=sim, mut_name = mutTXT+'_121123')
+# features_df.to_csv(f'{root_path_out}/{mutTXT}/{mutTXT}_features.csv', index=False) ##save efeatures to csv
 
 #################################################################################
 
@@ -244,73 +340,70 @@ import pandas as pd
         #Section: dend, section_num: 70, segment: 0.5 == Basal dendrite mid-shaft ***should check this in gui
         #Section: apic, section_num:77, segment:0       77(0) or 66(1)  == Apical Nexus
         #Section: apic, section_num:90, segment:0.5   == Most distal apical dendrite
-sim_config = {
-                'section' : 'soma',
-                'segment' : 0.5,
-                'section_num': 0,
-                #'currents' : ['ina','ica','ik'],
-                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
-                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
-                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
-                'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
-                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
-                #'ionic_concentrations' :["cai", "ki", "nai"]
-                'ionic_concentrations' :["ki", "nai"]
-                
-            }
+# sim_config = {
+#                 'section' : 'soma',
+#                 'segment' : 0.5,
+#                 'section_num': 0,
+#                 #'currents' : ['ina','ica','ik'],
+#                 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+#                 #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+#                 #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+#                 #'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+#                 'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+#                 'ionic_concentrations' :["cai", "ki", "nai"]
+#                 #'ionic_concentrations' :["ki", "nai"]
+#                 }
+
+
+# root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/SynthMuts/'
+
+
+# if not os.path.exists(root_path_out):
+#     os.makedirs(root_path_out)
+
+
+# #Make HH WT and save data for comparison later
+# #Make HMM WT for synth muts comparison
+# sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+#                 params_folder = './params/Manuscript_HH_HMM_WTs/',
+#                 plots_folder = f'{root_path_out}', pfx=f'HH_Soma')
+
+# wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config=sim_config_soma)
+
+# #make currentscape plots HH
+# # sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75,sim_config=sim_config)
+# # sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100,sim_config=sim_config)
+
+# #Electrophys Feature Extraction Library efel -- HH
+
+# features_df = ef.get_features(sim=sim, mut_name = 'na12_orig1')
+
+# # with open (f'{root_path_out}HH_soma_features.csv','a') as f1:
+# #     features_df.to_csv(f1,index=False) ##save efeatures to csv
+
+# #features_df.to_csv(f'{root_path_out}/HH_soma_features.csv') ##save efeatures to csv
 
 
 
-#current_names = sim_config['currents']
-
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures/'
-
-
-if not os.path.exists(root_path_out):
-    os.makedirs(root_path_out)
+# # Make HMM WT -- will be in red as 'mutant'
+# # Make HMM synth muts -- mut will be in red
+# sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+#                 params_folder = './params/Manuscript_HH_HMM_WTs/',
+#                 plots_folder = f'{root_path_out}', pfx=f'HMM_soma')
 
 
-#Make HH WT and save data for comparison later
-sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_orig1',mut_name = 'na12_orig1',
-                params_folder = './params/Manuscript_HH_HMM_WTs/',
-                plots_folder = f'{root_path_out}', pfx=f'HH_Soma')
-
-# wt_Vm,wt_I,wt_t,wt_stim = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config=sim_config)
-
-#make currentscape plots HH
-# sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75,sim_config=sim_config)
-# sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100,sim_config=sim_config)
-
-#Electrophys Feature Extraction Library efel -- HH
-
-features_df = ef.get_features(sim=sim, mut_name = 'na12_orig1')
-print(features_df)
-print(type(features_df))
-# with open (f'{root_path_out}HH_soma_features.csv','a') as f1:
-#     features_df.to_csv(f1,index=False) ##save efeatures to csv
-
-#features_df.to_csv(f'{root_path_out}/HH_soma_features.csv') ##save efeatures to csv
+# #make spiking and dvdt plots
+# # sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config,vs_amp=[0.5], fnpre=f'HH_blk_basaldend_')
 
 
-
-# Make HMM WT -- will be in red as 'mutant' 
-sim = tf.Na12Model_TF(nav12=2.25,nav16=2,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-                params_folder = './params/Manuscript_HH_HMM_WTs/',
-                plots_folder = f'{root_path_out}', pfx=f'HMM_soma')
+# #make currentscape plots HMM
+# # sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75,sim_config=sim_config)
+# # sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100,sim_config=sim_config)
 
 
-#make spiking and dvdt plots
-# sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config,vs_amp=[0.5], fnpre=f'HH_blk_basaldend_')
-
-
-#make currentscape plots HMM
-# sim.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=75,sim_config=sim_config)
-# sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100,sim_config=sim_config)
-
-
-#Electrophys Feature Extraction Library efel --HMM
-features_df2 = ef.get_features(sim=sim, mut_name = 'na12_HMM_TF100923')
-print(features_df2)
-# with open (f'{root_path_out}HH_soma_features.csv','a') as f2:
-#     features_df.to_csv(f2,index=False) ##save efeatures to csv
-#features_df2.to_csv(f'{root_path_out}/HMM_soma_features.csv') ##save efeatures to csv
+# #Electrophys Feature Extraction Library efel --HMM
+# features_df2 = ef.get_features(sim=sim, mut_name = 'na12_HMM_TF100923')
+# print(features_df2)
+# # with open (f'{root_path_out}HH_soma_features.csv','a') as f2:
+# #     features_df.to_csv(f2,index=False) ##save efeatures to csv
+# #features_df2.to_csv(f'{root_path_out}/HMM_soma_features.csv') ##save efeatures to csv
