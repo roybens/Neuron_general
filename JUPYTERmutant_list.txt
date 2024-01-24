@@ -1,8 +1,3 @@
-mut1_1
-mut1_2
-mut1_3
-mut1_4
-mut2_1
 mut2_2
 mut2_3
 mut2_4

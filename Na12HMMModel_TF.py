@@ -135,8 +135,8 @@ class Na12Model_TF:
 
     #need to alter currents and current names to work for na12hmm
     def make_currentscape_plot(self,amp,time1,time2,stim_start =100,sweep_len=800,sim_config = {
-                'section' : 'axon',
-                'segment' : 0.1,
+                'section' : 'soma',
+                'segment' : 0.5,
                 'section_num': 0,
                 # 'section': 'axon',
                 # 'segment': 0,
