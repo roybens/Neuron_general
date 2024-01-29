@@ -13,7 +13,7 @@ import csv
 import sys
 
 class NeuronModel:
-    def __init__(self, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
+    def __init__(self,ais_nav16_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
     
                       nav12=1,
                       nav16=1,
@@ -34,7 +34,8 @@ class NeuronModel:
                       node_na = 1,
                       soma_K=1,
                       dend_K=1,
-                      gpas_all=1):
+                      gpas_all=1
+                      ):
         run_dir = os.getcwd()
 
         os.chdir(mod_dir)
@@ -132,7 +133,10 @@ class NeuronModel:
         h.soma_na16 = 7.88E-02 * soma_nav16
         h.soma_K = 0.21330453 * soma_K
         
-        h.ais_na16 = 7.2696676 * ais_nav16
+        # h.ais_na16 = 7.2696676 * ais_nav16
+        h.ais_na16 = ais_nav16_fac * ais_nav16
+        print(f'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##################### the ais factor is {ais_nav16_fac} ************************************************************')
+
         h.ais_na12 = 1.03E+00 * ais_nav12
         h.ais_ca = 0.0010125926 * ais_ca
         h.ais_KCa = 0.0009423347 * ais_KCa
@@ -194,6 +198,9 @@ class NeuronModel:
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
         h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
         h.working()
+
+        #PUT Kaustubh's code here for getting na16/na12 in AIS.
+
         os.chdir(run_dir)
         
     def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args
@@ -298,8 +305,8 @@ class NeuronModel:
         
     def run_sim_model(self, start_Vm = -72, dt= 0.1, sim_config = {
         #changing to get different firing at different points along neuron TF 011624
-                'section' : 'axon',
-                'segment' : 0.1,
+                'section' : 'soma',
+                'segment' : 0.5,
                 'section_num' : 0,                
                 'currents'  :['ina','ica','ik'],
                 'ionic_concentrations' :["cai", "ki", "nai"]
