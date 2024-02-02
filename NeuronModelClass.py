@@ -11,9 +11,12 @@ from neuron import h
 import os
 import csv
 import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 class NeuronModel:
-    def __init__(self,ais_nav16_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
+    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
     
                       nav12=1,
                       nav16=1,
@@ -137,7 +140,9 @@ class NeuronModel:
         h.ais_na16 = ais_nav16_fac * ais_nav16
         print(f'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##################### the ais factor is {ais_nav16_fac} ************************************************************')
 
-        h.ais_na12 = 1.03E+00 * ais_nav12
+        # h.ais_na12 = 1.03E+00 * ais_nav12
+        h.ais_na12 = ais_nav12_fac * ais_nav12 #TF020124 added ais_nav12 factor to fine tune
+
         h.ais_ca = 0.0010125926 * ais_ca
         h.ais_KCa = 0.0009423347 * ais_KCa
         
@@ -200,6 +205,68 @@ class NeuronModel:
         h.working()
 
         #PUT Kaustubh's code here for getting na16/na12 in AIS.
+              
+        #Function for determining the distribution of Na channels in axon.
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/ChanDensity_020124_12fac_{ais_nav12_fac}"):
+            distances = []
+            na12_densities = []
+            na16_densities = []
+            na12mut_densities = []
+            na16mut_densities = []
+            sections = []
+            
+            for sec in h.cell.axon:
+                for seg in sec:
+                    print(seg)
+                    section = f'h.distance.{seg}'
+                    distance = h.distance(0,seg)
+                    print(f'Distance_SEG{distance}')
+                    distances.append(distance)
+                    sections.append(section)
+
+                    na12_gbar = seg.gbar_na12
+                    print(na12_gbar)
+                    na12_densities.append(na12_gbar)
+
+                    na16_gbar = seg.gbar_na16
+                    print(na16_gbar)
+                    na16_densities.append(na16_gbar)
+
+                    na12mut_gbar = seg.gbar_na12mut
+                    na12mut_densities.append(na12mut_gbar)
+
+                    na16mut_gbar = seg.gbar_na16mut
+                    na16mut_densities.append(na16mut_gbar)
+
+            print(distances)
+            print(na12_densities)
+            print(na16_densities)
+
+            #Save data to dataframes to write to csv.
+            df1 = pd.DataFrame(distances)
+            df2 = pd.DataFrame(na12_densities)
+            df3 = pd.DataFrame(na16_densities)
+            df4 = pd.DataFrame(na12mut_densities)
+            df5 = pd.DataFrame(na16mut_densities)
+            df6 = pd.DataFrame(sections)
+            df = pd.concat([df1,df2,df4,df3,df5,df6], axis=1, keys=['Distance','na12','na12mut','na16','na16mut','sections'])
+            df.to_csv(name+'.csv')
+            
+            #Plot line graph of different contributions
+            fig1, ax = plt.subplots()
+            plt.plot(df['na12'],label='Nav12', color='blue')
+            plt.plot(df['na12mut'],label='Nav12_Mut', color='cyan', linestyle='dashed')
+            plt.plot(df['na16'],label='Nav16', color='red')
+            plt.plot(df['na16mut'],label='Nav16_Mut', color='orange', alpha=0.5, linestyle='dashed')
+            plt.legend()
+            plt.xticks(range(1,len(distances)), rotation=270)
+            plt.xlabel('Segment of Axon')
+            plt.ylabel('gbar')
+            plt.title("Distribution of Nav12 and Nav16")
+            plt.savefig(name+".png", dpi=400)
+
+
+        chandensities()
 
         os.chdir(run_dir)
         

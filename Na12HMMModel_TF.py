@@ -8,7 +8,7 @@ from currentscape.currentscape import plot_currentscape
 
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/na12HMM_HOF_params/',
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1): #TF012524 added ais_nav16
+                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1): #TF012524 added ais_nav16
         
         #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
         
@@ -33,8 +33,10 @@ class Na12Model_TF:
 
 
         #Change K and Na to move FI
-        K = 4
-        node_na = 100
+        K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
+        
+        #node_na = 100
+        node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
 
 
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
@@ -81,7 +83,7 @@ class Na12Model_TF:
         
     
 
-        self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na, ais_nav16_fac=ais_nav16_fac) #TF 012524 added ais_nav16 to change in reference to ais_nav12
+        self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na, ais_nav16_fac=ais_nav16_fac,ais_nav12_fac=ais_nav12_fac) #TF 012524 added ais_nav16 to change in reference to ais_nav12
         update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
    
         self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
@@ -692,6 +694,23 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
 ####____________________________________________________________________________________________    
 
 
+
+
+
+
+
+
+
+
+#Scanning Code below for fine tuning
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
         
 def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
