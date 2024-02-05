@@ -147,6 +147,7 @@ class NeuronModel:
         h.ais_KCa = 0.0009423347 * ais_KCa
         
         h.node_na = 0.9934221 * node_na
+        print(f'The node_na is {h.node_na} &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 
         h.axon_KP = 0.43260124 * axon_Kp
         h.axon_KT = 1.38801 * axon_Kt
@@ -207,7 +208,7 @@ class NeuronModel:
         #PUT Kaustubh's code here for getting na16/na12 in AIS.
               
         #Function for determining the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/ChanDensity_020124_12fac_{ais_nav12_fac}"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_1216_020524/12-{nav12}_16-{nav16}"):
             distances = []
             na12_densities = []
             na16_densities = []
@@ -250,7 +251,7 @@ class NeuronModel:
             df5 = pd.DataFrame(na16mut_densities)
             df6 = pd.DataFrame(sections)
             df = pd.concat([df1,df2,df4,df3,df5,df6], axis=1, keys=['Distance','na12','na12mut','na16','na16mut','sections'])
-            df.to_csv(name+'.csv')
+            # df.to_csv(name+'.csv')
             
             #Plot line graph of different contributions
             fig1, ax = plt.subplots()

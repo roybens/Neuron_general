@@ -52,7 +52,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None, ax1=None,fig = None,dt = 0.
         curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -30) #modified for na16 TTX experiments
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
-    print(npeaks)
+    print(npeaks) #spikes at each stim current for FI curve
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
         ax1.plot(x_axis,npeaks,marker = 'o',linestyle = '-',color = 'red')
@@ -69,7 +69,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None, ax1=None,fig = None,dt = 0.
         #ax1.plot(x_axis,wt_data,'black')
     fig.show()
     fig.savefig(fn)
-
+    return(npeaks)
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
     if skip_first:
         curr_peaks,_ = find_peaks(volts,height = -20)

@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 import numpy as np
 from currentscape.currentscape import plot_currentscape
+import pandas as pd
 
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16_orig2', na16mechs = ['na16','na16mut'], params_folder = './params/na12HMM_HOF_params/',
@@ -36,7 +37,8 @@ class Na12Model_TF:
         K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
         
         #node_na = 100
-        node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
+        # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
+        node_na = 0.5#1#100#90#80#70#60#50#40#30#20 #10
 
 
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
@@ -645,6 +647,9 @@ class Na12Model_TF:
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data, ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf')
+        print(fis)
+        fi_df = pd.DataFrame(fis)
+        fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
         return fis
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
