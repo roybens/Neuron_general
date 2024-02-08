@@ -60,22 +60,75 @@ proc populate_axon(){
 proc create_ais(){
 access cell.axon[0]
 
+	//Length of the AIS - Roy's original code
+	nseg = int(L/10)*2 +1  // create 19 segments from this axon section ##90um overall length
+	ais_end = 10/nseg // specify the end of the AIS as halfway down this section ##45um AIS length
+	//ais_mid = 4/nseg // specify the middle of the AIS as 1/5 of this section ##Original from Roy
+
+	//Create gradients of na16 ##Originally from Roy
+	//gbar_na16(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
+	//gbar_na16mut(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
+	//gbar_na16(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
+	//gbar_na16mut(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
+	//gbar_na16(ais_mid:ais_end) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS ##Shifted from mid:end
+	//gbar_na16mut(ais_mid:ais_end) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS ##shifted from mid:end
+	//Create gradients of na12 ##Originally from Roy
+	//gbar_na12(0:ais_mid/2) = soma_na12/2:ais_na12/2 // create gradient of NaV12 from [soma] to [AIS]
+	//gbar_na12mut(0:ais_mid/2) = soma_na12/2:ais_na12/2 // add a mutant channel in case we want to do a het
+	//gbar_na12(ais_mid/2:ais_mid) = ais_na12/2:0 // create gradient down to zero
+	//gbar_na12mut(ais_mid/2:ais_mid) = ais_na12/2:0 // more mutant channel
+	//gbar_na12(ais_mid/2:ais_end) = ais_na12/2:0 // create gradient down to zero ##extended to AIS end at 45um
+	//gbar_na12mut(ais_mid/2:ais_end) = ais_na12/2:0 // more mutant channel ##extended to AIS end at 45um
+	//gbar_na12(ais_mid:1) = 0:0 //naked axon
+	//gbar_na12mut(ais_mid:1) = 0:0 //naked axon	
+	//gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	//gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
 	
-	nseg = int(L/10)*2 +1  // create 19 segments from this axon section
-	ais_end = 10/nseg // specify the end of the AIS as halfway down this section
-	ais_mid = 4/nseg // specify the middle of the AIS as 1/5 of this section 
-	gbar_na16(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
-	gbar_na16mut(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
-	gbar_na16(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
-	gbar_na16mut(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
+	///////////////////////////////////////////
+	//Tim's code trying to round out na16 curve
+	//WT
+	gbar_na16(0:4*ais_end/10) = 0:ais_na16/3
+	gbar_na16(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
+	gbar_na16(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	//Mut
+	gbar_na16mut(0:4*ais_end/10) = 0:ais_na16/3
+	gbar_na16mut(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
+	gbar_na16mut(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
 	gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
 	gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
-	gbar_na12(0:ais_mid/2) = soma_na12/2:ais_na12/2 // create gradient of NaV12 from [soma] to [AIS]
-	gbar_na12mut(0:ais_mid/2) = soma_na12/2:ais_na12/2 // add a mutant channel in case we want to do a het
-	gbar_na12(ais_mid/2:ais_mid) = ais_na12/2:0 // create gradient down to zero
-	gbar_na12mut(ais_mid/2:ais_mid) = ais_na12/2:0 // more mutant channel
-	gbar_na12(ais_mid:1) = 0:0 //naked axon
-	gbar_na12mut(ais_mid:1) = 0:0 //naked axon
+		
+	
+	//Tim's code trying to round out na12 curve
+	//WT
+	gbar_na12(0:ais_end/10) = 0:ais_na12/3
+	gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
+	gbar_na12(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
+	gbar_na12(4*ais_end/10:6*ais_end/10) = ais_na12/2:ais_na12/3
+	gbar_na12(6*ais_end/10:ais_end) = ais_na12/3:naked_axon_na/2
+
+	//Mut
+	gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
+	gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
+	gbar_na12mut(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
+	gbar_na12mut(4*ais_end/10:6*ais_end/10) = ais_na12/2:ais_na12/3
+	gbar_na12mut(6*ais_end/10:ais_end) = ais_na12/3:naked_axon_na/2
+	
+	gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+
+	
+	
+	
+	
+	
+	
+	
 	gK_Pstbar_K_Pst(0:ais_end) = axon_KP:axon_KP
 	gK_Pstbar_K_Pst(ais_end:1) = axon_KP/10:axon_KP/10
 	gK_Tstbar_K_Tst(0:ais_end) = axon_KT:axon_KT

@@ -34,8 +34,8 @@ class Na12Model_TF:
 
 
         #Change K and Na to move FI
-        K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
-        
+        # K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
+        K = 1 ##TF020624
         #node_na = 100
         # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
         node_na = 0.5#1#100#90#80#70#60#50#40#30#20 #10

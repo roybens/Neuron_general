@@ -129,11 +129,14 @@ class NeuronModel:
         #___________________Kaustubh params
         h.dend_na12 = 2.48E-03 * dend_nav12
         
-        h.dend_na16 = 5.05E-03 * dend_nav16
+        # h.dend_na16 = 5.05E-03 * dend_nav16 ##TF020624
+        h.dend_na16 = 0 ##TF020624
         h.dend_k = 0.0043685576 * dend_K
         
-        h.soma_na12 = 3.24E-02 * soma_nav12
-        h.soma_na16 = 7.88E-02 * soma_nav16
+        h.soma_na12 = 3.24E-02 * soma_nav12 
+        h.soma_na16 = 7.88E-02 * soma_nav16 
+        
+      
         h.soma_K = 0.21330453 * soma_K
         
         # h.ais_na16 = 7.2696676 * ais_nav16
@@ -198,17 +201,19 @@ class NeuronModel:
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
-        h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
+        # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
+        h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
 
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
-        h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         h.working()
 
         #PUT Kaustubh's code here for getting na16/na12 in AIS.
               
         #Function for determining the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_1216_020524/12-{nav12}_16-{nav16}"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_newAIS_020724/{ais_nav12_fac}_{ais_nav16_fac}"):
             distances = []
             na12_densities = []
             na16_densities = []
@@ -216,6 +221,7 @@ class NeuronModel:
             na16mut_densities = []
             sections = []
             
+
             for sec in h.cell.axon:
                 for seg in sec:
                     print(seg)
@@ -268,6 +274,9 @@ class NeuronModel:
 
 
         chandensities()
+
+        
+
 
         os.chdir(run_dir)
         

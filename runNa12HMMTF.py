@@ -445,7 +445,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_1216_020524/'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_newAIS_020724/Scan_ais1216'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
@@ -454,20 +454,20 @@ if not os.path.exists(root_path_out):
 vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
 # for i in np.arange(0,100,10):
-for i12 in np.arange(1.75,2,0.5):
-        for i16 in np.arange(1.75,2,0.5):
+for i12 in np.arange(6,8,1):
+        for i16 in np.arange(6,8,1):
 
         #Make WT and save data for comparison later
-                sim = tf.Na12Model_TF(ais_nav16_fac = 1,ais_nav12_fac=1,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+                sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac = i16,nav12=2,nav16=4,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
                                 params_folder = './params/na12HMM_allsynthmuts_HOFs/',
-                                plots_folder = f'{root_path_out}/na12-{i12}_na16-{i16}', pfx=f'WT_')
+                                plots_folder = f'{root_path_out}/12-{i12}_16-{i16}', pfx=f'WT_')
 
                 #soma
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 #features_df = ef.get_features(sim=sim,mutTXT='WT_soma', mut_name = 'na12_HMM_TF100923')
                 sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{i12}_{i16}_')#fnpre=f'{mutTXT}')
 
-                sim.make_currentscape_plot(amp=0.5, time1=0,time2=250,stim_start=30, sweep_len=300)
+                # sim.make_currentscape_plot(amp=0.5, time1=0,time2=250,stim_start=30, sweep_len=300)
                 sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
                 
 
