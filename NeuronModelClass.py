@@ -210,9 +210,11 @@ class NeuronModel:
         h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         h.working()
 
-        #PUT Kaustubh's code here for getting na16/na12 in AIS.
-              
-        #Function for determining the distribution of Na channels in axon.
+        
+        
+        
+             
+        #Function for determining and plotting the distribution of Na channels in axon.
         def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_newAIS_020724/{ais_nav12_fac}_{ais_nav16_fac}"):
             distances = []
             na12_densities = []
@@ -273,7 +275,7 @@ class NeuronModel:
             plt.savefig(name+".png", dpi=400)
 
 
-        chandensities()
+        # chandensities()
 
         
 

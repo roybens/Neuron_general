@@ -293,6 +293,7 @@ class Na12Model_TF:
     def make_mut(self,mut_mech,p_fn_na12_mech): 
         print(f'updating mut {mut_mech} with {p_fn_na12_mech}')
         self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech)
+    #______________________________________________________________#
 
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
@@ -322,7 +323,7 @@ class Na12Model_TF:
         plt.savefig(file_path_to_save, format='pdf')
         return
     
-
+    #Plot both WT and mut on same stim plot
     def plot_wtvmut_stim(self,wt_Vm,wt_t,
                          stim_amp = 0.5,dt = 0.005,clr = 'red',
                          plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500, sim_config={
@@ -580,8 +581,13 @@ class Na12Model_TF:
         #wt_fi = [0, 0, 2, 10, 19, 21, 23, 25, 26, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 40, 41] #na12_HMM_TF100923 WT values ----incorrect, was not using na12mut mech (had it as na12_mut)
         #wt_fi = [0, 0, 0, 8, 12, 16, 19, 22, 24, 26, 28, 28, 30, 31, 32, 33, 35, 36, 37, 38, 39]#na12_HMM_TF100923 WT values w/correct na12mut mech
         ###_________________________Making manuscript figures HH and HMM WTs 011624
-        wt_fi = [0, 0, 0, 7, 12, 16, 18, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]#na12_HMM_TF100923 HMM WT values as of 011624
+        #wt_fi = [0, 0, 0, 7, 12, 16, 18, 21, 23, 24, 26, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]#na12_HMM_TF100923 HMM WT values as of 011624
         #wt_fi = [0, 0, 0, 8, 12, 16, 19, 21, 23, 24, 26, 27, 29, 30, 31, 32, 33, 35, 35, 37, 38] #na12_orig1 HH WT values
+        ###_________________________WT following redistribution of na12/16 in AIS
+        # wt_fi = [0, 0, 5, 9, 13, 16, 18, 20, 22, 23, 25, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 2na12, 4na16
+        wt_fi = [0,0,4,9,13,16,18,20,22,24,25,27,28,29,31,32,33,34,35,36,37] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 4na12, 3na16
+
+
 
         for curr_amp in vs_amp: #vs_amp is list
             #fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(3),cm_to_in(3.5)))
@@ -711,11 +717,7 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
-###########################################################################################################
-###########################################################################################################
-###########################################################################################################
-###########################################################################################################
-###########################################################################################################
+
         
 def scan_sec_na():
     for fac in np.arange(0.1,1,0.1):
