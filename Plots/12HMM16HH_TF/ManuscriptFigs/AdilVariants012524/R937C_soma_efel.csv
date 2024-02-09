@@ -1,0 +1,2 @@
+Type,AP_height,AP_width,AP1_peak,AP1_width,Spikecount,ISI mean,dvdt Peak1 Height,dvdt Peak1 Voltage,dvdt Peak2 Height,dvdt Peak2 Voltage,dvdt Threshold,ais spikecount,nex spikecount,disdend spikecount
+R937C_010524HOF,25.2122962713482,0.29999999999998295,28.795388347404085,0.7379776767336597,8,60.942857142866835,352.9909499345301,-44.09130076424086,520.2894067293421,0.646604041489633,-57.11345944262518,8,0,0

@@ -1,0 +1,2 @@
+Type,AP_height,AP_width,AP1_peak,AP1_width,Spikecount,ISI mean,dvdt Peak1 Height,dvdt Peak1 Voltage,dvdt Peak2 Height,dvdt Peak2 Voltage,dvdt Threshold,ais spikecount,nex spikecount,disdend spikecount
+mut10_3_121123,25.685752025383607,0.29999999999998295,29.23024280631345,0.7324275642375243,8,61.4857142857241,367.01469072992836,-44.02412024601944,567.7541229809266,0.9054314412776576,-57.114986991808735,8,0,0
