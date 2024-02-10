@@ -85,7 +85,7 @@ access cell.axon[0]
 	//gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
 	
 	///////////////////////////////////////////
-	//Tim's code trying to round out na16 curve
+	//Tim's code trying to round out na16 curve based on Hu 2009 doi:10.1038/nn.2359
 	//WT
 	gbar_na16(0:4*ais_end/10) = 0:ais_na16/3
 	gbar_na16(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
