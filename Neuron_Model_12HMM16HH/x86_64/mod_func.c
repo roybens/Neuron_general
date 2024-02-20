@@ -19,6 +19,7 @@ extern void _na12_reg(void);
 extern void _na12_TF_reg(void);
 extern void _na12_mut_reg(void);
 extern void _na16_reg(void);
+extern void _na16HH_TF_reg(void);
 extern void _na16_mut_reg(void);
 extern void _vclmp_pl_reg(void);
 
@@ -42,6 +43,7 @@ void modl_reg(){
     fprintf(stderr," \"./mechanisms//na12_TF.mod\"");
     fprintf(stderr," \"./mechanisms//na12_mut.mod\"");
     fprintf(stderr," \"./mechanisms//na16.mod\"");
+    fprintf(stderr," \"./mechanisms//na16HH_TF.mod\"");
     fprintf(stderr," \"./mechanisms//na16_mut.mod\"");
     fprintf(stderr," \"./mechanisms//vclmp_pl.mod\"");
     fprintf(stderr, "\n");
@@ -62,6 +64,7 @@ void modl_reg(){
   _na12_TF_reg();
   _na12_mut_reg();
   _na16_reg();
+  _na16HH_TF_reg();
   _na16_mut_reg();
   _vclmp_pl_reg();
 }

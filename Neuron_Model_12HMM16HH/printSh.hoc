@@ -1,0 +1,9 @@
+
+proc printVals(){
+    forsec cell.axonal{
+        print tha_na16
+        tha_na16=-55
+        print "after"
+        print tha_na16
+    }
+}
