@@ -6,7 +6,7 @@ TITLE na3
 NEURON {
 	SUFFIX na16mut
 	USEION na READ ena WRITE ina
-	RANGE  gbar, ar2, thegna, ina_ina
+	RANGE  gbar, ar2, thegna,ina_ina
 	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs
 }
 
@@ -14,25 +14,25 @@ PARAMETER {
 	sh   = 8	(mV)
 	gbar = 0.010   	(mho/cm2)	
 								
-	tha  =  -35	(mV)		: v 1/2 for act	
-	qa   = 7.2	(mV)		: act slope (4.5)		
-	Ra   = 0.4	(/ms)		: open (v)		
+	tha  =  -40		(mV)		: v 1/2 for act	#-35 #-45 #-40 #-30
+	qa   = 7.2		(mV)		: act slope (4.5)		
+	Ra   = 0.4		(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -45	(mV)		: v 1/2 for inact 	
-	thi2  = -45 	(mV)		: v 1/2 for inact 	
-	qd   = 0.5	(mV)	        : inact tau slope
+	thi1  = -65		(mV)		: v 1/2 for inact #-45 	
+	thi2  = -65 	(mV)		: v 1/2 for inact #-45 	
+	qd   = 0.5		(mV)	    : inact tau slope
 	qg   = 1.5      (mV)
 	mmin=0.02	
 	hmin=0.01			
 	q10=2
 	Rg   = 0.01 	(/ms)		: inact recov (v) 	
-	Rd   = .03 	(/ms)		: inact (v)	
+	Rd   = .03 		(/ms)		: inact (v)	
 	qq   = 10        (mV)
 	tq   = -55      (mV)
 
 	thinf  = -55 	(mV)		: inact inf slope	
-	qinf  = 7 	(mV)		: inact inf slope 
+	qinf  = 7 		(mV)		: inact inf slope 
 
         vhalfs=-60	(mV)		: slow inact.
         a0s=0.0003	(ms)		: a0s=b0s
@@ -41,8 +41,8 @@ PARAMETER {
         smax=10		(ms)
         vvh=-58		(mV) 
         vvs=2		(mV)
-        ar2=1		(1)		: 1=no inact., 0=max inact.
-	ena		(mV)	
+        ar2=1		(1)			: 1=no inact., 0=max inact.
+	ena			(mV)	
 	Ena = 55	(mV)            : must be explicitly def. in hoc
 	celsius
 	v 		(mV)

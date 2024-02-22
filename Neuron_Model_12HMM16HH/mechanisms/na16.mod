@@ -14,13 +14,13 @@ PARAMETER {
 	sh   = 8	(mV)
 	gbar = 0.010   	(mho/cm2)	
 								
-	tha  =  -35		(mV)		: v 1/2 for act	
+	tha  =  -40		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30	
 	qa   = 7.2		(mV)		: act slope (4.5)		
 	Ra   = 0.4		(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -45		(mV)		: v 1/2 for inact 	
-	thi2  = -45 	(mV)		: v 1/2 for inact 	
+	thi1  = -55		(mV)		: v 1/2 for inact #-45 #-65	
+	thi2  = -55 	(mV)		: v 1/2 for inact #-45 #-65
 	qd   = 0.5		(mV)	    : inact tau slope
 	qg   = 1.5      (mV)
 	mmin=0.02	
@@ -42,7 +42,7 @@ PARAMETER {
         vvh=-58		(mV) 
         vvs=2		(mV)
         ar2=1		(1)			: 1=no inact., 0=max inact.
-	ena		(mV)	
+	ena			(mV)	
 	Ena = 55	(mV)            : must be explicitly def. in hoc
 	celsius
 	v 		(mV)

@@ -179,11 +179,11 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define tq tq_na16
  double tq = -55;
 #define thi2 thi2_na16
- double thi2 = -45;
+ double thi2 = -55;
 #define thi1 thi1_na16
- double thi1 = -45;
+ double thi1 = -55;
 #define tha tha_na16
- double tha = -35;
+ double tha = -40;
 #define vvs vvs_na16
  double vvs = 2;
 #define vvh vvh_na16
@@ -743,25 +743,25 @@ static const char* nmodl_file_text =
   "	sh   = 8	(mV)\n"
   "	gbar = 0.010   	(mho/cm2)	\n"
   "								\n"
-  "	tha  =  -35	(mV)		: v 1/2 for act	\n"
-  "	qa   = 7.2	(mV)		: act slope (4.5)		\n"
-  "	Ra   = 0.4	(/ms)		: open (v)		\n"
+  "	tha  =  -40		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30	\n"
+  "	qa   = 7.2		(mV)		: act slope (4.5)		\n"
+  "	Ra   = 0.4		(/ms)		: open (v)		\n"
   "	Rb   = 0.124 	(/ms)		: close (v)		\n"
   "\n"
-  "	thi1  = -45	(mV)		: v 1/2 for inact 	\n"
-  "	thi2  = -45 	(mV)		: v 1/2 for inact 	\n"
-  "	qd   = 0.5	(mV)	        : inact tau slope\n"
+  "	thi1  = -55		(mV)		: v 1/2 for inact #-45 #-65	\n"
+  "	thi2  = -55 	(mV)		: v 1/2 for inact #-45 #-65\n"
+  "	qd   = 0.5		(mV)	    : inact tau slope\n"
   "	qg   = 1.5      (mV)\n"
   "	mmin=0.02	\n"
   "	hmin=0.01			\n"
   "	q10=2\n"
   "	Rg   = 0.01 	(/ms)		: inact recov (v) 	\n"
-  "	Rd   = .03 	(/ms)		: inact (v)	\n"
+  "	Rd   = .03 		(/ms)		: inact (v)	\n"
   "	qq   = 10        (mV)\n"
   "	tq   = -55      (mV)\n"
   "\n"
   "	thinf  = -55 	(mV)		: inact inf slope	\n"
-  "	qinf  = 7 	(mV)		: inact inf slope \n"
+  "	qinf  = 7 		(mV)		: inact inf slope \n"
   "\n"
   "        vhalfs=-60	(mV)		: slow inact.\n"
   "        a0s=0.0003	(ms)		: a0s=b0s\n"
@@ -770,8 +770,8 @@ static const char* nmodl_file_text =
   "        smax=10		(ms)\n"
   "        vvh=-58		(mV) \n"
   "        vvs=2		(mV)\n"
-  "        ar2=1		(1)		: 1=no inact., 0=max inact.\n"
-  "	ena		(mV)	\n"
+  "        ar2=1		(1)			: 1=no inact., 0=max inact.\n"
+  "	ena			(mV)	\n"
   "	Ena = 55	(mV)            : must be explicitly def. in hoc\n"
   "	celsius\n"
   "	v 		(mV)\n"
