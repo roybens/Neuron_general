@@ -19,8 +19,8 @@ PARAMETER {
 	Ra   = 0.4		(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -55		(mV)		: v 1/2 for inact #-45 #-65	
-	thi2  = -55 	(mV)		: v 1/2 for inact #-45 #-65
+	thi1  = -50		(mV)		: v 1/2 for inact #-45 #-65	#-55
+	thi2  = -50 	(mV)		: v 1/2 for inact #-45 #-65 #-55
 	qd   = 0.5		(mV)	    : inact tau slope
 	qg   = 1.5      (mV)
 	mmin=0.02	
@@ -34,7 +34,7 @@ PARAMETER {
 	thinf  = -55 	(mV)		: inact inf slope	
 	qinf  = 7 		(mV)		: inact inf slope 
 
-        vhalfs=-60	(mV)		: slow inact.
+        vhalfs=-70	(mV)		: slow inact. #-60 #-50
         a0s=0.0003	(ms)		: a0s=b0s
         zetas=12	(1)
         gms=0.2		(1)

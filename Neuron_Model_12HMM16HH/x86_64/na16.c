@@ -179,9 +179,9 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define tq tq_na16
  double tq = -55;
 #define thi2 thi2_na16
- double thi2 = -55;
+ double thi2 = -50;
 #define thi1 thi1_na16
- double thi1 = -55;
+ double thi1 = -50;
 #define tha tha_na16
  double tha = -40;
 #define vvs vvs_na16
@@ -189,7 +189,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define vvh vvh_na16
  double vvh = -58;
 #define vhalfs vhalfs_na16
- double vhalfs = -60;
+ double vhalfs = -70;
 #define zetas zetas_na16
  double zetas = 12;
  /* some parameters have upper and lower limits */
@@ -748,8 +748,8 @@ static const char* nmodl_file_text =
   "	Ra   = 0.4		(/ms)		: open (v)		\n"
   "	Rb   = 0.124 	(/ms)		: close (v)		\n"
   "\n"
-  "	thi1  = -55		(mV)		: v 1/2 for inact #-45 #-65	\n"
-  "	thi2  = -55 	(mV)		: v 1/2 for inact #-45 #-65\n"
+  "	thi1  = -50		(mV)		: v 1/2 for inact #-45 #-65	#-55\n"
+  "	thi2  = -50 	(mV)		: v 1/2 for inact #-45 #-65 #-55\n"
   "	qd   = 0.5		(mV)	    : inact tau slope\n"
   "	qg   = 1.5      (mV)\n"
   "	mmin=0.02	\n"
@@ -763,7 +763,7 @@ static const char* nmodl_file_text =
   "	thinf  = -55 	(mV)		: inact inf slope	\n"
   "	qinf  = 7 		(mV)		: inact inf slope \n"
   "\n"
-  "        vhalfs=-60	(mV)		: slow inact.\n"
+  "        vhalfs=-70	(mV)		: slow inact. #-60 #-50\n"
   "        a0s=0.0003	(ms)		: a0s=b0s\n"
   "        zetas=12	(1)\n"
   "        gms=0.2		(1)\n"
