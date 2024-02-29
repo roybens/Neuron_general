@@ -6,6 +6,9 @@ from pathlib import Path
 import numpy as np
 from currentscape.currentscape import plot_currentscape
 import pandas as pd
+import os
+import datetime
+
 
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF', na16mechs = ['na16','na16HH_TF'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut']
@@ -578,7 +581,7 @@ class Na12Model_TF:
 
 
 
-##_______________________Added to enable run of TTX and overexpression functions
+    ##_______________________Added to enable run of TTX and overexpression functions
     def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005):
         
         ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
@@ -675,6 +678,40 @@ class Na12Model_TF:
         fi_df = pd.DataFrame(fis)
         fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
         return fis
+
+
+    ##TF022924 Ghazaleh's documentation code below, adding to class to call by sim = Na12HMMModel_TF.Na12Model_TF.save2text(self)
+    def save2text(ais_nav12_fac=None,
+                    ais_nav16_fac=None,
+                    nav12=None,
+                    nav16=None,
+                    nav12name=None,
+                    mutname=None,
+                    nav16name=None,):
+
+        # Create the directory if it doesn't exist
+        directory = "Documentation"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Create the text file name with the current date and the value of the mutant variable
+        current_date = datetime.date.today().strftime("%d_%m_%Y")
+        text_file_name = f"runNa12HMMTF_{current_date}.txt"
+        text_file_path = os.path.join(directory, text_file_name)
+
+        # Write the variable documentation to the text file
+        with open(text_file_path, "w") as text_file:
+            text_file.write(f"ais_nav12_fac: {ais_nav12_fac}\n") if ais_nav12_fac is not None else None
+            text_file.write(f"ais_nav16_fac: {ais_nav16_fac}\n") if ais_nav16_fac is not None else None
+            text_file.write(f"nav12: {nav12}\n") if nav12 is not None else None
+            text_file.write(f"nav16: {nav16}\n") if nav16 is not None else None
+            text_file.write(f"nav12name: {nav12name}\n") if nav12name is not None else None
+            text_file.write(f"mutname: {mutname}\n") if mutname is not None else None
+            text_file.write(f"nav16name: {nav16name}\n") if nav16name is not None else None
+        
+        #save2text(weights, best_hof, evaluator.init_WT, evaluator.mutant_data, channel_name,csv_file, mutant, cp_file, wild_type_params,objective_names)
+
+
     
 ####____________________Overexpression and TTX code from Roy's M1TTPC branch from 16HMMtau.py
 def overexp(na12name,mut_name, plots_folder, wt_fac,mut_fac,mutTXT=None,plot_wt=True,fnpre = '100WT20G1625R',axon_KP = 1, 
@@ -721,6 +758,14 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
 
 
 ####____________________________________________________________________________________________    
+
+
+
+
+
+
+
+
 
 
 

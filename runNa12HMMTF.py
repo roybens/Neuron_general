@@ -30,6 +30,7 @@ import efel_feature_extractor as ef
 from currentscape.currentscape import plot_currentscape
 import logging
 import pandas as pd
+import Document as doc
 
 #_____________For Looping through mutants________________________________________________________________________
 # for i in range(1,13):
@@ -445,7 +446,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-40_thi-50_vhalfs-70'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
@@ -453,8 +454,8 @@ if not os.path.exists(root_path_out):
 
 vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(4,6,1):
-        for i16 in np.arange(1,2,1):
+for i12 in np.arange(3,6,1):
+        for i16 in np.arange(1,3,1):
         # for i16 in np.arange(5,8,1):
         
 
