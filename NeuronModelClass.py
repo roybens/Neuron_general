@@ -215,7 +215,7 @@ class NeuronModel:
         
              
         #Function for determining and plotting the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fix1216distribution/Scans_newAIS_020724/{ais_nav12_fac}_{ais_nav16_fac}"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37_node.01/{ais_nav12_fac}_{ais_nav16_fac}"):
             distances = []
             na12_densities = []
             na16_densities = []

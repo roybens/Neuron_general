@@ -41,7 +41,7 @@ class Na12Model_TF:
         K = 1 ##TF020624
         #node_na = 100
         # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
-        node_na = 0.5#1#100#90#80#70#60#50#40#30#20 #10
+        node_na = 0.5 #(0.5 good value, default following newAIS) #1#100#90#80#70#60#50#40#30#20 #10
 
 
         #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)

@@ -446,7 +446,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37_node.01'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
@@ -454,7 +454,7 @@ if not os.path.exists(root_path_out):
 
 vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(3,6,1):
+for i12 in np.arange(1,3,1):
         for i16 in np.arange(1,3,1):
         # for i16 in np.arange(5,8,1):
         
