@@ -159,31 +159,31 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define mmin mmin_na16
  double mmin = 0.02;
 #define qinf qinf_na16
- double qinf = 7;
+ double qinf = 5.4;
 #define qq qq_na16
  double qq = 10;
 #define q10 q10_na16
  double q10 = 2;
 #define qg qg_na16
- double qg = 1.5;
+ double qg = 5.4;
 #define qd qd_na16
- double qd = 0.5;
+ double qd = 5.4;
 #define qa qa_na16
- double qa = 7.2;
+ double qa = 4.5;
 #define smax smax_na16
  double smax = 10;
 #define sh sh_na16
  double sh = 8;
 #define thinf thinf_na16
- double thinf = -55;
+ double thinf = -80;
 #define tq tq_na16
  double tq = -55;
 #define thi2 thi2_na16
- double thi2 = -45;
+ double thi2 = -80;
 #define thi1 thi1_na16
- double thi1 = -45;
+ double thi1 = -80;
 #define tha tha_na16
- double tha = -37;
+ double tha = -59;
 #define vvs vvs_na16
  double vvs = 2;
 #define vvh vvh_na16
@@ -301,7 +301,7 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
  	/*initialize range parameters*/
- 	gbar = 0.01;
+ 	gbar = 0.1;
  	ar2 = 1;
  	_prop->param = _p;
  	_prop->param_size = 20;
@@ -739,19 +739,19 @@ static const char* nmodl_file_text =
   "	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
   "}\n"
   "\n"
-  "PARAMETER {\n"
+  "PARAMETER { :##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals\n"
   "	sh   = 8	(mV)\n"
-  "	gbar = 0.010   	(mho/cm2) : #0.010	#0.1\n"
+  "	gbar = 0.1   	(mho/cm2) 	: #0.010	#0.1\n"
   "								\n"
-  "	tha  =  -37		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	\n"
-  "	qa   = 7.2		(mV)		: act slope (4.5)		\n"
+  "	tha  =  -59		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	\n"
+  "	qa   = 4.5		(mV)		: act slope (4.5)		\n"
   "	Ra   = 0.4		(/ms)		: open (v)		\n"
   "	Rb   = 0.124 	(/ms)		: close (v)		\n"
   "\n"
-  "	thi1  = -45		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50\n"
-  "	thi2  = -45 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50\n"
-  "	qd   = 0.5		(mV)	    : inact tau slope\n"
-  "	qg   = 1.5      (mV)\n"
+  "	thi1  = -80		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50\n"
+  "	thi2  = -80 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50\n"
+  "	qd   = 5.4		(mV)	    : inact tau slope\n"
+  "	qg   = 5.4      (mV)\n"
   "	mmin=0.02	\n"
   "	hmin=0.01			\n"
   "	q10=2\n"
@@ -760,8 +760,8 @@ static const char* nmodl_file_text =
   "	qq   = 10        (mV)\n"
   "	tq   = -55      (mV)\n"
   "\n"
-  "	thinf  = -55 	(mV)		: inact inf slope	\n"
-  "	qinf  = 7 		(mV)		: inact inf slope \n"
+  "	thinf  = -80 	(mV)		: inact inf slope	\n"
+  "	qinf  = 5.4		(mV)		: inact inf slope \n"
   "\n"
   "        vhalfs=-60	(mV)		: slow inact. #-60 #-50 #-70 #-55\n"
   "        a0s=0.0003	(ms)		: a0s=b0s\n"

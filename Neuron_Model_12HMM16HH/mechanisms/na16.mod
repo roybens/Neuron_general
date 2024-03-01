@@ -10,19 +10,19 @@ NEURON {
 	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs
 }
 
-PARAMETER {
+PARAMETER { :##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals
 	sh   = 8	(mV)
-	gbar = 0.010   	(mho/cm2) : #0.010	#0.1
+	gbar = 0.1   	(mho/cm2) 	: #0.010	#0.1
 								
-	tha  =  -37		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	
-	qa   = 7.2		(mV)		: act slope (4.5)		
+	tha  =  -59		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	
+	qa   = 4.5		(mV)		: act slope (4.5)		
 	Ra   = 0.4		(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -45		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50
-	thi2  = -45 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50
-	qd   = 0.5		(mV)	    : inact tau slope
-	qg   = 1.5      (mV)
+	thi1  = -80		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50
+	thi2  = -80 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50
+	qd   = 5.4		(mV)	    : inact tau slope
+	qg   = 5.4      (mV)
 	mmin=0.02	
 	hmin=0.01			
 	q10=2
@@ -31,8 +31,8 @@ PARAMETER {
 	qq   = 10        (mV)
 	tq   = -55      (mV)
 
-	thinf  = -55 	(mV)		: inact inf slope	
-	qinf  = 7 		(mV)		: inact inf slope 
+	thinf  = -80 	(mV)		: inact inf slope	
+	qinf  = 5.4		(mV)		: inact inf slope 
 
         vhalfs=-60	(mV)		: slow inact. #-60 #-50 #-70 #-55
         a0s=0.0003	(ms)		: a0s=b0s

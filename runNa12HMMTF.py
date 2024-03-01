@@ -446,7 +446,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37_node.01'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/baseline'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
@@ -454,8 +454,8 @@ if not os.path.exists(root_path_out):
 
 vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(1,3,1):
-        for i16 in np.arange(1,3,1):
+for i12 in np.arange(3,7,1):
+        for i16 in np.arange(3,7,1):
         # for i16 in np.arange(5,8,1):
         
 
@@ -464,7 +464,7 @@ for i12 in np.arange(1,3,1):
                 #                 na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
                 #                 plots_folder = f'{root_path_out}/somaK-{i}', pfx=f'WT_')
                 sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac = 7,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-                                na16name = 'na16HH_TF',na16mechs=['na16','na16HH_TF'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
+                                na16name = 'na16',na16mechs=['na16','na16'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
                                 plots_folder = f'{root_path_out}/na12-{i12}_na16-{i16}', pfx=f'WT_')
                 
                 
