@@ -145,11 +145,11 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define Rd Rd_na16
  double Rd = 0.03;
 #define Rg Rg_na16
- double Rg = 0.01;
+ double Rg = 0.03;
 #define Rb Rb_na16
- double Rb = 0.124;
+ double Rb = 0.2;
 #define Ra Ra_na16
- double Ra = 0.4;
+ double Ra = 0.1;
 #define a0s a0s_na16
  double a0s = 0.0003;
 #define gms gms_na16
@@ -745,8 +745,8 @@ static const char* nmodl_file_text =
   "								\n"
   "	tha  =  -59		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	\n"
   "	qa   = 4.5		(mV)		: act slope (4.5)		\n"
-  "	Ra   = 0.4		(/ms)		: open (v)		\n"
-  "	Rb   = 0.124 	(/ms)		: close (v)		\n"
+  "	Ra   = 0.1		(/ms)		: open (v) #0.4	#0.124 #0.05 #0.1 #0.2	\n"
+  "	Rb   = 0.2		(/ms)		: close (v) #0.124 #0.05 #0.1 #0.2 #0.001 #0.01		\n"
   "\n"
   "	thi1  = -80		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50\n"
   "	thi2  = -80 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50\n"
@@ -755,8 +755,8 @@ static const char* nmodl_file_text =
   "	mmin=0.02	\n"
   "	hmin=0.01			\n"
   "	q10=2\n"
-  "	Rg   = 0.01 	(/ms)		: inact recov (v) 	\n"
-  "	Rd   = .03 		(/ms)		: inact (v)	\n"
+  "	Rg   = 0.03 	(/ms)		: inact recov (v) #0.01 #.1 #0.001 #0.1 #0.05 	\n"
+  "	Rd   = 0.03 		(/ms)		: inact (v) #0.03 #.3 #0.001 #0.1 #0.05\n"
   "	qq   = 10        (mV)\n"
   "	tq   = -55      (mV)\n"
   "\n"

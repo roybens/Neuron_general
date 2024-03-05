@@ -10,14 +10,14 @@ NEURON {
 	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs
 }
 
-PARAMETER { :##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals
+PARAMETER { 					:##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals
 	sh   = 8	(mV)
 	gbar = 0.1   	(mho/cm2) 	: #0.010	#0.1
 								
 	tha  =  -59		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	
 	qa   = 4.5		(mV)		: act slope (4.5)		
-	Ra   = 0.4		(/ms)		: open (v)		
-	Rb   = 0.124 	(/ms)		: close (v)		
+	Ra   = 0.1		(/ms)		: open (v) #0.4	#0.124 #0.05 #0.1 #0.2	
+	Rb   = 0.2		(/ms)		: close (v) #0.124 #0.05 #0.1 #0.2 #0.001 #0.01		
 
 	thi1  = -80		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50
 	thi2  = -80 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50
@@ -26,9 +26,9 @@ PARAMETER { :##TF030124 Params updated to match na16HH.mod in IC_Fitter in line 
 	mmin=0.02	
 	hmin=0.01			
 	q10=2
-	Rg   = 0.01 	(/ms)		: inact recov (v) 	
-	Rd   = .03 		(/ms)		: inact (v)	
-	qq   = 10        (mV)
+	Rg   = 0.03 	(/ms)		: inact recov (v) #0.01 #.1 #0.001 #0.1 #0.05 	
+	Rd   = 0.03 	(/ms)		: inact (v) #0.03 #.3 #0.001 #0.1 #0.05
+	qq   = 10       (mV)
 	tq   = -55      (mV)
 
 	thinf  = -80 	(mV)		: inact inf slope	
