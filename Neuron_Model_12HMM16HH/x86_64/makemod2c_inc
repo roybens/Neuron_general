@@ -135,11 +135,11 @@
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 
-./na16_mut.c: .././mechanisms/na16_mut.mod
+./na16mut_wtcopy.c: .././mechanisms/na16mut_wtcopy.mod
 	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
-	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na16_mut.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
+	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na16mut_wtcopy.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
 
-./na16_mut.o: ./na16_mut.c
+./na16mut_wtcopy.o: ./na16mut_wtcopy.c
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 

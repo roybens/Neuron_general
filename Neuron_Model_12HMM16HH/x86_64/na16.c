@@ -45,26 +45,51 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define gbar _p[0]
-#define ar2 _p[1]
-#define ina_ina _p[2]
-#define thegna _p[3]
-#define m _p[4]
-#define h _p[5]
-#define s _p[6]
-#define ena _p[7]
-#define ina _p[8]
-#define minf _p[9]
-#define hinf _p[10]
-#define mtau _p[11]
-#define htau _p[12]
-#define sinf _p[13]
-#define taus _p[14]
-#define Dm _p[15]
-#define Dh _p[16]
-#define Ds _p[17]
-#define v _p[18]
-#define _g _p[19]
+#define sh _p[0]
+#define gbar _p[1]
+#define tha _p[2]
+#define qa _p[3]
+#define Ra _p[4]
+#define Rb _p[5]
+#define thi1 _p[6]
+#define thi2 _p[7]
+#define qd _p[8]
+#define qg _p[9]
+#define mmin _p[10]
+#define hmin _p[11]
+#define q10 _p[12]
+#define Rg _p[13]
+#define Rd _p[14]
+#define qq _p[15]
+#define tq _p[16]
+#define thinf _p[17]
+#define qinf _p[18]
+#define vhalfs _p[19]
+#define a0s _p[20]
+#define zetas _p[21]
+#define gms _p[22]
+#define smax _p[23]
+#define vvh _p[24]
+#define vvs _p[25]
+#define ar2 _p[26]
+#define ina_ina _p[27]
+#define thegna _p[28]
+#define m _p[29]
+#define h _p[30]
+#define s _p[31]
+#define ena _p[32]
+#define ina _p[33]
+#define minf _p[34]
+#define hinf _p[35]
+#define mtau _p[36]
+#define htau _p[37]
+#define sinf _p[38]
+#define taus _p[39]
+#define Dm _p[40]
+#define Dh _p[41]
+#define Ds _p[42]
+#define v _p[43]
+#define _g _p[44]
 #define _ion_ena	*_ppvar[0]._pval
 #define _ion_ina	*_ppvar[1]._pval
 #define _ion_dinadv	*_ppvar[2]._pval
@@ -142,62 +167,14 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  /* declare global and static user variables */
 #define Ena Ena_na16
  double Ena = 55;
-#define Rd Rd_na16
- double Rd = 0.03;
-#define Rg Rg_na16
- double Rg = 0.03;
-#define Rb Rb_na16
- double Rb = 0.2;
-#define Ra Ra_na16
- double Ra = 0.1;
-#define a0s a0s_na16
- double a0s = 0.0003;
-#define gms gms_na16
- double gms = 0.2;
-#define hmin hmin_na16
- double hmin = 0.01;
-#define mmin mmin_na16
- double mmin = 0.02;
-#define qinf qinf_na16
- double qinf = 5.4;
-#define qq qq_na16
- double qq = 10;
-#define q10 q10_na16
- double q10 = 2;
-#define qg qg_na16
- double qg = 5.4;
-#define qd qd_na16
- double qd = 5.4;
-#define qa qa_na16
- double qa = 4.5;
-#define smax smax_na16
- double smax = 10;
-#define sh sh_na16
- double sh = 8;
-#define thinf thinf_na16
- double thinf = -80;
-#define tq tq_na16
- double tq = -55;
-#define thi2 thi2_na16
- double thi2 = -80;
-#define thi1 thi1_na16
- double thi1 = -80;
-#define tha tha_na16
- double tha = -59;
-#define vvs vvs_na16
- double vvs = 2;
-#define vvh vvh_na16
- double vvh = -58;
-#define vhalfs vhalfs_na16
- double vhalfs = -60;
-#define zetas zetas_na16
- double zetas = 12;
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
  0,0,0
 };
  static HocParmUnits _hoc_parm_units[] = {
+ "Ena_na16", "mV",
  "sh_na16", "mV",
+ "gbar_na16", "mho/cm2",
  "tha_na16", "mV",
  "qa_na16", "mV",
  "Ra_na16", "/ms",
@@ -219,8 +196,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  "smax_na16", "ms",
  "vvh_na16", "mV",
  "vvs_na16", "mV",
- "Ena_na16", "mV",
- "gbar_na16", "mho/cm2",
  "ar2_na16", "1",
  "ina_ina_na16", "mA/cm2",
  "thegna_na16", "mho/cm2",
@@ -232,31 +207,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static double s0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
- "sh_na16", &sh_na16,
- "tha_na16", &tha_na16,
- "qa_na16", &qa_na16,
- "Ra_na16", &Ra_na16,
- "Rb_na16", &Rb_na16,
- "thi1_na16", &thi1_na16,
- "thi2_na16", &thi2_na16,
- "qd_na16", &qd_na16,
- "qg_na16", &qg_na16,
- "mmin_na16", &mmin_na16,
- "hmin_na16", &hmin_na16,
- "q10_na16", &q10_na16,
- "Rg_na16", &Rg_na16,
- "Rd_na16", &Rd_na16,
- "qq_na16", &qq_na16,
- "tq_na16", &tq_na16,
- "thinf_na16", &thinf_na16,
- "qinf_na16", &qinf_na16,
- "vhalfs_na16", &vhalfs_na16,
- "a0s_na16", &a0s_na16,
- "zetas_na16", &zetas_na16,
- "gms_na16", &gms_na16,
- "smax_na16", &smax_na16,
- "vvh_na16", &vvh_na16,
- "vvs_na16", &vvs_na16,
  "Ena_na16", &Ena_na16,
  0,0
 };
@@ -281,7 +231,32 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "na16",
+ "sh_na16",
  "gbar_na16",
+ "tha_na16",
+ "qa_na16",
+ "Ra_na16",
+ "Rb_na16",
+ "thi1_na16",
+ "thi2_na16",
+ "qd_na16",
+ "qg_na16",
+ "mmin_na16",
+ "hmin_na16",
+ "q10_na16",
+ "Rg_na16",
+ "Rd_na16",
+ "qq_na16",
+ "tq_na16",
+ "thinf_na16",
+ "qinf_na16",
+ "vhalfs_na16",
+ "a0s_na16",
+ "zetas_na16",
+ "gms_na16",
+ "smax_na16",
+ "vvh_na16",
+ "vvs_na16",
  "ar2_na16",
  0,
  "ina_ina_na16",
@@ -299,12 +274,37 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 45, _prop);
  	/*initialize range parameters*/
- 	gbar = 0.1;
+ 	sh = 8;
+ 	gbar = 0.01;
+ 	tha = -59;
+ 	qa = 4.5;
+ 	Ra = 0.4;
+ 	Rb = 0.4;
+ 	thi1 = -80;
+ 	thi2 = -80;
+ 	qd = 5.4;
+ 	qg = 5.4;
+ 	mmin = 0.02;
+ 	hmin = 0.01;
+ 	q10 = 2;
+ 	Rg = 0.01;
+ 	Rd = 0.03;
+ 	qq = 10;
+ 	tq = -55;
+ 	thinf = -80;
+ 	qinf = 5.4;
+ 	vhalfs = -60;
+ 	a0s = 0.0003;
+ 	zetas = 12;
+ 	gms = 0.2;
+ 	smax = 10;
+ 	vvh = -58;
+ 	vvs = 2;
  	ar2 = 1;
  	_prop->param = _p;
- 	_prop->param_size = 20;
+ 	_prop->param_size = 45;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -347,7 +347,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 20, 4);
+  hoc_register_prop_size(_mechtype, 45, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "na_ion");
@@ -736,17 +736,18 @@ static const char* nmodl_file_text =
   "	SUFFIX na16\n"
   "	USEION na READ ena WRITE ina\n"
   "	RANGE  gbar, ar2, thegna,ina_ina\n"
-  "	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
+  "	:GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
+  "	RANGE vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
   "}\n"
   "\n"
-  "PARAMETER { :##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals\n"
+  "PARAMETER { 					:##TF030124 Params updated to match na16HH.mod in IC_Fitter in line with Hu2009(doi:10.1038/nn.2359) vals\n"
   "	sh   = 8	(mV)\n"
-  "	gbar = 0.1   	(mho/cm2) 	: #0.010	#0.1\n"
+  "	gbar = 0.01   	(mho/cm2) 	: #0.010	#0.1\n"
   "								\n"
   "	tha  =  -59		(mV)		: v 1/2 for act #-35 #-45 #-40 #-30 #-50	\n"
   "	qa   = 4.5		(mV)		: act slope (4.5)		\n"
-  "	Ra   = 0.1		(/ms)		: open (v) #0.4	#0.124 #0.05 #0.1 #0.2	\n"
-  "	Rb   = 0.2		(/ms)		: close (v) #0.124 #0.05 #0.1 #0.2 #0.001 #0.01		\n"
+  "	Ra   = 0.4		(/ms)		: open (v) #0.4	#0.124 #0.05 #0.1 #0.2	\n"
+  "	Rb   = 0.4		(/ms)		: close (v) #0.124 #0.05 #0.1 #0.2 #0.001 #0.01		\n"
   "\n"
   "	thi1  = -80		(mV)		: v 1/2 for inact #-45 #-65	#-55 #-50\n"
   "	thi2  = -80 	(mV)		: v 1/2 for inact #-45 #-65 #-55 #-50\n"
@@ -755,9 +756,9 @@ static const char* nmodl_file_text =
   "	mmin=0.02	\n"
   "	hmin=0.01			\n"
   "	q10=2\n"
-  "	Rg   = 0.03 	(/ms)		: inact recov (v) #0.01 #.1 #0.001 #0.1 #0.05 	\n"
-  "	Rd   = 0.03 		(/ms)		: inact (v) #0.03 #.3 #0.001 #0.1 #0.05\n"
-  "	qq   = 10        (mV)\n"
+  "	Rg   = 0.01 	(/ms)		: inact recov (v) #0.01 #.1 #0.001 #0.1 #0.05 #0.03 	\n"
+  "	Rd   = 0.03 	(/ms)		: inact (v) #0.03 #.3 #0.001 #0.1 #0.05 #0.03\n"
+  "	qq   = 10       (mV)\n"
   "	tq   = -55      (mV)\n"
   "\n"
   "	thinf  = -80 	(mV)		: inact inf slope	\n"

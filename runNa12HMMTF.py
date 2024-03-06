@@ -446,7 +446,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/Scan_slopes'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/EditNeuronModelClass'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
@@ -454,8 +454,8 @@ if not os.path.exists(root_path_out):
 
 vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(4,5,1):
-        for i16 in np.arange(4,5,1):
+for i12 in np.arange(2,3,1):
+        for i16 in np.arange(2,3,1):
         # for i16 in np.arange(5,8,1):
         
 
@@ -463,9 +463,9 @@ for i12 in np.arange(4,5,1):
                 # sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac = 7,nav12=4,nav16=3,somaK=i,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
                 #                 na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
                 #                 plots_folder = f'{root_path_out}/somaK-{i}', pfx=f'WT_')
-                sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac = 7,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-                                na16name = 'na16',na16mechs=['na16','na16'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
-                                plots_folder = f'{root_path_out}/RgRd.03_Ra.1_Rb.2', pfx=f'WT_')  #f'{root_path_out}/na12-{i12}_na16-{i16}'
+                sim = tf.Na12Model_TF(ais_nav12_fac=5,ais_nav16_fac = 5,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
+                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/12-{i12}_16_{i16}_updateTrue10', pfx=f'WT_')  #f'{root_path_out}/na12-{i12}_na16-{i16}'
                 
                 
                 #soma

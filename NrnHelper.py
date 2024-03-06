@@ -188,9 +188,44 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                 #print(h.Section())
 
                 for p_name in param_dict.keys():
-                    #print(f' p name {p_name}') ###120523 TF
+                    # print(f' p name {p_name}') ###120523 TF
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                    #print(f'hoc command {hoc_cmd}') ###120523 TF
+                    # print(f'hoc command {hoc_cmd}') ###120523 TF
+                    h(hoc_cmd)
+              
+                #in case we need to go per sec:
+                  #  for seg in curr_sec:
+                  #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
+                  #      print(hoc_cmd)
+    
+    return param_dict
+
+##TF030624 Update mech from dict function specifically for HH mod files
+def update_mech_from_dict_HH(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0'):
+    if input_dict:
+        param_dict = dict_fn
+    else:
+        with open(dict_fn) as f:
+            data = f.read()
+        param_dict = json.loads(data)
+    print(f'updating {mechs} with {param_dict}')
+    
+    for curr_sec in mdl.sl:
+        print(f'current section {curr_sec}') ###120523 TF
+        for curr_mech in mechs:
+            print(f'Current Mech {curr_mech}') ###120523 TF
+            if h.ismembrane(curr_mech, sec=curr_sec):
+                curr_name = h.secname(sec=curr_sec)
+                #print(f'Current Name {curr_name}')###120523 TF
+                #sec = h.Section()
+                #print(sec)
+                #print(eval(f'h.psection(sec=sec)'))
+                #print(h.Section())
+
+                for p_name in param_dict.keys():
+                    # print(f' p name {p_name}') ###120523 TF
+                    hoc_cmd = f'{curr_name}.{p_name} = {param_dict[p_name]}'
+                    # print(f'hoc command {hoc_cmd}') ###120523 TF
                     h(hoc_cmd)
               
                 #in case we need to go per sec:

@@ -13,11 +13,21 @@ import csv
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
+from NrnHelper import *
 
 
 class NeuronModel:
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
-    
+                      
+                      update = True,
+                      na12name = 'na12_HMM_TF100923',
+                      na12mut_name = 'na12_HMM_TF100923',
+                      na12mechs = ['na12','na12mut'],
+                      na16name = 'na16HH_TF',
+                      na16mut_name = 'na16HH_TF',
+                      na16mechs=['na16','na16mut'],
+                      params_folder = './params/',
+
                       nav12=1,
                       nav16=1,
                       dend_nav12=1,
@@ -281,7 +291,62 @@ class NeuronModel:
 
 
         os.chdir(run_dir)
+
         
+        
+        
+        #############################################################
+        ##Add update_mech_from_dict and update_param_value here #####
+        if update == True:
+            update_param_value(self,['SKv3_1'],'mtaumul',6)
+    
+            self.na12wt_mech = [na12mechs[0]] 
+            self.na12mut_mech = [na12mechs[1]]
+
+            self.na16wt_mech = [na16mechs[0]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
+            self.na16mut_mech = [na16mechs[1]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
+            self.na16mechs = na16mechs
+
+            self.h.working()                                                 
+            p_fn_na12 = f'{params_folder}{na12name}.txt'  
+            p_fn_na12_mech = f'{params_folder}{na12mut_name}.txt'
+            print(f'using wt_file {na12name}')
+            self.na12_p = update_mech_from_dict(self, p_fn_na12, self.na12wt_mech)
+            print(eval("h.psection()")) 
+            print(f'using mut_file {na12mut_name}')
+            self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
+            print(eval("h.psection()"))
+
+            #Adding ability to update with new Na16 mechs ##TF021424
+            p_fn_na16 = f'{params_folder}{na16name}.txt'
+            p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt'
+            
+            print(f'using na16wt_file {na16name}')
+            self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
+            print(eval("h.psection()"))
+            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            h.printValsWT()
+            
+            print(f'using na16mut_file {na16mut_name}')
+            self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
+            print(eval("h.psection()"))
+            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            h.printValsMUT()
+            # print(h("topology()"))
+
+            
+            
+            # section = h.cell.axon[0]
+            # print("Section properties:")
+            # print(h.cell.axon[0].properties())
+            
+            # for sec in h.cell.axon:
+            #     print("SKv3_1",sec.SKv3_1)
+            #     print("SH",sec.sh_na16)
+            #     # print("sh",sec.gIhbar_Ih)
+            ############################################################
+        
+    
     def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
 

@@ -11,8 +11,9 @@ import datetime
 
 
 class Na12Model_TF:
-    def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF', na16mechs = ['na16','na16HH_TF'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut']
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1): ##TF012524 added ais_nav16
+    def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
+                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1,
+                 update = True): ##TF012524 added ais_nav16
         
         #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
         
@@ -86,49 +87,67 @@ class Na12Model_TF:
        #______________GY
         #KP= KP
         
-    
+           
 
-        self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na, ais_nav16_fac=ais_nav16_fac,ais_nav12_fac=ais_nav12_fac) #TF 012524 added ais_nav16 to change in reference to ais_nav12
-        update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
-   
-        self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
-        self.wt_mech = [na12mechs[0]]   #new from Namut
-        self.na16wt_mech = [na16mechs[0]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
-        self.na16mut_mech = [na16mechs[1]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
-        self.na16mechs = na16mechs
+        self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,
+                                 ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na, 
+                                 ais_nav16_fac=ais_nav16_fac,ais_nav12_fac=ais_nav12_fac, #TF 012524 added ais_nav16 to change in reference to ais_nav12
+                                 ##TF030624 Args below added to add update_mech_from_dict functionality to NeuronModel class.
+                                 update = update, ##Change to false if you don't want to update mechs
+                                 na12name = na12name,
+                                 na12mut_name = mut_name,
+                                 na12mechs = na12mechs,
+                                 na16name = na16name,
+                                 na16mut_name = na16mut_name,
+                                 na16mechs = na16mechs,
+                                 params_folder=params_folder,
+                                 ) 
+        
         self.plot_folder = plots_folder 
         self.plot_folder = f'{plots_folder}'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         self.pfx = pfx
+    
+    
 
-     #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
-     #na12name and mut_name then you will have homozygus
-        self.l5mdl.h.working()                                                 
-        p_fn_na12 = f'{params_folder}{na12name}.txt'  
-        p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
-        print(f'using wt_file {na12name}')
-        self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.wt_mech)
-        print(eval("h.psection()")) 
-        print(f'using mut_file {mut_name}')
-        self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
-        print(eval("h.psection()"))
+    #     update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
+   
+    #     self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
+    #     self.wt_mech = [na12mechs[0]]   #new from Namut
+    #     self.na16wt_mech = [na16mechs[0]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
+    #     self.na16mut_mech = [na16mechs[1]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
+    #     self.na16mechs = na16mechs
+        
 
-        #Adding ability to update with new Na16 mechs ##TF021424
-        p_fn_na16 = f'{params_folder}{na16name}.txt'
-        # p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt' ##Would have to implement this in class args if want to make na16 muts
-        # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-        # h.printVals()
+    #  #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
+    #  #na12name and mut_name then you will have homozygus
+    #     self.l5mdl.h.working()                                                 
+    #     p_fn_na12 = f'{params_folder}{na12name}.txt'  
+    #     p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
+    #     print(f'using wt_file {na12name}')
+    #     self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.wt_mech)
+    #     print(eval("h.psection()")) 
+    #     print(f'using mut_file {mut_name}')
+    #     self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
+    #     print(eval("h.psection()"))
 
-        # for sec in h.cell.axon:
-        #     print("sh",sec.gIhbar_Ih)
-        #     print("SH",sec.sh_na16)
+    #     #Adding ability to update with new Na16 mechs ##TF021424
+    #     # p_fn_na16 = f'{params_folder}{na16name}.txt'
+    #     # p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt' ##Would have to implement this in class args if want to make na16 muts
+        
+    #     # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+    #     # h.printVals()
+
+    #     # for sec in h.cell.axon:
+    #     #     print("sh",sec.gIhbar_Ih)
+    #     #     print("SH",sec.sh_na16)
 
 
 
-        # self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16,self.na16wt_mech)
-        # h.printVals()
-        print(f'using na16 file {na16name}')
-        print(eval("h.psection()"))
+    #     # self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16,self.na16wt_mech)
+    #     # h.printVals()
+    #     print(f'using na16 file {na16name}')
+    #     print(eval("h.psection()"))
         # print("TOPOLOGY BELOW ######################################################")
         # print(h("topology()"))
 
