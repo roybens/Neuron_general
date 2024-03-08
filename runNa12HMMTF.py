@@ -31,6 +31,7 @@ from currentscape.currentscape import plot_currentscape
 import logging
 import pandas as pd
 import Document as doc
+import Tim_ng_functions as nf
 
 #_____________For Looping through mutants________________________________________________________________________
 # for i in range(1,13):
@@ -446,26 +447,79 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/EditNeuronModelClass'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/EditNeuronModelClass/ais_44_updategbar'
 
 if not os.path.exists(root_path_out):
         os.mkdir(root_path_out)
 
 
-vals = [1]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
+vals = [1]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(2,3,1):
-        for i16 in np.arange(2,3,1):
-        # for i16 in np.arange(5,8,1):
-        
+for i12 in np.arange(1,5,1):
+# for i12 in vals:        
+        for i16 in np.arange(1,3,1):
+                ##Adding below function to loop through different na16.mod params        
+                filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt"
+                changesna16 = {  ##params from na16.mod and na16mut_wtcopy.mod
+                        "sh":8, #8
+                        "gbar":0.1, ##scanned
+                        "tha":-59, #don't change
+                        "qa":4.5, #don't change
+                        "Ra":0.4, #0.4
+                        "Rb":0.1, #0.124
+                        "thi1":-80, #don't change
+                        "thi2":-80, #don't change
+                        "qd":5.4, #don't change
+                        "qg":5.4, #don't change
+                        "hmin":0.01,
+                        "mmin":0.02,
+                        "q10":2,
+                        "Rg":0.01, #0.01 ########@@@@@@@@@@
+                        "Rd":0.02, ########@@@@@@@@@@
+                        "thinf":-80, #don't change
+                        "qinf":5.4, #don't change
+                        "vhalfs":-60, #don't change
+                        "a0s":0.0003,
+                        "zetas":12,
+                        "gms":0.2,
+                        "smax":10,
+                        "vvh":-58,
+                        "vvs":2,
+                        "ar2":1,
+                        "ena":55
+                        }
+                changesna12 = {"a1_0": 7.3917081233326964, 
+                               "a1_1": 0.020960637742640235, 
+                               "b1_0": 0.36296088733379755, 
+                               "b1_1": 0.16680524810129632, 
+                               "a2_0": 466.03560625002507, 
+                               "a2_1": 0.32567824887881647, 
+                               "b2_0": 476.76246431747546, 
+                               "b2_1": 3.237964775220791, 
+                               "a3_0": 138.3653253992877, 
+                               "a3_1": 0.1294574328268014, 
+                               "b3_0": 3569.9158743150915, 
+                               "b3_1": 0.0872001126087137, 
+                               "bh_0": 2.431699390098816, 
+                               "bh_1": 4.764311256848339, 
+                               "bh_2": 0.12976195895416504, 
+                               "ah_0": 3.640921294365118, 
+                               "ah_1": 5944.063823249113, 
+                               "ah_2": 0.019988765965544244, 
+                               "vShift": -40, #-22.94301368173753 #-40 
+                               "vShift_inact": 15,#17.286867168698212, 
+                               "maxrate": 2233.5902391087598}
+                nf.modify_dict_file(filename, changesna12)
 
-        #Make WT and save data for comparison later
+ 
+
+                #Make WT and save data for comparison later
                 # sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac = 7,nav12=4,nav16=3,somaK=i,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
                 #                 na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
                 #                 plots_folder = f'{root_path_out}/somaK-{i}', pfx=f'WT_')
-                sim = tf.Na12Model_TF(ais_nav12_fac=5,ais_nav16_fac = 5,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
-                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/12-{i12}_16_{i16}_updateTrue10', pfx=f'WT_')  #f'{root_path_out}/na12-{i12}_na16-{i16}'
+                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac = 4,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',
+                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/12-{i12}_16-{i16}', pfx=f'WT_')  #f'{root_path_out}/na12-{i12}_na16-{i16}'
                 
                 
                 #soma

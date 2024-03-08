@@ -13,7 +13,7 @@ import datetime
 class Na12Model_TF:
     def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
                  nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1,
-                 update = True): ##TF012524 added ais_nav16
+                 update = True): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
         
         #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
         

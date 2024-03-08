@@ -324,12 +324,14 @@ class NeuronModel:
             print(f'using na16wt_file {na16name}')
             self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
             print(eval("h.psection()"))
-            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            h.printValsWT()
+            ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
+            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            # h.printValsWT()
             
             print(f'using na16mut_file {na16mut_name}')
             self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
             print(eval("h.psection()"))
+            ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             h.printValsMUT()
             # print(h("topology()"))

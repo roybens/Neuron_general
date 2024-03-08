@@ -280,7 +280,7 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 57, _prop);
  	/*initialize range parameters*/
- 	gbar = 0.008;
+ 	gbar = 0.1;
  	a1_0 = 45.8498;
  	a1_1 = 0.0239354;
  	b1_0 = 0.0144095;
@@ -1010,7 +1010,8 @@ static const char* nmodl_file_text =
   "UNITS { (mV) = (millivolt) }\n"
   ": initialize parameters\n"
   "PARAMETER {\n"
-  "    gbar = 0.008 (mho/cm2)\n"
+  "    gbar=0.1        (mho/cm2)\n"
+  ":    gbar = 0.008 (mho/cm2)\n"
   ":    gbar = 3     (millimho/cm2)\n"
   ":    gbar = 1000     (mho/cm2)\n"
   "    a1_0 = 4.584982656184167e+01 (/ms)\n"

@@ -174,6 +174,83 @@ def plot_efeatures_bar(plot_folder,pfx):
     return
 
 
+##Takes params text file and allows you to change the values for scanning etc...
+def modify_dict_file(filename, changes):
+  """
+  Modifies values in a dictionary stored in a text file.
+
+  Args:
+      filename: The name of the text file containing the dictionary.
+      changes: A dictionary containing key-value pairs where the key is the key to modify in the original dictionary and the value is the new value.
+
+  Raises:
+      ValueError: If the file cannot be opened or the content is not valid JSON.
+  """
+
+  try:
+    # Open the file and read its content
+    with open(filename, "r") as file:
+      content = file.read()
+
+    # Try to load the content as a dictionary
+    try:
+      data = eval(content)  # Assuming the file contains valid dictionary syntax
+    except (NameError, SyntaxError):
+      raise ValueError("Invalid dictionary format in the file.")
+
+    # Modify values based on the provided changes dictionary
+    for key, value in changes.items():
+      if key not in data:
+        print(f"Warning: Key '{key}' not found in the dictionary, skipping.")
+      else:
+        data[key] = value
+
+    # Write the modified dictionary back to the file
+    # with open(filename, "w") as file:
+    #   file.write(repr(data))
+    with open(filename, "w") as file:
+      file.write(json.dumps(data, indent=2))  # Add indentation for readability (optional)
+
+  except IOError as e:
+    raise ValueError(f"Error opening or writing file: {e}")
+
+
+
+
+##Using Modify_dict_file, setting args
+filename = "/global/homes/t/tfenton/Neuron_general-2/params/na16HH_TF2.txt"
+changes = {
+          "sh":8,
+          "gbar":0.1,
+          "tha":-59, #don't change
+          "qa":4.5, #don't change
+          "Ra":0.4,
+          "Rb":0.124,
+          "thi1":-80, #don't change
+          "thi2":-80, #don't change
+          "qd":5.4, #don't change
+          "qg":5.4, #don't change
+          "hmin":0.01,
+          "mmin":0.02,
+          "q10":2,
+          "Rg":0.01,
+          "Rd":0.03,
+          "thinf":-80, #don't change
+          "qinf":5.4, #don't change
+          "vhalfs":-60, #don't change
+          "a0s":0.0003,
+          "zetas":12,
+          "gms":0.2,
+          "smax":10,
+          "vvh":-58,
+          "vvs":2,
+          "ar2":1,
+          "ena":55
+          }
+
+modify_dict_file(filename, changes)
+
+
 
 
 
@@ -182,8 +259,8 @@ def plot_efeatures_bar(plot_folder,pfx):
 
 #combine_and_sort_ef_csvs(root_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/AllSynthMuts_121223/', out_sfx='allsynthmuts_121323_sorted')
 
-make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16',
-                  output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16/finetune_na16_012524.pptx')
+# make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16',
+                  # output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16/finetune_na16_012524.pptx')
 
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
