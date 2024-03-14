@@ -119,6 +119,14 @@
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 
+./na12annaTFHH.c: .././mechanisms/na12annaTFHH.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
+	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12annaTFHH.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
+
+./na12annaTFHH.o: ./na12annaTFHH.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
+	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+
 ./na16.c: .././mechanisms/na16.mod
 	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
 	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na16.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")

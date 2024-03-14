@@ -12,15 +12,15 @@ NEURON {
 
 PARAMETER {
 	sh   = 8	(mV)
-	gbar = 0.1   	(mho/cm2)	
+	gbar = 0.01 :0.1   	(mho/cm2)	
 								
-	tha  =  -55	(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45
+	tha  =  -47(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45
 	qa   = 7.2	(mV)		: act slope (4.5)		
 	Ra   = 0.4	(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -35	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
-	thi2  = -35 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
+	thi1  = -61	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
+	thi2  = -61 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
 	qd   = 0.5	(mV)	        : inact tau slope 
 	qg   = 1.5      (mV)
 	mmin=0.02	
@@ -31,7 +31,7 @@ PARAMETER {
 	qq   = 10        (mV)
 	tq   = -55      (mV)
 
-	thinf  = -105 	(mV)		: inact inf slope ##TF021424 right shift #-55 #-65-105 TF021524
+	thinf  = -65 	(mV)		: inact inf slope ##TF021424 right shift #-55
 	qinf  = 7 	(mV)		: inact inf slope 
 
         vhalfs=-40	(mV)		: slow inact. ##TF021424 right shift #-60 

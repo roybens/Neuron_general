@@ -174,15 +174,15 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define sh sh_na16HH_TF
  double sh = 8;
 #define thinf thinf_na16HH_TF
- double thinf = -105;
+ double thinf = -65;
 #define tq tq_na16HH_TF
  double tq = -55;
 #define thi2 thi2_na16HH_TF
- double thi2 = -35;
+ double thi2 = -61;
 #define thi1 thi1_na16HH_TF
- double thi1 = -35;
+ double thi1 = -61;
 #define tha tha_na16HH_TF
- double tha = -55;
+ double tha = -47;
 #define vvs vvs_na16HH_TF
  double vvs = 2;
 #define vvh vvh_na16HH_TF
@@ -219,7 +219,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  "vvh_na16HH_TF", "mV",
  "vvs_na16HH_TF", "mV",
  "Ena_na16HH_TF", "mV",
- "gbar_na16HH_TF", "mho/cm2",
  "ar2_na16HH_TF", "1",
  "thegna_na16HH_TF", "mho/cm2",
  0,0
@@ -298,7 +297,7 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 19, _prop);
  	/*initialize range parameters*/
- 	gbar = 0.1;
+ 	gbar = 0.01;
  	ar2 = 1;
  	_prop->param = _p;
  	_prop->param_size = 19;
@@ -737,15 +736,15 @@ static const char* nmodl_file_text =
   "\n"
   "PARAMETER {\n"
   "	sh   = 8	(mV)\n"
-  "	gbar = 0.1   	(mho/cm2)	\n"
+  "	gbar = 0.01 :0.1   	(mho/cm2)	\n"
   "								\n"
-  "	tha  =  -55	(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45\n"
+  "	tha  =  -47(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45\n"
   "	qa   = 7.2	(mV)		: act slope (4.5)		\n"
   "	Ra   = 0.4	(/ms)		: open (v)		\n"
   "	Rb   = 0.124 	(/ms)		: close (v)		\n"
   "\n"
-  "	thi1  = -35	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	\n"
-  "	thi2  = -35 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	\n"
+  "	thi1  = -61	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	\n"
+  "	thi2  = -61 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	\n"
   "	qd   = 0.5	(mV)	        : inact tau slope \n"
   "	qg   = 1.5      (mV)\n"
   "	mmin=0.02	\n"
@@ -756,7 +755,7 @@ static const char* nmodl_file_text =
   "	qq   = 10        (mV)\n"
   "	tq   = -55      (mV)\n"
   "\n"
-  "	thinf  = -105 	(mV)		: inact inf slope ##TF021424 right shift #-55 #-65-105 TF021524\n"
+  "	thinf  = -65 	(mV)		: inact inf slope ##TF021424 right shift #-55\n"
   "	qinf  = 7 	(mV)		: inact inf slope \n"
   "\n"
   "        vhalfs=-40	(mV)		: slow inact. ##TF021424 right shift #-60 \n"

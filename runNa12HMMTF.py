@@ -447,17 +447,18 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/UpdatedNa16modfile/EditNeuronModelClass/ais_44_updategbar'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/HH_baseline/'
 
 if not os.path.exists(root_path_out):
-        os.mkdir(root_path_out)
+        os.makedirs(root_path_out)
+        # os.mkdir(root_path_out)
 
 
 vals = [1]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 # for i in vals:
-for i12 in np.arange(1,5,1):
+for i12 in np.arange(1,12,2):
 # for i12 in vals:        
-        for i16 in np.arange(1,3,1):
+        for i16 in np.arange(8,9,1):
                 ##Adding below function to loop through different na16.mod params        
                 filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt"
                 changesna16 = {  ##params from na16.mod and na16mut_wtcopy.mod
@@ -509,7 +510,8 @@ for i12 in np.arange(1,5,1):
                                "vShift": -40, #-22.94301368173753 #-40 
                                "vShift_inact": 15,#17.286867168698212, 
                                "maxrate": 2233.5902391087598}
-                nf.modify_dict_file(filename, changesna12)
+                ##Uncomment if want to update params file to update mod file!!!
+                # nf.modify_dict_file(filename, changesna12)
 
  
 
@@ -517,9 +519,11 @@ for i12 in np.arange(1,5,1):
                 # sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac = 7,nav12=4,nav16=3,somaK=i,na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',
                 #                 na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/na12HMM_allsynthmuts_HOFs/',
                 #                 plots_folder = f'{root_path_out}/somaK-{i}', pfx=f'WT_')
-                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac = 4,nav12=i12,nav16=i16,na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',
-                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/12-{i12}_16-{i16}', pfx=f'WT_')  #f'{root_path_out}/na12-{i12}_na16-{i16}'
+                sim = tf.Na12Model_TF(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15, ais_Kca=i12,
+                                na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
+                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/gbar.01_1216-115_ais88_aisKca{i12}', pfx=f'WT_', update=False
+                                )  #f'{root_path_out}/na12-{i12}_na16-{i16}'
                 
                 
                 #soma
