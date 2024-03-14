@@ -88,7 +88,7 @@ def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #r
     # print(len(dvdt))
     #dvdt = np.gradient(volts)/dt
     
-    axs.plot(volts, dvdt, color = clr)
+    axs.plot(volts, dvdt, color = clr, linewidth=0.5)
     #axs.plot(volts[1:20000], dvdt[1:20000], color = clr)#plot first peak only
 
     return axs

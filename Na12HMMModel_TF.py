@@ -354,13 +354,13 @@ class Na12Model_TF:
         self.t = t
         self.stim = stim
         
-        axs.plot(t,Vm, label='Vm', color=clr,linewidth=1)
+        axs.plot(t,Vm, label='Vm', color=clr,linewidth=0.5) ##TF031424 changed linewidth
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #plt.show()
         #add_scalebar(axs)
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
-        plt.savefig(file_path_to_save, format='pdf')
+        # plt.savefig(file_path_to_save, format='pdf') ##TF031424 removed to avoid duplicates since plotting dvdt_from_volts as well.
         return
     
     #Plot both WT and mut on same stim plot
@@ -706,7 +706,13 @@ class Na12Model_TF:
                     nav16=None,
                     nav12name=None,
                     mutname=None,
-                    nav16name=None,):
+                    nav16name=None,
+                    na12mechs=None,
+                    na16mut_name=None,
+                    na16mechs=None,
+                    params_folder=None,
+                    plots_folder=None,
+                    ):
 
         # Create the directory if it doesn't exist
         directory = "Documentation"
@@ -727,6 +733,11 @@ class Na12Model_TF:
             text_file.write(f"nav12name: {nav12name}\n") if nav12name is not None else None
             text_file.write(f"mutname: {mutname}\n") if mutname is not None else None
             text_file.write(f"nav16name: {nav16name}\n") if nav16name is not None else None
+            text_file.write(f"na16mut_name: {na16mut_name}\n") if na16mut_name is not None else None
+            text_file.write(f"na12mechs: {na12mechs}\n") if na12mechs is not None else None
+            text_file.write(f"na16mechs: {na16mechs}\n") if na16mechs is not None else None
+            text_file.write(f"params_folder: {params_folder}\n") if params_folder is not None else None
+            text_file.write(f"plots_folder: {plots_folder}\n") if plots_folder is not None else None
         
         #save2text(weights, best_hof, evaluator.init_WT, evaluator.mutant_data, channel_name,csv_file, mutant, cp_file, wild_type_params,objective_names)
 
