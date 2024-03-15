@@ -47,23 +47,24 @@ extern double hoc_Exp(double);
 #define dt _nt->_dt
 #define gbar _p[0]
 #define ar2 _p[1]
-#define thegna _p[2]
-#define m _p[3]
-#define h _p[4]
-#define s _p[5]
-#define ena _p[6]
-#define ina _p[7]
-#define minf _p[8]
-#define hinf _p[9]
-#define mtau _p[10]
-#define htau _p[11]
-#define sinf _p[12]
-#define taus _p[13]
-#define Dm _p[14]
-#define Dh _p[15]
-#define Ds _p[16]
-#define v _p[17]
-#define _g _p[18]
+#define ina_ina _p[2]
+#define thegna _p[3]
+#define m _p[4]
+#define h _p[5]
+#define s _p[6]
+#define ena _p[7]
+#define ina _p[8]
+#define minf _p[9]
+#define hinf _p[10]
+#define mtau _p[11]
+#define htau _p[12]
+#define sinf _p[13]
+#define taus _p[14]
+#define Dm _p[15]
+#define Dh _p[16]
+#define Ds _p[17]
+#define v _p[18]
+#define _g _p[19]
 #define _ion_ena	*_ppvar[0]._pval
 #define _ion_ina	*_ppvar[1]._pval
 #define _ion_dinadv	*_ppvar[2]._pval
@@ -219,6 +220,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  "vvs_na12annaTFHH", "mV",
  "Ena_na12annaTFHH", "mV",
  "ar2_na12annaTFHH", "1",
+ "ina_ina_na12annaTFHH", "milliamp/cm2",
  "thegna_na12annaTFHH", "mho/cm2",
  0,0
 };
@@ -280,6 +282,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "gbar_na12annaTFHH",
  "ar2_na12annaTFHH",
  0,
+ "ina_ina_na12annaTFHH",
  "thegna_na12annaTFHH",
  0,
  "m_na12annaTFHH",
@@ -294,12 +297,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 19, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
  	/*initialize range parameters*/
  	gbar = 0.01;
  	ar2 = 1;
  	_prop->param = _p;
- 	_prop->param_size = 19;
+ 	_prop->param_size = 20;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -342,7 +345,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 19, 4);
+  hoc_register_prop_size(_mechtype, 20, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "na_ion");
@@ -603,6 +606,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    thegna = gbar * m * m * m * h * s ;
    ina = thegna * ( v - Ena ) ;
+   ina_ina = thegna * ( v - Ena ) ;
    }
  _current += ina;
 
@@ -729,7 +733,7 @@ static const char* nmodl_file_text =
   "NEURON {\n"
   "	SUFFIX na12annaTFHH\n"
   "	USEION na READ ena WRITE ina\n"
-  "	RANGE  gbar, ar2, thegna\n"
+  "	RANGE  gbar, ar2, thegna, ina_ina\n"
   "	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
   "}\n"
   "\n"
@@ -781,6 +785,7 @@ static const char* nmodl_file_text =
   "\n"
   "ASSIGNED {\n"
   "	ina 		(mA/cm2)\n"
+  "    ina_ina  (milliamp/cm2)  :to monitor\n"
   "	thegna		(mho/cm2)\n"
   "	minf 		\n"
   "	hinf 		\n"
@@ -797,6 +802,8 @@ static const char* nmodl_file_text =
   "        SOLVE states METHOD cnexp\n"
   "        thegna = gbar*m*m*m*h*s\n"
   "	ina = thegna * (v - Ena)\n"
+  "    ina_ina = thegna*(v - Ena)     : define  gbar as pS/um2 instead of mllimho/cm2     :to monitor\n"
+  "\n"
   "} \n"
   "\n"
   "INITIAL {\n"

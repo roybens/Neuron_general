@@ -447,71 +447,105 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/HH_baseline/ScanAIS_na1-19_somaK6/'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/HH_baseline/Scangbar/'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals = [1]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
+vals = [.01]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
+vals2 = [-80]
 # for i in vals:
-for i12 in np.arange(5,6,1):
-# for i12 in vals:        
-        for i16 in np.arange(4,12,2):
+# for i12 in np.arange(8,9,1):
+for i12 in vals:        
+        # for i16 in np.arange(8,9,1):
+        for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
-                filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt"
-                changesna16 = {  ##params from na16.mod and na16mut_wtcopy.mod
-                        "sh":8, #8
-                        "gbar":0.1, ##scanned
-                        "tha":-59, #don't change
-                        "qa":4.5, #don't change
-                        "Ra":0.4, #0.4
-                        "Rb":0.1, #0.124
-                        "thi1":-80, #don't change
-                        "thi2":-80, #don't change
-                        "qd":5.4, #don't change
-                        "qg":5.4, #don't change
-                        "hmin":0.01,
-                        "mmin":0.02,
-                        "q10":2,
-                        "Rg":0.01, #0.01 ########@@@@@@@@@@
-                        "Rd":0.02, ########@@@@@@@@@@
-                        "thinf":-80, #don't change
-                        "qinf":5.4, #don't change
-                        "vhalfs":-60, #don't change
-                        "a0s":0.0003,
-                        "zetas":12,
-                        "gms":0.2,
-                        "smax":10,
-                        "vvh":-58,
-                        "vvs":2,
-                        "ar2":1,
-                        "ena":55
+                # filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt" ##TF031524 for changing 8st na12
+                filename12 = '/global/homes/t/tfenton/Neuron_general-2/params/na12annaTFHH2.txt'
+                filename16 = '/global/homes/t/tfenton/Neuron_general-2/params/na16HH_TF2.txt'
+
+                changesna12 = {
+                        "sh": 8,
+                        "gbar": i12,#0.01,
+                        "tha": -38,
+                        "qa": 5.41,
+                        "Ra": 0.3282,
+                        "Rb": 0.1,
+                        "thi1": -80,
+                        "thi2": -80,
+                        "qd": 0.5,
+                        "qg": 1.5,
+                        "mmin": 0.02,
+                        "hmin": 0.01,
+                        "Rg": 0.01,
+                        "Rd": 0.02657,
+                        "thinf": -53,
+                        "qinf": 7.69,
+                        "vhalfs": -60,
+                        "a0s": 0.0003,
+                        "gms": 0.2,
+                        "q10": 2,
+                        "zetas": 12,
+                        "smax": 10,
+                        "vvh": -58,
+                        "vvs": 2,
+                        "ar2": 1,
+                        "ena": 55
                         }
-                changesna12 = {"a1_0": 7.3917081233326964, 
-                               "a1_1": 0.020960637742640235, 
-                               "b1_0": 0.36296088733379755, 
-                               "b1_1": 0.16680524810129632, 
-                               "a2_0": 466.03560625002507, 
-                               "a2_1": 0.32567824887881647, 
-                               "b2_0": 476.76246431747546, 
-                               "b2_1": 3.237964775220791, 
-                               "a3_0": 138.3653253992877, 
-                               "a3_1": 0.1294574328268014, 
-                               "b3_0": 3569.9158743150915, 
-                               "b3_1": 0.0872001126087137, 
-                               "bh_0": 2.431699390098816, 
-                               "bh_1": 4.764311256848339, 
-                               "bh_2": 0.12976195895416504, 
-                               "ah_0": 3.640921294365118, 
-                               "ah_1": 5944.063823249113, 
-                               "ah_2": 0.019988765965544244, 
-                               "vShift": -40, #-22.94301368173753 #-40 
-                               "vShift_inact": 15,#17.286867168698212, 
-                               "maxrate": 2233.5902391087598}
+                changesna16 = {
+                        "sh": 8,
+                        "gbar": i12,#0.01,
+                        "tha": -47,
+                        "qa": 7.2,
+                        "Ra": 0.4,
+                        "Rb": 0.124,
+                        "thi1": -61,
+                        "thi2": -61,
+                        "qd": 0.5,
+                        "qg": 1.5,
+                        "mmin": 0.02,  
+                        "hmin": 0.01,  
+                        "q10": 2,
+                        "Rg": 0.01,
+                        "Rd": 0.03,
+                        "thinf": -65,
+                        "qinf": 7,
+                        "vhalfs": -40,
+                        "a0s": 0.0003,
+                        "gms": 0.2,
+                        "zetas": 12,
+                        "smax": 10,
+                        "vvh": -58,
+                        "vvs": 2,
+                        "ar2": 1,
+                        "ena": 55
+                        }
+                # changesna12 = {"a1_0": 7.3917081233326964, 
+                #                "a1_1": 0.020960637742640235, 
+                #                "b1_0": 0.36296088733379755, 
+                #                "b1_1": 0.16680524810129632, 
+                #                "a2_0": 466.03560625002507, 
+                #                "a2_1": 0.32567824887881647, 
+                #                "b2_0": 476.76246431747546, 
+                #                "b2_1": 3.237964775220791, 
+                #                "a3_0": 138.3653253992877, 
+                #                "a3_1": 0.1294574328268014, 
+                #                "b3_0": 3569.9158743150915, 
+                #                "b3_1": 0.0872001126087137, 
+                #                "bh_0": 2.431699390098816, 
+                #                "bh_1": 4.764311256848339, 
+                #                "bh_2": 0.12976195895416504, 
+                #                "ah_0": 3.640921294365118, 
+                #                "ah_1": 5944.063823249113, 
+                #                "ah_2": 0.019988765965544244, 
+                #                "vShift": -40, #-22.94301368173753 #-40 
+                #                "vShift_inact": 15,#17.286867168698212, 
+                #                "maxrate": 2233.5902391087598}
                 ##Uncomment if want to update params file to update mod file!!!
-                # nf.modify_dict_file(filename, changesna12)
+                nf.modify_dict_file(filename12, changesna12)
+                nf.modify_dict_file(filename16, changesna16)
 
  
 
@@ -529,16 +563,23 @@ for i12 in np.arange(5,6,1):
                 #                 )  #f'{root_path_out}/na12-{i12}_na16-{i16}'
                 
                 #scans
-                sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i16,nav12=1,nav16=19, somaK=6,
-                                na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
+                # sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=i16,nav12=1,nav16=19, somaK=8,# KP=i12,
+                #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
+                #                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/',
+                #                 plots_folder = f'{root_path_out}/Sh-{i12}', pfx=f'WT_', update=False
+                #                 )
+
+                #Scan Sh and modified to use HH params for updating na12annaTFHH
+                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=4,nav12=i16,nav16=19, somaK=8,# KP=i12,
+                                na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/ais12-{i12}_16-{i16}', pfx=f'WT_', update=False
-                                ) 
+                                plots_folder = f'{root_path_out}/test-{i16}', pfx=f'WT_', update=False
+                                )  
                 
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/ais12-{i12}_16-{i16}.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/test-{i16}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],

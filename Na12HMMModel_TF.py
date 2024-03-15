@@ -185,25 +185,21 @@ class Na12Model_TF:
                 # 'section': 'axon',
                 # 'segment': 0,
                 # 'section_num':0,
-
+                
                 #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na12.ina','na12mut.ina','na16.ina','na16mut.ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
                 #'currents'  : ['na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #'na12.ina_ina','na12mut.ina_ina','na16.ina_ina' test_plot_TF2
                 #'currents'  : ['na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #test_plot_TF3 + others, needs Na12 currents
-                
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
-                
-                
-                #'currents'  : ['ihcn_Ih','ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'], #Normal currents for Na12 soma
-                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'], #Currents for axon (no Ih)
-               
-                
                 #'currents'  : ['na12.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','i_pas'], #'na12mut.ina_ina'
-
                 #'currents'  :['ina','ica','ik'],
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'], #Currents for axon (no Ih)
+                
+                # 'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas','ihcn_Ih'], #Normal currents for Na12 soma
+                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas','ihcn_Ih'], #Normal currents for Na12 soma
+               
                 'ionic_concentrations' :["cai", "ki", "nai"],
-
-                'current_names' : ['Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'] #Na16 WT current names (double na16 WT)
+                'current_names' : ['Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na16 WT','Na16 WT','Na12','Na12 MUT','pas','Ih'] #Na16 WT current names (double na16 WT)
 
                 
             }):
