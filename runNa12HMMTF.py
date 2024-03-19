@@ -447,18 +447,18 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/HH_baseline/ScanKP/'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/1-HH_baseline/2-HH_Working_Model_changeIH_031924'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals = [.01]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
+vals = [1]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[0.1,0.25,0.4] #[0.5,2,3]
 vals2 = [1]
 # for i in vals:
-for i12 in np.arange(210,410,10):
-# for i12 in vals:        
+# for i12 in np.arange(10,100,10):
+for i12 in vals:        
         # for i16 in np.arange(8,9,1):
         for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
@@ -570,16 +570,24 @@ for i12 in np.arange(210,410,10):
                 #                 )
 
                 #Scan Sh and modified to use HH params for updating na12annaTFHH
-                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=4,nav12=1,nav16=19, somaK=8, KT=6, KP=i12,
+                ##TF031924 These are the parameters that work best for 12HH16HH model!!!
+                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=4,nav12=1,nav16=19, somaK=8, KT=6, KP=330,
                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/KP-{i12}', pfx=f'WT_', update=False
-                                )  
+                                plots_folder = f'{root_path_out}/ReduceApicalIH_0.000050', pfx=f'WT_', update=True
+                                )
                 
-                fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-                sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
-                plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/KP-{i12}.pdf')
+                ##TF031924 After getting working HH model, now replacing HH na12 with HMM version
+                # sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=4,nav12=2,nav16=19, somaK=8, KT=0, KP=i12,#KP=330, #KT=6
+                #                 na12name = 'na12_HMM_TF100923',mut_name = 'na12_HMM_TF100923',na12mechs = ['na12','na12'],
+                #                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16HH_TF','na16HH_TF'],params_folder = './params/',
+                #                 plots_folder = f'{root_path_out}/KP-{i12}', pfx=f'WT_', update=True
+                #                 )   
+                
+                # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+                # sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
+                # plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
+                # fig_volts.savefig(f'{sim.plot_folder}/ReduceApicalIH_0.000050.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
@@ -587,13 +595,13 @@ for i12 in np.arange(210,410,10):
                 #                 plots_folder = f'{root_path_out}/gbar.01_1216-115_ais88_KP-{i12}----TEST')
 
                 ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
-                # wt_Vm1,wt_I1,wt_t1,wt_stim1 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+                wt_Vm1,wt_I1,wt_t1,wt_stim1 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 # features_df = ef.get_features(sim=sim,mutTXT='WT_soma', mut_name = 'na12_HMM_TF100923')
-                # sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'12-{i12}_16-{i16}_')#fnpre=f'{mutTXT}')
+                sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'12-{i12}_16-{i16}_')#fnpre=f'{mutTXT}')
 
-                        # sim.make_currentscape_plot(amp=0.5, time1=0,time2=250,stim_start=30, sweep_len=300)
                 sim.make_currentscape_plot(amp=0.5, time1=0,time2=100,stim_start=30, sweep_len=100)
-                        # sim.make_currentscape_plot(amp=0.5, time1=29,time2=60,stim_start=30, sweep_len=100)
+                sim.make_currentscape_plot(amp=0.5, time1=0,time2=200,stim_start=30, sweep_len=200)
+                sim.make_currentscape_plot(amp=0.5, time1=0,time2=800,stim_start=30, sweep_len=800)
 
 
 

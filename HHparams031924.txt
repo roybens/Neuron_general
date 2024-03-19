@@ -1,0 +1,46 @@
+##Params using na12HH and na16HH models (na12annTFHH.mod, na16HH_TF.mod) TF031924
+
+nav12=1
+nav16=19
+dend_nav12=1
+soma_nav12=1
+ais_nav12=1
+dend_nav16=1
+soma_nav16=1
+ais_nav16=1
+ais_ca = 1
+ais_KCa = 1
+axon_Kp=330
+axon_Kt =6
+axon_K=1
+axon_Kca =1
+axon_HVA = 1
+axon_LVA = 1
+node_na = 0.5
+soma_K=8
+dend_K=1
+gpas_all=1
+ais_nav12_fac=4
+ais_nav16_fac=4
+
+
+
+h.dend_na12 = 2.48E-03 * dend_nav12
+h.dend_na16 = 0 ##TF020624
+h.dend_k = 0.0043685576 * dend_K
+h.soma_na12 = 3.24E-02 * soma_nav12 
+h.soma_na16 = 7.88E-02 * soma_nav16 
+h.soma_K = 0.21330453 * soma_K
+h.ais_na16 = ais_nav16_fac * ais_nav16
+h.ais_na12 = ais_nav12_fac * ais_nav12 #TF020124 added ais_nav12 factor to fine tune
+h.ais_ca = 0.0010125926 * ais_ca
+h.ais_KCa = 0.0009423347 * ais_KCa
+h.node_na = 0.9934221 * node_na
+h.axon_KP = 0.43260124 * axon_Kp
+h.axon_KT = 1.38801 * axon_Kt
+h.axon_K = 0.89699364 *2.1* axon_K
+h.axon_LVA = 0.00034828275 * axon_LVA
+h.axon_HVA = 1.05E-05 * axon_HVA
+h.axon_KCA = 0.4008224 * axon_Kca
+h.gpas_all = 1.34E-05 * gpas_all
+h.cm_all = 1.6171424

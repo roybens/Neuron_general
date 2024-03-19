@@ -19,7 +19,7 @@ from NrnHelper import *
 class NeuronModel:
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
                       
-                      update = True,
+                      update = True, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
                       na12name = 'na12_HMM_TF100923',
                       na12mut_name = 'na12_HMM_TF100923',
                       na12mechs = ['na12','na12mut'],
@@ -225,7 +225,7 @@ class NeuronModel:
         
              
         #Function for determining and plotting the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Fine_Tuning/Modify_16_kinetics/tha-37_node.01/{ais_nav12_fac}_{ais_nav16_fac}"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/2-12HMM16HH_031924/chans"):
             distances = []
             na12_densities = []
             na16_densities = []
@@ -299,7 +299,7 @@ class NeuronModel:
         ##Add update_mech_from_dict and update_param_value here #####
         if update == True:
             update_param_value(self,['SKv3_1'],'mtaumul',6)
-    
+
             self.na12wt_mech = [na12mechs[0]] 
             self.na12mut_mech = [na12mechs[1]]
 
@@ -325,8 +325,8 @@ class NeuronModel:
             self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
             print(eval("h.psection()"))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
-            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            # h.printValsWT()
+            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            h.printValsWT()
             
             print(f'using na16mut_file {na16mut_name}')
             self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
