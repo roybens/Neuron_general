@@ -174,12 +174,13 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
             data = f.read()
         param_dict = json.loads(data)
     print(f'updating {mechs} with {param_dict}')
-    
+    isUpdated = False
     for curr_sec in mdl.sl:
         print(f'current section {curr_sec}') ###120523 TF
         for curr_mech in mechs:
             print(f'Current Mech {curr_mech}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
+                isUpdated = True
                 curr_name = h.secname(sec=curr_sec)
                 #print(f'Current Name {curr_name}')###120523 TF
                 #sec = h.Section()
@@ -197,7 +198,9 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
                   #      print(hoc_cmd)
-    
+    if(not isUpdated):
+        print("Havent Updated in any section")
+    else: print("Updated !!!!")
     return param_dict
 
 ##TF030624 Update mech from dict function specifically for HH mod files

@@ -172,12 +172,12 @@ forsec cell.apical{
 
 
 proc working(){
-populate_axon()
-create_ais()
-update_soma()
-update_dend()
+	populate_axon()
+	create_ais()
+	update_soma()
+	update_dend()
 
-print "ran working"
+	print "ran working"
 }
 
 proc run_gui(){

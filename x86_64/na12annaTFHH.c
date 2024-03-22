@@ -22,15 +22,15 @@ extern int _method3;
 extern double hoc_Exp(double);
 #endif
  
-#define nrn_init _nrn_init__na12annaTFHH
-#define _nrn_initial _nrn_initial__na12annaTFHH
-#define nrn_cur _nrn_cur__na12annaTFHH
-#define _nrn_current _nrn_current__na12annaTFHH
-#define nrn_jacob _nrn_jacob__na12annaTFHH
-#define nrn_state _nrn_state__na12annaTFHH
-#define _net_receive _net_receive__na12annaTFHH 
-#define states states__na12annaTFHH 
-#define trates trates__na12annaTFHH 
+#define nrn_init _nrn_init__na12
+#define _nrn_initial _nrn_initial__na12
+#define nrn_cur _nrn_cur__na12
+#define _nrn_current _nrn_current__na12
+#define nrn_jacob _nrn_jacob__na12
+#define nrn_state _nrn_state__na12
+#define _net_receive _net_receive__na12 
+#define states states__na12 
+#define trates trates__na12 
  
 #define _threadargscomma_ _p, _ppvar, _thread, _nt,
 #define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
@@ -45,26 +45,51 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define gbar _p[0]
-#define ar2 _p[1]
-#define ina_ina _p[2]
-#define thegna _p[3]
-#define m _p[4]
-#define h _p[5]
-#define s _p[6]
-#define ena _p[7]
-#define ina _p[8]
-#define minf _p[9]
-#define hinf _p[10]
-#define mtau _p[11]
-#define htau _p[12]
-#define sinf _p[13]
-#define taus _p[14]
-#define Dm _p[15]
-#define Dh _p[16]
-#define Ds _p[17]
-#define v _p[18]
-#define _g _p[19]
+#define sh _p[0]
+#define gbar _p[1]
+#define tha _p[2]
+#define qa _p[3]
+#define Ra _p[4]
+#define Rb _p[5]
+#define thi1 _p[6]
+#define thi2 _p[7]
+#define qd _p[8]
+#define qg _p[9]
+#define mmin _p[10]
+#define hmin _p[11]
+#define q10 _p[12]
+#define Rg _p[13]
+#define Rd _p[14]
+#define qq _p[15]
+#define tq _p[16]
+#define thinf _p[17]
+#define qinf _p[18]
+#define vhalfs _p[19]
+#define a0s _p[20]
+#define zetas _p[21]
+#define gms _p[22]
+#define smax _p[23]
+#define vvh _p[24]
+#define vvs _p[25]
+#define ar2 _p[26]
+#define ina_ina _p[27]
+#define thegna _p[28]
+#define m _p[29]
+#define h _p[30]
+#define s _p[31]
+#define ena _p[32]
+#define ina _p[33]
+#define minf _p[34]
+#define hinf _p[35]
+#define mtau _p[36]
+#define htau _p[37]
+#define sinf _p[38]
+#define taus _p[39]
+#define Dm _p[40]
+#define Dh _p[41]
+#define Ds _p[42]
+#define v _p[43]
+#define _g _p[44]
 #define _ion_ena	*_ppvar[0]._pval
 #define _ion_ina	*_ppvar[1]._pval
 #define _ion_dinadv	*_ppvar[2]._pval
@@ -120,18 +145,18 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 }
  /* connect user functions to hoc names */
  static VoidFunc hoc_intfunc[] = {
- "setdata_na12annaTFHH", _hoc_setdata,
- "alps_na12annaTFHH", _hoc_alps,
- "alpv_na12annaTFHH", _hoc_alpv,
- "bets_na12annaTFHH", _hoc_bets,
- "trap0_na12annaTFHH", _hoc_trap0,
- "trates_na12annaTFHH", _hoc_trates,
+ "setdata_na12", _hoc_setdata,
+ "alps_na12", _hoc_alps,
+ "alpv_na12", _hoc_alpv,
+ "bets_na12", _hoc_bets,
+ "trap0_na12", _hoc_trap0,
+ "trates_na12", _hoc_trates,
  0, 0
 };
-#define alps alps_na12annaTFHH
-#define alpv alpv_na12annaTFHH
-#define bets bets_na12annaTFHH
-#define trap0 trap0_na12annaTFHH
+#define alps alps_na12
+#define alpv alpv_na12
+#define bets bets_na12
+#define trap0 trap0_na12
  extern double alps( _threadargsprotocomma_ double );
  extern double alpv( _threadargsprotocomma_ double );
  extern double bets( _threadargsprotocomma_ double );
@@ -140,88 +165,38 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  #define _zhexp _thread[0]._pval[1]
  #define _zsexp _thread[0]._pval[2]
  /* declare global and static user variables */
-#define Ena Ena_na12annaTFHH
+#define Ena Ena_na12
  double Ena = 55;
-#define Rd Rd_na12annaTFHH
- double Rd = 0.02657;
-#define Rg Rg_na12annaTFHH
- double Rg = 0.01;
-#define Rb Rb_na12annaTFHH
- double Rb = 0.1;
-#define Ra Ra_na12annaTFHH
- double Ra = 0.3282;
-#define a0s a0s_na12annaTFHH
- double a0s = 0.0003;
-#define gms gms_na12annaTFHH
- double gms = 0.2;
-#define hmin hmin_na12annaTFHH
- double hmin = 0.01;
-#define mmin mmin_na12annaTFHH
- double mmin = 0.02;
-#define qinf qinf_na12annaTFHH
- double qinf = 7.69;
-#define qq qq_na12annaTFHH
- double qq = 10;
-#define q10 q10_na12annaTFHH
- double q10 = 2;
-#define qg qg_na12annaTFHH
- double qg = 1.5;
-#define qd qd_na12annaTFHH
- double qd = 0.5;
-#define qa qa_na12annaTFHH
- double qa = 5.41;
-#define smax smax_na12annaTFHH
- double smax = 10;
-#define sh sh_na12annaTFHH
- double sh = 8;
-#define thinf thinf_na12annaTFHH
- double thinf = -53;
-#define tq tq_na12annaTFHH
- double tq = -55;
-#define thi2 thi2_na12annaTFHH
- double thi2 = -80;
-#define thi1 thi1_na12annaTFHH
- double thi1 = -80;
-#define tha tha_na12annaTFHH
- double tha = -38;
-#define vvs vvs_na12annaTFHH
- double vvs = 2;
-#define vvh vvh_na12annaTFHH
- double vvh = -58;
-#define vhalfs vhalfs_na12annaTFHH
- double vhalfs = -60;
-#define zetas zetas_na12annaTFHH
- double zetas = 12;
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
  0,0,0
 };
  static HocParmUnits _hoc_parm_units[] = {
- "sh_na12annaTFHH", "mV",
- "tha_na12annaTFHH", "mV",
- "qa_na12annaTFHH", "mV",
- "Ra_na12annaTFHH", "/ms",
- "Rb_na12annaTFHH", "/ms",
- "thi1_na12annaTFHH", "mV",
- "thi2_na12annaTFHH", "mV",
- "qd_na12annaTFHH", "mV",
- "qg_na12annaTFHH", "mV",
- "Rg_na12annaTFHH", "/ms",
- "Rd_na12annaTFHH", "/ms",
- "qq_na12annaTFHH", "mV",
- "tq_na12annaTFHH", "mV",
- "qinf_na12annaTFHH", "mV",
- "vhalfs_na12annaTFHH", "mV",
- "a0s_na12annaTFHH", "ms",
- "zetas_na12annaTFHH", "1",
- "gms_na12annaTFHH", "1",
- "smax_na12annaTFHH", "ms",
- "vvh_na12annaTFHH", "mV",
- "vvs_na12annaTFHH", "mV",
- "Ena_na12annaTFHH", "mV",
- "ar2_na12annaTFHH", "1",
- "ina_ina_na12annaTFHH", "milliamp/cm2",
- "thegna_na12annaTFHH", "mho/cm2",
+ "Ena_na12", "mV",
+ "sh_na12", "mV",
+ "tha_na12", "mV",
+ "qa_na12", "mV",
+ "Ra_na12", "/ms",
+ "Rb_na12", "/ms",
+ "thi1_na12", "mV",
+ "thi2_na12", "mV",
+ "qd_na12", "mV",
+ "qg_na12", "mV",
+ "Rg_na12", "/ms",
+ "Rd_na12", "/ms",
+ "qq_na12", "mV",
+ "tq_na12", "mV",
+ "qinf_na12", "mV",
+ "vhalfs_na12", "mV",
+ "a0s_na12", "ms",
+ "zetas_na12", "1",
+ "gms_na12", "1",
+ "smax_na12", "ms",
+ "vvh_na12", "mV",
+ "vvs_na12", "mV",
+ "ar2_na12", "1",
+ "ina_ina_na12", "milliamp/cm2",
+ "thegna_na12", "mho/cm2",
  0,0
 };
  static double delta_t = 0.01;
@@ -230,32 +205,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static double s0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
- "sh_na12annaTFHH", &sh_na12annaTFHH,
- "tha_na12annaTFHH", &tha_na12annaTFHH,
- "qa_na12annaTFHH", &qa_na12annaTFHH,
- "Ra_na12annaTFHH", &Ra_na12annaTFHH,
- "Rb_na12annaTFHH", &Rb_na12annaTFHH,
- "thi1_na12annaTFHH", &thi1_na12annaTFHH,
- "thi2_na12annaTFHH", &thi2_na12annaTFHH,
- "qd_na12annaTFHH", &qd_na12annaTFHH,
- "qg_na12annaTFHH", &qg_na12annaTFHH,
- "mmin_na12annaTFHH", &mmin_na12annaTFHH,
- "hmin_na12annaTFHH", &hmin_na12annaTFHH,
- "q10_na12annaTFHH", &q10_na12annaTFHH,
- "Rg_na12annaTFHH", &Rg_na12annaTFHH,
- "Rd_na12annaTFHH", &Rd_na12annaTFHH,
- "qq_na12annaTFHH", &qq_na12annaTFHH,
- "tq_na12annaTFHH", &tq_na12annaTFHH,
- "thinf_na12annaTFHH", &thinf_na12annaTFHH,
- "qinf_na12annaTFHH", &qinf_na12annaTFHH,
- "vhalfs_na12annaTFHH", &vhalfs_na12annaTFHH,
- "a0s_na12annaTFHH", &a0s_na12annaTFHH,
- "zetas_na12annaTFHH", &zetas_na12annaTFHH,
- "gms_na12annaTFHH", &gms_na12annaTFHH,
- "smax_na12annaTFHH", &smax_na12annaTFHH,
- "vvh_na12annaTFHH", &vvh_na12annaTFHH,
- "vvs_na12annaTFHH", &vvs_na12annaTFHH,
- "Ena_na12annaTFHH", &Ena_na12annaTFHH,
+ "Ena_na12", &Ena_na12,
  0,0
 };
  static DoubVec hoc_vdoub[] = {
@@ -278,16 +228,41 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
  "7.7.0",
-"na12annaTFHH",
- "gbar_na12annaTFHH",
- "ar2_na12annaTFHH",
+"na12",
+ "sh_na12",
+ "gbar_na12",
+ "tha_na12",
+ "qa_na12",
+ "Ra_na12",
+ "Rb_na12",
+ "thi1_na12",
+ "thi2_na12",
+ "qd_na12",
+ "qg_na12",
+ "mmin_na12",
+ "hmin_na12",
+ "q10_na12",
+ "Rg_na12",
+ "Rd_na12",
+ "qq_na12",
+ "tq_na12",
+ "thinf_na12",
+ "qinf_na12",
+ "vhalfs_na12",
+ "a0s_na12",
+ "zetas_na12",
+ "gms_na12",
+ "smax_na12",
+ "vvh_na12",
+ "vvs_na12",
+ "ar2_na12",
  0,
- "ina_ina_na12annaTFHH",
- "thegna_na12annaTFHH",
+ "ina_ina_na12",
+ "thegna_na12",
  0,
- "m_na12annaTFHH",
- "h_na12annaTFHH",
- "s_na12annaTFHH",
+ "m_na12",
+ "h_na12",
+ "s_na12",
  0,
  0};
  static Symbol* _na_sym;
@@ -297,12 +272,37 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 45, _prop);
  	/*initialize range parameters*/
+ 	sh = 8;
  	gbar = 0.01;
+ 	tha = -38;
+ 	qa = 5.41;
+ 	Ra = 0.3282;
+ 	Rb = 0.1;
+ 	thi1 = -80;
+ 	thi2 = -80;
+ 	qd = 0.5;
+ 	qg = 1.5;
+ 	mmin = 0.02;
+ 	hmin = 0.01;
+ 	q10 = 2;
+ 	Rg = 0.01;
+ 	Rd = 0.02657;
+ 	qq = 10;
+ 	tq = -55;
+ 	thinf = -53;
+ 	qinf = 7.69;
+ 	vhalfs = -60;
+ 	a0s = 0.0003;
+ 	zetas = 12;
+ 	gms = 0.2;
+ 	smax = 10;
+ 	vvh = -58;
+ 	vvs = 2;
  	ar2 = 1;
  	_prop->param = _p;
- 	_prop->param_size = 20;
+ 	_prop->param_size = 45;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -345,7 +345,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 20, 4);
+  hoc_register_prop_size(_mechtype, 45, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "na_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "na_ion");
@@ -353,7 +353,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 na12annaTFHH /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/mechanisms/na12annaTFHH.mod\n");
+ 	ivoc_help("help ?1 na12 /global/u2/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/mechanisms/na12annaTFHH.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -731,10 +731,11 @@ static const char* nmodl_file_text =
   ": added sh to account for higher threshold M.Migliore, Apr.2002\n"
   "\n"
   "NEURON {\n"
-  "	SUFFIX na12annaTFHH\n"
+  "	SUFFIX na12\n"
   "	USEION na READ ena WRITE ina\n"
   "	RANGE  gbar, ar2, thegna, ina_ina\n"
-  "	GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
+  "	:GLOBAL vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
+  "	RANGE vhalfs,sh,tha,qa,Ra,Rb,thi1,thi2,qd,qg,mmin,hmin,q10,Rg,qq,Rd,tq,thinf,qinf,vhalfs,a0s,zetas,gms,smax,vvh,vvs\n"
   "}\n"
   "\n"
   "PARAMETER {\n"
