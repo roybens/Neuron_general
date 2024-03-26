@@ -7,7 +7,7 @@ Author: Piero Balbi, July 2016
 ENDCOMMENT
 
 NEURON {
-	SUFFIX na12
+	SUFFIX ###REMOVE###na12
 	USEION na READ ena WRITE ina
 
 	RANGE gbar, ina, g

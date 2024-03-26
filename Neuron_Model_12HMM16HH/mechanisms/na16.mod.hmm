@@ -10,7 +10,7 @@
 : J Neurosci 30:10233-42
 
 NEURON {
-    SUFFIX na16
+    SUFFIX ###REMOVE###na16
     USEION na READ ena WRITE ina
     RANGE vShift, vShift_inact, maxrate
     RANGE vShift_inact_local

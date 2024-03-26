@@ -447,34 +447,35 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/10-na12'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/20-newthathi'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals =[1]#[1]#[-60,-40,-20,-10,0]#[0.6,0.75,1.25,1.5] #[1] #[0.1,0.25,0.4] #[0.5,2,3]
-vals2 = [1]#[1]
+vals =[1]#[-80,-70-60,-50,-40,-30]##[0.1,0.5,0.75,1.1,1.25,1.5,1.75,2,2.25,2.5,3]#[1]##[0.6,0.75,1.25,1.5] #[1] #[0.1,0.25,0.4] #[0.5,2,3]
+vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
+
 # for i in vals:
-for i12 in np.arange(5,35,5):
-# for i12 in vals:        
-        # for i16 in np.arange(10,100,20):
-        for i16 in vals2:
+for i12 in np.arange(2,10,2):     
+        for i16 in np.arange(2,10,2):
+# for i12 in vals:
+        # for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
                 # filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt" ##TF031524 for changing 8st na12
                 filename12 = '/global/homes/t/tfenton/Neuron_general-2/params/na12annaTFHH2.txt'
                 filename16 = '/global/homes/t/tfenton/Neuron_general-2/params/na16HH_TF2.txt'
 
                 changesna12 = {
-                        "sh": -3,#i12,#8,
-                        "gbar": 0.01,
-                        "tha": -38,
+                        "sh": 8,#-3#i12,#8,
+                        "gbar": 0.06,#0.1,#0.01,
+                        "tha": -30,#i12,#-38,
                         "qa": 5.41,
                         "Ra": 0.3282,
                         "Rb": 0.1,
-                        "thi1": -80,
-                        "thi2": -80,
+                        "thi1": -40,#-80,
+                        "thi2": -40,#-80,
                         "qd": 0.5,
                         "qg": 1.5,
                         "mmin": 0.02,
@@ -495,14 +496,14 @@ for i12 in np.arange(5,35,5):
                         #"ena": 55
                         }
                 changesna16 = {
-                        "sh": -3,#i16,#8,
-                        "gbar": 0.01,
-                        "tha": -47,
+                        "sh": 8,#-3,#i16,#8,
+                        "gbar": 0.06,#0.1,#0.01,
+                        "tha": -40,#-47,
                         "qa": 7.2,
                         "Ra": 0.4,
                         "Rb": 0.124,
-                        "thi1": -61,
-                        "thi2": -61,
+                        "thi1": -30,#-61,
+                        "thi2": -30,#-61,
                         "qd": 0.5,
                         "qg": 1.5,
                         "mmin": 0.02,  
@@ -571,10 +572,11 @@ for i12 in np.arange(5,35,5):
 
                 #Scan Sh and modified to use HH params for updating na12annaTFHH
                 ##TF031924 These are the parameters that work best for 12HH16HH model!!!
-                sim = tf.Na12Model_TF(ais_nav12_fac=4,ais_nav16_fac=4,nav12=i12,nav16=19, somaK=30, KT=6, KP=40,
+                sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i16,nav12=1,nav16=i12, somaK=10, KP=2, KT=1,
+                                        ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40,
                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/na12-{i12}', pfx=f'WT_', update=True
+                                plots_folder = f'{root_path_out}/3-12-{i12}_16-{i16}', pfx=f'WT_', update=True
                                 )
                 
                 ##TF032224 After getting working HH model, now replacing HH na12 with HMM version
@@ -588,7 +590,7 @@ for i12 in np.arange(5,35,5):
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/na12-{i12}.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/3-12-{i12}_16-{i16}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
