@@ -11,7 +11,7 @@ import datetime
 
 
 class Na12Model_TF:
-    def __init__(self,na12name = 'na12_HMM_TF100923',mut_name= 'mut2_2_na12hmm120523',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
+    def __init__(self,na12name = 'na12annaTFHH2',mut_name= 'na12annaTFHH2',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF2',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
                  nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1,
                  update = True): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
         
@@ -445,42 +445,6 @@ class Na12Model_TF:
         #add_scalebar(axs)
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         plt.savefig(file_path_to_save, format='pdf')
-        return axs
-    
-    def plot_crazy_stim(self, stim_csv, stim_duration = 0.2, dt = 0.1): # physiological (noisy) stimulation 
-        self.dt = dt
-        #Read CSV file for stimulation amplitudes and add the to amplitude list
-        amplitudes = []
-        v_m = []
-        t_m = []
-        with  open(stim_csv, 'r') as csv_file:
-            reader = csv.reader(csv_file)
-            for row in reader:
-                ampl = float(row[0])
-                amplitudes.append(ampl)
-                
-        #Create an empty plot        
-        fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
-             
-        #Stimulate the models with amplitudes at fix time points (every 0.2 ms)
-        stim_start = 100
-        for ampl in amplitudes:
-            self.l5mdl.init_stim(sweep_len = 800, stim_start = stim_start , stim_dur = stim_duration, amp = ampl)
-            Vm, I, t, stim = self.l5mdl.run_model(dt=dt) 
-            self.volt_soma = Vm
-            self.I = I
-            self.t = t
-            self.stim = stim
-            stim_start = t
-            v_m.append(Vm)
-            t_m.append(t)
-            
-        axs.plot(t_m,v_m, label='Vm', color=clr,linewidth=1)
-        axs.locator_params(axis='x', nbins=5)
-        axs.locator_params(axis='y', nbins=8)
-        file_path_to_save=f'{self.plot_folder}{plot_crazy_stim}.pdf'
-        plt.savefig(file_path_to_save, format='pdf')
-        
         return axs
         
             

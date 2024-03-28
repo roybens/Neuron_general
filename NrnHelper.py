@@ -166,6 +166,9 @@ def plot_extra_volts(t,extra_vms,axs = None,clr = 'black'):
     axs[2].set_title('dist_dend')
 
 
+
+
+
 def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0'):
     if input_dict:
         param_dict = dict_fn
@@ -176,9 +179,9 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
     print(f'updating {mechs} with {param_dict}')
     isUpdated = False
     for curr_sec in mdl.sl:
-        print(f'current section {curr_sec}') ###120523 TF
+        # print(f'current section {curr_sec}') ###120523 TF
         for curr_mech in mechs:
-            print(f'Current Mech {curr_mech}') ###120523 TF
+            print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
                 isUpdated = True
                 curr_name = h.secname(sec=curr_sec)
@@ -256,7 +259,9 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):
                     # print(f'par_value before{par_value} and after {assigned_value}')
                     if print_flg:
                        print(f'{curr_name}_{curr_mech}_{seg}_par_value before {par_value} and after {assigned_value}')
-                       print(f'**********##### There is now {mltplr} of nav16mut\n\n\n')
+                       print(f'**********##### There is now {mltplr} of {curr_mech}\n\n')
+
+
 def multiply_param(mdl,mechs,p_name,multiplier):
     for curr_sec in mdl.sl:
         for curr_mech in mechs:
@@ -281,6 +286,16 @@ def update_param_value(mdl,mechs,p_name,value):
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {value}'
                 print(hoc_cmd)
                 h(hoc_cmd)
+
+
+
+
+
+
+
+
+
+
 #### Emily's code
 def update_channel(mdl, channel_name, channel, dict_fn, wt_mul, mut_mul):
     """

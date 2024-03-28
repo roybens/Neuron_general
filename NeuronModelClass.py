@@ -211,13 +211,16 @@ class NeuronModel:
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
+        
         # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
         h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
 
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        
         # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
         h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
+        
         h.working()
         
         h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
@@ -232,7 +235,7 @@ class NeuronModel:
         
              
         #Function for determining and plotting the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/2-12HMM16HH_031924/chans"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh"):
             distances = []
             na12_densities = []
             na16_densities = []
@@ -292,7 +295,7 @@ class NeuronModel:
             plt.savefig(name+".png", dpi=400)
 
 
-        # chandensities()
+        chandensities()
 
         
 
@@ -324,6 +327,9 @@ class NeuronModel:
             print(f'using mut_file params {na12mut_name}')
             self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
             print(eval("h.psection()"))
+            
+            update_mod_param(self,['na12','na12mut'],nav12)
+            
             h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             h.printVals12HHWT()
 
@@ -341,6 +347,10 @@ class NeuronModel:
             print(f'using na16mut_file params {na16mut_name}')
             self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
             print(eval("h.psection()"))
+
+            update_mod_param(self,['na16','na16mut'],nav16)
+
+
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             h.printValsMUT16()

@@ -353,3 +353,29 @@ proc printValsHMM12MUT(){
         
     }
 }
+
+proc printValsDEBUG(){
+    
+    forsec cell.somatic{
+                
+        print "na12mut soma"
+        print "a1_0"
+        print a1_0_na12mut
+        
+        print "a1_1"
+        print a1_1_na12mut
+        
+        print "b1_0"
+        print b1_0_na12mut
+
+        print "b1_1"
+        print b1_1_na12mut
+
+       // print "vshift"
+        //print vshift_na12mut
+        
+        //print "vshift_inact"
+        //print vshift_inact_na12mut
+        
+    }
+}
