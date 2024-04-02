@@ -19,7 +19,7 @@ from NrnHelper import *
 class NeuronModel:
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
                       
-                      update = True, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
+                      update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
                       na12name = 'na12_HMM_TF100923',
                       na12mut_name = 'na12_HMM_TF100923',
                       na12mechs = ['na12','na12mut'],
@@ -212,14 +212,14 @@ class NeuronModel:
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         
-        h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
-        # ###h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
+        h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
 
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
         
-        h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
-        # ###h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
+        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         
         h.working()
         
@@ -307,7 +307,7 @@ class NeuronModel:
         
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
-        if update == True:
+        if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             update_param_value(self,['SKv3_1'],'mtaumul',6)
 

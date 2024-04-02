@@ -180,6 +180,8 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
     isUpdated = False
     for curr_sec in mdl.sl:
         # print(f'current section {curr_sec}') ###120523 TF
+        if curr_sec.name() == 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]': ##TF040224 if not axon[0], continues to for loop below
+            continue
         for curr_mech in mechs:
             print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
@@ -191,23 +193,33 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                 #print(eval(f'h.psection(sec=sec)'))
                 #print(h.Section())
 
-                for p_name in param_dict.keys():
-                    # print(f' p name {p_name}') ###120523 TF
-                    hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                    # print(f'hoc command {hoc_cmd}') ###120523 TF
-                    h(hoc_cmd)
+                #######Original
+                # for p_name in param_dict.keys():
+                #     # print(f' p name {p_name}') ###120523 TF
+                #     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
+                #     # print(f'hoc command {hoc_cmd}') ###120523 TF
+                #     h(hoc_cmd)
 
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
                   #      print(hoc_cmd)
-                
-                ##TF040124 altering to update axon[0] to get ais correct and not apply blanket gbar to all segs
-                if curr_sec == 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]':
-                    for seg in curr_sec:
-                     hoc_cmd = f'{curr_name}.gbar_{curr_mech}({seg.x}) *= {param_dict[p_name]}'
-                     print(hoc_cmd)
+                #######
 
+                ##TF040124 altering to update axon[0] to get ais correct and not apply blanket gbar to all segs
+                     # Overwrite gbar for other sections
+                for p_name in param_dict.keys():
+                    if curr_sec != 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]':
+                        hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
+                    # Multiply gbar for the specific axon segment
+                    else:
+                        print('this is the one **************************************************************************************************************************************************************')
+                        for seg in curr_sec:
+                            hoc_cmd = f'{curr_name}.gbar_{curr_mech}({seg.x}) *= {param_dict[p_name]}'
+                            print(f'hoc command {hoc_cmd}')
+                            h(hoc_cmd)
+
+    
     if(not isUpdated):
         print("Havent Updated in any section")
     else: print("Updated !!!!")

@@ -1,0 +1,117 @@
+
+
+na12annTFHH.mod
+na12annaTFHHmut.mod
+na16HH_TF.mod
+na16HHmut_TF.mod
+
+update=True in runNa12HMMTF.py enough to trigger update in NeuronModelClass.py
+
+
+
+sim_config_soma = {
+                'section' : 'soma',
+                'segment' : 0.5,
+                'section_num': 0,
+                #'currents' : ['ina','ica','ik'],
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                #'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                'ionic_concentrations' :["cai", "ki", "nai"]
+                #'ionic_concentrations' :["ki", "nai"]
+                }
+
+
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/23-fixUpdateAIS/4-AISupdatefixed'
+
+if not os.path.exists(root_path_out):
+        os.makedirs(root_path_out)
+        # os.mkdir(root_path_out)
+
+
+vals =[2.25,2.5,2.75]#[1]#[-80,-70-60,-50,-40,-30]
+vals2 = [2.25,2.5,2.75]#[-30,-40,-50,-60,-70,-80]#[1]
+
+# for i12 in np.arange(1,6,1):     
+        # for i16 in np.arange(10,50,10):
+for i12 in vals:
+        for i16 in vals2:
+                ##Adding below function to loop through different na16.mod params        
+                # filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt" ##TF031524 for changing 8st na12
+                filename12 = '/global/homes/t/tfenton/Neuron_general-2/params/na12annaTFHH2.txt'
+                filename16 = '/global/homes/t/tfenton/Neuron_general-2/params/na16HH_TF2.txt'
+
+                changesna12 = {
+                        "sh": 8,#-3#i12,#8,
+                        "gbar": 0.01,#0.06,#0.1,#0.01,
+                        "tha": -30,#i12,#-38,
+                        "qa": 5.41,
+                        "Ra": 0.3282,
+                        "Rb": 0.1,
+                        "thi1": -40,#-80,
+                        "thi2": -40,#-80,
+                        "qd": 0.5,
+                        "qg": 1.5,
+                        "mmin": 0.02,
+                        "hmin": 0.01,
+                        "Rg": 0.01,
+                        "Rd": 0.02657,
+                        "thinf": -53,
+                        "qinf": 7.69,
+                        "vhalfs": -60,
+                        "a0s": 0.0003,
+                        "gms": 0.2,
+                        "q10": 2,
+                        "zetas": 12,
+                        "smax": 10,
+                        "vvh": -58,
+                        "vvs": 2,
+                        "ar2": 1,
+                        #"ena": 55
+                        }
+                changesna16 = {
+                        "sh": 8,#-3,#i16,#8,
+                        "gbar": 0.01,#0.06,#0.1,#0.01,
+                        "tha": -40,#-47,
+                        "qa": 7.2,
+                        "Ra": 0.4,
+                        "Rb": 0.124,
+                        "thi1": -30,#-61,
+                        "thi2": -30,#-61,
+                        "qd": 0.5,
+                        "qg": 1.5,
+                        "mmin": 0.02,  
+                        "hmin": 0.01,  
+                        "q10": 2,
+                        "Rg": 0.01,
+                        "Rd": 0.03,
+                        "thinf": -65,
+                        "qinf": 7,
+                        "vhalfs": -40,
+                        "a0s": 0.0003,
+                        "gms": 0.2,
+                        "zetas": 12,
+                        "smax": 10,
+                        "vvh": -58,
+                        "vvs": 2,
+                        "ar2": 1,
+                        #"ena": 55
+                        }
+                nf.modify_dict_file(filename12, changesna12)
+                nf.modify_dict_file(filename16, changesna16)
+
+sim = tf.Na12Model_TF(ais_nav12_fac=2.25,ais_nav16_fac=2.75,nav12=3,nav16=1, somaK=1, KP=100, KT=10, #somaK=10 KP=20, KP=90_KT=40
+                                        ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40,
+                                na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/6_ais12-{i12}_16-{i16}', pfx=f'WT_', update=True)
+
+
+fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+                sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
+                plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
+                fig_volts.savefig(f'{sim.plot_folder}/6_ais12-{i12}_16-{i16}.pdf')
+
+                sim.make_currentscape_plot(amp=0.5, time1=0,time2=200,stim_start=30, sweep_len=200)
