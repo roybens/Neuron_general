@@ -93,7 +93,7 @@ class Na12Model_TF:
                                  ais_ca = ais_ca,ais_KCa=ais_Kca,soma_nav16=soma_na16,soma_nav12 = soma_na12,node_na = node_na, 
                                  ais_nav16_fac=ais_nav16_fac,ais_nav12_fac=ais_nav12_fac, #TF 012524 added ais_nav16 to change in reference to ais_nav12
                                  ##TF030624 Args below added to add update_mech_from_dict functionality to NeuronModel class.
-                                 update = update, ##Change to false if you don't want to update mechs
+                                 update = True, ##Change to false if you don't want to update mechs
                                  na12name = na12name,
                                  na12mut_name = mut_name,
                                  na12mechs = na12mechs,
@@ -217,7 +217,7 @@ class Na12Model_TF:
         #sweep_len = 800
         self.l5mdl.init_stim(stim_start =stim_start,amp=amp,sweep_len = sweep_len) #modify stim_start to look at different time points?
         #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
-        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.1,sim_config=sim_config) #change time steps here
 
         #Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(start_Vm=-70, dt=0.01,sim_config=sim_config) #change time steps here
         

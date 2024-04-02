@@ -32,9 +32,9 @@ class NeuronModel:
                       nav16=1,
                       dend_nav12=1,
                       soma_nav12=1,
-                      ais_nav12=1,
                       dend_nav16=1,
                       soma_nav16=1,
+                      ais_nav12=1,
                       ais_nav16=1,
                       ais_ca = 1,
                       ais_KCa = 1,
@@ -212,14 +212,14 @@ class NeuronModel:
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         
-        # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
-        h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
+        # ###h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
 
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
         
-        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
-        h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
+        h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        # ###h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         
         h.working()
         
@@ -235,7 +235,7 @@ class NeuronModel:
         
              
         #Function for determining and plotting the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh"):
+        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh-{ais_nav16_fac}"):
             distances = []
             na12_densities = []
             na16_densities = []
