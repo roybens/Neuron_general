@@ -294,8 +294,7 @@ class NeuronModel:
             plt.title("Distribution of Nav12 and Nav16")
             plt.savefig(name+".png", dpi=400)
 
-
-        chandensities()
+        # chandensities() ##TF uncomment to run function and plot channel densities in axon[0]
 
         
 
