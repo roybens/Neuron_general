@@ -225,7 +225,7 @@ class NeuronModel:
         
         h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
         
-        h.printVals12HHWT()
+        # h.printVals12HHWT() ##TF will only work with HH mod files that have params like 'sh', 'tha', 'thi' etc.
         h.printValsWT16()
         h.printValsMUT16()
             
@@ -330,7 +330,7 @@ class NeuronModel:
             update_mod_param(self,['na12','na12mut'],nav12)
             
             h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            h.printVals12HHWT()
+            # h.printVals12HHWT()
 
             #Adding ability to update with new Na16 mechs ##TF021424
             p_fn_na16 = f'{params_folder}{na16name}.txt'

@@ -9,7 +9,7 @@
 : axonal action potential initiation.
 : J Neurosci 30:10233-42
 NEURON {
-    SUFFIX ###REMOVE###na12
+    SUFFIX na12
     USEION na READ ena WRITE ina
     RANGE vShift, vShift_inact, maxrate
     RANGE vShift_inact_local

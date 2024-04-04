@@ -211,6 +211,7 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                 for p_name in param_dict.keys():
                     if curr_sec != 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]':
                         hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
+                        h(hoc_cmd)
                     # Multiply gbar for the specific axon segment
                     else:
                         print('this is the one **************************************************************************************************************************************************************')
