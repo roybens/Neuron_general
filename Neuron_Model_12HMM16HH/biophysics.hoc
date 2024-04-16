@@ -153,17 +153,17 @@ proc biophys() {
 		ek = -85 
 	}
 
-		distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##Tf040124 tenth
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
+		distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF032724 1e-8
 		
 		distribute($o1.apical,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.004226")
 		
-		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
+		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000110") //##TF040124 tenth
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050") //##TF040124 half
+		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050") //##TF040124 half
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000020") //##TF040124 quarter
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 1*exp((%g-0.000000)*0.003100))*0.000110")//##TF031924
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050")//##TF031924
@@ -185,9 +185,9 @@ proc biophys() {
 		distribute($o1.somatic,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.008407")
 		distribute($o1.somatic,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000994")
 
-		distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##TF040124 tenth
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
+		distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF031924 1e-8
 		

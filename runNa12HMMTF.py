@@ -447,18 +447,18 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/5-12HMM16HH_040324/2-Potassium'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/5-12HMM16HH_040324/4-updatedHMMmod_changeIH'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals =[15,20,30,40]#[1]#[-80,-70-60,-50,-40,-30]
+vals =[1]#[1]#[-80,-70-60,-50,-40,-30]
 vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
 
-for i12 in np.arange(10,15,1):     
-#         for i16 in np.arange(2,3,1):
+for i12 in np.arange(150,300,25):     
+        # for i16 in np.arange(9,10,2):
 # for i12 in vals:
         for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
@@ -540,8 +540,8 @@ for i12 in np.arange(10,15,1):
                         "ah_0": 3.640921294365118, 
                         "ah_1": 5944.063823249113, 
                         "ah_2": 0.019988765965544244, 
-                        "vShift": -22.94301368173753, 
-                        "vShift_inact": 17.286867168698212, 
+                        "vShift": -30, #-22.94301368173753, 
+                        "vShift_inact":20, # 17.286867168698212, 
                         "maxrate": 2233.5902391087598
                         }
                 ##Uncomment if want to update params file to update mod file!!!
@@ -586,11 +586,11 @@ for i12 in np.arange(10,15,1):
 
                 
                 #TF040424 Insert HMM and begin tuning
-                sim = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8, somaK=1, KP=i12, KT=10, #somaK=10  KP=100,KT=40, ais_nav12_fac=2,ais_nav16_fac=2
+                sim = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8, somaK=1, KP=i12, KT=2, #somaK=10  KP=14,KT=40, ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8
                                         ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40,
                                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/1-KP-{i12}', pfx=f'WT_', update=True)
+                                plots_folder = f'{root_path_out}/3-KP-{i12}', pfx=f'WT_', update=True)
                 
                 
                              
@@ -598,7 +598,7 @@ for i12 in np.arange(10,15,1):
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/1-KP-{i12}.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/3-KP-{i12}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
