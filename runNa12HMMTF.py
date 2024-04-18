@@ -457,8 +457,8 @@ if not os.path.exists(root_path_out):
 vals =[1]#[1]#[-80,-70-60,-50,-40,-30]
 vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
 
-for i12 in np.arange(150,300,25):     
-        # for i16 in np.arange(9,10,2):
+for i12 in np.arange(0,100,25):     
+        #  for i16 in np.arange(1,11,2):
 # for i12 in vals:
         for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
@@ -586,11 +586,11 @@ for i12 in np.arange(150,300,25):
 
                 
                 #TF040424 Insert HMM and begin tuning
-                sim = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8, somaK=1, KP=i12, KT=2, #somaK=10  KP=14,KT=40, ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8
+                sim = tf.Na12Model_TF(ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=2,nav16=3, somaK=1, KP=i12, KT=1, #somaK=10  KP=14,KT=40, ais_nav12_fac=2,ais_nav16_fac=2,nav12=1,nav16=8
                                         ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40,
                                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/3-KP-{i12}', pfx=f'WT_', update=True)
+                                plots_folder = f'{root_path_out}/7-6_KP-{i12}', pfx=f'WT_', update=True)
                 
                 
                              
@@ -598,7 +598,7 @@ for i12 in np.arange(150,300,25):
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/3-KP-{i12}.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/7-6_KP-{i12}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
