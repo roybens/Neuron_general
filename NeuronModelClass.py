@@ -226,8 +226,8 @@ class NeuronModel:
         h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
         
         # h.printVals12HHWT() ##TF will only work with HH mod files that have params like 'sh', 'tha', 'thi' etc.
-        h.printValsWT16()
-        h.printValsMUT16()
+        # h.printValsWT16()
+        # h.printValsMUT16()
             
      
         
@@ -308,7 +308,12 @@ class NeuronModel:
         ##Add update_mech_from_dict and update_param_value here #####
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-            update_param_value(self,['SKv3_1'],'mtaumul',6)
+            update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
+            # update_param_value(self,['SKv3_1'],'mtaumul',50) ##TF041924
+            
+            multiply_param(self,['SK_E2'],'gSK_E2bar',2) ##TF041924 multiplies gbar of SKE2
+            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
+            
 
             self.na12wt_mech = [na12mechs[0]] 
             self.na12mut_mech = [na12mechs[1]]
