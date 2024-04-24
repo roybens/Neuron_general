@@ -123,6 +123,7 @@ proc biophys() {
 
 	forsec $o1.apical {
 		ena = 50 
+		//ena = 40 
 	}
 
 	forsec $o1.apical {
@@ -135,6 +136,7 @@ proc biophys() {
 
 	forsec $o1.axonal {
 		ena = 50 
+		//ena = 40 
 	}
 
 	forsec $o1.axonal {
@@ -147,10 +149,12 @@ proc biophys() {
 
 	forsec $o1.somatic {
 		ena = 50 
+		//ena = 40 
 	}
 
 	forsec $o1.somatic {
 		ek = -85 
+		//ek = -95 
 	}
 
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
@@ -205,8 +209,8 @@ proc biophys() {
 		forsec $o1.all {
 		g_pas = 7.120456108418522658e-06
 		//e_pas = -1.354672766109964641e+02
-		//e_pas = -100
-		e_pas = -75
+		e_pas = -100
+		//e_pas = -90
 		}
 	forsec $o1.axonal{
 		gK_Tstbar_K_Tst = 7.057598347931356431e-01

@@ -312,7 +312,8 @@ class NeuronModel:
             # update_param_value(self,['SKv3_1'],'mtaumul',50) ##TF041924
             
             multiply_param(self,['SK_E2'],'gSK_E2bar',2) ##TF041924 multiplies gbar of SKE2
-            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
+            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
             
 
             self.na12wt_mech = [na12mechs[0]] 

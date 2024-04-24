@@ -447,7 +447,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/5-12HMM16HH_040324/5-K_Ca_Kinetics'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/5-12HMM16HH_040324/10-debug'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
@@ -457,8 +457,8 @@ if not os.path.exists(root_path_out):
 vals =[1]#[1]#[-80,-70-60,-50,-40,-30]
 vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
 
-# for i12 in np.arange(0,20,4):     
-        #  for i16 in np.arange(1,11,2):
+# for i12 in np.arange(1,2,3):     
+#       for i16 in np.arange(1,2,3):
 for i12 in vals:
         for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
@@ -522,28 +522,121 @@ for i12 in vals:
                         "ar2": 1,
                         #"ena": 55
                         }
-                changesna12 = {"a1_0": 7.3917081233326964, 
-                        "a1_1": 0.020960637742640235, 
-                        "b1_0": 0.36296088733379755, 
-                        "b1_1": 0.16680524810129632, 
-                        "a2_0": 466.03560625002507, 
-                        "a2_1": 0.32567824887881647, 
-                        "b2_0": 476.76246431747546, 
-                        "b2_1": 3.237964775220791, 
-                        "a3_0": 138.3653253992877, 
-                        "a3_1": 0.1294574328268014, 
-                        "b3_0": 3569.9158743150915, 
-                        "b3_1": 0.0872001126087137, 
-                        "bh_0": 2.431699390098816, 
-                        "bh_1": 4.764311256848339, 
-                        "bh_2": 0.12976195895416504, 
-                        "ah_0": 3.640921294365118, 
-                        "ah_1": 5944.063823249113, 
-                        "ah_2": 0.019988765965544244, 
-                        "vShift": -30, #-22.94301368173753, 
-                        "vShift_inact":20, # 17.286867168698212, 
-                        "maxrate": 2233.5902391087598
-                        }
+                ##TF042324 vshifted WT-HMM
+                # changesna12 = {"a1_0": 7.3917081233326964, 
+                #         "a1_1": 0.020960637742640235, 
+                #         "b1_0": 0.36296088733379755, 
+                #         "b1_1": 0.16680524810129632, 
+                #         "a2_0": 466.03560625002507, 
+                #         "a2_1": 0.32567824887881647, 
+                #         "b2_0": 476.76246431747546, 
+                #         "b2_1": 3.237964775220791, 
+                #         "a3_0": 138.3653253992877, 
+                #         "a3_1": 0.1294574328268014, 
+                #         "b3_0": 3569.9158743150915, 
+                #         "b3_1": 0.0872001126087137, 
+                #         "bh_0": 2.431699390098816, 
+                #         "bh_1": 4.764311256848339, 
+                #         "bh_2": 0.12976195895416504, 
+                #         "ah_0": 3.640921294365118, 
+                #         "ah_1": 5944.063823249113, 
+                #         "ah_2": 0.019988765965544244, 
+                #         "vShift": -30, #-22.94301368173753, 
+                #         "vShift_inact":20, # 17.286867168698212, 
+                #         "maxrate": 2233.5902391087598
+                #         }
+                
+                ##TF042324 mut10_1 fit from vshifted wt-HMM
+                changesna12 = {"a1_0": 47.88395304510355, 
+                        "a1_1": 0.580116333776531, 
+                        "b1_0": 2.1736548357107743, 
+                        "b1_1": 0.0736381407276879, 
+                        "a2_0": 11589.631011535717, 
+                        "a2_1": 0.11575919917484359, 
+                        "b2_0": 317.2921388390646, 
+                        "b2_1": 1.300066280406203, 
+                        "a3_0": 260.3693108979363, 
+                        "a3_1": 0.1819905691948297, 
+                        "b3_0": 3613.6839364554876, 
+                        "b3_1": 0.14316250229426114, 
+                        "bh_0": 8.434406038655029, 
+                        "bh_1": 6.544547121753995, 
+                        "bh_2": 0.14512358801027536, 
+                        "ah_0": 1.9718027694081248, 
+                        "ah_1": 45953.40255162975, 
+                        "ah_2": 0.044087424752603, 
+                        "vShift": -24.26233946779172, 
+                        "vShift_inact": 19.212301660453747, 
+                        "maxrate": 554.4854193940364}
+                
+                ##TF042324 mut2_1 fit from vshifted wt_HMM
+                # changesna12 = {"a1_0": 190.06546985816848, 
+                #         "a1_1": 0.866341360844602, 
+                #         "b1_0": 3.1817435275724484, 
+                #         "b1_1": 0.1797666932720414, 
+                #         "a2_0": 10752.857233895027, 
+                #         "a2_1": 0.3096729051119419, 
+                #         "b2_0": 439.95573025519104, 
+                #         "b2_1": 2.837183904388915, 
+                #         "a3_0": 413.9219734776599, 
+                #         "a3_1": 0.09066501592163359, 
+                #         "b3_0": 2747.78507120295, 
+                #         "b3_1": 0.025723311731907117, 
+                #         "bh_0": 7.919984499615688, 
+                #         "bh_1": 4.411282666300695, 
+                #         "bh_2": 0.1528009419610445, 
+                #         "ah_0": 0.7646502286075908, 
+                #         "ah_1": 180986.53143078965, 
+                #         "ah_2": 0.05314974687147448, 
+                #         "vShift": -24.491850165626715, 
+                #         "vShift_inact": 20.305932384104505, 
+                #         "maxrate": 811.3775517272184}
+                
+                ##TF042324 mut4_4 fit from vshifted wt_HMM
+                # changesna12 = {"a1_0": 145.3169910688194, 
+                #         "a1_1": 0.6892020856372565, 
+                #         "b1_0": 0.38672830773824507, 
+                #         "b1_1": 0.16650947924561554, 
+                #         "a2_0": 16551.333021772734, 
+                #         "a2_1": 0.049091612851463774, 
+                #         "b2_0": 259.65922911272656, 
+                #         "b2_1": 2.8045436864586497, 
+                #         "a3_0": 321.70172239261854, 
+                #         "a3_1": 0.17665389590962516, 
+                #         "b3_0": 3020.9909048322015, 
+                #         "b3_1": 0.13197003788859388, 
+                #         "bh_0": 4.607724878304812, 
+                #         "bh_1": 6.775624011953492, 
+                #         "bh_2": 0.2409471679688329, 
+                #         "ah_0": 7.7929851680262585, 
+                #         "ah_1": 5817.166189708863, 
+                #         "ah_2": 0.024443708362379628, 
+                #         "vShift": -21.619498121793203, 
+                #         "vShift_inact": 4.223380991503497, 
+                #         "maxrate": 606.9565956119159}
+                
+                ##TF042324 mut10_4 fit from vshifted wt_HMM
+                # changesna12 = {"a1_0": 109.87667115259035, 
+                #         "a1_1": 0.6079261865917412, 
+                #         "b1_0": 4.113095593538036, 
+                #         "b1_1": 0.0016895429443995911, 
+                #         "a2_0": 14476.82556036098, 
+                #         "a2_1": 0.2256529959703877, 
+                #         "b2_0": 164.01836269706186, 
+                #         "b2_1": 2.616310409196042, 
+                #         "a3_0": 287.61843669903556, 
+                #         "a3_1": 0.08506019620282235, 
+                #         "b3_0": 2015.836184382626, 
+                #         "b3_1": 0.10904828877170832, 
+                #         "bh_0": 10.505928535174931, 
+                #         "bh_1": 8.876021203632611, 
+                #         "bh_2": 0.14530016999117046, 
+                #         "ah_0": 3.149343231350516, 
+                #         "ah_1": 23349.315592258383, 
+                #         "ah_2": 0.04019999923739183, 
+                #         "vShift": -28.632365908741107, 
+                #         "vShift_inact": 21.594055794626733, 
+                #         "maxrate": 11773370.716274362}
                 ##Uncomment if want to update params file to update mod file!!!
                 nf.modify_dict_file(filename12, changesna12)
                 nf.modify_dict_file(filename16, changesna16)
@@ -584,21 +677,26 @@ for i12 in vals:
                 #                         plots_folder = f'{root_path_out}/2_KO_na12', pfx=f'WT_', update=True)
                 # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
 
-                
                 #TF040424 Insert HMM and begin tuning
-                sim = tf.Na12Model_TF(ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=1,nav16=7, somaK=1, KP=100, KT=1, #somaK=10  KP=14,KT=40, ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=1,nav16=8, nav1216=2
-                                        ais_ca = 1,ais_Kca = 1, soma_na12=2, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
-                                na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12','na12mut'],
+                # sim = tf.Na12Model_TF(ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=2,nav16=2, somaK=1, KP=100, KT=1, #somaK=10  KP=14,KT=40, ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=1,nav16=8, nav1216=2;5-10=1,7
+                #                 ais_ca = 1,ais_Kca = 1, soma_na12=2, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12','na12mut'],
+                #                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                #                 plots_folder = f'{root_path_out}/5-13-CaL0.5_SKE2-2_epas-85', pfx=f'WT_', update=True)
+                
+                ##TF042324 replace hmmWT with mut10_1 to account for different Tau0's in HH vs HMM vclamp act/inact/tau0 plots
+                sim = tf.Na12Model_TF(ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=2,nav16=0.5, somaK=1, KP=100, KT=1, #somaK=10  KP=14, KT=40, ais_nav12_fac=1.5,ais_nav16_fac=1.5,nav12=1,nav16=8, nav1216=2;5-10=1,7
+                                ais_ca = 1,ais_Kca = 1, soma_na12=2, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                                na12name = 'mut10_1_12HMM_042324',mut_name = 'mut10_1_12HMM_042324',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/5-10-CaL0.5_SKE2-2_epas-75', pfx=f'WT_', update=True)
+                                plots_folder = f'{root_path_out}/5-vals-{i12}{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 
-                
-                             
-                
+                                
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue')
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/5-10-CaL0.5_SKE2-2_epas-75.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/5-vals-{i12}{i16}.pdf')
+                # plt.clf()
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
