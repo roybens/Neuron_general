@@ -309,11 +309,11 @@ class NeuronModel:
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
-            # update_param_value(self,['SKv3_1'],'mtaumul',50) ##TF041924
+            # update_param_value(self,['SKv3_1'],'mtaumul',0.5) ##TF041924
             
-            multiply_param(self,['SK_E2'],'gSK_E2bar',2) ##TF041924 multiplies gbar of SKE2
+            # multiply_param(self,['SK_E2'],'gSK_E2bar',0.5) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
-            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
             
 
             self.na12wt_mech = [na12mechs[0]] 
@@ -374,7 +374,7 @@ class NeuronModel:
             ############################################################
         
     
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args
+    def init_stim(self, sweep_len = 1200, stim_start = 300, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
 
         # updates the stimulation params used by the model
