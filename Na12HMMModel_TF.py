@@ -224,14 +224,14 @@ class Na12Model_TF:
         
         #####*** Below for plotting user-specified time steps
         #sweep_len = 75
-        dt = 0.01
+        dt = 0.1
         # time1 = 51 #start time in ms. Must be between 0 < x < sweep_len 54het 51ms->60msWT
         # time2 = 60 #end time in ms. Must be between 0 < x < sweep_len 63het
         step1 = int((time1/dt))
         step2 = int((time2/dt))
         Vmsteplist = Vm[step1:step2] #assign new list for range selected between two steps
-        maxvm = max(Vm[step1:step2]) #gets max voltage
-        indexmax = Vmsteplist.argmax() #gets index (time point in Vmsteplist) where max voltage is
+        # maxvm = max(Vm[step1:step2]) #gets max voltage
+        # indexmax = Vmsteplist.argmax() #gets index (time point in Vmsteplist) where max voltage is
         #####***
 
         # print(I)
@@ -244,7 +244,7 @@ class Na12Model_TF:
                 #"dir": "./Plots/12HMM16HH_TF/SynthMuts_120523/Currentscape/",
                 "dir": f"{self.plot_folder}",
                 #"fname": "Na12_mut22_1nA_800ms", ########################################################_________________Change file name here
-                "fname":f"{self.pfx}_{amp}_{sweep_len}",
+                "fname":f"{self.pfx}_{amp}_t1{time1}t2{time2}_{sweep_len}_{stim_start}",
                 "extension": "pdf",
                 #"extension": "jpg",
                 "dpi": 600,
@@ -284,8 +284,8 @@ class Na12Model_TF:
         # print(plot_config['current'])
         # print('step at max value for vm')
         # # print(Vmsteplist)
-        print(f"the max voltage value is {maxvm}")        
-        print(f"The index at which the max voltage happens is {indexmax}")
+        # print(f"the max voltage value is {maxvm}")        
+        # print(f"The index at which the max voltage happens is {indexmax}")
         
         #fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()]) #Default version that plots full sweep_len (full simulation)
         fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config,[ionic[x][step1:step2] for x in ionic.keys()]) #Use this version to add time steps
