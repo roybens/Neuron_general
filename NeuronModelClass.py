@@ -374,7 +374,7 @@ class NeuronModel:
             ############################################################
         
     
-    def init_stim(self, sweep_len = 1500, stim_start = 300, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
+    def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
 
         # updates the stimulation params used by the model
