@@ -223,7 +223,7 @@ class NeuronModel:
         
         h.working()
         
-        h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+        # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
         
         # h.printVals12HHWT() ##TF will only work with HH mod files that have params like 'sh', 'tha', 'thi' etc.
         # h.printValsWT16()
@@ -327,15 +327,15 @@ class NeuronModel:
             p_fn_na12 = f'{params_folder}{na12name}.txt'  
             p_fn_na12_mech = f'{params_folder}{na12mut_name}.txt'
             print(f'using wt_file params {na12name}')
-            self.na12_p = update_mech_from_dict(self, p_fn_na12, self.na12wt_mech)
+            # self.na12_p = update_mech_from_dict(self, p_fn_na12, self.na12wt_mech)
             print(eval("h.psection()")) 
             print(f'using mut_file params {na12mut_name}')
-            self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
+            # self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
             print(eval("h.psection()"))
             
             update_mod_param(self,['na12','na12mut'],nav12)
             
-            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             # h.printVals12HHWT()
 
             #Adding ability to update with new Na16 mechs ##TF021424
@@ -343,22 +343,22 @@ class NeuronModel:
             p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt'
             
             print(f'using na16wt_file params {na16name}')
-            self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
+            # self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
             print(eval("h.psection()"))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             h.printValsWT16()
             
             print(f'using na16mut_file params {na16mut_name}')
-            self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
+            # self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
             print(eval("h.psection()"))
 
             update_mod_param(self,['na16','na16mut'],nav16)
 
 
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
-            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            h.printValsMUT16()
+            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            # h.printValsMUT16()
             # print(h("topology()"))
 
             
@@ -374,8 +374,9 @@ class NeuronModel:
             ############################################################
         
     
-    def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
+    # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 
 
         # updates the stimulation params used by the model
         # time values are in ms

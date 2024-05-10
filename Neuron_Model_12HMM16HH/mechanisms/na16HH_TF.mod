@@ -13,7 +13,7 @@ NEURON {
 
 PARAMETER {
 	sh   = 8	(mV)
-	gbar = 0.01 :0.1   	(mho/cm2)	
+	gbar = 0.01 :0.1 :0.245989   	(mho/cm2)	
 								
 	tha  =  -47(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45
 	qa   = 7.2	(mV)		: act slope (4.5)		

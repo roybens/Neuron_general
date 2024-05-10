@@ -123,7 +123,6 @@ proc biophys() {
 
 	forsec $o1.apical {
 		ena = 50 
-		//ena = 40 
 	}
 
 	forsec $o1.apical {
@@ -136,7 +135,6 @@ proc biophys() {
 
 	forsec $o1.axonal {
 		ena = 50 
-		//ena = 40 
 	}
 
 	forsec $o1.axonal {
@@ -149,17 +147,15 @@ proc biophys() {
 
 	forsec $o1.somatic {
 		ena = 50 
-		//ena = 40 
 	}
 
 	forsec $o1.somatic {
 		ek = -85 
-		//ek = -95 
 	}
 
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+		distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
-		distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000080") //##TF041824 hundredth
+		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##Tf040124 tenth
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
 		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
@@ -167,9 +163,9 @@ proc biophys() {
 		
 		distribute($o1.apical,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.004226")
 		
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
+		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000220") //##TF041824 double
-		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000110") //##TF041824 hundredth
+		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000110") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000110") //##TF040124 tenth
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050") //##TF040124 half
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000020") //##TF040124 quarter
@@ -193,9 +189,9 @@ proc biophys() {
 		distribute($o1.somatic,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.008407")
 		distribute($o1.somatic,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000994")
 
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+		distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
-		distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##TF041824 hundredth
+		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##TF040124 tenth
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
 		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
@@ -210,7 +206,6 @@ proc biophys() {
 		g_pas = 7.120456108418522658e-06
 		//e_pas = -1.354672766109964641e+02
 		e_pas = -100
-		//e_pas = -90
 		}
 	forsec $o1.axonal{
 		gK_Tstbar_K_Tst = 7.057598347931356431e-01

@@ -181,6 +181,7 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
     for curr_sec in mdl.sl:
         # print(f'current section {curr_sec}') ###120523 TF
         if curr_sec.name() == 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]': ##TF040224 if not axon[0], continues to for loop below
+            print('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             continue
         for curr_mech in mechs:
             print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
@@ -211,11 +212,12 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                 for p_name in param_dict.keys():
                     if curr_sec != 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]':
                         hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                        h(hoc_cmd)
-                    # Multiply gbar for the specific axon segment
+                        h(hoc_cmd)#############################
+                    
+                    ## Multiply gbar for the specific axon segment
                     else:
-                        print('this is the one **************************************************************************************************************************************************************')
                         for seg in curr_sec:
+                            print('this is the one **************************************************************************************************************************************************************')
                             hoc_cmd = f'{curr_name}.gbar_{curr_mech}({seg.x}) *= {param_dict[p_name]}'
                             print(f'hoc command {hoc_cmd}')
                             h(hoc_cmd)

@@ -95,19 +95,19 @@
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 
-./na12.c: .././mechanisms/na12.mod
+./na12annaTFHH.c: .././mechanisms/na12annaTFHH.mod
 	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
-	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
+	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12annaTFHH.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
 
-./na12.o: ./na12.c
+./na12annaTFHH.o: ./na12annaTFHH.c
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 
-./na12mut.c: .././mechanisms/na12mut.mod
+./na12annaTFHHmut.c: .././mechanisms/na12annaTFHHmut.mod
 	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\n"
-	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12mut.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
+	(cd ".././mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na12annaTFHHmut.mod -o "/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/x86_64")
 
-./na12mut.o: ./na12mut.c
+./na12annaTFHHmut.o: ./na12annaTFHHmut.c
 	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\n"
 	$(COMPILE) -I".././mechanisms" $(INCLUDES) -fPIC -c $< -o $@
 

@@ -1,6 +1,19 @@
+###TF051024 Updates after finding some bugs
+-There was a bug in update_mech_from_dict in lines 330,333,346, and 353 in NeuronModelClass.py. After altering the function in NrnHelper to incorporate changes to each segment of axon[0], it wasn't
+updating the rest of the params. Therefore any params csv I tried to give it would not actually update the mech.
+-I effectively tuned the HH model without changing the default params. Luckily, they still look good in vclamp and if the 4 update_mech_from_dict lines are commented out, 
+the model can be recreated and still looks good.
+-by leaving update_mod_param intact, each AIS segment is still updated as well as all nav12 and nav16 gbars when you modify nav12 or nav16 in runNa12HMMTF.py
+-There's still a bug that I can't figure out: When update_mech_from_dict is included, but the parameters are changed to the exact ones already present in the HH mod files,
+I don't get the same result as if the update_mech... functions are commented out. Not sure why.
+-Other notes:
+        -Ih's are all default values in biophysics.hoc
+        -Didn't change axon_utils.hoc
+        -the only other param value that's updated is SKv3_1 mtaumul to 6 which has been the same. No other params are updated (no Ca SKe2 etc...)
+        -To do het/KO experiments, just changed nav12 (will change overall nav12 gbar even in AIS)
 
 Mod Files:
-na12annTFHH.mod
+na12annaTFHH.mod
 na12annaTFHHmut.mod
 na16HH_TF.mod
 na16HHmut_TF.mod
