@@ -306,6 +306,7 @@ class NeuronModel:
         
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
+        ##TF052124 need to comment out update_mech_from_dict if using HH model##
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
@@ -327,12 +328,13 @@ class NeuronModel:
             p_fn_na12 = f'{params_folder}{na12name}.txt'  
             p_fn_na12_mech = f'{params_folder}{na12mut_name}.txt'
             print(f'using wt_file params {na12name}')
-            # self.na12_p = update_mech_from_dict(self, p_fn_na12, self.na12wt_mech)
+            self.na12_p = update_mech_from_dict(self, p_fn_na12, self.na12wt_mech) ###
             print(eval("h.psection()")) 
             print(f'using mut_file params {na12mut_name}')
-            # self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
+            self.na12_pmech = update_mech_from_dict(self, p_fn_na12_mech, self.na12mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech) ###
             print(eval("h.psection()"))
             
+            #Updates gbar in na12 and na12mut mechs with value in nav12. Updates all gbars in all sections including all segments in AIS
             update_mod_param(self,['na12','na12mut'],nav12)
             
             # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
@@ -343,14 +345,14 @@ class NeuronModel:
             p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt'
             
             print(f'using na16wt_file params {na16name}')
-            # self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech)
+            self.na16_p = update_mech_from_dict(self, p_fn_na16,self.na16wt_mech) ###
             print(eval("h.psection()"))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
-            h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            h.printValsWT16()
+            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+            # h.printValsWT16()
             
             print(f'using na16mut_file params {na16mut_name}')
-            # self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech)
+            self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech) ###
             print(eval("h.psection()"))
 
             update_mod_param(self,['na16','na16mut'],nav16)

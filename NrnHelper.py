@@ -182,47 +182,58 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
         # print(f'current section {curr_sec}') ###120523 TF
         if curr_sec.name() == 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]': ##TF040224 if not axon[0], continues to for loop below
             print('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print(f'Current Mech {curr_mech} and current section {curr_sec}')
+            print('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            ##TF052324/##
+            # Update all parameters except gbar for the axon section. AIS gbar will get updated when update_mod_param called (dependent on nav12/16)
+            for curr_mech in mechs:
+                print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
+                if h.ismembrane(curr_mech, sec=curr_sec):
+                    curr_name = h.secname(sec=curr_sec)
+                    for seg in curr_sec:
+                        for p_name in param_dict.keys():
+                            hoc_cmd = f'{curr_name}.{p_name}_{curr_mech}({seg.x}) = {param_dict[p_name]}'
+                            print(f'hoc command {hoc_cmd}')
+                            h(hoc_cmd)
             continue
+            ##/TF05224##
+            
+        # Update all other sections other than axon[0]
         for curr_mech in mechs:
             print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
                 isUpdated = True
                 curr_name = h.secname(sec=curr_sec)
-                #print(f'Current Name {curr_name}')###120523 TF
                 #sec = h.Section()
-                #print(sec)
-                #print(eval(f'h.psection(sec=sec)'))
-                #print(h.Section())
 
                 #######Original
                 # for p_name in param_dict.keys():
-                #     # print(f' p name {p_name}') ###120523 TF
                 #     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                #     # print(f'hoc command {hoc_cmd}') ###120523 TF
                 #     h(hoc_cmd)
 
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
                   #      hoc_cmd = f'{curr_name}.gbar_{channel}({seg.x}) *= {wt_mul}'
                   #      print(hoc_cmd)
-                #######
 
                 ##TF040124 altering to update axon[0] to get ais correct and not apply blanket gbar to all segs
-                     # Overwrite gbar for other sections
+                # Overwrite gbar for other sections
                 for p_name in param_dict.keys():
                     if curr_sec != 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]':
                         hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
                         h(hoc_cmd)#############################
                     
                     ## Multiply gbar for the specific axon segment
-                    else:
-                        for seg in curr_sec:
-                            print('this is the one **************************************************************************************************************************************************************')
-                            hoc_cmd = f'{curr_name}.gbar_{curr_mech}({seg.x}) *= {param_dict[p_name]}'
-                            print(f'hoc command {hoc_cmd}')
-                            h(hoc_cmd)
-
-    
+                    # else:
+                    #     for seg in curr_sec:
+                    #         print('this is the one **************************************************************************************************************************************************************')
+                    #         hoc_cmd1 = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
+                    #         h(hoc_cmd1)
+                    #         print(f'hoc command 1 {hoc_cmd1}')
+                    #         hoc_cmd = f'{curr_name}.gbar_{curr_mech}({seg.x}) *= {param_dict[p_name]}'
+                    #         print(f'hoc command {hoc_cmd}')
+                    #         h(hoc_cmd)
+                    #         print('this is the one **************************************************************************************************************************************************************')
     if(not isUpdated):
         print("Havent Updated in any section")
     else: print("Updated !!!!")
@@ -263,7 +274,7 @@ def update_mech_from_dict_HH(mdl,dict_fn,mechs,input_dict = False, param_name='a
     
     return param_dict
 
-def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):
+def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
     for curr_sec in mdl.sl:
         curr_name = h.secname(sec=curr_sec)
         for curr_mech in mechs:
@@ -271,11 +282,11 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =True):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
                     print(hoc_cmd)
-                    print(f'this is the par value')
+                    # print(f'this is the par value')
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
-                    print(f'this is the assigned value')
+                    # print(f'this is the assigned value')
                     #h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                    
                     # print(f'par_value before{par_value} and after {assigned_value}')
