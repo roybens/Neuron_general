@@ -17,7 +17,7 @@ from NrnHelper import *
 
 
 class NeuronModel:
-    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HH/',#'./Neuron_Model_12HH16HMM/',#'./Neuron_Model_HH/', 
+    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir = './Neuron_Model_12HMM16HMM/',#'./Neuron_Model_12HMM16HH/',#'./Neuron_Model_HH/', 
                       
                       update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
                       na12name = 'na12_HMM_TF100923',
@@ -309,6 +309,8 @@ class NeuronModel:
         ##TF052124 need to comment out update_mech_from_dict if using HH model##
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            print(eval('h.psection()'))
+            # print(eval('h.cell.axon[0].psection()'))
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
             # update_param_value(self,['SKv3_1'],'mtaumul',0.5) ##TF041924
             
@@ -356,8 +358,9 @@ class NeuronModel:
             print(eval("h.psection()"))
 
             update_mod_param(self,['na16','na16mut'],nav16)
-
-
+            
+            print(eval("h.psection()"))
+            # print(eval('h.cell.axon[0].psection()'))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             # h.printValsMUT16()
