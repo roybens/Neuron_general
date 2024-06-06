@@ -412,6 +412,10 @@ class Na12Model_TF:
                 # 'currents'  :['ina','ica','ik'],
                 # 'ionic_concentrations' :["cai", "ki", "nai"]
             }):
+        
+        ap_initiation = []
+        ap_threshold =10
+
         self.dt = dt
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
@@ -419,8 +423,13 @@ class Na12Model_TF:
             self.extra_vms = extra_vms
         else:
             Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=dt, sim_config=sim_config)#changed run_model to run_sim_model to capture other segments
-
-        return Vm, I, t, stim
+            # Check each data point in Vm and append (Vm, t) to ap_initiation if above threshold
+        for i, v in enumerate(Vm):
+            if v >= ap_threshold:
+                ap_initiation.append((v, t[i]))
+        
+        print(f"The action potential initiation voltage and time are: {ap_initiation[0]}")
+        return Vm, I, t, stim, ap_initiation
     
     
     def plot_stim_firstpeak(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False,stim_start = 30, stim_dur = 500):
