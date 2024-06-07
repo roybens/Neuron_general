@@ -381,8 +381,9 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 
-
+    
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 
+    def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA

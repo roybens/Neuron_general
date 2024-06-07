@@ -417,7 +417,7 @@ class Na12Model_TF:
         ap_threshold =10
 
         self.dt = dt
-        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
+        self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp)
         if rec_extra:
             Vm, I, t, stim,extra_vms = self.l5mdl.run_sim_model(dt=dt,rec_extra = rec_extra, sim_config=sim_config)#changed run_model to run_sim_model to capture other segments
             self.extra_vms = extra_vms
@@ -426,7 +426,7 @@ class Na12Model_TF:
             # Check each data point in Vm and append (Vm, t) to ap_initiation if above threshold
         for i, v in enumerate(Vm):
             if v >= ap_threshold:
-                ap_initiation.append((v, t[i]))
+                ap_initiation.append((t[i],v))
         
         print(f"The action potential initiation voltage and time are: {ap_initiation[0]}")
         return Vm, I, t, stim, ap_initiation
