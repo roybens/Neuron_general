@@ -250,6 +250,40 @@ changes = {
 
 # modify_dict_file(filename, changes)
 
+def combine_dictionaries(folder_path, new_file):
+  """
+  Combines dictionaries from .txt files in a folder into a single dictionary.
+
+  Args:
+      folder_path (str): Path to the folder containing .txt files with dictionaries.
+
+  Returns:
+      dict: A dictionary where file names are keys and dictionary contents are values.
+  """
+  combined_dict = {}
+  for filename in os.listdir(folder_path):
+    # Check for .txt files
+    if filename.endswith(".txt"):
+      file_path = os.path.join(folder_path, filename)
+      try:
+        # Open file and read content
+        with open(file_path, 'r') as f:
+          data = json.load(f)
+        # Add dictionary to combined dict with filename as key
+        combined_dict[filename] = data
+      except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error processing file {filename}: {e}")
+  with open (new_file ,'w') as file:
+    # json.dump(combined_dict, file, separators=(',', ':')) #indent=4 if you want more vertical orientation
+    # json.dump(combined_dict, file, indent=4) #indent=4 if you want more vertical orientation
+    for key, value in combined_dict.items():
+    # Write key-value pair on a separate line
+      file.write(f'"{key}": {json.dumps(value)},\n')
+  return combined_dict
+
+
+
+combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
 
 
