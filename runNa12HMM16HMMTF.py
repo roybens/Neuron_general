@@ -448,15 +448,15 @@ sim_config_soma = {
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HMM/2-Baseline_052824'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HMM/3-Debug_hetKO_061024'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals =[0]#[-80,-70-60,-50,-40,-30]
-vals2 = [2]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[10, 15, 20]#[-80,-70-60,-50,-40,-30]
+vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -525,23 +525,29 @@ for i12 in vals:
                 #         nf.modify_dict_file(filename12,dict)
                         # nf.modify_dict_file(filename16,changesna16)
 
-
+                
+                # simwt = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac=7,nav12=2,nav16=2, somaK=1, KP=50, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                #                 ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                #                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                #                 na16name = 'na16mut44_092623',na16mut_name = 'na16mut44_092623',na16mechs=['na16','na16mut'],params_folder = './params/',
+                #                 plots_folder = f'{root_path_out}/5-KP50_1216-{i12}-{i16}test', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
                 ##TF042324 replace hmmWT with mut10_1 to account for different Tau0's in HH vs HMM vclamp act/inact/tau0 plots
                 ##TF050724 Baseline params: ais_nav12_fac=1,ais_nav16_fac=1,nav12=2,nav16=7, somaK=1, KP=100, KT=1,ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,
                 ##TF050824 putting in 1.6HMM 'na16mut44_092623' instead of na16HH_TF2 (HH 1.6)
-                sim = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=7,nav12=i12,nav16=i16, somaK=1, KP=50, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i12,nav12=2,nav16=2, somaK=1, KP=50, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
                                 ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16mut44_092623',na16mut_name = 'na16mut44_092623',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/5-KP50_1216-{i12}-{i16}test', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                plots_folder = f'{root_path_out}/2_ais1216-{i12}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 
                 
                                 
                 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                 sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                 plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{sim.plot_folder}/5-KP50_1216-{i12}-{i16}test.pdf')
+                fig_volts.savefig(f'{sim.plot_folder}/2_ais1216-{i12}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],

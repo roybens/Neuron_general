@@ -386,7 +386,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/12-synthmuts_for_ramp'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/13-debug_het_KO'
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HMM/1-Baselines052124'
 
 if not os.path.exists(root_path_out):
@@ -473,81 +473,8 @@ for i12 in vals:
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                         plots_folder = f'{root_path_out}/3-WT', pfx=f'WT_', update=True)
-                wt_Vm1,wt_I1,wt_t1,wt_stim1, soma_apinit1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
-                
-                ##TF060624 Added lines to map the initiation and propogation of action potential
-                # compiled_apinit = []
-                # compiled_apinit1 = []
-                # compiled_apinit2 =[]
-                
-                # sim_config2 = {'section' : 'axon','section_num': 0, 'segment' : 0.1,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
-                # sim_config3 = {'section' : 'axon','section_num': 0, 'segment' : 0.2,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
-                # sim_config4 = {'section' : 'axon','section_num': 0, 'segment' : 0.3,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
-                # sim_config5 = {'section' : 'axon','section_num': 0, 'segment' : 0.4,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                # sim_config6 = {'section' : 'axon','section_num': 0, 'segment' : 0.5,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                # sim_config7 = {'section' : 'axon','section_num': 0, 'segment' : 0.6,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                # sim_config8 = {'section' : 'axon','section_num': 0, 'segment' : 0.7,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                # sim_config9 = {'section' : 'axon','section_num': 0, 'segment' : 0.8,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                # sim_config10 = {'section' : 'axon','section_num': 0, 'segment' : 0.9,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}                
-                
-                # wt_Vm2,wt_I2,wt_t2,wt_stim2, apinit2 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config2)
-                # wt_Vm3,wt_I3,wt_t3,wt_stim3, apinit3 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config3)
-                # wt_Vm4,wt_I4,wt_t4,wt_stim4, apinit4 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config4)
-                # wt_Vm5,wt_I5,wt_t5,wt_stim5, apinit5 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config5)
-                # wt_Vm5,wt_I6,wt_t6,wt_stim6, apinit6 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config6)
-                # wt_Vm5,wt_I7,wt_t7,wt_stim7, apinit7 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config7)
-                # wt_Vm5,wt_I8,wt_t8,wt_stim8, apinit8 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config8)
-                # wt_Vm5,wt_I9,wt_t9,wt_stim9, apinit9 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config9)
-                # wt_Vm5,wt_I10,wt_t10,wt_stim10, apinit10 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config10)
+                wt_Vm1,wt_I1,wt_t1,wt_stim1, soma_apinit1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)                
 
-                
-                # compiled_apinit.append([soma_apinit1[0],apinit2[0],apinit3[0],apinit4[0],apinit5[0],apinit6[0],apinit7[0],apinit8[0],apinit9[0],apinit10[0]])
-                
-                # compiled_apinit1.append(soma_apinit1[0])
-                # compiled_apinit1.append(apinit2[0])
-                # compiled_apinit1.append(apinit3[0])
-                # compiled_apinit1.append(apinit4[0])
-                # compiled_apinit1.append(apinit5[0])
-                # compiled_apinit1.append(apinit6[0])
-                # compiled_apinit1.append(apinit7[0])
-                # compiled_apinit1.append(apinit8[0])
-                # compiled_apinit1.append(apinit9[0])
-                # compiled_apinit1.append(apinit10[0])                
-                
-                # compiled_apinit2=[soma_apinit1[0],apinit2[0],apinit3[0],apinit4[0],apinit5[0],apinit6[0],apinit7[0],apinit8[0],apinit9[0],apinit10[0]]
-                # print(f'This is the compiled ap_init: {compiled_apinit}')
-                # print(f'This is the compiled ap_init1: {compiled_apinit1}')
-                # print(f'this is compiled ap_init1: {compiled_apinit2}')
-
-                compiled_apinit_multi =[]
-                #soma
-        
-                for i in np.arange(0.5,0.6,0.5):
-                        sim_config_multi = {'section' : 'soma','section_num': 0, 'segment' : i, 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
-                        wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
-                        compiled_apinit_multi.append(["soma",i,apinit_m[0]])
-                #axon
-                for j in np.arange(0,2,1):
-                        for i in np.arange(0.1,1,0.1):
-                                sim_config_multi = {'section' : 'axon','section_num': j, 'segment' : i,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
-                                wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
-                                compiled_apinit_multi.append(["axon",i,apinit_m[0]])
-                #dend
-                # for i in np.arange(0,11,1):
-                #         sim_config_multi = {'section' : 'dend','section_num': i, 'segment' : 0.5,'currents'  : [],'ionic_concentrations' :[] }
-                #         wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
-                #         compiled_apinit_multi.append(['dend',i,apinit_m[0]])
-
-                #apic        
-                # for i in np.arange(0,11,1):
-                #         sim_config_multi = {'section' : 'apic','section_num': i, 'segment' : 0.5,'currents'  : [],'ionic_concentrations' :[] }
-                #         wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
-                #         compiled_apinit_multi.append(['apic',i,apinit_m[0]])
-
-                print(f'This is the multi compiled apinit: {compiled_apinit_multi}')
-                df = pd.Dataframe(compiled_apinit_multi)
-                pd.to_csv('APinitiation.csv',index=False)
-                
                 ##TF052224 Mutants for Scn2a grant and Migraine Stuff
                 # changesna12 = {
                 # "m1012ttp8":{"a1_0": 62.774771313021546,"a1_1": 0.6854152336583206,"b1_0": 3.2117067311143277,"b1_1": 0.1432460480232296, "a2_0": 2468.966900014909,"a2_1": 0.0834387238328, "b2_0": 490.16060600231606,"b2_1": 2.969500725999265,"a3_0": 190.5883640336242,"a3_1": 0.003108395956123883,"b3_0": 7689.251014289831, "b3_1": 0.04054164070835632,"bh_0": 4.063594186259147,"bh_1": 2.115884898210715, "bh_2": 0.1433653421971472,"ah_0": 1.3563238605774417,"ah_1": 6568.351916792737, "ah_2": 0.011127551783912584,"vShift": -18.276678986708095, "vShift_inact": 16.74204011921361, "maxrate": 6.170113221706686},
@@ -599,7 +526,9 @@ for i12 in vals:
                 #         #Nan# "mut11_9":{"a1_0": 141.9849501275761, "a1_1": 1.1085755202068512, "b1_0": 6.322653498055551, "b1_1": 0.015386207878437808, "a2_0": 9680.17876386771, "a2_1": 0.07979740589061102, "b2_0": 137.5447625950569, "b2_1": 1.9413582544833146, "a3_0": 87.08487239842628, "a3_1": 0.0040915161584304804, "b3_0": 9608.582703132137, "b3_1": 0.03494969491802795, "bh_0": 8.396181966678954, "bh_1": 29.355160806431307, "bh_2": 0.1453241430294208, "ah_0": NaN, "ah_1": 464889.9106152553, "ah_2": 0.0430218198508133, "vShift": -20.11993371049176, "vShift_inact": 5.657045961832672, "maxrate": 6.91128564013095},
                 #         }
                 
-                changesna12={"mut10_4":{"a1_0": 30.990568607464937, "a1_1": 0.727207131085451, "b1_0": 2.4177659248112304, "b1_1": 0.001361137402837942, "a2_0": 7764.878961142766, "a2_1": 0.033710133967452593, "b2_0": 354.5075793923026, "b2_1": 4.0585190172293055, "a3_0": 124.65125337416927, "a3_1": 0.002466385979914096, "b3_0": 5691.006145002193, "b3_1": 0.0062791739575876, "bh_0": 0.7148812999656258, "bh_1": 1.0205850850329137, "bh_2": 0.1491648507752708, "ah_0": 11.231511989775173, "ah_1": 29046.460566891234, "ah_2": 0.008490668279800669, "vShift": -19.00612418597558, "vShift_inact": 8.677200690072695, "maxrate": 5.262143195447436}}
+                # changesna12={"mut10_4":{"a1_0": 30.990568607464937, "a1_1": 0.727207131085451, "b1_0": 2.4177659248112304, "b1_1": 0.001361137402837942, "a2_0": 7764.878961142766, "a2_1": 0.033710133967452593, "b2_0": 354.5075793923026, "b2_1": 4.0585190172293055, "a3_0": 124.65125337416927, "a3_1": 0.002466385979914096, "b3_0": 5691.006145002193, "b3_1": 0.0062791739575876, "bh_0": 0.7148812999656258, "bh_1": 1.0205850850329137, "bh_2": 0.1491648507752708, "ah_0": 11.231511989775173, "ah_1": 29046.460566891234, "ah_2": 0.008490668279800669, "vShift": -19.00612418597558, "vShift_inact": 8.677200690072695, "maxrate": 5.262143195447436}}
+                changesna12 = {"wt":{"a1_0": 62.774771313021546,"a1_1": 0.6854152336583206,"b1_0": 3.2117067311143277,"b1_1": 0.1432460480232296, "a2_0": 2468.966900014909,"a2_1": 0.0834387238328, "b2_0": 490.16060600231606,"b2_1": 2.969500725999265,"a3_0": 190.5883640336242,"a3_1": 0.003108395956123883,"b3_0": 7689.251014289831, "b3_1": 0.04054164070835632,"bh_0": 4.063594186259147,"bh_1": 2.115884898210715, "bh_2": 0.1433653421971472,"ah_0": 1.3563238605774417,"ah_1": 6568.351916792737, "ah_2": 0.011127551783912584,"vShift": -18.276678986708095, "vShift_inact": 16.74204011921361, "maxrate": 6.170113221706686}}                
+
                 ##Uncomment if want to update params file to update mod file!!!
                 # nf.modify_dict_file(filename12, changesna12)
                 # nf.modify_dict_file(filename16, changesna16)
@@ -618,18 +547,18 @@ for i12 in vals:
                 ##TF050824 putting in 1.6HMM 'na16mut44_092623' instead of na16HH_TF2 (HH 1.6)
                 ##TF052424 Baseline 12HMM16HH params following bug fixes: ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=100, KT=1,ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1 
                 ##TF052824 Testing different percentage KOs of 12HMM16HH model        
-                        sim = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=7,nav12=0,nav16=2.5, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=100, KT=1, 
+                        sim = tf.Na12Model_TF(ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=100, KT=1, 
                                         ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/2-{mutname}_KO', pfx=f'WT_', update=True)
+                                        plots_folder = f'{root_path_out}/2-{mutname}_16KO_12-100x', pfx=f'WT_', update=True)
                         
                         
                                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/2-{mutname}_KO.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/2-{mutname}_16KO_12-100x.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
@@ -638,7 +567,7 @@ for i12 in vals:
 
                 ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
                 # wt_Vm1,wt_I1,wt_t1,wt_stim1 = sim.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
-                        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'het50')#fnpre=f'{mutTXT}')
+                        sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KO')#fnpre=f'{mutTXT}')
                 # # # features_df = ef.get_features(sim=sim,mutTXT='WT_soma', mut_name = 'na12_HMM_TF100923')  
                 
                         # sim.plot_fi_curve(start=0,end=2,nruns=21,wt_data = None,ax1 = None, fig = None,fn = 'ficurve')
@@ -653,9 +582,61 @@ for i12 in vals:
                 # sim.make_currentscape_plot(amp=0.5, time1=0,time2=500,stim_start=600, sweep_len=1000)
                 # sim.make_currentscape_plot(amp=0.5, time1=860,time2=890,stim_start=700, sweep_len=1000) #single AP
 
+                
+                
+                
+                
 
 
 
+
+                ###############################
+                ###############################
+                #### Mapping AP propagation ###
+                ###############################
+                ##TF060624 Added lines to map the initiation and propogation of action potential
+                # compiled_apinit_multi =[]
+                #soma
+                # for i in np.arange(0.5,0.6,0.5):
+                #         sim_config_multi = {'section' : 'soma','section_num': 0, 'segment' : i, 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
+                #         wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
+                #         compiled_apinit_multi.append(["soma",i,apinit_m[0]])
+                # #axon
+                # for j in np.arange(0,2,1):
+                #         for i in np.arange(0.1,1,0.1):
+                #                 sim_config_multi = {'section' : 'axon','section_num': j, 'segment' : i,'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'],'ionic_concentrations' :["cai", "ki", "nai"]}
+                #                 wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
+                #                 compiled_apinit_multi.append(["axon",i,apinit_m[0]])
+                #
+                #TF060824 Dend and Apic aren't working. Suspect its the currents/ionic_concentrations being wrong, could also possibly calling the wrong sec/seg 
+                # #dend
+                # # for i in np.arange(0,11,1):
+                # #         sim_config_multi = {'section' : 'dend','section_num': i, 'segment' : 0.5,'currents'  : [],'ionic_concentrations' :[] }
+                # #         wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
+                # #         compiled_apinit_multi.append(['dend',i,apinit_m[0]])
+
+                # #apic        
+                # # for i in np.arange(0,11,1):
+                # #         sim_config_multi = {'section' : 'apic','section_num': i, 'segment' : 0.5,'currents'  : [],'ionic_concentrations' :[] }
+                # #         wt_Vm_m,wt_I_m,wt_t_m,wt_stim_m, apinit_m = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=100, sim_config = sim_config_multi)
+                # #         compiled_apinit_multi.append(['apic',i,apinit_m[0]])
+
+                # print(f'This is the multi compiled apinit: {compiled_apinit_multi}')
+                # df = pd.DataFrame(compiled_apinit_multi)
+                # df.to_csv('APinitiation.csv',index=False)
+                ##############################
+                ##############################
+                ##############################
+        
+        
+        
+
+
+
+
+        
+        
+        
         #####Other 1.2 params
         ##TF050824 mut10_9_TTP8 (from 050224) best WT so far
                 # changesna12={"a1_0": 20.738270571725597, 
