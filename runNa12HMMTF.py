@@ -386,7 +386,7 @@ sim_config_soma = {
                 }
 
 
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/13-debug_het_KO'
+root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/14-Plots_SFARI_grant'
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HMM/1-Baselines052124'
 
 if not os.path.exists(root_path_out):
@@ -473,7 +473,7 @@ for i12 in vals:
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                         plots_folder = f'{root_path_out}/3-WT', pfx=f'WT_', update=True)
-                wt_Vm1,wt_I1,wt_t1,wt_stim1, soma_apinit1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)                
+                wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #removed soma_apinit1 since removed in function              
 
                 ##TF052224 Mutants for Scn2a grant and Migraine Stuff
                 # changesna12 = {
@@ -527,8 +527,8 @@ for i12 in vals:
                 #         }
                 
                 # changesna12={"mut10_4":{"a1_0": 30.990568607464937, "a1_1": 0.727207131085451, "b1_0": 2.4177659248112304, "b1_1": 0.001361137402837942, "a2_0": 7764.878961142766, "a2_1": 0.033710133967452593, "b2_0": 354.5075793923026, "b2_1": 4.0585190172293055, "a3_0": 124.65125337416927, "a3_1": 0.002466385979914096, "b3_0": 5691.006145002193, "b3_1": 0.0062791739575876, "bh_0": 0.7148812999656258, "bh_1": 1.0205850850329137, "bh_2": 0.1491648507752708, "ah_0": 11.231511989775173, "ah_1": 29046.460566891234, "ah_2": 0.008490668279800669, "vShift": -19.00612418597558, "vShift_inact": 8.677200690072695, "maxrate": 5.262143195447436}}
-                changesna12 = {"wt":{"a1_0": 62.774771313021546,"a1_1": 0.6854152336583206,"b1_0": 3.2117067311143277,"b1_1": 0.1432460480232296, "a2_0": 2468.966900014909,"a2_1": 0.0834387238328, "b2_0": 490.16060600231606,"b2_1": 2.969500725999265,"a3_0": 190.5883640336242,"a3_1": 0.003108395956123883,"b3_0": 7689.251014289831, "b3_1": 0.04054164070835632,"bh_0": 4.063594186259147,"bh_1": 2.115884898210715, "bh_2": 0.1433653421971472,"ah_0": 1.3563238605774417,"ah_1": 6568.351916792737, "ah_2": 0.011127551783912584,"vShift": -18.276678986708095, "vShift_inact": 16.74204011921361, "maxrate": 6.170113221706686}}                
-
+                # changesna12 = {"wt":{"a1_0": 62.774771313021546,"a1_1": 0.6854152336583206,"b1_0": 3.2117067311143277,"b1_1": 0.1432460480232296, "a2_0": 2468.966900014909,"a2_1": 0.0834387238328, "b2_0": 490.16060600231606,"b2_1": 2.969500725999265,"a3_0": 190.5883640336242,"a3_1": 0.003108395956123883,"b3_0": 7689.251014289831, "b3_1": 0.04054164070835632,"bh_0": 4.063594186259147,"bh_1": 2.115884898210715, "bh_2": 0.1433653421971472,"ah_0": 1.3563238605774417,"ah_1": 6568.351916792737, "ah_2": 0.011127551783912584,"vShift": -18.276678986708095, "vShift_inact": 16.74204011921361, "maxrate": 6.170113221706686}}                
+                changesna12 = {"M1879T":{"a1_0": 171.65404967593912, "a1_1": 1.5473325780407043, "b1_0": 0.15668688284445786, "b1_1": 0.056578266862296, "a2_0": 10626.926411489329, "a2_1": 0.00041480337573633966, "b2_0": 29.048765867503395, "b2_1": 2.3342903358554383, "a3_0": 249.39252673373483, "a3_1": 0.0007503117414607886, "b3_0": 3066.9638504829777, "b3_1": 0.0188555817486158, "bh_0": 2.040068926358947, "bh_1": 3.7675241580162835, "bh_2": 0.02942144917704831, "ah_0": 0.4337041832768786, "ah_1": 6129.875372384539, "ah_2": 0.19871362195779174, "vShift": -16.853808606641802, "vShift_inact": 16.23871522904293, "maxrate": 147.56435592144186}}
                 ##Uncomment if want to update params file to update mod file!!!
                 # nf.modify_dict_file(filename12, changesna12)
                 # nf.modify_dict_file(filename16, changesna16)
@@ -551,14 +551,14 @@ for i12 in vals:
                                         ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/2-{mutname}_16KO_12-100x', pfx=f'WT_', update=True)
+                                        plots_folder = f'{root_path_out}/1-{mutname}', pfx=f'WT_', update=True)
                         
                         
                                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/2-{mutname}_16KO_12-100x.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/1-{mutname}.pdf')
                 
                 # sim.save2text(ais_nav12_fac=8,ais_nav16_fac=i16,nav12=1,nav16=15,
                 #                 na12name = 'na12_HMM_TF100923-2',mut_name = 'na12_HMM_TF100923-2',na12mechs = ['na12annaTFHH','na12annaTFHH'],
