@@ -455,8 +455,8 @@ if not os.path.exists(root_path_out):
         # os.mkdir(root_path_out)
 
 
-vals =[1,5,10]#[-80,-70-60,-50,-40,-30]
-vals2 = [1,1.5,2]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[1]#[-80,-70-60,-50,-40,-30]
+vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -518,15 +518,25 @@ for i12 in vals:
                         "vShift_inact": 3.2360259605403203, 
                         "maxrate": 54.784511287581864}
                 
-                
+                changesna16a={"a1_0": 8.0578874919151, "a1_1": 0.0362460004441742, "b1_0": 0.2975424360004787, "b1_1": 0.019626504231602726, "a2_0": 7541.367908495317, "a2_1": 0.008115928598620786, "b2_0": 37.78264401293287, "b2_1": 13.197541674645006, "a3_0": 2661.4548837273387, "a3_1": 0.28322186815760786, "b3_0": 41.45025415671522, "b3_1": 0.005946538949708524, "bh_0": 4.957064052666118, "bh_1": 14.94315170855162, "bh_2": 0.10627633864486724, "ah_0": 0.3348261287268917, "ah_1": 1847.8521286814391, "ah_2": 0.04174076351521052, "vShift": -9.569584432015834, "vShift_inact": 2.352045239220809, "maxrate": 44.84946684890218}
+
                 ##Uncomment if want to update params file to update mod file!!!
                 nf.modify_dict_file(filename12, changesna12)
-                nf.modify_dict_file(filename16, changesna16)
+                # nf.modify_dict_file(filename16, changesna16)
+                nf.modify_dict_file(filename16, changesna16a)
                 
-                simwt = tf.Na12Model_TF(ais_nav12_fac=15,ais_nav16_fac=15,nav12=2.75,nav16=2.75, somaK=1, KP=70, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                ##TF061324 decent 1216HMM WT best so far
+                # simwt = tf.Na12Model_TF(ais_nav12_fac=15,ais_nav16_fac=15,nav12=2.75,nav16=2.75, somaK=1, KP=70, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                #                 ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                #                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                #                 na16name = 'na16mut44_092623',na16mut_name = 'na16mut44_092623',na16mechs=['na16','na16mut'],params_folder = './params/',
+                #                 plots_folder = f'{root_path_out}/1-WT', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+                
+                simwt = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=2,nav16=2, somaK=1, KP=50, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
                                 ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                na16name = 'na16mut44_092623',na16mut_name = 'na16mut44_092623',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
                                 plots_folder = f'{root_path_out}/1-WT', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
@@ -595,16 +605,16 @@ for i12 in vals:
                         nf.modify_dict_file(filename16,dict)
 
                 
-                        sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i12,nav12=i16,nav16=i16, somaK=1, KP=70, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                        sim = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=0,nav12=2,nav16=0, somaK=1, KP=50, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
                                         ais_ca = 1,ais_Kca = 1, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/1-na16_{mutname}_ais{i12}_1216{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                        plots_folder = f'{root_path_out}/3-na16_{mutname}_16-KO', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/1-na16_{mutname}_ais{i12}_1216{i16}.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/3-na16_{mutname}_16-KO.pdf')
                 
 
                 ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
