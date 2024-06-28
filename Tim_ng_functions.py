@@ -15,6 +15,7 @@ import fitz
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from Na12HMMModel_TF import *
 
 def combine_pdfs(folder_path, out_sfx): #input folder pather where pdfs are stored, out_sfx = output suffix
     file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r') #put mutant names in here
@@ -282,9 +283,57 @@ def combine_dictionaries(folder_path, new_file):
   return combined_dict
 
 
+## Plot states for 8 state HMM model
+def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None):
+  df=pd.read_csv(csv_name, index_col=False)
+  # Ensure start and end indices are within valid range
+  if start < 0 or start >= len(df):
+    raise ValueError("Invalid start index. Must be non-negative and less than data length.")
+  if stop <= start or stop > len(df):
+    raise ValueError("Invalid end index. Must be greater than start index and within data length.")
+  
+  dfsub = df.iloc[start:stop]
 
-combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
+  fig1, ax1 = plt.subplots()
+  ax1.plot(dfsub['c1'],label='c1', color='red', linewidth=0.7)
+  ax1.plot(dfsub['c2'],label='c2', color='orange', linewidth=0.7)
+  ax1.plot(dfsub['c3'],label='c3', color='pink', linewidth=0.7)
+  ax1.plot(dfsub['i1'],label='i1', color='green', linewidth=0.7)
+  ax1.plot(dfsub['i2'],label='i2', color='blue', linewidth=0.7)
+  ax1.plot(dfsub['i3'],label='i3', color='cyan', linewidth=0.7)
+  ax1.plot(dfsub['i4'],label='i4', color='purple', linewidth=0.7)
+  ax1.plot(dfsub['o'],label='o', color='black', linewidth=0.7)
 
+  ax2 = ax1.twinx()
+
+  if ap_t is not None and vm_t is not None:
+    y_min = min(np.min(vm_t[start:stop]), np.min(dfsub.min(axis=1)))
+    y_max = max(np.max(vm_t[start:stop]), np.max(dfsub.max(axis=1)))
+    ax2.set_ylim(bottom=y_min, top=y_max)
+    ax2.plot(ap_t[start:stop],vm_t[start:stop], label='Vm', color='black',linewidth=2,linestyle='dashed') ##TF031424 changed linewidth
+    ax2.set_ylabel('Vm', color='black')
+  
+  ax1.set_xlabel('timestep')
+  ax1.set_ylabel('stateval')
+  ax1.legend(loc='upper left')
+  
+  if ap_t is not None and vm_t is not None:
+    ax2.legend(loc='upper right')
+  
+  # plt.legend()
+  # plt.xticks(np.arange(0,len(df),1000), rotation=270)
+  plt.xticks(np.arange(start,stop,500), rotation=270)
+  plt.xlabel('timestep')
+  # plt.ylabel('stateval')
+  plt.title("States")
+  # plt.savefig("8States"+".png", dpi=400)
+  plt.savefig(f"/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/{start}-{stop}_{outfile_sfx}.png", dpi=400)
+
+
+# combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
+
+
+# plot_8states(csv_name="pandas_states.csv", outfile_sfx="8st_062824")
 
 
 

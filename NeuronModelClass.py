@@ -143,8 +143,16 @@ class NeuronModel:
         h.dend_na16 = 0 ##TF020624
         h.dend_k = 0.0043685576 * dend_K
         
+
+        ##062424 original params
+        # h.soma_na12 = 3.24E-02 * soma_nav12 
+        # h.soma_na16 = 7.88E-02 * soma_nav16
+        
+        ##TF062424 testing equal conductances
         h.soma_na12 = 3.24E-02 * soma_nav12 
-        h.soma_na16 = 7.88E-02 * soma_nav16 
+        h.soma_na16 = 3.24E-02 * soma_nav16
+
+
         
       
         h.soma_K = 0.21330453 * soma_K
@@ -383,9 +391,11 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
-    # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+    def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+    
+
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA
@@ -542,6 +552,11 @@ class NeuronModel:
         Vm = np.zeros(timesteps, dtype=np.float64)
         I = {current_type: np.zeros(timesteps, dtype=np.float64) for current_type in current_types}
         ionic = {ionic_type : np.zeros(timesteps,dtype=np.float64) for ionic_type in ionic_types}
+
+        ##TF062724 Adding 8state state values for every timestep
+        states12 = [["c1","c2","c3","i1","i2","i3","i4","o"]]
+        states16 = [["c1","c2","c3","i1","i2","i3","i4","o"]]
+        
         #print(f"I : {I}")
         stim = np.zeros(timesteps, dtype=np.float64)
         t = np.zeros(timesteps, dtype=np.float64)
@@ -568,6 +583,7 @@ class NeuronModel:
         for i in range(timesteps):
            
             Vm[i] =eval(volt_var)
+             
             try :
                 for current_type in current_types:
                     I[current_type][i] = eval(curr_vars[current_type])
@@ -583,7 +599,37 @@ class NeuronModel:
 
             stim[i] = h.st.amp
             t[i] = i*h.dt / 1000
+            
+
+
+        ##TF062724 State values for 8 state HMM model
+            states12.append([h.cell.soma[0].c1_na12,
+                       h.cell.soma[0].c2_na12,
+                       h.cell.soma[0].c3_na12,
+                       h.cell.soma[0].i1_na12,
+                       h.cell.soma[0].i2_na12,
+                       h.cell.soma[0].i3_na12,
+                       h.cell.soma[0].i4_na12,
+                       h.cell.soma[0].o_na12])
+            
+            states16.append([h.cell.soma[0].c1_na16,
+                       h.cell.soma[0].c2_na16,
+                       h.cell.soma[0].c3_na16,
+                       h.cell.soma[0].i1_na16,
+                       h.cell.soma[0].i2_na16,
+                       h.cell.soma[0].i3_na16,
+                       h.cell.soma[0].i4_na16,
+                       h.cell.soma[0].o_na16])
+            
             h.fadvance()
+        
+        df1 = pd.DataFrame(states12)
+        df2 = pd.DataFrame(states16)
+        df1.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
+        df2.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
+        #/#
+        
+        
         #print(f"I : {I}")
         return Vm, I, t, stim, ionic
     
@@ -595,3 +641,5 @@ class NeuronModel:
 #######################
 # MAIN
 #######################
+
+

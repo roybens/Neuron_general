@@ -350,6 +350,8 @@ class Na12Model_TF:
         self.I = I
         self.t = t
         self.stim = stim
+
+        ap_t = (t/dt)*1000 ##Get timesteps
         
         axs.plot(t,Vm, label='Vm', color=clr,linewidth=0.5) ##TF031424 changed linewidth
         axs.locator_params(axis='x', nbins=5)
@@ -358,7 +360,7 @@ class Na12Model_TF:
         #add_scalebar(axs)
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         # plt.savefig(file_path_to_save, format='pdf') ##TF031424 removed to avoid duplicates since plotting dvdt_from_volts as well.
-        return
+        return ap_t, Vm
     
     #Plot both WT and mut on same stim plot
     def plot_wtvmut_stim(self,wt_Vm,wt_t,
