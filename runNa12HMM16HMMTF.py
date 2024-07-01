@@ -455,8 +455,8 @@ if not os.path.exists(root_path_out):
         # os.mkdir(root_path_out)
 
 
-vals =[1]#[-80,-70-60,-50,-40,-30]
-vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[2,4,6,8,10,12]#[-80,-70-60,-50,-40,-30]
+vals2 = [2,4,6,8,10,12]#[-30,-40,-50,-60,-70,-80]#[1]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -534,21 +534,20 @@ for i12 in vals:
                 #                 plots_folder = f'{root_path_out}/1-WT', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
-                simwt = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=0,nav16=0, somaK=1, KP=100, KT=1, ##062424 ais_nav12_fac=10,ais_nav16_fac=10,nav12=4,nav16=2.5 #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
-                                ais_ca = 10,ais_Kca = 10, soma_na12=0, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                simwt = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=6,nav16=4, somaK=1, KP=100, KT=1, ##062424 ais_nav12_fac=10,ais_nav16_fac=10,nav12=4,nav16=2.5 #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                                ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/12-324somaparams12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                plots_folder = f'{root_path_out}/14-324somaparams12', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
                 
-                fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-                ap_t, vm_t = simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
+                # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+                # ap_t, vm_t = simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                 # nf.plot_8states(csv_name="/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_1216-00_062824",ap_t=ap_t, vm_t=vm_t )
                 # nf.plot_8states(csv_name="/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", outfile_sfx="na16_1216-00_062824",ap_t=ap_t, vm_t=vm_t )
-
-                plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-                fig_volts.savefig(f'{simwt.plot_folder}/11-324somaparams12-{i12}_16-{i16}.pdf')
+                # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+                # fig_volts.savefig(f'{simwt.plot_folder}/11-324somaparams12-{i12}_16-{i16}.pdf')
 
                 # simwt.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
 
@@ -570,21 +569,22 @@ for i12 in vals:
                         nf.modify_dict_file(filename16,dict)
 
                 
-                        sim = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=4,nav16=6, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
-                                        ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=0, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                        sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i16,nav12=6,nav16=4, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                                        ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/13-50het_86_aisSame', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                        plots_folder = f'{root_path_out}/14-ais12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/13-50het_86_aisSame.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/14-ais12-{i12}_16-{i16}.pdf')
                 
 
                 # ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
                         sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')#fnpre=f'{mutTXT}')
-                        sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
+                        sim.make_currentscape_plot(amp=0.5, time1=100,time2=400,stim_start=100, sweep_len=800)
+                        # sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
                         # sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1075,stim_start=700, sweep_len=1200)
                 
 

@@ -314,7 +314,7 @@ class NeuronModel:
         
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
-        ##TF052124 need to comment out update_mech_from_dict if using HH model##
+        ##TF052124 need to comment out update_mech_from_dict if using HH model -- Fixed this issue##
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print(eval('h.psection()'))
@@ -325,6 +325,8 @@ class NeuronModel:
             # multiply_param(self,['SK_E2'],'gSK_E2bar',0.5) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
+            
+            # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',2) ##TF041924 multiplies gbar of Ca_HVA
             
             
 
@@ -391,9 +393,9 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     
-    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
-    def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+    # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
     
 
         # updates the stimulation params used by the model
@@ -603,31 +605,32 @@ class NeuronModel:
 
 
         ##TF062724 State values for 8 state HMM model
-            states12.append([h.cell.soma[0].c1_na12,
-                       h.cell.soma[0].c2_na12,
-                       h.cell.soma[0].c3_na12,
-                       h.cell.soma[0].i1_na12,
-                       h.cell.soma[0].i2_na12,
-                       h.cell.soma[0].i3_na12,
-                       h.cell.soma[0].i4_na12,
-                       h.cell.soma[0].o_na12])
+        #     states12.append([h.cell.soma[0].c1_na12,
+        #                h.cell.soma[0].c2_na12,
+        #                h.cell.soma[0].c3_na12,
+        #                h.cell.soma[0].i1_na12,
+        #                h.cell.soma[0].i2_na12,
+        #                h.cell.soma[0].i3_na12,
+        #                h.cell.soma[0].i4_na12,
+        #                h.cell.soma[0].o_na12])
             
-            states16.append([h.cell.soma[0].c1_na16,
-                       h.cell.soma[0].c2_na16,
-                       h.cell.soma[0].c3_na16,
-                       h.cell.soma[0].i1_na16,
-                       h.cell.soma[0].i2_na16,
-                       h.cell.soma[0].i3_na16,
-                       h.cell.soma[0].i4_na16,
-                       h.cell.soma[0].o_na16])
+        #     states16.append([h.cell.soma[0].c1_na16,
+        #                h.cell.soma[0].c2_na16,
+        #                h.cell.soma[0].c3_na16,
+        #                h.cell.soma[0].i1_na16,
+        #                h.cell.soma[0].i2_na16,
+        #                h.cell.soma[0].i3_na16,
+        #                h.cell.soma[0].i4_na16,
+        #                h.cell.soma[0].o_na16])
             
             h.fadvance()
         
-        df1 = pd.DataFrame(states12)
-        df2 = pd.DataFrame(states16)
-        df1.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
-        df2.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
-        #/#
+        ###
+        # df1 = pd.DataFrame(states12)
+        # df2 = pd.DataFrame(states16)
+        # df1.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
+        # df2.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
+        ###
         
         
         #print(f"I : {I}")
