@@ -455,8 +455,8 @@ if not os.path.exists(root_path_out):
         # os.mkdir(root_path_out)
 
 
-vals =[1]#[-80,-70-60,-50,-40,-30]
-vals2 = [1]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[4,8,12]#[-80,-70-60,-50,-40,-30]
+vals2 = [4,8,12]#[-30,-40,-50,-60,-70,-80]#[1]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -534,26 +534,32 @@ for i12 in vals:
                 #                 plots_folder = f'{root_path_out}/1-WT', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
-                simwt = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=4,nav16=2.5, somaK=1, KP=100, KT=1, ##062424 ais_nav12_fac=10,ais_nav16_fac=10 #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                simwt = tf.Na12Model_TF(ais_nav12_fac=10,ais_nav16_fac=10,nav12=6,nav16=4, somaK=1, KP=100, KT=1, ##062424 ais_nav12_fac=10,ais_nav16_fac=10,nav12=4,nav16=2.5 #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
                                 ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                 na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/10-50het', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                plots_folder = f'{root_path_out}/16-caHVA-0.1_50HET', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 
                 
                 # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-                # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
+                # ap_t, vm_t = simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
+                # # nf.plot_8states(csv_name="/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_1216-00_062824",ap_t=ap_t, vm_t=vm_t )
+                # # nf.plot_8states(csv_name="/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", outfile_sfx="na16_1216-00_062824",ap_t=ap_t, vm_t=vm_t )
                 # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-                # fig_volts.savefig(f'{simwt.plot_folder}/9-ca10_12-{i12}.pdf')
+                # fig_volts.savefig(f'{simwt.plot_folder}/16-caHVA-0.1_50HET.pdf')
+                # simwt.make_currentscape_plot(amp=0.5, time1=100,time2=400,stim_start=100, sweep_len=800)
+
+                # simwt.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
+
 
                 
-                # changesna16a={"mut10_4": {"a1_0": 8.0578874919151, "a1_1": 0.0362460004441742, "b1_0": 0.2975424360004787, "b1_1": 0.019626504231602726, "a2_0": 7541.367908495317, "a2_1": 0.008115928598620786, "b2_0": 37.78264401293287, "b2_1": 13.197541674645006, "a3_0": 2661.4548837273387, "a3_1": 0.28322186815760786, "b3_0": 41.45025415671522, "b3_1": 0.005946538949708524, "bh_0": 4.957064052666118, "bh_1": 14.94315170855162, "bh_2": 0.10627633864486724, "ah_0": 0.3348261287268917, "ah_1": 1847.8521286814391, "ah_2": 0.04174076351521052, "vShift": -9.569584432015834, "vShift_inact": 2.352045239220809, "maxrate": 44.84946684890218}}
+                changesna16a={"mut10_4": {"a1_0": 8.0578874919151, "a1_1": 0.0362460004441742, "b1_0": 0.2975424360004787, "b1_1": 0.019626504231602726, "a2_0": 7541.367908495317, "a2_1": 0.008115928598620786, "b2_0": 37.78264401293287, "b2_1": 13.197541674645006, "a3_0": 2661.4548837273387, "a3_1": 0.28322186815760786, "b3_0": 41.45025415671522, "b3_1": 0.005946538949708524, "bh_0": 4.957064052666118, "bh_1": 14.94315170855162, "bh_2": 0.10627633864486724, "ah_0": 0.3348261287268917, "ah_1": 1847.8521286814391, "ah_2": 0.04174076351521052, "vShift": -9.569584432015834, "vShift_inact": 2.352045239220809, "maxrate": 44.84946684890218}}
 
-                ##TF062124 runs changing objectives 2,4, and 10 in na16hmm
-                # changesna16a={#"mut24_3":{"a1_0": 9.97325723123336, "a1_1": 0.04493007966899823, "b1_0": 18.906410431058035, "b1_1": 0.013032651106964149, "a2_0": 13392.43771410394, "a2_1": 0.010567185317746603, "b2_0": 47.518234251552585, "b2_1": 5.618088304677881, "a3_0": 2305.5646542684117, "a3_1": 0.0189404561624361, "b3_0": 36.53340836886169, "b3_1": 0.012011682818820146, "bh_0": 11.5065870954496, "bh_1": 2.8427183738413193, "bh_2": 0.08252387220268713, "ah_0": 0.17867628374563282, "ah_1": 183826.24796890566, "ah_2": 0.17821061809968056, "vShift": -3.3990943655193693, "vShift_inact": -2.3484619351039138, "maxrate": 23888.72364587752},
-                #         #"mut2410_2":{"a1_0": 10.0, "a1_1": 0.0012063013149955053, "b1_0": 14.55146153023609, "b1_1": 0.059786088424921516, "a2_0": 5490.070311976771, "a2_1": 0.0996861941041664, "b2_0": 50.0, "b2_1": 0.3231235157083805, "a3_0": 198.54687300633066, "a3_1": 0.04206823146439518, "b3_0": 49.47644229146293, "b3_1": 0.1565371735857367, "bh_0": 8.011805611317342, "bh_1": 14.929874425885203, "bh_2": 0.0549541211025924, "ah_0": 1.09714159118842, "ah_1": 66682.01097053559, "ah_2": 0.028652975601013472, "vShift": -5.151171107498385, "vShift_inact": 14.469170935119013, "maxrate": 5.871373675016002},
-                #         "mut2410_5":{"a1_0": 9.090328600911736, "a1_1": 0.011144987169071197, "b1_0": 9.255699008849243, "b1_1": 0.0016137523402601096, "a2_0": 10932.78658636546, "a2_1": 0.29192427179674435, "b2_0": 15.767473317100103, "b2_1": 25.93317454739589, "a3_0": 390.30935790084703, "a3_1": 0.025356749923664747, "b3_0": 46.64622013957142, "b3_1": 0.018170036985660443, "bh_0": 1.6059822779031636, "bh_1": 3.7393826933625283, "bh_2": 0.1426405180186169, "ah_0": 2.2070454502199075, "ah_1": 38282.91375852737, "ah_2": 0.08991604167580454, "vShift": -8.808787096096369, "vShift_inact": -3.981655239131775, "maxrate": 36.56718201895245}}
+                #TF062124 runs changing objectives 2,4, and 10 in na16hmm
+                changesna16a={#"mut24_3":{"a1_0": 9.97325723123336, "a1_1": 0.04493007966899823, "b1_0": 18.906410431058035, "b1_1": 0.013032651106964149, "a2_0": 13392.43771410394, "a2_1": 0.010567185317746603, "b2_0": 47.518234251552585, "b2_1": 5.618088304677881, "a3_0": 2305.5646542684117, "a3_1": 0.0189404561624361, "b3_0": 36.53340836886169, "b3_1": 0.012011682818820146, "bh_0": 11.5065870954496, "bh_1": 2.8427183738413193, "bh_2": 0.08252387220268713, "ah_0": 0.17867628374563282, "ah_1": 183826.24796890566, "ah_2": 0.17821061809968056, "vShift": -3.3990943655193693, "vShift_inact": -2.3484619351039138, "maxrate": 23888.72364587752},
+                        #"mut2410_2":{"a1_0": 10.0, "a1_1": 0.0012063013149955053, "b1_0": 14.55146153023609, "b1_1": 0.059786088424921516, "a2_0": 5490.070311976771, "a2_1": 0.0996861941041664, "b2_0": 50.0, "b2_1": 0.3231235157083805, "a3_0": 198.54687300633066, "a3_1": 0.04206823146439518, "b3_0": 49.47644229146293, "b3_1": 0.1565371735857367, "bh_0": 8.011805611317342, "bh_1": 14.929874425885203, "bh_2": 0.0549541211025924, "ah_0": 1.09714159118842, "ah_1": 66682.01097053559, "ah_2": 0.028652975601013472, "vShift": -5.151171107498385, "vShift_inact": 14.469170935119013, "maxrate": 5.871373675016002},
+                        "mut2410_5":{"a1_0": 9.090328600911736, "a1_1": 0.011144987169071197, "b1_0": 9.255699008849243, "b1_1": 0.0016137523402601096, "a2_0": 10932.78658636546, "a2_1": 0.29192427179674435, "b2_0": 15.767473317100103, "b2_1": 25.93317454739589, "a3_0": 390.30935790084703, "a3_1": 0.025356749923664747, "b3_0": 46.64622013957142, "b3_1": 0.018170036985660443, "bh_0": 1.6059822779031636, "bh_1": 3.7393826933625283, "bh_2": 0.1426405180186169, "ah_0": 2.2070454502199075, "ah_1": 38282.91375852737, "ah_2": 0.08991604167580454, "vShift": -8.808787096096369, "vShift_inact": -3.981655239131775, "maxrate": 36.56718201895245}}
                 
                 changesna16b={"mut2410_5":{"a1_0": 9.090328600911736, "a1_1": 0.011144987169071197, "b1_0": 9.255699008849243, "b1_1": 0.0016137523402601096, "a2_0": 10932.78658636546, "a2_1": 0.29192427179674435, "b2_0": 15.767473317100103, "b2_1": 25.93317454739589, "a3_0": 390.30935790084703, "a3_1": 0.025356749923664747, "b3_0": 46.64622013957142, "b3_1": 0.018170036985660443, "bh_0": 1.6059822779031636, "bh_1": 3.7393826933625283, "bh_2": 0.1426405180186169, "ah_0": 2.2070454502199075, "ah_1": 38282.91375852737, "ah_2": 0.08991604167580454, "vShift": -8.808787096096369, "vShift_inact": -3.981655239131775, "maxrate": 36.56718201895245}}
 
@@ -564,22 +570,23 @@ for i12 in vals:
                         nf.modify_dict_file(filename16,dict)
 
                 
-                        sim = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=10,nav12=0,nav16=2.5, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
+                        sim = tf.Na12Model_TF(ais_nav12_fac=i12,ais_nav16_fac=i16,nav12=3,nav16=4, somaK=1, KP=100, KT=1, #ais_nav12_fac=7,ais_nav16_fac=7,nav12=2.5,nav16=2.5, somaK=1, KP=50, KT=1
                                         ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/10-0KO', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                        plots_folder = f'{root_path_out}/16-caHVA-0.1_50HET_ais12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                         
-                #         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-                #         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
-                #         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                #         fig_volts.savefig(f'{sim.plot_folder}/5-na16_{mutname}_12-50het_init1.pdf')
+                        fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+                        sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
+                        plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
+                        fig_volts.savefig(f'{sim.plot_folder}/16-caHVA-0.1_50HET_ais12-{i12}_16-{i16}.pdf')
                 
 
                 # ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
                         sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')#fnpre=f'{mutTXT}')
-                        sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
-                #         # sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1075,stim_start=700, sweep_len=1200)
+                        sim.make_currentscape_plot(amp=0.5, time1=100,time2=400,stim_start=100, sweep_len=800)
+                        # sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1200,stim_start=700, sweep_len=1200)
+                        # sim.make_currentscape_plot(amp=0.5, time1=1000,time2=1075,stim_start=700, sweep_len=1200)
                 
 
 
