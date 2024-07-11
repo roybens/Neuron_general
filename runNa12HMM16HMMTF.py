@@ -448,15 +448,15 @@ sim_config_soma = {
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
-root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HMM/7-Tune_16-2410_5'
+root_path_out = './Plots/12HMM16HMM/8-Tune_12-1012ttp8_16-2410_5'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals =[2,4,6,8]#[-80,-70-60,-50,-40,-30]
-vals2 = [2,4,6,8]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[6,8]#[-80,-70-60,-50,-40,-30]
+vals2 = [4,6,8]#[-30,-40,-50,-60,-70,-80]#[1]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -464,36 +464,36 @@ for i12 in vals:
         for i16 in vals2:
                 ##Adding below function to loop through different na16.mod params        
                 # filename = "/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TF100923-2.txt" ##TF031524 for changing 8st na12
-                filename12 = '/global/homes/t/tfenton/Neuron_general-2/params/na12_HMM_TEMP_PARAMS.txt'
-                filename16 = '/global/homes/t/tfenton/Neuron_general-2/params/na16_HMM_TEMP_PARAMS.txt'
+                filename12 = './params/na12_HMM_TEMP_PARAMS.txt'
+                filename16 = './params/na16_HMM_TEMP_PARAMS.txt'
 
                 
                                
                 ##TF052024 mut10_12_TTP8 (from 050624) better WT (fit to mut10_9_TTP8)
-                # changesna12={"a1_0": 62.774771313021546, 
-                #         "a1_1": 0.6854152336583206,
-                #         "b1_0": 3.2117067311143277,
-                #         "b1_1": 0.1432460480232296, 
-                #         "a2_0": 2468.966900014909,
-                #         "a2_1": 0.0834387238328, 
-                #         "b2_0": 490.16060600231606,
-                #         "b2_1": 2.969500725999265,
-                #         "a3_0": 190.5883640336242,
-                #         "a3_1": 0.003108395956123883,
-                #         "b3_0": 7689.251014289831, 
-                #         "b3_1": 0.04054164070835632,
-                #         "bh_0": 4.063594186259147,
-                #         "bh_1": 2.115884898210715, 
-                #         "bh_2": 0.1433653421971472,
-                #         "ah_0": 1.3563238605774417,
-                #         "ah_1": 6568.351916792737, 
-                #         "ah_2": 0.011127551783912584,
-                #         "vShift": -18.276678986708095, 
-                #         "vShift_inact": 16.74204011921361, 
-                #         "maxrate": 6.170113221706686}
+                changesna12={"a1_0": 62.774771313021546, 
+                        "a1_1": 0.6854152336583206,
+                        "b1_0": 3.2117067311143277,
+                        "b1_1": 0.1432460480232296, 
+                        "a2_0": 2468.966900014909,
+                        "a2_1": 0.0834387238328, 
+                        "b2_0": 490.16060600231606,
+                        "b2_1": 2.969500725999265,
+                        "a3_0": 190.5883640336242,
+                        "a3_1": 0.003108395956123883,
+                        "b3_0": 7689.251014289831, 
+                        "b3_1": 0.04054164070835632,
+                        "bh_0": 4.063594186259147,
+                        "bh_1": 2.115884898210715, 
+                        "bh_2": 0.1433653421971472,
+                        "ah_0": 1.3563238605774417,
+                        "ah_1": 6568.351916792737, 
+                        "ah_2": 0.011127551783912584,
+                        "vShift": -18.276678986708095, 
+                        "vShift_inact": 16.74204011921361, 
+                        "maxrate": 6.170113221706686}
                 
                 ##mut10_4, testing for altered tau WT 061124                
-                changesna12={"a1_0": 30.990568607464937, "a1_1": 0.727207131085451, "b1_0": 2.4177659248112304, "b1_1": 0.001361137402837942, "a2_0": 7764.878961142766, "a2_1": 0.033710133967452593, "b2_0": 354.5075793923026, "b2_1": 4.0585190172293055, "a3_0": 124.65125337416927, "a3_1": 0.002466385979914096, "b3_0": 5691.006145002193, "b3_1": 0.0062791739575876, "bh_0": 0.7148812999656258, "bh_1": 1.0205850850329137, "bh_2": 0.1491648507752708, "ah_0": 11.231511989775173, "ah_1": 29046.460566891234, "ah_2": 0.008490668279800669, "vShift": -19.00612418597558, "vShift_inact": 8.677200690072695, "maxrate": 5.262143195447436}
+                # changesna12={"a1_0": 30.990568607464937, "a1_1": 0.727207131085451, "b1_0": 2.4177659248112304, "b1_1": 0.001361137402837942, "a2_0": 7764.878961142766, "a2_1": 0.033710133967452593, "b2_0": 354.5075793923026, "b2_1": 4.0585190172293055, "a3_0": 124.65125337416927, "a3_1": 0.002466385979914096, "b3_0": 5691.006145002193, "b3_1": 0.0062791739575876, "bh_0": 0.7148812999656258, "bh_1": 1.0205850850329137, "bh_2": 0.1491648507752708, "ah_0": 11.231511989775173, "ah_1": 29046.460566891234, "ah_2": 0.008490668279800669, "vShift": -19.00612418597558, "vShift_inact": 8.677200690072695, "maxrate": 5.262143195447436}
                 
                 ##TF052824 16HMM WT from Moran na16mut44_092623
                 changesna16={"a1_0": 9.943980540891205, 
@@ -574,12 +574,12 @@ for i12 in vals:
                                         ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/17-50HET_12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                        plots_folder = f'{root_path_out}/1-50HET_12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/17-50HET_12-{i12}_16-{i16}.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/1-50HET_12-{i12}_16-{i16}.pdf')
                 
 
                 # ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
