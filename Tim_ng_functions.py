@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 from Na12HMMModel_TF import *
 
 def combine_pdfs(folder_path, out_sfx): #input folder pather where pdfs are stored, out_sfx = output suffix
-    file = open('/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt','r') #put mutant names in here
+    file = open('./JUPYTERmutant_list.txt','r') #put mutant names in here
     Lines = file.readlines() #read each mut name
     #os.chdir(folder_path)
     for line in Lines:
@@ -219,7 +219,7 @@ def modify_dict_file(filename, changes):
 
 
 ##Using Modify_dict_file, setting args
-filename = "/global/homes/t/tfenton/Neuron_general-2/params/na16HH_TF2.txt"
+filename = "./params/na16HH_TF2.txt"
 changes = {
           "sh":8,
           "gbar":0.1,
@@ -332,6 +332,10 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 
 # combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
+<<<<<<< HEAD
+combined_dict = combine_dictionaries(folder_path='./params/na16_HOF_params_JSON', new_file='./params/na16_HOF_params_JSON/combined3.json')
+=======
+>>>>>>> d379827d8cc96912385ee0fb7f15fc15004d59a6
 
 # plot_8states(csv_name="pandas_states.csv", outfile_sfx="8st_062824")
 
