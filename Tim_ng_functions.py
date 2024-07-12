@@ -332,10 +332,6 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 
 # combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
-<<<<<<< HEAD
-combined_dict = combine_dictionaries(folder_path='./params/na16_HOF_params_JSON', new_file='./params/na16_HOF_params_JSON/combined3.json')
-=======
->>>>>>> d379827d8cc96912385ee0fb7f15fc15004d59a6
 
 # plot_8states(csv_name="pandas_states.csv", outfile_sfx="8st_062824")
 
