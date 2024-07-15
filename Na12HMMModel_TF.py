@@ -683,7 +683,7 @@ class Na12Model_TF:
             print(self.volt_soma)
             print(len(self.volt_soma))
             plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1])
-            fn4 = f'{self.plot_folder}/{fnpre}{curr_amp}_wtvmut.pdf'
+            fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}_wtvmut.pdf'
             fig_volts3.savefig(fn4)
             
 
