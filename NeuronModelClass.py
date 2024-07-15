@@ -326,7 +326,7 @@ class NeuronModel:
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
             
-            multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF041924 multiplies gbar of Ca_HVA
+            multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
             
             
 
