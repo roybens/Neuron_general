@@ -17,7 +17,7 @@ from NrnHelper import *
 
 
 class NeuronModel:
-    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HMM16HMM/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
+    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
                       
                       update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
                       na12name = 'na12_HMM_TF100923',
@@ -145,12 +145,12 @@ class NeuronModel:
         
 
         ##062424 original params
-        # h.soma_na12 = 3.24E-02 * soma_nav12 
-        # h.soma_na16 = 7.88E-02 * soma_nav16
+        h.soma_na12 = 3.24E-02 * soma_nav12 
+        h.soma_na16 = 7.88E-02 * soma_nav16
         
         ##TF062424 testing equal conductances
-        h.soma_na12 = 3.24E-02 * soma_nav12 
-        h.soma_na16 = 3.24E-02 * soma_nav16
+        # h.soma_na12 = 3.24E-02 * soma_nav12 
+        # h.soma_na16 = 3.24E-02 * soma_nav16
 
 
         
@@ -326,7 +326,7 @@ class NeuronModel:
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
             
-            multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
+            # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
             
             
 
@@ -393,9 +393,10 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+    def init_stim(self, sweep_len = 100, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
 
         # updates the stimulation params used by the model

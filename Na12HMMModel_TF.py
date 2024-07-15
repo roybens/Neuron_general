@@ -594,9 +594,9 @@ class Na12Model_TF:
         ###_________________________WT following redistribution of na12/16 in AIS
         # wt_fi = [0, 0, 5, 9, 13, 16, 18, 20, 22, 23, 25, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 2na12, 4na16
         # wt_fi = [0,0,4,9,13,16,18,20,22,24,25,27,28,29,31,32,33,34,35,36,37] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 4na12, 3na16
-        # wt_fi = [0,0,6,9,11,12,13,15,16,17,19,20,21,22,23,23,31,32,33,34,34] ##TF040324 FI vals from 12HH16HH working model 040324
+        wt_fi = [0,0,6,9,11,12,13,15,16,17,19,20,21,22,23,23,31,32,33,34,34] ##TF040324 FI vals from 12HH16HH working model 040324
         # wt_fi = [0,0,0,2,7,8,9,10,11,12,13,13,14,14,15,16,16,17,17,18,18] ##TF052424 FI vals from 12HMM16HH working WT model
-        wt_fi = [0, 0, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16] ##TF062424 FI vals for 12HMM16HMM WT model
+        # wt_fi = [0, 0, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16] ##TF062424 FI vals for 12HMM16HMM WT model
         
 
         for curr_amp in vs_amp: #vs_amp is list
@@ -668,6 +668,24 @@ class Na12Model_TF:
         fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
         return fis
 
+
+    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '', dt=0.005):
+        for curr_amp in vs_amp:
+            figures = []
+
+            #Attempting wt and het on same plot
+            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config)
+            print(wt_Vm)
+            print(len(wt_Vm))
+            print(wt_t)
+            print(len(wt_t))
+            print(self.volt_soma)
+            print(len(self.volt_soma))
+            plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1])
+            fn4 = f'{self.plot_folder}/{fnpre}{curr_amp}_wtvmut.pdf'
+            fig_volts3.savefig(fn4)
+            
 
     ##TF022924 Ghazaleh's documentation code below, adding to class to call by sim = Na12HMMModel_TF.Na12Model_TF.save2text(self)
     def save2text(ais_nav12_fac=None,
