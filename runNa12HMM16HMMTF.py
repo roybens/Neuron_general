@@ -455,8 +455,8 @@ if not os.path.exists(root_path_out):
         # os.mkdir(root_path_out)
 
 
-vals =[2,4,6]#[-80,-70-60,-50,-40,-30]
-vals2 = [2,4]#[-30,-40,-50,-60,-70,-80]#[1]
+vals =[4,6,8]
+vals2 = [2]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
