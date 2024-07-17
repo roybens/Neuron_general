@@ -77,7 +77,7 @@ vals =[1]
 vals2 = [1]
 # for i12 in np.arange(1,6,1):     
         # for i16 in np.arange(10,50,10):
-rbs_vshift = 10
+rbs_vshift = 8
 for i12 in vals:
         for i16 in vals2:
                 filename12 = './params/na12annaTFHH2.txt' ##12HH params file that you will update with values below in changesna12
@@ -168,7 +168,7 @@ for i12 in vals:
                 
                 ## If you want to plot WT vs het, use this code block. simwt will get wt values, you can change sim to get het/KO 
                 plots_folder = f'{root_path_out}/2-TEST'
-                simwt = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=6,nav12=1,nav16=1.3, somaK=0.5, KP=30, KT=10,
+                simwt = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=6,nav12=1,nav16=1.3, somaK=1, KP=100, KT=10,
                         ais_ca = 1,ais_Kca = 1,soma_na16=0.8,soma_na12 =2,node_na = 1,
                         na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
