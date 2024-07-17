@@ -668,6 +668,22 @@ class Na12Model_TF:
         fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
         return fis
 
+    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '', dt=0.005):
+        for curr_amp in vs_amp:
+            figures = []
+
+            #Attempting wt and het on same plot
+            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config)
+            print(wt_Vm)
+            print(len(wt_Vm))
+            print(wt_t)
+            print(len(wt_t))
+            print(self.volt_soma)
+            print(len(self.volt_soma))
+            plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1])
+            fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}_wtvmut.pdf'
+            fig_volts3.savefig(fn4)
 
     ##TF022924 Ghazaleh's documentation code below, adding to class to call by sim = Na12HMMModel_TF.Na12Model_TF.save2text(self)
     def save2text(ais_nav12_fac=None,

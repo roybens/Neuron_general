@@ -110,14 +110,14 @@ access cell.axon[0]
 	gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
 	gbar_na12(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
 	gbar_na12(4*ais_end/10:6*ais_end/10) = ais_na12/2:ais_na12/3
-	gbar_na12(6*ais_end/10:ais_end) = ais_na12/3:naked_axon_na/2
+	gbar_na12(6*ais_end/10:ais_end) = ais_na12/3:0 //##TF071624 changed to 0
 
 	//Mut
 	gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
 	gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
 	gbar_na12mut(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
 	gbar_na12mut(4*ais_end/10:6*ais_end/10) = ais_na12/2:ais_na12/3
-	gbar_na12mut(6*ais_end/10:ais_end) = ais_na12/3:naked_axon_na/2
+	gbar_na12mut(6*ais_end/10:ais_end) = ais_na12/3:0 //##TF071624 changed to 0
 	
 	gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
 	gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS

@@ -243,7 +243,7 @@ class NeuronModel:
         
              
         #Function for determining and plotting the distribution of Na channels in axon.
-        def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh-{ais_nav16_fac}"):
+        def chandensities (name = f"./Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh-{ais_nav16_fac}"):
             distances = []
             na12_densities = []
             na16_densities = []
@@ -274,6 +274,8 @@ class NeuronModel:
 
                     na16mut_gbar = seg.gbar_na16mut
                     na16mut_densities.append(na16mut_gbar)
+            
+            # gbar_na12_soma = h.cell.soma.gbar_na12 ##TF adding na12 soma gbar label to plot, need to plot it later
 
             print(distances)
             print(na12_densities)
@@ -393,9 +395,10 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+    def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
     
 
         # updates the stimulation params used by the model
