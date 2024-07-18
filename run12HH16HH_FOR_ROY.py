@@ -168,31 +168,29 @@ for i12 in vals:
                 
                 ## If you want to plot WT vs het, use this code block. simwt will get wt values, you can change sim to get het/KO 
                 plots_folder = f'{root_path_out}/2-TEST'
-                simwt = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=6,nav12=1,nav16=1.3, somaK=0.5, KP=30, KT=10,
-                        ais_ca = 1,ais_Kca = 1,soma_na16=0.8,soma_na12 =2,node_na = 1,
-                        na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                        na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                        plots_folder = f'{root_path_out}/2-TEST', update=True)
+                simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
+                                            ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3,node_na = 1,
+                                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                            plots_folder = f'{root_path_out}/2-TEST', update=True)
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                 NeuronModel.chandensities(name = f'{plots_folder}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
 
                 ##het model
-                sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=6,nav12=0.5,nav16=1.3, somaK=1, KP=100, KT=10,
-                        ais_ca = 1,ais_Kca = 1,soma_na16=0.8,soma_na12 = 2,node_na = 1,
-                        na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                        na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                        plots_folder = f'{root_path_out}/2-TEST', #Change output file path here 
-                        pfx=f'WT_', update=True)
+                sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1, KP=25, KT=5,
+                                            ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3,node_na = 1,
+                                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                            plots_folder = f'{root_path_out}/2-TEST', update=True)
                 sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvsHet')
                 NeuronModel.chandensities(name = f'{plots_folder}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
 
                 ##KO model
-                sim_ko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=6,nav12=0,nav16=1.3, somaK=1, KP=100, KT=10,
-                        ais_ca = 1,ais_Kca = 1,soma_na16=0.8,soma_na12 = 0,node_na = 1,
-                        na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                        na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                        plots_folder = f'{root_path_out}/2-TEST', #Change output file path here 
-                        pfx=f'WT_', update=True)
+                sim_ko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1, KP=25, KT=5,
+                                            ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =0,node_na = 1,
+                                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                            plots_folder = f'{root_path_out}/2-TEST', update=True)
                 NeuronModel.chandensities(name = f'{plots_folder}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
     
 
