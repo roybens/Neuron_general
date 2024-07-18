@@ -448,15 +448,15 @@ sim_config_soma = {
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
-root_path_out = './Plots/12HMM16HMM/13-16hmmOptScan_071524'
+root_path_out = './Plots/12HMM16HMM/14-16hmmOptScan_071624'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
         # os.mkdir(root_path_out)
 
 
-vals =[2,4,6]
-vals2 = [4]
+vals =[8,10,12]
+vals2 = [2]
 
 # for i12 in np.arange(2,3,1):     
 #       for i16 in np.arange(7,8,1):
@@ -599,6 +599,11 @@ for i12 in vals:
                         "mut2345_6_TTP14":{"a1_0": 10.0, "a1_1": 0.07867931503238759, "b1_0": 12.460908223440677, "b1_1": 0.032668689645956685, "a2_0": 12579.825203383294, "a2_1": 0.12902201198838803, "b2_0": 38.36482157746828, "b2_1": 0.18865559433757073, "a3_0": 205.95351820645823, "a3_1": 0.017651001522701465, "b3_0": 50.0, "b3_1": 0.8790401493091384, "bh_0": 13.969425233168915, "bh_1": 0.17951505745983842, "bh_2": 0.09815403439072691, "ah_0": 1.7717076827924303, "ah_1": 97669.32788234482, "ah_2": 0.08686936856374647, "vShift": -9.765256567603183, "vShift_inact": 19.07322249320908, "maxrate": 10.7949286727662}}
                         # "mut2345_6_TTP15":{"a1_0": 8.122913823163053, "a1_1": 0.05241026854362224, "b1_0": 31.82165090179143, "b1_1": 0.012765586455927232, "a2_0": 9634.285364437334, "a2_1": 0.038877228317430595, "b2_0": NaN, "b2_1": 5.174949380484736, "a3_0": 1799.1029699962626, "a3_1": 0.08332596222145036, "b3_0": NaN, "b3_1": 2.244526956293544, "bh_0": 19.80031602540043, "bh_1": 7.009002324601179, "bh_2": 0.10445942912232391, "ah_0": 1.0448781022942542, "ah_1": 28628.6130678881, "ah_2": 0.101788307773435, "vShift": -10.0, "vShift_inact": -6.390654496491332, "maxrate": 20.133656172249175}}
                 changesna16_071524best = {"mut2345_6_TTP14":{"a1_0": 10.0, "a1_1": 0.07867931503238759, "b1_0": 12.460908223440677, "b1_1": 0.032668689645956685, "a2_0": 12579.825203383294, "a2_1": 0.12902201198838803, "b2_0": 38.36482157746828, "b2_1": 0.18865559433757073, "a3_0": 205.95351820645823, "a3_1": 0.017651001522701465, "b3_0": 50.0, "b3_1": 0.8790401493091384, "bh_0": 13.969425233168915, "bh_1": 0.17951505745983842, "bh_2": 0.09815403439072691, "ah_0": 1.7717076827924303, "ah_1": 97669.32788234482, "ah_2": 0.08686936856374647, "vShift": -9.765256567603183, "vShift_inact": 19.07322249320908, "maxrate": 10.7949286727662}}
+                
+
+                changesna16_071624 = {
+                        "mut2345_7_TTP12":{"a1_0": 85.6588238133349, "a1_1": 0.0202022079990265, "b1_0": 0.3099570656014148, "b1_1": 0.05881415977134272, "a2_0": 16158.257195963906, "a2_1": 0.005086976728930723, "b2_0": 499.99226772525736, "b2_1": 0.7835296601566557, "a3_0": 569.8952378926141, "a3_1": 0.16118608974939236, "b3_0": 495.21533544011476, "b3_1": 0.0012946186534438207, "bh_0": 4.7651418855856384, "bh_1": 0.32365976689273107, "bh_2": 0.032441160564102435, "ah_0": 8.216321142786994, "ah_1": 108092.90417639431, "ah_2": 0.11409214556524883, "vShift": -9.953363767461909, "vShift_inact": 8.73207432283476, "maxrate": 7.143837339905652}}
+                        # "mut2345_7_TTP14":{"a1_0": NaN, "a1_1": 0.06938776718829234, "b1_0": 9.299764613294178, "b1_1": 0.03075010806196215, "a2_0": 5510.406149068496, "a2_1": 0.14342331502980615, "b2_0": 455.86584978604185, "b2_1": 2.4055988314625014, "a3_0": 1077.658771213025, "a3_1": 0.02464686704320922, "b3_0": 498.7332821005065, "b3_1": 0.03373053771177986, "bh_0": 36.129058140313944, "bh_1": 3.3950562218997855, "bh_2": 0.0906904466563052, "ah_0": 6.194679529012888, "ah_1": 282630.06048083666, "ah_2": 0.06340446980700913, "vShift": -9.835732851954909, "vShift_inact": 13.767509089998114, "maxrate": 29.20212075051712}}
                 ###################### 16HMM ######################
 
 
@@ -647,7 +652,7 @@ for i12 in vals:
                 
                 ###################### 12 ######################
 
-                for mutname,dict in changesna16_071524best.items():
+                for mutname,dict in changesna16_071624.items():
                         print(f"mutname is {mutname}")
                         print(f"it's corresponding dictionary is {dict}")
                         # nf.modify_dict_file(filename12,dict)
@@ -658,14 +663,14 @@ for i12 in vals:
                                         ais_ca = 10,ais_Kca = 10, soma_na12=1, soma_na16=1, dend_nav12=1, node_na = 1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
                                         na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                         na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                        plots_folder = f'{root_path_out}/4-{mutname}_12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+                                        plots_folder = f'{root_path_out}/1-{mutname}_12-{i12}_16-{i16}', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
                         
                         fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
                         sim.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
                         plot_dvdt_from_volts(sim.volt_soma, sim.dt, axs[1],clr='cadetblue')
-                        fig_volts.savefig(f'{sim.plot_folder}/4-{mutname}_12-{i12}_16-{i16}.pdf')
+                        fig_volts.savefig(f'{sim.plot_folder}/1-{mutname}_12-{i12}_16-{i16}.pdf')
 
-                        sim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'4-{mutname}_12-{i12}_16-{i16}')
+                        sim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'1-{mutname}_12-{i12}_16-{i16}')
 
                 # ##Plotting WT vs Mut Stim/DVDT/FI/Currentscapes
                         # sim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')#fnpre=f'{mutTXT}')
