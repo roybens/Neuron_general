@@ -13,7 +13,6 @@ from currentscape.currentscape import plot_currentscape
 import logging
 import pandas as pd
 import Document as doc
-import Tim_ng_functions as nf
 
 
 sim_config_soma = {
@@ -29,6 +28,40 @@ sim_config_soma = {
                 'ionic_concentrations' :["cai", "ki", "nai"]
                 #'ionic_concentrations' :["ki", "nai"]
                 }
+
+
+#   Modifies values in a dictionary stored in a text file.
+def modify_dict_file(filename, changes):
+#   Args:filename: The name of the text file containing the dictionary.
+#       changes: A dictionary containing key-value pairs where the key is the key to modify in the original dictionary and the value is the new value.
+
+  try:
+    # Open the file and read its content
+    with open(filename, "r") as file:
+      content = file.read()
+
+    # Try to load the content as a dictionary
+    try:
+      data = eval(content)  # Assuming the file contains valid dictionary syntax
+    except (NameError, SyntaxError):
+      raise ValueError("Invalid dictionary format in the file.")
+
+    # Modify values based on the provided changes dictionary
+    for key, value in changes.items():
+      if key not in data:
+        print(f"Warning: Key '{key}' not found in the dictionary, skipping.")
+      else:
+        data[key] = value
+
+    # Write the modified dictionary back to the file
+    # with open(filename, "w") as file:
+    #   file.write(repr(data))
+    with open(filename, "w") as file:
+      file.write(json.dumps(data, indent=2))  # Add indentation for readability (optional)
+
+  except IOError as e:
+    raise ValueError(f"Error opening or writing file: {e}")
+
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
@@ -103,9 +136,8 @@ changesna16b = {"a1_0": 9.090328600911736, "a1_1": 0.011144987169071197, "b1_0":
 changesna12_071524best = {"mut2345_5_TTP8":{"a1_0": 10.944737670133605, "a1_1": 0.2034183732842103, "b1_0": 4.815478417469935, "b1_1": 0.043356252117941904, "a2_0": 5405.880730210139, "a2_1": 0.18763689314759507, "b2_0": 867.850712446166, "b2_1": 4.253173302744734, "a3_0": 343.3028879363021, "a3_1": 0.02687246485446145, "b3_0": 5124.498264970646, "b3_1": 8.51262772092558e-05, "bh_0": 4.2389048788776575, "bh_1": 7.807124232192017, "bh_2": 0.12001212159063362, "ah_0": 1.2727492058102337, "ah_1": 260406.1761436006, "ah_2": 0.06430725966278353, "vShift": -20.247520697302086, "vShift_inact": 4.401183916926222, "maxrate": 10.438035930256888}}
 
 ##Uncomment if want to update params file to update mod file!!!
-nf.modify_dict_file(filename12, changesna12_071524best)
-# nf.modify_dict_file(filename16, changesna16)
-nf.modify_dict_file(filename16, changesna16b)
+modify_dict_file(filename12, changesna12_071524best)
+modify_dict_file(filename16, changesna16b)
 
 
 ##TF071524 het with new mut2345_5_ttp8 12hmm
@@ -144,7 +176,7 @@ for mutname,dict in changesna16_071624best.items():
         print(f"mutname is {mutname}")
         print(f"it's corresponding dictionary is {dict}")
         # nf.modify_dict_file(filename12,dict)
-        nf.modify_dict_file(filename16,dict)
+        modify_dict_file(filename16,dict)
 
         
         ### AIS12/16 and nav12/16
