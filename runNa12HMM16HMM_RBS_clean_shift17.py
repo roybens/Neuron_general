@@ -65,7 +65,7 @@ def modify_dict_file(filename, changes):
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
-root_path_out = './Plots/12HMM16HMM/21-RBS_clean_tuningLongSweep_072424'
+root_path_out = './Plots/12HMM16HMM/23-RBS_clean_manualshift17_072424'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
@@ -97,7 +97,7 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4,nav12=3*3,nav16=7
               ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
               na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
               na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-              plots_folder = f'{root_path_out}/24-longsweep_wthetko', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
+              plots_folder = f'{root_path_out}/', pfx=f'WT_', update=True) #2-12-{i12}_16-{i16}
 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
 
 # ##Plotting only WT Stim/DVDT and Currentscapes
@@ -117,10 +117,14 @@ wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,re
 
 
 # ## Testing if I can change vshift and vshift_inact to move threshold +17
-# na12_vshift17 ={"a1_0": 3.1547345527269233, "a1_1": 0.05510300665105835, "b1_0": 4.791955661615136, "b1_1": 0.09014477225513692, "a2_0": 3015.155056494468, "a2_1": 0.30987923885393026, "b2_0": 919.3139955076967, "b2_1": 0.41962767235919507, "a3_0": 109.85728965102251, "a3_1": 0.24852254942384186, "b3_0": 1712.2193773613558, "b3_1": 0.01912898529951851, "bh_0": 8.027353908819931, "bh_1": 8.174548719738821, "bh_2": 0.11446203713204262, "ah_0": 0.06601487564289754, "ah_1": 405124.7535686269, "ah_2": 0.08651802346109899, "vShift": -6.438854488000004, "vShift_inact": 32.461948540212093, "maxrate": 11.685304243202804}
-# na16_vshift17={"a1_0": 86.82768844997113, "a1_1": 0.12481160483736764, "b1_0": 0.03636308557245105, "b1_1": 0.07299197117480938, "a2_0": 5870.594264277059, "a2_1": 0.20381201621527256, "b2_0": 445.51379959201944, "b2_1": 0.014057437484476853, "a3_0": 1549.7689816436775, "a3_1": 0.08223497094200147, "b3_0": 460.3178077224841, "b3_1": 0.010814365773659428, "bh_0": 13.70152920233826, "bh_1": 9.233117481911744, "bh_2": 0.05775463093748526, "ah_0": 0.7125397402558968, "ah_1": 52695.59895637044, "ah_2": 0.07354314395481377, "vShift": 8.512610605026387, "vShift_inact": 34.512316086445306, "maxrate": 13.917366173297317}
-# modify_dict_file(filename12, na12_vshift17)
-# modify_dict_file(filename16, na16_vshift17)
+na12_vshift17 ={"a1_0": 3.1547345527269233, "a1_1": 0.05510300665105835, "b1_0": 4.791955661615136, "b1_1": 0.09014477225513692, "a2_0": 3015.155056494468, "a2_1": 0.30987923885393026, "b2_0": 919.3139955076967, "b2_1": 0.41962767235919507, "a3_0": 109.85728965102251, "a3_1": 0.24852254942384186, "b3_0": 1712.2193773613558, "b3_1": 0.01912898529951851, "bh_0": 8.027353908819931, "bh_1": 8.174548719738821, "bh_2": 0.11446203713204262, "ah_0": 0.06601487564289754, "ah_1": 405124.7535686269, "ah_2": 0.08651802346109899, "vShift": -6.438854488000004, "vShift_inact": 32.461948540212093, "maxrate": 11.685304243202804}
+na16_vshift17={"a1_0": 86.82768844997113, "a1_1": 0.12481160483736764, "b1_0": 0.03636308557245105, "b1_1": 0.07299197117480938, "a2_0": 5870.594264277059, "a2_1": 0.20381201621527256, "b2_0": 445.51379959201944, "b2_1": 0.014057437484476853, "a3_0": 1549.7689816436775, "a3_1": 0.08223497094200147, "b3_0": 460.3178077224841, "b3_1": 0.010814365773659428, "bh_0": 13.70152920233826, "bh_1": 9.233117481911744, "bh_2": 0.05775463093748526, "ah_0": 0.7125397402558968, "ah_1": 52695.59895637044, "ah_2": 0.07354314395481377, "vShift": 8.512610605026387, "vShift_inact": 34.512316086445306, "maxrate": 13.917366173297317}
+
+# na12_shift17 = {"a1_0": 0.34278780929516106, "a1_1": 0.3606255336556905, "b1_0": 3.8175816398080435, "b1_1": 0.010941335619547972, "a2_0": 8323.597432275057, "a2_1": 0.019301185674637435, "b2_0": 509.29280113781806, "b2_1": 0.18036203008291118, "a3_0": 387.08636738640865, "a3_1": 3.28272774103985e-05, "b3_0": 8366.90619824746, "b3_1": 0.03599200135001383, "bh_0": 3.341564316919372, "bh_1": 3.793723354456143, "bh_2": 0.19088091900937043, "ah_0": NaN, "ah_1": 120025.56790984923, "ah_2": 0.04268095219319736, "vShift": -19.34872786991225, "vShift_inact": 4.680161535307837, "maxrate": 695.5721863199973}
+# na16_shift17 = {"a1_0": 97.88230506791679, "a1_1": 0.03698389529158251, "b1_0": 15.065966409542465, "b1_1": 0.001848765560648457, "a2_0": 10038.23302997219, "a2_1": 0.3332555725975974, "b2_0": 252.62301318638904, "b2_1": 0.5683687355416978, "a3_0": 646.5629543462013, "a3_1": 0.028154348637492, "b3_0": 500.0, "b3_1": 0.12340400027441137, "bh_0": 13.444953200356668, "bh_1": 10.37679821664995, "bh_2": 0.09872020889556168, "ah_0": 5.07743253875092, "ah_1": 568031.0445938959, "ah_2": 0.08553350693816006, "vShift": -6.287916488775884, "vShift_inact": 6.927918529770826, "maxrate": 27.668039090956086}
+
+modify_dict_file(filename12, na12_vshift17)
+modify_dict_file(filename16, na16_vshift17)
 # #####
 
 
@@ -133,13 +137,13 @@ for fac in (0.01,0.1,0.25,0.5,1,2,4,10,100,5,50):
 # for fac in (2.5,3):
 # for fac in (5,10,15):
 
-#   simtim = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
-#                                       ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-#                                       na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-#                                       na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-#                                       params_folder='./params/', plots_folder=f'{root_path_out}/23-longsweepattempt-aisKca', 
-#                                       pfx=f'{str(fac)}', update=True)
-#   simtim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'wt-{str(fac)}')
+# simtim = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
+#                                     ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+#                                     na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+#                                     na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+#                                     params_folder='./params/', plots_folder=f'{root_path_out}/23-longsweepattempt-aisKca', 
+#                                     pfx=f'{str(fac)}', update=True)
+# simtim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'wt-{str(fac)}')
 # simtim.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KO_',wt_fi = [0, 0, 1, 2, 5, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 14, 15, 15, 15, 17, 17])#fnpre=f'{mutTXT}')
 # simtim.make_currentscape_plot(amp=0.5, time1=50,time2=200,stim_start=30, sweep_len=200)  
   
