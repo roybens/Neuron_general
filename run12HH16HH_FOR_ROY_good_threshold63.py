@@ -67,7 +67,7 @@ def modify_dict_file(filename, changes):
   #Don't forget to change NeuronModelClass.py to './Neuron_Model_12HH16HH/' and recompile!!
 
 
-root_path_out = './Plots/12HH16HH_RBS' ##path for saving your plots
+root_path_out = './Plots/12HH16HH_RBS/Tim' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
 
@@ -77,7 +77,7 @@ vals =[1]
 vals2 = [1]
 # for i12 in np.arange(1,6,1):     
         # for i16 in np.arange(10,50,10):
-rbs_vshift = 8
+rbs_vshift = 10
 for i12 in vals:
         for i16 in vals2:
                 filename12 = './params/na12annaTFHH2.txt' ##12HH params file that you will update with values below in changesna12
@@ -142,8 +142,10 @@ for i12 in vals:
                         #"ena": 55
                         }
                 
+                na12_M1879T={"Ena": 52.74096777824844, "Rd": 0.032173088705160724, "Rg": 0.09960274801206608, "Rb": 0.2903414961669393, "Ra": 0.45714994336154335, "a0s": 5.398583045479726e-06, "gms": 0.10179545451109978, "hmin": 0.061840712126330175, "mmin": 0.08255744835031055, "qinf": 6.552792091662601, "q10": 1.6347486117076517, "qg": 1.292836585782877, "qd": 1.5059402130638482, "qa": 11.064644777704016, "smax": 17.62387996131715, "sh": -49.272675111076, "thinf": NaN, "thi2": -86.56684114962111, "thi1": -55.45140912265443, "tha": -10.13336538387677, "vvs": 3.259275785841833, "vvh": -27.017878448917617, "vhalfs": -42.78279827573631, "zetas": 13.286966792469455}
                 ##Functions to update params files with values entered above (rather than having to change the params file names). Comment out if you don't want any updating.
-                modify_dict_file(filename12, changesna12)
+                modify_dict_file(filename12, na12_M1879T)
+                # modify_dict_file(filename12, changesna12)
                 modify_dict_file(filename16, changesna16)
 
                 ##Run the sim for a single mutant (no comparison)
@@ -174,7 +176,7 @@ for i12 in vals:
                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                         plots_folder = f'{root_path_out}/2-TEST', update=True)
                 wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
-                NeuronModel.chandensities(name = f'{plots_folder}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
+                # NeuronModel.chandensities(name = f'{plots_folder}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
 
                 ##het model
                 sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=6,nav12=0.5,nav16=1.3, somaK=1, KP=100, KT=10,
@@ -184,7 +186,7 @@ for i12 in vals:
                         plots_folder = f'{root_path_out}/2-TEST', #Change output file path here 
                         pfx=f'WT_', update=True)
                 sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvsHet')
-                NeuronModel.chandensities(name = f'{plots_folder}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
+                # NeuronModel.chandensities(name = f'{plots_folder}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
 
                 ##KO model
                 sim_ko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=6,nav12=0,nav16=1.3, somaK=1, KP=100, KT=10,
@@ -193,7 +195,7 @@ for i12 in vals:
                         na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                         plots_folder = f'{root_path_out}/2-TEST', #Change output file path here 
                         pfx=f'WT_', update=True)
-                NeuronModel.chandensities(name = f'{plots_folder}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
+                # NeuronModel.chandensities(name = f'{plots_folder}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
     
 
                 ##Plot stim/DVDT stacked fig (just mutant, no comparison)

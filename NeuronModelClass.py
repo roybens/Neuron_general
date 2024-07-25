@@ -395,8 +395,8 @@ class NeuronModel:
         plt.title("Distribution of Nav12 and Nav16")
         plt.savefig(name+".png", dpi=400)
     
-    def init_stim(self, sweep_len = 100, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
-    
+    # def init_stim(self, sweep_len = 100, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
 
         # updates the stimulation params used by the model
         # time values are in ms
