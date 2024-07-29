@@ -231,8 +231,8 @@ for i12 in vals:
                 # path = f'1-m1879t'
                 # config = sim_config_soma
                 
-                for config_name, config in config_dict.items():
-                  path = f'3-e1211k-{config_name}'
+                for config_name, config in config_dict3.items():
+                  path = f'4-bothmuts-{config_name}'
                   simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
                                               ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3,node_na = 1,
                                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
@@ -241,7 +241,7 @@ for i12 in vals:
                   # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
                   wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
                   # simwt.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'12-{i12}_16-{i16}_')
-                  simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200)
+                  # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200)
   #
 
                   
@@ -256,7 +256,7 @@ for i12 in vals:
                   
                   m1879t = {'Rd': 0.013285, 'Rg': 0.01, 'Rb': 0.1, 'Ra': 0.3282, 'a0s': 0.0003, 'gms': 0.2, 'hmin': 0.01, 'mmin': 0.02, 'qinf': 7.69, 'q10': 2, 'qg': 1.5, 'qd': 0.5, 'qa': 5.41, 'smax': 10, 'sh': 8, 'thinf': -30.2, 'thi2': -57.2, 'thi1': -57.2, 'tha': -22, 'vvs': 2, 'vvh': -58, 'vhalfs': -37.2, 'zetas': 12}
                   e1211k = {'Rd': 0.02657, 'Rg': 0.01, 'Rb': 0.1, 'Ra': 0.3282, 'a0s': 0.0003, 'gms': 0.2, 'hmin': 0.01, 'mmin': 0.02, 'qinf': 7.69, 'q10': 2, 'qg': 1.5, 'qd': 0.5, 'qa': 5.41, 'smax': 10, 'sh': 8, 'thinf': -56.15, 'thi2': -83.15, 'thi1': -83.15, 'tha': -33.6, 'vvs': 2, 'vvh': -58, 'vhalfs': -63.15, 'zetas': 12}
-                  modify_dict_file(filename12,e1211k)
+                  modify_dict_file(filename12,m1879t)
                   # for mutname,dict in muts.items():
                   #   print(f"mutname is {mutname}")
                   #   print(f"it's corresponding dictionary is {dict}")
@@ -265,14 +265,14 @@ for i12 in vals:
                   
                   # ## If you want to plot WT vs het, use this code block. simwt will get wt values, you can change sim to get het/KO 
                   
-                  simmut = tf.Na12Model_TF(ais_nav12_fac=12*0.5,ais_nav16_fac=12,nav12=1*0.5,nav16=1.3, somaK=1, KP=25, KT=5,
+                  simmut = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
                                               ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3,node_na = 1,
                                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                               plots_folder = f'{root_path_out}/{path}', update=True)
                   # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
-                  # simmut.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'm1879t')
-                  simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{path}')
+                  simmut.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'e1211k')
+                  # simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{path}')
 
                 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
                 #                             ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3,node_na = 1,

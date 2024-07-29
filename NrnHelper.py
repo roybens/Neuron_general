@@ -65,7 +65,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         return npeaks
     else:
         ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black') #mutant will be red
-        # ax1.plot(x_axis,wt2_data,marker = 'o', linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
+        ax1.plot(x_axis,wt2_data,marker = 'o', linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
         #ax1.plot(x_axis,wt_data,'black')
     fig.show()
     fig.savefig(fn)

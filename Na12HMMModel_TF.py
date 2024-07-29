@@ -575,7 +575,7 @@ class Na12Model_TF:
 
 
     ##_______________________Added to enable run of TTX and overexpression functions
-    def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '',wt_fi = None, start=0,end=2,nruns=21, dt=0.005): #wt2_data=None,
+    def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005): #wt2_data=None,
         
         ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
         #wt2_data = [0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 36, 37, 39, 40, 41, 42, 42, 43] #K4 to move FI --blue
@@ -599,6 +599,7 @@ class Na12Model_TF:
         # wt_fi = [0, 0, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16] ##TF062424 FI vals for 12HMM16HMM WT model
         wt_fi = [0, 0, 2, 6, 8, 10, 11, 12, 13, 14, 15, 15, 16, 17, 17, 18, 19, 19, 20, 20, 21] ##TF072624 Roy's HH tuning best FI
         # wt2_data = [0, 0, 3, 7, 9, 10, 12, 13, 14, 15, 16, 17, 17, 18, 19, 19, 20, 21, 21, 22, 22] ##TF072624 Roy's HH tuning best FI HET
+        wt2_data=[0, 0, 3, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 20, 21, 22, 22, 23] ## e1211k FI
         
 
         for curr_amp in vs_amp: #vs_amp is list
@@ -654,7 +655,7 @@ class Na12Model_TF:
             #     writer.writerows(zip(self.volt_soma))
         
         ###################
-        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi, fn = fnpre + '_fi') #add back wt2_data if want more lines
+        self.plot_fi_curve_2line(start,end,nruns, wt_data=wt_fi,wt2_data=wt2_data, fn = fnpre + '_fi') #add back wt2_data if want more lines
         ###################
         
         #fi_ans = self.plot_fi_curve_2line(start,end,nruns,wt_data = wt_fi,fn = fnpre + '_fi')
@@ -663,8 +664,8 @@ class Na12Model_TF:
         #     wr.writerow(fi_ans)
         # return fi_ans
     ##_________________________________________________________________________________________________
-    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
-        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf') #add in wt2_data for another line
+    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf') #add in wt2_data for another line
         print(fis)
         fi_df = pd.DataFrame(fis)
         fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
