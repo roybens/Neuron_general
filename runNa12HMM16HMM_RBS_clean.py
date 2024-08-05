@@ -13,7 +13,7 @@ from currentscape.currentscape import plot_currentscape
 import logging
 import pandas as pd
 import Document as doc
-
+import Tim_ng_functions as nf
 
 sim_config_soma = {
                 'section' : 'soma',
@@ -65,7 +65,7 @@ def modify_dict_file(filename, changes):
 
 
 # root_path_out = '/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/6-HMM_focusonTTP_042624/10-12HMMmuts_fitto_1012TTP8_050824'
-root_path_out = './Plots/12HMM16HMM/21-RBS_clean_tuningLongSweep_072424'
+root_path_out = './Plots/12HMM16HMM/23-HMM_StatePlots_072924'
 
 if not os.path.exists(root_path_out):
         os.makedirs(root_path_out)
@@ -105,7 +105,12 @@ wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,re
 # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
 # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
 # fig_volts.savefig(f'{simwt.plot_folder}/WT.pdf')
-                        
+
+##Get states of HMM (plot_8states in NeuronModelClass.py)
+fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+ap_t, vm_t = simwt.plot_stim(axs=axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
+nf.plot_8states(csv_name="./Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
+nf.plot_8states(csv_name="./Plots/Channel_state_plots/na16_channel_states.csv", outfile_sfx="na16_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
 
 # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200)  
 # simwt.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WT_',wt_fi = [0, 0, 3, 7, 9, 10, 10, 11, 12, 12, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 18])#fnpre=f'{mutTXT}')

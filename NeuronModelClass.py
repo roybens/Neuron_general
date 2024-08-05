@@ -17,7 +17,7 @@ from NrnHelper import *
 
 
 class NeuronModel:
-    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
+    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HMM16HMM/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
                       
                       update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
                       na12name = 'na12_HMM_TF100923',
@@ -606,33 +606,34 @@ class NeuronModel:
             t[i] = i*h.dt / 1000
             
 
-
+        ###
         ##TF062724 State values for 8 state HMM model
-        #     states12.append([h.cell.soma[0].c1_na12,
-        #                h.cell.soma[0].c2_na12,
-        #                h.cell.soma[0].c3_na12,
-        #                h.cell.soma[0].i1_na12,
-        #                h.cell.soma[0].i2_na12,
-        #                h.cell.soma[0].i3_na12,
-        #                h.cell.soma[0].i4_na12,
-        #                h.cell.soma[0].o_na12])
+            states12.append([h.cell.soma[0].c1_na12,
+                       h.cell.soma[0].c2_na12,
+                       h.cell.soma[0].c3_na12,
+                       h.cell.soma[0].i1_na12,
+                       h.cell.soma[0].i2_na12,
+                       h.cell.soma[0].i3_na12,
+                       h.cell.soma[0].i4_na12,
+                       h.cell.soma[0].o_na12])
             
-        #     states16.append([h.cell.soma[0].c1_na16,
-        #                h.cell.soma[0].c2_na16,
-        #                h.cell.soma[0].c3_na16,
-        #                h.cell.soma[0].i1_na16,
-        #                h.cell.soma[0].i2_na16,
-        #                h.cell.soma[0].i3_na16,
-        #                h.cell.soma[0].i4_na16,
-        #                h.cell.soma[0].o_na16])
-            
+            states16.append([h.cell.soma[0].c1_na16,
+                       h.cell.soma[0].c2_na16,
+                       h.cell.soma[0].c3_na16,
+                       h.cell.soma[0].i1_na16,
+                       h.cell.soma[0].i2_na16,
+                       h.cell.soma[0].i3_na16,
+                       h.cell.soma[0].i4_na16,
+                       h.cell.soma[0].o_na16])
+        ###
+
             h.fadvance()
         
         ###
-        # df1 = pd.DataFrame(states12)
-        # df2 = pd.DataFrame(states16)
-        # df1.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
-        # df2.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
+        df1 = pd.DataFrame(states12)
+        df2 = pd.DataFrame(states16)
+        df1.to_csv("./Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
+        df2.to_csv("./Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
         ###
         
         

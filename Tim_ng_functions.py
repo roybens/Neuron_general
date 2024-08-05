@@ -298,10 +298,14 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
   ax1.plot(dfsub['c1'],label='c1', color='red', linewidth=0.7)
   ax1.plot(dfsub['c2'],label='c2', color='orange', linewidth=0.7)
   ax1.plot(dfsub['c3'],label='c3', color='pink', linewidth=0.7)
-  ax1.plot(dfsub['i1'],label='i1', color='green', linewidth=0.7)
-  ax1.plot(dfsub['i2'],label='i2', color='blue', linewidth=0.7)
-  ax1.plot(dfsub['i3'],label='i3', color='cyan', linewidth=0.7)
-  ax1.plot(dfsub['i4'],label='i4', color='purple', linewidth=0.7)
+  # ax1.plot(dfsub['i1'],label='i1', color='green', linewidth=0.7)
+  # ax1.plot(dfsub['i2'],label='i2', color='blue', linewidth=0.7)
+  # ax1.plot(dfsub['i3'],label='i3', color='cyan', linewidth=0.7)
+  # ax1.plot(dfsub['i4'],label='i4', color='purple', linewidth=0.7)
+  ax1.plot(dfsub['i1'],label='i1', color='green', linewidth=1.4)
+  ax1.plot(dfsub['i2'],label='i2', color='blue', linewidth=1.4)
+  ax1.plot(dfsub['i3'],label='i3', color='cyan', linewidth=1.4)
+  ax1.plot(dfsub['i4'],label='i4', color='purple', linewidth=1.4)
   ax1.plot(dfsub['o'],label='o', color='black', linewidth=0.7)
 
   ax2 = ax1.twinx()
@@ -327,13 +331,14 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
   # plt.ylabel('stateval')
   plt.title("States")
   # plt.savefig("8States"+".png", dpi=400)
-  plt.savefig(f"/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/{start}-{stop}_{outfile_sfx}.png", dpi=400)
+  plt.savefig(f"./Plots/Channel_state_plots/{start}-{stop}_{outfile_sfx}.png", dpi=400)
 
 
 # combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
 
-# plot_8states(csv_name="pandas_states.csv", outfile_sfx="8st_062824")
+# plot_8states(csv_name="./Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_072924", start=0, stop=10000)
+
 
 
 
