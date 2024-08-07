@@ -221,13 +221,20 @@ class NeuronModel:
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         
         # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
-        h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        
+        if nav12 !=0:
+            h.ais_na12 = (h.ais_na12 * ais_nav12)/nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        else:
+            h.ais_na12 = h.ais_na12 *ais_nav12
 
+        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        if nav16 !=0:
+            h.ais_na16 = (h.ais_na16 * ais_nav16)/nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
+        else:
+            h.ais_na12 = h.ais_na16 * ais_nav16
+        
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
-        
-        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
-        h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         
         h.working()
         
@@ -390,8 +397,6 @@ class NeuronModel:
 
         # chandensities() ##TF uncomment to run function and plot channel densities in axon[0]
 
-
-    # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
     #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
