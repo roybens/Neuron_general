@@ -40,22 +40,23 @@ def cm_to_in(cm):
 
 
 
-def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.1,fn = './Plots/ficurve.pdf'): #wt2_data=None **add to args if want more lines on FI graph
+def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.01,fn = './Plots/ficurve.pdf'):
     all_volts = []
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
+    stim_length2 = int(1000/dt)
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
         curr_volts,_,_,_ = mdl.run_model()
         #curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
-        curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -30) #modified for na16 TTX experiments
+        curr_peaks,_ = find_peaks(curr_volts[:stim_length2],height = -30) #modified for na16 TTX experiments
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
     print(npeaks) #spikes at each stim current for FI curve
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
-        ax1.plot(x_axis,npeaks,marker = 'o',linestyle = '-',color = 'red')
+        ax1.plot(x_axis,npeaks,marker = 'o',markersize=1,linestyle = '-',color = 'red')
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel('nAPs for 500ms epoch')
@@ -64,8 +65,9 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         fig.savefig(fn)
         return npeaks
     else:
-        ax1.plot(x_axis,wt_data,marker = 'o',linestyle = '-',color = 'black') #mutant will be red
-        ax1.plot(x_axis,wt2_data,marker = 'o', linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
+        ax1.plot(x_axis,wt_data,marker = 'o',markersize=1,linestyle = '-',color = 'black') #mutant will be red
+        if wt2_data is not None:
+          ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
         #ax1.plot(x_axis,wt_data,'black')
     fig.show()
     fig.savefig(fn)
@@ -117,7 +119,7 @@ def plot_dvdt_from_volts_firstpeak(volts,dt,axs=None,clr = 'black',skip_first = 
 
     return axs
 
-def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,clr = 'red',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
+def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,het_Vm=None,clr = 'red',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
     if skip_first:
         curr_peaks,_ = find_peaks(volts,height = -20)
         volts = volts[curr_peaks[0]+int(3/dt):]
@@ -125,6 +127,8 @@ def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,clr = 'red',skip_first =
         fig,axs = plt.subplots(1,1)
     dvdtwt = np.gradient(wt_Vm)/dt
     dvdt = np.gradient(volts)/dt
+    if het_Vm is not None:
+        dvdthet = np.gradient(het_Vm)/dt
      
     
     # print(volts)
@@ -141,6 +145,8 @@ def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,clr = 'red',skip_first =
     
     axs.plot(volts, dvdt, color = clr,linewidth=0.5)#plot first peak only [1:20000] was original
     axs.plot(wt_Vm,dvdtwt,color='black', alpha=0.8,linewidth=0.5)
+    if het_Vm is not None:
+        axs.plot(het_Vm,dvdthet,color='cadetblue', alpha=0.8,linewidth=0.5)
     return axs
 
 def plot_dg_dt(g,volts,dt,axs=None,clr = 'black'):

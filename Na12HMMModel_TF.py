@@ -179,7 +179,7 @@ class Na12Model_TF:
     
 
     #need to alter currents and current names to work for na12hmm
-    def make_currentscape_plot(self,amp,time1,time2,stim_start =100,sweep_len=800,sim_config = {
+    def make_currentscape_plot(self,amp,time1,time2,pfx=None,stim_start =100,sweep_len=800,sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
                 'section_num': 0,
@@ -244,7 +244,7 @@ class Na12Model_TF:
                 #"dir": "./Plots/12HMM16HH_TF/SynthMuts_120523/Currentscape/",
                 "dir": f"{self.plot_folder}",
                 #"fname": "Na12_mut22_1nA_800ms", ########################################################_________________Change file name here
-                "fname":f"{self.pfx}amp{amp}_t1-{time1}t2-{time2}_swp{sweep_len}_start{stim_start}",
+                "fname":f"{pfx}amp{amp}_t1-{time1}t2-{time2}_swp{sweep_len}_start{stim_start}",
                 "extension": "pdf",
                 #"extension": "jpg",
                 "dpi": 600,
@@ -365,7 +365,7 @@ class Na12Model_TF:
     #Plot both WT and mut on same stim plot
     def plot_wtvmut_stim(self,wt_Vm,wt_t,
                          stim_amp = 0.5,dt = 0.005,clr = 'red',
-                         plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500, sim_config={
+                         plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500,het_Vm=None,het_t=None, sim_config={
                         # 'section' : 'axon',
                         # 'section_num' : 0,
                         # 'segment' : 0,
@@ -395,6 +395,9 @@ class Na12Model_TF:
 
         axs.plot(t,Vm, label='Vm', color=clr,linewidth=0.5)
         axs.plot(wt_t[0:tlength],wt_Vm[0:vlength], label='WT_Vm', color='black',linewidth=0.5, alpha=0.8)
+        if het_Vm is not None and het_t is not None:
+            axs.plot(het_t[0:tlength],het_Vm[0:vlength], label='HET_Vm', color='cadetblue',linewidth=0.5, alpha=0.8)
+
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
         #plt.show()
@@ -599,7 +602,7 @@ class Na12Model_TF:
         # wt_fi = [0, 0, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16] ##TF062424 FI vals for 12HMM16HMM WT model
         wt_fi = [0, 0, 2, 6, 8, 10, 11, 12, 13, 14, 15, 15, 16, 17, 17, 18, 19, 19, 20, 20, 21] ##TF072624 Roy's HH tuning best FI
         # wt2_data = [0, 0, 3, 7, 9, 10, 12, 13, 14, 15, 16, 17, 17, 18, 19, 19, 20, 21, 21, 22, 22] ##TF072624 Roy's HH tuning best FI HET
-        wt2_data=[0, 0, 3, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 20, 21, 22, 22, 23] ## e1211k FI
+        # wt2_data=[0, 0, 3, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 20, 21, 22, 22, 23] ## e1211k FI
         
 
         for curr_amp in vs_amp: #vs_amp is list
@@ -665,27 +668,30 @@ class Na12Model_TF:
         # return fi_ans
     ##_________________________________________________________________________________________________
     def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
-        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}{fn}.pdf') #add in wt2_data for another line
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}/{fn}.pdf') #add in wt2_data for another line
         print(fis)
-        fi_df = pd.DataFrame(fis)
-        fi_df.to_csv(f'{self.plot_folder}/FI_raw.csv')
+        with open (f'{self.plot_folder}/{fn}-FI-list.txt','w') as file:
+            file.write(','.join(str(fi) for fi in fis))
+        file.close()
+        # fi_df = pd.DataFrame(fis)
+        # fi_df.to_csv(f'{self.plot_folder}/{fn}-FI_raw.csv')
         return fis
 
 
-    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '', dt=0.005):
+    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,het_Vm=None,het_t=None,fnpre = '', dt=0.005):
         for curr_amp in vs_amp:
             figures = []
 
             #Attempting wt and het on same plot
             fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config)
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config, het_Vm=het_Vm,het_t=het_t)
             print(wt_Vm)
             print(len(wt_Vm))
             print(wt_t)
             print(len(wt_t))
             print(self.volt_soma)
             print(len(self.volt_soma))
-            plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1])
+            plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1],het_Vm=het_Vm)
             fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}_wtvmut.pdf'
             fig_volts3.savefig(fn4)
             

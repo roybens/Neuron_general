@@ -221,13 +221,20 @@ class NeuronModel:
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         
         # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
-        h.ais_na12 = h.ais_na12 * ais_nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        if nav12 !=0:
+            h.ais_na12 = (h.ais_na12 * ais_nav12)/nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
+        else:
+            h.ais_na12 = h.ais_na12 *ais_nav12
+        
+        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
+        if nav16 !=0:
+            h.ais_na16 = (h.ais_na16 * ais_nav16)/nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
+        else:
+            h.ais_na12 = h.ais_na16 * ais_nav16
 
         h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
         h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
         
-        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
-        h.ais_na16 = h.ais_na16 * ais_nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         
         h.working()
         
@@ -329,12 +336,7 @@ class NeuronModel:
             ############################################################
         
     
-    # def init_stim(self, sweep_len = 1500, stim_start = 700, stim_dur = 500, amp = 0.3, dt = 0.1): #Default args #stim_start=100 sweep_len=800
-    #def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
-    
-    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
-    # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
-    # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
+   
 #Function for determining and plotting the distribution of Na channels in axon.
     def chandensities (name = f"/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/Restart030824/4-FixModMistake_HH/22-changeIh"):
         distances = []
@@ -395,6 +397,11 @@ class NeuronModel:
         plt.title("Distribution of Nav12 and Nav16")
         plt.savefig(name+".png", dpi=400)
     
+    
+    # def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
+    # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
+    # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
     # def init_stim(self, sweep_len = 100, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
 
