@@ -232,7 +232,7 @@ het_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,2,3,4,4,4,5,5,6,6,6,7,7,7,
 ko_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,16,16,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20]
 
 for config_name, config in config_dict3.items():
-  path = f'6-newBestHH'
+  path = f'10-scanKs'
 
   # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
   #                             ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12 =3.6-0.4,node_na = 1,
@@ -263,7 +263,8 @@ for config_name, config in config_dict3.items():
 #   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
 
-# for fac in [0.2,0.4,0.6,0.8,1,2]:
+for factor in [0.12,0.14,0.16,0.18]:
+
 # ##Mutant/Variant
 #   simmut = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
 #                               ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8,soma_na12 =3.6,node_na = 1,
@@ -277,36 +278,36 @@ for config_name, config in config_dict3.items():
 
 
   ##WT model
-  simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25*0.15, KT=5,
+  simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*factor, KP=25*0.15, KT=5,
                               ais_ca = 100,ais_Kca = 0.5,soma_na16=1,soma_na12 =3.2,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                              plots_folder = f'{root_path_out}/{path}', update=True)
-  # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
+  wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
   # simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=1,nruns=100, fn=f'/WT_FIcurve.pdf')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
   # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
 
   # ##het model
-  sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1, KP=25*0.15, KT=5,
+  sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*factor, KP=25*0.15, KT=5,
                               ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12 =3.6-0.4,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                              plots_folder = f'{root_path_out}/{path}', update=True)
-  # het_Vm1,_,het_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
+  het_Vm1,_,het_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
   # sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=1,nruns=100, fn=f'HET_FIcurve.pdf')
   # sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
   # sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
 
   # ##KO model
-  sim_ko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1, KP=25*0.15, KT=5,
+  sim_ko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*factor, KP=25*0.15, KT=5,
                               ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12 =0,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                              plots_folder = f'{root_path_out}/{path}', update=True)
-  sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=0,end=1,nruns=100, fn=f'KO_FIcurve.pdf')
-  # sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTHETKO_800swp')#sim_config for changing regions
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
+  # sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=0,end=1,nruns=100, fn=f'KO_FIcurve.pdf')
+  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=config,vs_amp=[0.5], fnpre=f'somaK-fac-{factor}')#sim_config for changing regions
   # sim_ko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
   

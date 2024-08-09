@@ -47,7 +47,8 @@ class NeuronModel:
                       node_na = 1,
                       soma_K=1,
                       dend_K=1,
-                      gpas_all=1
+                      gpas_all=1,
+                      fac=None
                       ):
         run_dir = os.getcwd()
 
@@ -268,11 +269,13 @@ class NeuronModel:
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
             # update_param_value(self,['SKv3_1'],'mtaumul',0.5) ##TF041924
             
-            # multiply_param(self,['SK_E2'],'gSK_E2bar',0.5) ##TF041924 multiplies gbar of SKE2
-            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.5) ##TF041924 multiplies gbar of Ca_LVAst
-            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
             
-            # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
+            
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
+
+            # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
+            # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
             
             
 
@@ -402,8 +405,8 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
-    # def init_stim(self, sweep_len = 100, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
 
         # updates the stimulation params used by the model
         # time values are in ms
