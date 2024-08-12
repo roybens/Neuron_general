@@ -292,7 +292,7 @@ for factor in [0.1]:
                               plots_folder = f'{root_path_out}/{path}/', update=True, fac=None)
   het_Vm1,_,het_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
   het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=1,nruns=100, fn=f'WTHET-aisca-fac-{factor}')
-  sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
+  sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
   # sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
 
