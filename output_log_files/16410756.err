@@ -1,4 +1,0 @@
-Warning: no DISPLAY environment variable.
---No graphics will be displayed.
-/global/u2/t/tfenton/Neuron_general-2/na12HH16HMM_TF.py:325: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
-  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
