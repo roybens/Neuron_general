@@ -88,7 +88,8 @@ changesna16_071624best={"a1_0": 86.82768844997113, "a1_1": 0.12481160483736764, 
 modify_dict_file(filename12, changesna12_071824best)
 modify_dict_file(filename16, changesna16_071624best)
 
-
+vshift = {"mut24_n2_shift17":{"a1_0": 44.20762460304075, "a1_1": 0.22904908195227058, "b1_0": 1.0895620045511527, "b1_1": 0.10645926360864319, "a2_0": 10631.6923307076, "a2_1": 0.31471555894152037, "b2_0": 297.8002288303858, "b2_1": 4.330759483800555, "a3_0": 142.14741791584726, "a3_1": 0.02712756421974758, "b3_0": 3388.2302536952952, "b3_1": 0.00444433148682701, "bh_0": 3.6507619283095227, "bh_1": 12.068955126311407, "bh_2": 0.14232122859033564, "ah_0": 4.962768758570474, "ah_1": 347377.78057155677, "ah_2": 0.06423396770148165, "vShift": -14.486966709305836, "vShift_inact": 3.4639274170146033, "maxrate": 6898.9860247926445},
+"mut234_n2_shift17":{"a1_0": 32.85040930843276, "a1_1": 1.6615046528718203, "b1_0": 1.1283135428527846, "b1_1": 0.11913312637809705, "a2_0": 5420.596370431161, "a2_1": 0.03662723327331317, "b2_0": 241.75069020862716, "b2_1": 2.8544275072402634, "a3_0": 175.65588800727284, "a3_1": 0.039417295653628406, "b3_0": 1567.4631041099394, "b3_1": 0.051773724586163694, "bh_0": 3.2239491868838086, "bh_1": 1.622849827710409, "bh_2": 0.17484029977300872, "ah_0": 14.341962154480752, "ah_1": 66673.98417663306, "ah_2": 0.022747115382984594, "vShift": -20.063244751830126, "vShift_inact": 11.310700688405518, "maxrate": 1302.2771696885973}}
 
 
 
@@ -109,8 +110,8 @@ wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,re
 ##Get states of HMM (plot_8states in NeuronModelClass.py)
 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
 ap_t, vm_t = simwt.plot_stim(axs=axs[0],stim_amp = 0.5,dt=0.005, clr='cadetblue') #dt=0.005
-nf.plot_8states(csv_name="./Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
-nf.plot_8states(csv_name="./Plots/Channel_state_plots/na16_channel_states.csv", outfile_sfx="na16_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
+# nf.plot_8states(csv_name="./Plots/Channel_state_plots/na12_channel_states.csv", outfile_sfx="na12_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
+# nf.plot_8states(csv_name="./Plots/Channel_state_plots/na16_channel_states.csv", outfile_sfx="na16_072924",start = 27500,stop=30000,ap_t=ap_t, vm_t=vm_t )
 
 # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200)  
 # simwt.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WT_',wt_fi = [0, 0, 3, 7, 9, 10, 10, 11, 12, 12, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 18])#fnpre=f'{mutTXT}')
