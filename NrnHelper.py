@@ -56,7 +56,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     print(npeaks) #spikes at each stim current for FI curve
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
-        ax1.plot(x_axis,npeaks,marker = 'o',markersize=2,linestyle = '-',color = 'red')
+        ax1.plot(x_axis,npeaks,marker = 'o',markersize=1.5,linestyle = '-',color = 'red')
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel('nAPs for 500ms epoch')
@@ -65,9 +65,9 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         fig.savefig(fn)
         return npeaks
     else:
-        ax1.plot(x_axis,wt_data,marker = 'o',markersize=2,linestyle = '-',color = 'black') #mutant will be red
+        ax1.plot(x_axis,wt_data,marker = 'o',markersize=1.5,linestyle = '-',color = 'black') #mutant will be red
         if wt2_data is not None:
-          ax1.plot(x_axis,wt2_data,marker = 'o',markersize=2, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
+          ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1.5, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
         #ax1.plot(x_axis,wt_data,'black')
     fig.show()
     fig.savefig(fn)

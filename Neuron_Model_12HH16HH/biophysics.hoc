@@ -163,7 +163,8 @@ proc biophys() {
 		
 		distribute($o1.apical,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.004226")
 		
-		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
+		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
+		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00055") //##5x as per Kevin input
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000220") //##TF041824 double
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000110") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
 		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000110") //##TF040124 tenth
