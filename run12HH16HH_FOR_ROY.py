@@ -150,34 +150,36 @@ filename12 = './params/na12annaTFHH2.txt' ##12HH params file that you will updat
 filename16 = './params/na16HH_TF2.txt' ##16HH params file that you will update with values below in changesna16
 
 ## 12HH mod file params can be changed below
-changesna12 = {
-        "sh": 8,
-        "tha": -38+rbs_vshift,
-        "qa": 5.41,
-        "Ra": 0.3282,
-        "Rb": 0.1,
-        "thi1": -80+rbs_vshift,#-80,
-        "thi2": -80+rbs_vshift,#-80,
-        "qd": 0.5,
-        "qg": 1.5,
-        "mmin": 0.02,
-        "hmin": 0.01,
-        "Rg": 0.01,
-        "Rd": 0.02657,
-        "thinf": -53+rbs_vshift,
-        "qinf": 7.69,
-        "vhalfs": -60+rbs_vshift,
-        "a0s": 0.0003,
-        "gms": 0.2,
-        "q10": 2,
-        "zetas": 12,
-        "smax": 10,
-        "vvh": -58,
-        "vvs": 2,
-        "ar2": 1,
-        "Ena": 55,
-        }
+# changesna12 = {
+#         "sh": 8,
+#         "tha": -38+rbs_vshift,
+#         "qa": 5.41,
+#         "Ra": 0.3282,
+#         "Rb": 0.1,
+#         "thi1": -80+rbs_vshift,#-80,
+#         "thi2": -80+rbs_vshift,#-80,
+#         "qd": 0.5,
+#         "qg": 1.5,
+#         "mmin": 0.02,
+#         "hmin": 0.01,
+#         "Rg": 0.01,
+#         "Rd": 0.02657,
+#         "thinf": -53+rbs_vshift,
+#         "qinf": 7.69,
+#         "vhalfs": -60+rbs_vshift,
+#         "a0s": 0.0003,
+#         "gms": 0.2,
+#         "q10": 2,
+#         "zetas": 12,
+#         "smax": 10,
+#         "vvh": -58,
+#         "vvs": 2,
+#         "ar2": 1,
+#         "Ena": 55,
+#         }
 
+## 1.2 HH params after re-fitting rbs_vshift 1.2. The rbs_vshift had weird inactivation curve that didn't bottom out at 0.
+changesna12={"Rd": 0.025712394696815438, "Rg": 0.01854277725353276, "Rb": 0.09013136340161398, "Ra": 0.3380714915775742, "a0s": 0.00036615946706607756, "gms": 0.14082624570054866, "hmin": 0.008420778920829085, "mmin": 0.013671131800210966, "qinf": 5.760329120353593, "q10": 2.289601426305275, "qg": 0.6693522946835427, "qd": 0.8058343822410788, "qa1": 5.835550042292994, "smax": 5.941545585888373, "sh": 8.886047186457889, "thinf": -40.114984963535186, "thi2": -77.41692349310195, "thi1": -60.488477521934875, "tha": -24.155451306086988, "vvs": 0.7672523706054653, "vvh": -53.184249317587984, "vhalfs": -33.73363659219147, "zetas": 13.419130866269455}
 
 ## 16HH mod file params can be changed below
 changesna16 = {
@@ -232,12 +234,12 @@ config_dict3={"sim_config_soma": sim_config_soma}
 # ko_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,16,16,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20]
 
 # for config_name, config in config_dict3.items():
-path = f'20-scanKV31'
+path = f'22-scanKV31_newWT'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
-#                             ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
-#                             na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-#                             na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-#                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+#                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
+#                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
 # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
 
   # wt_Vm1,wt_I1,wt_t1,wt_stim1 = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
@@ -255,7 +257,7 @@ path = f'20-scanKV31'
 
 # m1879t = {'Rd': 0.013285, 'Rg': 0.01, 'Rb': 0.1, 'Ra': 0.3282, 'a0s': 0.0003, 'gms': 0.2, 'hmin': 0.01, 'mmin': 0.02, 'qinf': 7.69, 'q10': 2, 'qg': 1.5, 'qd': 0.5, 'qa': 5.41, 'smax': 10, 'sh': 8, 'thinf': -30.2, 'thi2': -57.2, 'thi1': -57.2, 'tha': -22, 'vvs': 2, 'vvh': -58, 'vhalfs': -37.2, 'zetas': 12}
 # e1211k = {'Rd': 0.02657, 'Rg': 0.01, 'Rb': 0.1, 'Ra': 0.3282, 'a0s': 0.0003, 'gms': 0.2, 'hmin': 0.01, 'mmin': 0.02, 'qinf': 7.69, 'q10': 2, 'qg': 1.5, 'qd': 0.5, 'qa': 5.41, 'smax': 10, 'sh': 8, 'thinf': -56.15, 'thi2': -83.15, 'thi1': -83.15, 'tha': -33.6, 'vvs': 2, 'vvh': -58, 'vhalfs': -63.15, 'zetas': 12}
-# modify_dict_file(filename12,m1879t)
+# modify_dict_file(filename12,newwt)
 
 
 # E1211K_fit = {"Rd": 0.02997147068228529, "Rg": 0.008897343211993404, "Rb": 0.1905632165201543, "Ra": 0.17021304035954068, "a0s": 0.0004623172353304141, "gms": 0.06823404793686191, "hmin": 0.006840457920016884, "mmin": 0.011385473619953321, "qinf": 9.955469461805416, "q10": 2.26803894306103, "qg": 2.891931568518361, "qd": 0.6831763145330393, "qa1": 3.9430916086277943, "smax": 2.291423740934766, "sh": 9.368077641872159, "thinf": -51.52172304144173, "thi2": -60.433480791446335, "thi1": -67.17190725995887, "tha": -34.52344084985742, "vvs": 2.35878838817752, "vvh": -60.859242318800554, "vhalfs": -37.1233573147436, "zetas": 14.835757964655997}
@@ -269,7 +271,8 @@ path = f'20-scanKV31'
 #   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
 
-for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1.2,2,4,10,25,50,100]:
+for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100]:
+# for factor in [1.1]:
 # for factor in [0.01,0.1,0.5,2,4,10]:
 # for factor in [0.1]:
 # for factor in [1]:
@@ -282,30 +285,30 @@ for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1.2,2,4,10,25,50,100]:
 #                             na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
 #                             na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
 #                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-# simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'r850p')
+# simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'newWt')
 
 
-##WT model
+  ##WT model
   simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
   wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #stim_amp=0.5
-  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT-{factor}')
+  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT')
   # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
 
 
 
-# ##het model
+  # ##het model
   sim_het = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
   het_Vm1,_,het_t1,_ = simwt.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
-  # het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WTHET-{factor}')
+  # het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WTHET')
   # sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
   # sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
@@ -316,12 +319,10 @@ for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1.2,2,4,10,25,50,100]:
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
-  # sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'WTHETKO-{factor}')
-  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO-{factor}')#vs_amp=[0.5]
-# sim_ko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
-# NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
-
-
+  # sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'WTHETKO')
+  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO-gbar-{factor}')#vs_amp=[0.5]
+  # sim_ko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
+  # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
 
 '''
   for fac in [0.15]:
