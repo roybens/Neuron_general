@@ -266,14 +266,16 @@ class NeuronModel:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print(eval('h.psection()'))
             # print(eval('h.cell.axon[0].psection()'))
-            # update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
-            update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924
-            multiply_param(self,['SKv3_1'],'gSKv3_1bar',fac)
+            update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
+            # update_param_value(self,['SKv3_1'],'mtaumul',0.81) ##TF041924
+            # multiply_param(self,['SKv3_1'],'gSKv3_1bar',fac)
+            # multiply_param(self,['SKv3_1'],'vtau',fac)
 
             
             
             
-            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',2) ##TF041924 multiplies gbar of Ca_LVAst
+            # multiply_param(self,['Ih'],'gIhbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
 
             # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
@@ -407,9 +409,9 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
-    # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
-    def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2

@@ -234,7 +234,7 @@ config_dict3={"sim_config_soma": sim_config_soma}
 # ko_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,16,16,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20]
 
 # for config_name, config in config_dict3.items():
-path = f'22-scanKV31_newWT'
+path = f'26-scanK_2'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
 #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
 #                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
@@ -271,11 +271,11 @@ path = f'22-scanKV31_newWT'
 #   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
 
-for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100]:
-# for factor in [1.1]:
+for factor in [0.00001,0.0001,0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100,1000,10000,100000]:
+# for factor in [1.3,1.4,1.5,1.6,1.7,1.8,1.9]:
 # for factor in [0.01,0.1,0.5,2,4,10]:
 # for factor in [0.1]:
-# for factor in [1]:
+# for factor in [6]:
 # for amps in np.arange(-0.4,0.4,0.05):
 
 
@@ -287,7 +287,7 @@ for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100]:
 #                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
 # simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'newWt')
 
-
+  '''
   ##WT model
   simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
@@ -307,7 +307,7 @@ for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100]:
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
-  het_Vm1,_,het_t1,_ = simwt.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
+  het_Vm1,_,het_t1,_ = sim_het.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
   # het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WTHET')
   # sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
   # sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
@@ -320,9 +320,147 @@ for factor in [0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100]:
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=factor)
   # sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'WTHETKO')
-  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO-gbar-{factor}')#vs_amp=[0.5]
+  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_HVA-{factor}')#vs_amp=[0.5]
   # sim_ko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
   # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
+  '''
+
+  
+  ##SomaK
+  ##WT model
+  simwt_somaK = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2*factor, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm1,_,wt_t1,_ = simwt_somaK.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##het model
+  sim_het_somaK = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2*factor, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm1,_,het_t1,_ = sim_het_somaK.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##KO model
+  sim_ko_somaK = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*2.2*factor, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=0,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  sim_ko_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_somaK-{factor}')
+  
+
+  ##KP
+  ##WT model
+  simwt_KP = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15*factor, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm1,_,wt_t1,_ = simwt_KP.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##het model
+  sim_het_KP = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2, KP=25*0.15*factor, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm1,_,het_t1,_ = sim_het_KP.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##KO model
+  sim_ko_KP = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*2.2, KP=25*0.15*factor, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=0,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  sim_ko_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_KP-{factor}')
+  
+
+  ##KT
+  ##WT model
+  simwt_KT = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5*factor,
+                            ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
+                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                            plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm1,_,wt_t1,_ = simwt_KT.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##het model
+  sim_het_KT = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5*factor,
+                            ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
+                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                            plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm1,_,het_t1,_ = sim_het_KT.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##KO model
+  sim_ko_KT = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5*factor,
+                            ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=0,node_na = 1,
+                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                            na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                            plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  sim_ko_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_KT-{factor}')
+
+
+  ##ais_ca
+  ##WT model
+  simwt_AISCA = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1*factor,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm1,_,wt_t1,_ = simwt_AISCA.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##het model
+  sim_het_AISCA = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1*factor,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm1,_,het_t1,_ = sim_het_AISCA.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##KO model
+  sim_ko_AISCA = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1*factor,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12=0,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  sim_ko_AISCA.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_AISCA-{factor}')
+ 
+ 
+  
+  ##ais_Kca
+  ##WT model
+  simwt_aisKca = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5*factor,soma_na16=1,soma_na12=3.2,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm1,_,wt_t1,_ = simwt_aisKca.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##het model
+  sim_het_aisKca = tf.Na12Model_TF(ais_nav12_fac=6,ais_nav16_fac=12,nav12=0.5,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5*factor,soma_na16=0.8+0.2,soma_na12=3.6-0.4,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm1,_,het_t1,_ = sim_het_aisKca.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+  ##KO model
+  sim_ko_aisKca = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=12,nav12=0,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5*factor,soma_na16=0.8+0.2,soma_na12=0,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  sim_ko_aisKca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO_aisKca-{factor}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '''
   for fac in [0.15]:
