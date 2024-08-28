@@ -131,7 +131,7 @@ rbs_vshift = 13.5
 
 filename12 = './params/na12_HH_081224.txt' ##12HH params file that you will update with values below in changesna12
 filename16 = './params/na16_HH_081224.txt' ##16HH params file that you will update with values below in changesna16
-filename_R850P = './params/R850P_HH_081424.txt'
+filename_R850P = './params/R850P_HH_082024.txt'
 ## 12HH mod file params can be changed below, don't need it for 081224
 """changesna12 = {
         "sh": 8,
@@ -236,7 +236,7 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 # for config_name, config in config_dict3.items():
-path = f'14Aug'
+path = f'20Aug'
 
   # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1, KP=25, KT=5,
   #                             ais_ca = 100,ais_Kca = 0.5,soma_na16=0.8+0.2,soma_na12 =3.6-0.4,node_na = 1,
