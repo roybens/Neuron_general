@@ -402,8 +402,8 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
-    # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
-    def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
+    def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
+    # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
     # def init_stim(self, sweep_len = 1000, stim_start = 30, stim_dur = 500, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
     
 
