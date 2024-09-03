@@ -267,8 +267,7 @@ class NeuronModel:
             print(eval('h.psection()'))
             # print(eval('h.cell.axon[0].psection()'))
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
-            # update_param_value(self,['SKv3_1'],'mtaumul',0.81) ##TF041924
-            # multiply_param(self,['SKv3_1'],'mtaumul',fac)
+            multiply_param(self,['SKv3_1'],'mtaumul',0.85) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'vtau',fac)
 
             
@@ -277,7 +276,7 @@ class NeuronModel:
             # multiply_param(self,['Ih'],'gIhbar',fac) ##TF82924
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
 
-            multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
+            # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
             
