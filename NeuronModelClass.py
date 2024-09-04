@@ -47,7 +47,8 @@ class NeuronModel:
                       node_na = 1,
                       soma_K=1,
                       dend_K=1,
-                      gpas_all=1
+                      gpas_all=1,
+                      fac=None
                       ):
         run_dir = os.getcwd()
 
