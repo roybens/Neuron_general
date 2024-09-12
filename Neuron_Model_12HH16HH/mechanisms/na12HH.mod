@@ -12,37 +12,37 @@ NEURON {
 }
 
 PARAMETER {
-	sh   = 8	(mV)
-	gbar = 0.01 :0.10 :0.245989   	(mho/cm2)	
+	sh   = 8.886047186457889	(mV)
+	gbar = 0.01    				(mho/cm2)	
 								
-	tha  =  -24.5	(mV)		: v 1/2 for act	
-	qa   = 5.41	(mV)		: act slope (4.5)		
-	Ra   = 0.3282 (/ms)		: open (v)		
-	Rb   = 0.1 	(/ms)		: close (v)		
+	tha  =  -24.155451306086988	(mV)		: v 1/2 for act	
+	qa   = 5.41					(mV)		: act slope (4.5)		
+	Ra   = 0.3380714915775742 	(/ms)		: open (v)		
+	Rb   = 0.09013136340161398 	(/ms)		: close (v)		
 
-	thi1  = -66.5	(mV)		: v 1/2 for inact 	
-	thi2  = -66.5 	(mV)		: v 1/2 for inact 	
-	qd   = 0.5	(mV)	        : inact tau slope
-	qg   = 1.5      (mV)
-	mmin=0.02	
-	hmin=0.01			
-	q10=2
-	Rg   = 0.01 	(/ms)		: inact recov (v) 	
-	Rd   = .02657 	(/ms)		: inact (v)	
-	qq   = 10        (mV)
-	tq   = -55      (mV)
+	thi1  = -60.488477521934875	(mV)		: v 1/2 for inact 	
+	thi2  = -77.41692349310195 	(mV)		: v 1/2 for inact 	
+	qd   = 0.8058343822410788	(mV)	        : inact tau slope
+	qg   = 0.6693522946835427    (mV)
+	mmin = 0.013671131800210966	
+	hmin = 0.008420778920829085			
+	q10 = 2.289601426305275
+	Rg   = 0.01854277725353276 	(/ms)		: inact recov (v) 	
+	Rd   = 0.025712394696815438 (/ms)		: inact (v)	
+	qq   = 10        			(mV)
+	tq   = -55      			(mV)
 
-	thinf  = -39.5 :-48.4785 	(mV)		: inact inf slope	
-	qinf  = 7.69	(mV)		: inact inf slope 
+	thinf  = -40.114984963535186  	(mV)		: inact inf slope	
+	qinf  = 5.760329120353593		(mV)		: inact inf slope 
 
-        vhalfs=-46.5	(mV)		: slow inact.
-        a0s=0.0003	(ms)		: a0s=b0s
-        zetas=12	(1)
-        gms=0.2		(1)
-        smax=10		(ms)
-        vvh=-58		(mV) 
-        vvs=2		(mV)
-        ar2=1		(1)		: 1=no inact., 0=max inact.
+        vhalfs = -33.73363659219147	(mV)		: slow inact.
+        a0s = 0.00036615946706607756	(ms)		: a0s=b0s
+        zetas = 13.419130866269455		(1)
+        gms = 0.14082624570054866		(1)
+        smax = 5.941545585888373		(ms)
+        vvh = -53.184249317587984		(mV) 
+        vvs = 0.7672523706054653		(mV)
+        ar2=1							(1)		: 1=no inact., 0=max inact.
 	ena		(mV)	
 	Ena = 55	(mV)            : must be explicitly def. in hoc
 	celsius

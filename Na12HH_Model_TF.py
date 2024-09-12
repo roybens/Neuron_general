@@ -10,31 +10,37 @@ import os
 import datetime
 
 
+
+
+###########################################
+###########################################
+###########################################
+###########################################
+## This is the Nav1.2 HH / Nav1.6 HH model with correct parameters/mechs as of 091224.
+###########################################
+###########################################
+###########################################
+########################################### 
+
 class Na12Model_TF:
-    def __init__(self,na12name = 'na12annaTFHH2',mut_name= 'na12annaTFHH2',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF2',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1, dend_nav12=1,
-                 update = None): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
+    def __init__(self,na12name = 'na12HH',mut_name= 'na12HH',  na12mechs = ['na12','na12mut'],
+                na16name = 'na16HH',na16mut_name ='na16HH', na16mechs = ['na16','na16'], 
+                params_folder = './params/',plots_folder = './Plots/',pfx='testprefix',update = None, fac=None,
+                K=1, 
+                dend_nav12=1, 
+                ais_nav12_fac=12,
+                ais_nav16_fac=12,
+                nav12=1,nav16=1.3, 
+                somaK=1*2.2*0.01, 
+                KP=25*0.15, 
+                KT=5, 
+                ais_ca = 100*8.6*0.1,
+                ais_Kca = 0.5,
+                soma_na16=1,
+                soma_na12=3.2,
+                node_na = 1):
         
-        #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
-        
-        
-        ###Active params commented as starting point TF
-        # ais_Kca = 0.5
-        # ais_ca = 0.04*ais_ca
-        #nav12 = 4.5
-        # nav16 = 1.1*nav16
-        # KP = 1.2*KP
-        # somaK = 0.5 * somaK
-        # KP=0.95*KP
-        # K = 4.8*K
-        # KT = 0.025*0.5*KT
-        ####################
-        
-        #nav16 = 2.1
-        #nav12 = 0.25 ##.25 seemed a little low since the synth muts didn't change much, increasing       
-        
-        ##Trying varying levels of nav12 to see which is best
-        #nav12 = 2.5#2#1.5 #1 #looked better 121323
+                              
 
 
         #Change K and Na to move FI
@@ -44,48 +50,6 @@ class Na12Model_TF:
         # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
         node_na = 0.5 #(0.5 good value, default following newAIS) #1#100#90#80#70#60#50#40#30#20 #10
 
-
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        #ais_ca = 2
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 3
-        #nav16 = 1
-        #KP = 0.1
-        #somaK = 2
-        #KP=3
-        #K=3
-        #KT = 0.5
-        
-
-        #***Nav12/16 densities 011624, altered in args of runNa12HMMTF.py
-        # nav12 = 2.25
-        # nav16 = 2
-        
-        #______________M1TTPC2
-        #nav12 = 3.5
-        #nav12 = 5 #Tim#######################
-        #nav16 = 1.2
-        # ais_Kca = 0.03*ais_Kca
-        # ais_ca = 0.04*ais_ca
-        # KP=1.1*KP
-        # K = 4.8*K
-        # KT = 0.025*0.5*KT
-
-        #___________________TTPC_M1_Na_HH.py from M1_TTPC2 branch
-        #ais_Kca = 0.03*ais_Kca
-        #K = 0.6
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 1.8 *nav12
-        #nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
-        
-        #nav12 = 1.2
-        #nav16 = 1.2
-        
-       #______________GY
-        #KP= KP
         
            
 
@@ -109,46 +73,7 @@ class Na12Model_TF:
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         self.pfx = pfx
     
-    
-
-    #     update_param_value(self.l5mdl,['SKv3_1'],'mtaumul',6)
    
-    #     self.mut_mech = [na12mechs[1]]  #new from Namut: different parameters for the wt and mut mechanisms
-    #     self.wt_mech = [na12mechs[0]]   #new from Namut
-    #     self.na16wt_mech = [na16mechs[0]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
-    #     self.na16mut_mech = [na16mechs[1]] ##TF021424 adding ability to update na16 (HH, shifted HH etc.)
-    #     self.na16mechs = na16mechs
-        
-
-    #  #this model originally makes het but if you put wt name as mut name it creates the WT and if you put mut name as
-    #  #na12name and mut_name then you will have homozygus
-    #     self.l5mdl.h.working()                                                 
-    #     p_fn_na12 = f'{params_folder}{na12name}.txt'  
-    #     p_fn_na12_mech = f'{params_folder}{mut_name}.txt'
-    #     print(f'using wt_file {na12name}')
-    #     self.na12_p = update_mech_from_dict(self.l5mdl, p_fn_na12, self.wt_mech)
-    #     print(eval("h.psection()")) 
-    #     print(f'using mut_file {mut_name}')
-    #     self.na12_pmech = update_mech_from_dict(self.l5mdl, p_fn_na12_mech, self.mut_mech) #update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False) 2nd arg (dict) updates 3rd (mech)
-    #     print(eval("h.psection()"))
-
-    #     #Adding ability to update with new Na16 mechs ##TF021424
-    #     # p_fn_na16 = f'{params_folder}{na16name}.txt'
-    #     # p_fn_na16_mech = f'{params_folder}{na16mut_name}.txt' ##Would have to implement this in class args if want to make na16 muts
-        
-    #     # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-    #     # h.printVals()
-
-    #     # for sec in h.cell.axon:
-    #     #     print("sh",sec.gIhbar_Ih)
-    #     #     print("SH",sec.sh_na16)
-
-
-
-    #     # self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16,self.na16wt_mech)
-    #     # h.printVals()
-    #     print(f'using na16 file {na16name}')
-    #     print(eval("h.psection()"))
         # print("TOPOLOGY BELOW ######################################################")
         # print(h("topology()"))
 
@@ -160,20 +85,6 @@ class Na12Model_TF:
         p_fn_na16 = f'{params_folder}{na16name}.txt'
         self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
         """
-
-    # def make_current_scape(self, sim_config = {
-    #                     'section' : 'soma',
-    #                     'segment' : 0.5,
-    #                     'section_num': 0,
-    #                     #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
-    #                     'currents' : ['ina','ica','ik'],
-    #                     'ionic_concentrations' :["cai", "ki", "nai"]
-                        
-    #                 }):
-
-    #     self.l5mdl.init_stim(amp=0.5,sweep_len = 500)
-    #     Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config)
-    #     return Vm, I, t, stim, ionic
     
 
     
@@ -579,30 +490,9 @@ class Na12Model_TF:
 
     ##_______________________Added to enable run of TTX and overexpression functions
     def plot_model_FI_Vs_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,fnpre = '',wt_fi = None,wt2_data=None, start=0,end=2,nruns=21, dt=0.005): #wt2_data=None,
-        
-        ########wt_fi = [0, 0, 6, 10, 14, 16, 18, 20, 21, 23, 24, 25, 26, 28, 29, 29, 30, 31, 32, 33, 33] #100%WT from MORAN
-        #wt2_data = [0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 36, 37, 39, 40, 41, 42, 42, 43] #K4 to move FI --blue
-        # wt_fi = [0, 0, 0, 0, 0, 0, 15, 20, 24, 26, 28, 30, 32, 33, 35, 36, 37, 38, 39, 40, 41] #K10 Na0 --black
-        #[0, 32, 40, 43, 44, 46, 47, 48, 49, 50, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62] na100
-        #wt2_data = [0, 0, 0, 0, 16, 20, 23, 26, 28, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43] #K6
-        #[0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 5, 5] #K=.1
-        #[0, 8, 15, 20, 23, 25, 26, 28, 30, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43] #K=.5
-        #[0, 6, 16, 20, 23, 25, 27, 29, 30, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44] #K=.75
-        #[0, 6, 15, 20, 22, 24, 26, 28, 29, 30, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42] #node_na=10
-        #[0, 6, 16, 21, 23, 25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44] #node_na=.1
-        
-        # wt2_data = [0, 0, 16, 21, 23, 25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44] #WT 1/10th --blue
-        # wt_fi = [0, 0, 0, 0, 0, 0, 16, 20, 23, 25, 27, 29, 30, 32, 33, 34, 35, 36, 37, 38, 39] #K10Na20  --Black 'wt'
-        
-        ###_________________________WT following redistribution of na12/16 in AIS
-        # wt_fi = [0, 0, 5, 9, 13, 16, 18, 20, 22, 23, 25, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 2na12, 4na16
-        # wt_fi = [0,0,4,9,13,16,18,20,22,24,25,27,28,29,31,32,33,34,35,36,37] #na12_HMM_TF100923 WT w/rounded AIS, 7,7 of ais_na12/16, and 4na12, 3na16
-        # wt_fi = [0,0,6,9,11,12,13,15,16,17,19,20,21,22,23,23,31,32,33,34,34] ##TF040324 FI vals from 12HH16HH working model 040324
-        # wt_fi = [0,0,0,2,7,8,9,10,11,12,13,13,14,14,15,16,16,17,17,18,18] ##TF052424 FI vals from 12HMM16HH working WT model
-        # wt_fi = [0, 0, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16] ##TF062424 FI vals for 12HMM16HMM WT model
+       
         wt_fi = [0, 0, 2, 6, 8, 10, 11, 12, 13, 14, 15, 15, 16, 17, 17, 18, 19, 19, 20, 20, 21] ##TF072624 Roy's HH tuning best FI
-        # wt2_data = [0, 0, 3, 7, 9, 10, 12, 13, 14, 15, 16, 17, 17, 18, 19, 19, 20, 21, 21, 22, 22] ##TF072624 Roy's HH tuning best FI HET
-        # wt2_data=[0, 0, 3, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 20, 21, 22, 22, 23] ## e1211k FI
+        
         
 
         for curr_amp in vs_amp: #vs_amp is list
