@@ -35,7 +35,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     Vm,t,extra_vms,_,__ = get_sim_volt_values(sim,mut_name,rec_extra=rec_extra)
     #creating the trace file
     stim_start = 100
-    stim_end = 600
+    stim_end = 800
     trace={}
     trace = {'T':t,'V':Vm,'stim_start':[stim_start],'stim_end':[stim_end]}
     trace['T']= trace['T'] * 1000
@@ -62,7 +62,11 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     print(f'isi_values: {isi_values}')
 
     start = int((stim_start + isi_values[0:median_spike-1].sum())/dt)    #dividing by dt to get into same unit
-    end = start + int(isi_values[median_spike]/dt)
+    try:
+        end = start + int(isi_values[median_spike]/dt)
+    except Exception as e:
+        end=10000
+        print("There were not enough spikes to calculate median isi")
     volt_segment = Vm[start:end]
     dvdt = np.gradient(volt_segment)/dt
     curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100)
