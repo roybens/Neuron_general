@@ -56,7 +56,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     #for dv/dt Peak 1 and Peak 2 and sum
     spike_count= features[0]['Spikecount']
     isi_values = features[0]['all_ISI_values']
-    median_spike = int(math.ceil(spike_count/2)) + 1
+    median_spike = int(math.floor(spike_count/2)) + 1
     #median spike location
     print(f'Length of isi_values{len(isi_values)}')
     print(f'isi_values: {isi_values}')
@@ -67,6 +67,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     except Exception as e:
         end=10000
         print("There were not enough spikes to calculate median isi")
+
     volt_segment = Vm[start:end]
     dvdt = np.gradient(volt_segment)/dt
     curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100)

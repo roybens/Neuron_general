@@ -204,7 +204,7 @@ node_na = 1
 
 
 params_dict = {
-    'ais_nav12_fac': ais_nav12_fac,
+    #'ais_nav12_fac': ais_nav12_fac,
     'ais_nav16_fac': ais_nav16_fac,
     'nav12': nav12,
     'nav16': nav16,
