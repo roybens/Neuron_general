@@ -141,7 +141,7 @@ def modify_dict_file(filename, changes):
 
 
 
-root_path_out = './Plots/12HH16HH/5-newAIS_raiseDVDT' ##path for saving your plots
+root_path_out = './global/homes/t/tfenton/Neuron_general-2/Plots/12HH16HH/5-newAIS_raiseDVDT' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
 
@@ -274,7 +274,7 @@ adilvariants={"R119I":{"Rd": 0.024792787327947992, "Rg": 0.017318376156443285, "
 "R1882Q":{"Rd": 0.02093349028084322, "Rg": 0.0007472860156779264, "Rb": 0.07927214191553893, "Ra": 0.2475582366027324, "a0s": 1.5230979549604022e-05, "gms": 0.048841308410614674, "hmin": 0.00602984081830873, "mmin": 0.02820171095754885, "qinf": 5.616184882677683, "q10": 2.6472525868201036, "qg": 0.9694186531991292, "qd": 0.6756849366292822, "qa1": 6.0475451034309415, "smax": 14.046910536232756, "sh": 8.220352401570626, "thinf": -35.09461557545267, "thi2": -79.90360710970097, "thi1": -53.502277322579545, "tha": -23.3300440365342, "vvs": 0.7256665808935034, "vvh": -40.39913709527713, "vhalfs": -19.029441887333466, "zetas": 13.328784044528954}}
 
 for config_name, config in config_dict3.items():
-  path = f'36-AdilHHvariants_800sweep_slurm'
+  path = f'37-AdilHHvariants_800sweep_slurm-2'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
 #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
 #                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],

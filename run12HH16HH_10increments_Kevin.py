@@ -158,8 +158,8 @@ for config_name, config in config_dict3.items():
 # fig,axs = plt.subplots(1,1)
 fig, axs = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
 cmap = cm.get_cmap('rainbow')
-for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-# for i, factor in enumerate([0.1,0]):
+# for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+for i, factor in enumerate([0]):
 
   ## WT vs HET vs Mut  
   ##WT model
@@ -168,7 +168,13 @@ for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  Vm,_,t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5  
+  Vm,_,t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+
+  # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  # simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
+  # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+  # fig_volts.savefig(f'{simwt.plot_folder}/16-{factor}.pdf') #Change output file path here 
+
   dvdt = np.gradient(Vm)/0.005
   color = cmap(i/11)
   axs.plot(Vm[1:25000],dvdt[1:25000],color=color, alpha=0.8,linewidth=1)
