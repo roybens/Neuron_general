@@ -158,6 +158,49 @@ def make_ppt_from_pdf2(pdf_path, output_ppt_path):
   print(f"Successfully converted PDFs to PowerPoint presentation: {output_ppt_path}")
   return
 
+def make_ppt_from_pdf3(pdf_path, output_ppt_path):
+  prs = Presentation()
+  blank_slide_layout = prs.slide_layouts[6]
+  slide = prs.slides.add_slide(blank_slide_layout)
+  left = top = width = height = Inches(0.5)
+  
+  
+  # file = open("/global/homes/t/tfenton/Neuron_general-2/JUPYTERmutant_list.txt", "r")
+  # lines = file.readlines()
+  # for line in lines: #mut1_1,mut1_2 etc.
+  #   mut_txt = line.strip()
+  #   print(mut_txt)
+    
+  for folder in sorted(os.listdir(pdf_path)): #Sort the listed directories so output pptx is somewhat in order 
+      if os.path.isdir(os.path.join(pdf_path, folder)):# Check if it's a directory
+        slide = prs.slides.add_slide(blank_slide_layout) #Add slide for each folder. Each slide will have multiple plots on it
+        txBox = slide.shapes.add_textbox(left,top,width,height) #Add text box for title
+        tf = txBox.text_frame
+        page_count = 0
+        for filename in sorted(os.listdir(os.path.join(pdf_path, folder))):# Access files within the folder, and sort them to appear in sam order on slide
+          if filename.endswith(".pdf"):
+  
+            file = os.path.join(pdf_path,folder, filename) #pdf file path
+            
+            tf.text = folder
+            print(folder)
+            
+            doc = fitz.open(file)
+            for page in doc:  # iterate through the pages
+              pix = page.get_pixmap(dpi=150)  # render page to an image
+              pix.save(f"{pdf_path}/{folder}-{filename}.png")  # store image as a PNG
+              
+              
+              slide.shapes.add_picture(f"{pdf_path}/{folder}-{filename}.png",left=Inches(page_count*2.5),top=Inches(1), width=Inches(2.5))
+              print(page_count)
+          page_count+=1
+          
+  
+  prs.save(output_ppt_path)
+  print(f"Successfully converted PDFs to PowerPoint presentation: {output_ppt_path}")
+  return
+
+
 
 #This function plots efel efeatures as bar graphs (in this case HH and HMM)
 def plot_efeatures_bar(plot_folder,pfx):
@@ -342,8 +385,8 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 
 #combine_and_sort_ef_csvs(root_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/AllSynthMuts_121223/', out_sfx='allsynthmuts_121323_sorted')
 
-# make_ppt_from_pdf2(pdf_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16',
-                  # output_ppt_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/finetune_nav16/finetune_na16_012524.pptx')
+make_ppt_from_pdf2(pdf_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824',
+                  output_ppt_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824/HHmuts.pptx')
 
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
