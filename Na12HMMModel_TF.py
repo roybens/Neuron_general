@@ -410,7 +410,7 @@ class Na12Model_TF:
     
     
     #Function for getting raw data from WT to superimpose under mut plots
-    def get_stim_raw_data(self,stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500,sim_config = {
+    def get_stim_raw_data(self,stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1600,sim_config = {
         #changing to get different firing at different points along neuron TF 011624
                 # 'section' : 'axon',
                 # 'section_num' : 0,
@@ -668,8 +668,8 @@ class Na12Model_TF:
         #     wr.writerow(fi_ans)
         # return fi_ans
     ##_________________________________________________________________________________________________
-    def plot_fi_curve_2line(self,start,end,nruns,wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
-        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}/{fn}.pdf') #add in wt2_data for another line
+    def plot_fi_curve_2line(self,start,end,nruns,epochlabel,wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
+        fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}/{fn}.pdf',epochlabel=epochlabel) #add in wt2_data for another line
         print(fis)
         with open (f'{self.plot_folder}/{fn}-FI-list.txt','w') as file:
             file.write(','.join(str(fi) for fi in fis))

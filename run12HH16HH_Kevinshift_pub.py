@@ -168,7 +168,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'58-newAIS_FI_etc'
+  path = f'63-allpubfigs_2000swp_testax'
 
 
 # for factor in [0.00001,0.0001,0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100,1000,10000,100000]:
@@ -181,6 +181,33 @@ for config_name, config in config_dict3.items():
 fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
 fig2, axs2 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
 fig3, axs3 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+
+xmin=-80
+xmax=40
+ymin=-100
+ymax=700
+
+xmin1=0
+xmax1=2
+ymin1=-80
+ymax1=40
+
+
+axs1.set_xlim(xmin, xmax)  # Replace xmin and xmax with your desired limits
+axs1.set_ylim(ymin, ymax)  # Replace ymin and ymax with your desired limits
+axs1.set_xticks([-80,-60,-40,-20,0,20,40])
+axs1.set_yticks([-100,0,100,200,300,400,500,600])
+
+axs2.set_xlim(xmin, xmax)
+axs2.set_ylim(ymin, ymax)
+axs2.set_xticks([-80,-60,-40,-20,0,20,40])
+axs2.set_yticks([-100,0,100,200,300,400,500,600])
+                
+axs3.set_xlim(xmin, xmax)
+axs3.set_ylim(ymin, ymax)
+axs3.set_xticks([-80,-60,-40,-20,0,20,40])
+axs3.set_yticks([-100,0,100,200,300,400,500,600])                
+
 cmap = cm.get_cmap('rainbow')
 # for factor2 in [0.0001,0.001,0.01,0.1,0.5,1,2,4,6]:
 # for factor2 in [1]:
@@ -193,18 +220,19 @@ for mutname,dict in shift5.items():
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
-  simwt = tf.Na12Model_TF(ais_nav12_fac=12*0.6,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+  simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                                   na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-  wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI')
+  wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1600, sim_config = config) #stim_amp=0.5
+  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI-testAxis', epochlabel='200ms')
   
-  for fac in [0.6]:
+  for fac in [1.2]:
     ###############################################################################################################################################################
     ##### ais12
     for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+    # for i, factor in enumerate([0]):
       color = cmap(i/11)
     
       ## 1.2 factor
@@ -213,18 +241,28 @@ for mutname,dict in shift5.items():
                                   na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-      Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+      Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.75,dt=0.005,rec_extra=False,stim_dur=1600, sim_config = config) #stim_amp=0.5
       dvdt1 = np.gradient(Vm12)/0.005
       axs1.plot(Vm12[1:12000],dvdt1[1:12000],color=color, alpha=0.8,linewidth=1)
       
-      NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_{factor}')
-      sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'12-{factor}-FI')
-      sim12.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'12-{factor}-')
+      # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_{factor}')
 
-      fig_volts,axs4 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-      sim12.plot_stim(axs = axs4[0],stim_amp = 0.3,dt=0.005, clr=color)
-      plot_dvdt_from_volts(sim12.volt_soma, sim12.dt, axs4[1],clr=color)
-      fig_volts.savefig(f'{sim12.plot_folder}/12-{factor}.pdf') #Change output file path here 
+      # sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'12-{factor}-FI-testfixedaxis',epochlabel='1600ms')
+      # sim12.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'12-{factor}-')
+
+      # fig_volts,axs4 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      
+      # sim12.plot_stim(axs = axs4[0],stim_amp = 0.3,dt=0.005, clr=color, stim_dur = 1600)
+      # plot_dvdt_from_volts(sim12.volt_soma, sim12.dt, axs4[1],clr=color)
+      # axs4[0].set_xlim(xmin1, xmax1)
+      # axs4[0].set_ylim(ymin1, ymax1)
+      # axs4[0].set_xticks([0.0, 0.5,1,1.5,2])
+      # axs4[0].set_yticks([-80,-60,-40,-20,0,20,40])
+      # axs4[1].set_xlim(xmin, xmax)
+      # axs4[1].set_ylim(ymin, ymax)
+      # axs4[1].set_xticks([-80,-60,-40,-20,0,20,40])
+      # axs4[1].set_yticks([-100,0,100,200,300,400,500,600])
+      # fig_volts.savefig(f'{sim12.plot_folder}/12-{factor}-spikedvdt.pdf') #Change output file path here 
       
 
 
@@ -239,13 +277,21 @@ for mutname,dict in shift5.items():
       dvdt2 = np.gradient(Vm16)/0.005
       axs2.plot(Vm16[1:15000],dvdt2[1:15000],color=color, alpha=0.8,linewidth=1)
 
-      sim16.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'16-{factor}-FI')
-      sim16.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'16-{factor}-')
+      # sim16.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'16-{factor}-FI',epochlabel='1600ms')
+      # sim16.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'16-{factor}-')
 
-      fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-      sim16.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color)
-      plot_dvdt_from_volts(sim16.volt_soma, sim12.dt, axs5[1],clr=color)
-      fig_volts.savefig(f'{sim16.plot_folder}/16-{factor}.pdf') #Change output file path here 
+      # fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      # sim16.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color, stim_dur = 1600)
+      # plot_dvdt_from_volts(sim16.volt_soma, sim12.dt, axs5[1],clr=color)
+      # axs5[0].set_xlim(xmin1, xmax1)
+      # axs5[0].set_ylim(ymin1, ymax1)
+      # axs5[0].set_xticks([0.0, 0.5,1,1.5,2])
+      # axs5[0].set_yticks([-80,-60,-40,-20,0,20,40])
+      # axs5[1].set_xlim(xmin, xmax)
+      # axs5[1].set_ylim(ymin, ymax)
+      # axs5[1].set_xticks([-80,-60,-40,-20,0,20,40])
+      # axs5[1].set_yticks([-100,0,100,200,300,400,500,600])
+      # fig_volts.savefig(f'{sim16.plot_folder}/16-{factor}-spikedvdt.pdf') #Change output file path here 
 
 
 
@@ -260,18 +306,39 @@ for mutname,dict in shift5.items():
       dvdt3 = np.gradient(Vm1216)/0.005
       axs3.plot(Vm1216[1:15000],dvdt3[1:15000],color=color, alpha=0.8,linewidth=1)
 
-      sim1216.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'1216-{factor}-FI')
-      sim1216.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'1216-{factor}-')
+      # sim1216.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'1216-{factor}-FI',epochlabel='1600ms')
+      # sim1216.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'1216-{factor}-')
 
-      fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-      sim1216.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color)
-      plot_dvdt_from_volts(sim1216.volt_soma, sim12.dt, axs5[1],clr=color)
-      fig_volts.savefig(f'{sim1216.plot_folder}/1216-{factor}.pdf') #Change output file path here  
+      # fig_volts,axs6 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      # sim1216.plot_stim(axs = axs6[0],stim_amp = 0.3,dt=0.005, clr=color, stim_dur = 1600)
+      # plot_dvdt_from_volts(sim1216.volt_soma, sim12.dt, axs6[1],clr=color)
+      # axs6[0].set_xlim(xmin1, xmax1)
+      # axs6[0].set_ylim(ymin1, ymax1)
+      # axs6[0].set_xticks([0.0, 0.5,1,1.5,2])
+      # axs6[0].set_yticks([-80,-60,-40,-20,0,20,40])
+      # axs6[1].set_xlim(xmin, xmax)
+      # axs6[1].set_ylim(ymin, ymax)
+      # axs6[1].set_xticks([-80,-60,-40,-20,0,20,40])
+      # axs6[1].set_yticks([-100,0,100,200,300,400,500,600])
+      # fig_volts.savefig(f'{sim1216.plot_folder}/1216-{factor}-spikedvdt.pdf') #Change output file path here  
       
       # color = cmap(stim/11)
       # axs.plot(Vm[8000:14000],dvdt[8000:14000],color=color, alpha=0.8,linewidth=1)
-      
-    suf= f'{mutname}_ais12-{fac}_ais16-0.6_lessearly16-8_moremiddle'
+
+
+    ##1.6 factor Adding 0% 1.6 with bigger stim to get something
+    sim16 = tf.Na12Model_TF(ais_nav12_fac=12*fac,ais_nav16_fac=12*0.6*0,nav12=1,nav16=1.3*0, somaK=1*2.2*0.01, KP=25*0.15, KT=5, #ais_nav16_fac=12*0.2*factor
+                                ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+    Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =1.5 ,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+    dvdt2 = np.gradient(Vm16)/0.005
+    axs2.plot(Vm16[1:15000],dvdt2[1:15000],color=color, alpha=0.8,linewidth=1)
+
+
+
+    suf= f'{mutname}_FIXED_AXES'
     out1 = f'{root_path_out}/{path}/dvdt12-{suf}.pdf'
     out2 = f'{root_path_out}/{path}/dvdt16-{suf}.pdf'
     out3 = f'{root_path_out}/{path}/dvdt1216-{suf}.pdf'

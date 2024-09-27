@@ -40,7 +40,7 @@ def cm_to_in(cm):
 
 
 
-def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.01,fn = './Plots/ficurve.pdf'):
+def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.01,fn = './Plots/ficurve.pdf',epochlabel='500ms'):
     all_volts = []
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
@@ -59,7 +59,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         ax1.plot(x_axis,npeaks,marker = 'o',markersize=1.5,linestyle = '-',color = 'red')
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
-    ax1.set_ylabel('nAPs for 500ms epoch')
+    ax1.set_ylabel(f'nAPs for {epochlabel} epoch')
     if wt_data is None:
         fig.show()
         fig.savefig(fn)
@@ -69,9 +69,18 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         if wt2_data is not None:
           ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1.5, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
         #ax1.plot(x_axis,wt_data,'black')
+    
+    ##TF092724 Added to standardize Axes for Kevin's paper
+    ymin=0
+    ymax=35
+    ax1.set_ylim(ymin,ymax)
+    ax1.set_yticks([0,5,10,15,20,25,30,35])
+
     fig.show()
     fig.savefig(fn)
     return(npeaks)
+
+
 def plot_dvdt_from_volts(volts,dt,axs=None,clr = 'black',skip_first = False): #red #99023c #blue #6cc9ff #007dbc
     if skip_first:
         curr_peaks,_ = find_peaks(volts,height = -20)

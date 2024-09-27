@@ -75,7 +75,7 @@ if not os.path.exists(root_path_out): ##make directory if it doens't exist
 
 rbs_vshift = 13.5
 
-filename12 = './params/na12annaTFHH.txt' ##12HH params file that you will update with values below in changesna12
+filename12 = './params/na12annaTFHH3.txt' ##12HH params file that you will update with values below in changesna12
 filename16 = './params/na16HH_TF2.txt' ##16HH params file that you will update with values below in changesna16
 
 ## 12HH mod file params can be changed below
@@ -168,7 +168,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'58-FIcurves_newAIS'
+  path = f'60-morecurved16_2_300swp'
 
 
 # for factor in [0.00001,0.0001,0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100,1000,10000,100000]:
@@ -194,48 +194,77 @@ for mutname,dict in shift5.items():
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
-
-  for fac in [0.6]:
+  simwt = tf.Na12Model_TF(ais_nav12_fac=12*0.6,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                                  ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                  na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
+                                  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI')
+  
+  # for fac in [0.6]:
+  for fac in [1.2]:
     ###############################################################################################################################################################
     ##### ais12
-    for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+    # for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+    for i, factor in enumerate([0.5,0]):
       color = cmap(i/11)
     
       ## 1.2 factor
       sim12 = tf.Na12Model_TF(ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.6,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                                  na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                  na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
       Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
       dvdt1 = np.gradient(Vm12)/0.005
       axs1.plot(Vm12[1:12000],dvdt1[1:12000],color=color, alpha=0.8,linewidth=1)
-      NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_{factor}_2')
+      # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_{factor}_2')
+      sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'12-{factor}-FI')
+      # fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      # sim12.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color)
+      # plot_dvdt_from_volts(sim12.volt_soma, sim12.dt, axs5[1],clr=color)
+      # fig_volts.savefig(f'{sim12.plot_folder}/12-{factor}.pdf')
       
       ##1.6 factor
       sim16 = tf.Na12Model_TF(ais_nav12_fac=12*fac,ais_nav16_fac=12*0.6*factor,nav12=1,nav16=1.3*factor, somaK=1*2.2*0.01, KP=25*0.15, KT=5, #ais_nav16_fac=12*0.2*factor
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                                  na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                  na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
       Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
       dvdt2 = np.gradient(Vm16)/0.005
       axs2.plot(Vm16[1:15000],dvdt2[1:15000],color=color, alpha=0.8,linewidth=1)
+      sim16.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'16-{factor}-FI')
+
 
       ##1.2 and 1.6 factor
       sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.6*factor,nav12=1*factor,nav16=1.3*factor, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8*factor,soma_na12=3.2*0.8*factor,node_na = 1,
-                                  na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                  na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
       Vm1216,_,t1216,_ = sim1216.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
       dvdt3 = np.gradient(Vm1216)/0.005
-      axs3.plot(Vm1216[1:15000],dvdt3[1:15000],color=color, alpha=0.8,linewidth=1) 
+      axs3.plot(Vm1216[1:15000],dvdt3[1:15000],color=color, alpha=0.8,linewidth=1)
+      sim1216.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'1216-{factor}-FI')
+ 
       
       # color = cmap(stim/11)
       # axs.plot(Vm[8000:14000],dvdt[8000:14000],color=color, alpha=0.8,linewidth=1)
-      
-    suf= f'{mutname}_ais12-{fac}_ais16-0.6_2'
+    
+    
+    ##1.6 factor Adding 0% 1.6 with bigger stim to get something
+    sim16 = tf.Na12Model_TF(ais_nav12_fac=12*fac,ais_nav16_fac=12*0.6*0,nav12=1,nav16=1.3*0, somaK=1*2.2*0.01, KP=25*0.15, KT=5, #ais_nav16_fac=12*0.2*factor
+                                ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+    Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =1 ,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+    dvdt2 = np.gradient(Vm16)/0.005
+    axs2.plot(Vm16[1:15000],dvdt2[1:15000],color=color, alpha=0.8,linewidth=1)
+
+    suf= f'{mutname}_ais12-{fac}_ais16-0.6_test'
     out1 = f'{root_path_out}/{path}/dvdt12-{suf}.pdf'
     out2 = f'{root_path_out}/{path}/dvdt16-{suf}.pdf'
     out3 = f'{root_path_out}/{path}/dvdt1216-{suf}.pdf'
@@ -259,7 +288,7 @@ for mutname,dict in shift5.items():
   ## 44-vshift12_092424
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -267,7 +296,7 @@ for mutname,dict in shift5.items():
   ## 45-vshift12_092424 only muts 5-7
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.2,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -276,7 +305,7 @@ for mutname,dict in shift5.items():
   ## 46-vshift12_092424 only muts 3-7
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.5,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -285,7 +314,7 @@ for mutname,dict in shift5.items():
   ## 47-vshift12_092424 only muts 3-5
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.4,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -294,7 +323,7 @@ for mutname,dict in shift5.items():
   ## 48-vshift12_092424 only muts 3-5 **Original AIS 0-ais12/3
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.4,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -303,7 +332,7 @@ for mutname,dict in shift5.items():
   ## 49-vshift12_092424 only 7. updated AIS. 
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.2,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -312,7 +341,7 @@ for mutname,dict in shift5.items():
   
   # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*factor,ais_nav16_fac=12*0.2,nav12=1*factor,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav16_fac=12*0.2*factor
   #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-  #                               na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+  #                               na12name = 'na12annaTFHH3',mut_name = 'na12annaTFHH3',na12mechs = ['na12','na12mut'],
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
@@ -417,7 +446,7 @@ for mutname,dict in shift5.items():
 # 	////////////////////////////////////////
 
 
-  # 57-refineAIS_092624 {mutname}_ais12-{fac}_ais16-0.6_2
+  # 57-refineAIS_092624 {mutname}_ais12-{fac}_ais16-0.6_2 --> this is wrong!
   # ////////////////////////////////////////
 	# //New distribution from Kevin's guidance 092424//
 	# //"have 1.2 drop to 0 gBar by segment 3 instead of segment 5.  i know we're going for Hu Shu style where it looks like half half but the data support something more like 1/3rd 1.2
@@ -435,6 +464,124 @@ for mutname,dict in shift5.items():
 	# gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/8 //0:ais_na16/3
 	# gbar_na16mut(2*ais_end/10:3*ais_end/10) = ais_na16/6:ais_na16/2 //ais_na16/3:ais_na16/2
 	# gbar_na16mut(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 //ais_na16/3:ais_na16/2
+	# gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
+	# gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	# gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+
+
+	# //WT 1.2
+	# //gbar_na12(0:ais_end/10) = 0:ais_na12/3
+	# gbar_na12(0:ais_end/10) = ais_na12/8:ais_na12/2
+	# gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	# gbar_na12(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	# //gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	# gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	# gbar_na12(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+
+	# //Mut 1.2
+	# //gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
+	# gbar_na12mut(0:ais_end/10) = ais_na12/8:ais_na12/2
+	# gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	# gbar_na12mut(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	# //gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	# gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	# gbar_na12mut(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+	
+	# gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	# gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	# ////////////////////////////////////////
+
+
+  
+  # 60-testing more curved 1.6
+	# ////////////////////////////////////////
+	# //New distribution from Kevin's guidance 092424//
+	# //"have 1.2 drop to 0 gBar by segment 3 instead of segment 5.  i know we're going for Hu Shu style where it looks like half half but the data support something more like 1/3rd 1.2
+	# //then take the 1.6 value at 6 and move that to position 3.  connect with a smooth line" - Kevin
+	
+	# //WT 1.6
+	# gbar_na16(0:2*ais_end/10) = 0:ais_na16/8  //0:ais_na16/3
+	# gbar_na16(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	# gbar_na16(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 
+	# gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	# //Mut 1.6
+	# gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/8 //0:ais_na16/3
+	# gbar_na16mut(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	# gbar_na16mut(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 //ais_na16/3:ais_na16/2
+	# gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
+	# gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	# gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+
+
+	# //WT 1.2
+	# //gbar_na12(0:ais_end/10) = 0:ais_na12/3
+	# gbar_na12(0:ais_end/10) = ais_na12/8:ais_na12/2
+	# gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	# gbar_na12(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	# //gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	# gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	# gbar_na12(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+
+	# //Mut 1.2
+	# //gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
+	# gbar_na12mut(0:ais_end/10) = ais_na12/8:ais_na12/2
+	# gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	# gbar_na12mut(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	# //gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	# gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	# gbar_na12mut(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+	
+	# gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	# gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	# ////////////////////////////////////////
+
+
+
+
+
+
+##################***************************************** CORRECT!!!!*****************************************########################
+  # 60-morecurved16_2
+  # ////////////////////////////////////////
+	# //New distribution from Kevin's guidance 092424//
+	# //"have 1.2 drop to 0 gBar by segment 3 instead of segment 5.  i know we're going for Hu Shu style where it looks like half half but the data support something more like 1/3rd 1.2
+	# //then take the 1.6 value at 6 and move that to position 3.  connect with a smooth line" - Kevin
+	
+	# //WT 1.6
+	# //gbar_na16(0:2*ais_end/10) = 0:ais_na16/8  //0:ais_na16/3
+	# //gbar_na16(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	# //gbar_na16(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 
+	# //gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# //gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# //gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	# //Mut 1.6
+	# //gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/8 //0:ais_na16/3
+	# //gbar_na16mut(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	# //gbar_na16mut(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 //ais_na16/3:ais_na16/2
+	# //gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# //gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# //gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
+	# //WT 1.6
+	# gbar_na16(0:2*ais_end/10) = 0:ais_na16/3
+	# gbar_na16(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
+	# gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	# gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	# gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	# //Mut 1.6
+	# gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/3
+	# gbar_na16mut(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
 	# gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
 	# gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
 	# gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2

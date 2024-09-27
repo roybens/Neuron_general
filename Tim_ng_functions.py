@@ -385,8 +385,8 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 
 #combine_and_sort_ef_csvs(root_path='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/AllSynthMuts_121223/', out_sfx='allsynthmuts_121323_sorted')
 
-make_ppt_from_pdf2(pdf_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824',
-                  output_ppt_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824/HHmuts.pptx')
+# make_ppt_from_pdf2(pdf_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824',
+#                   output_ppt_path='./Plots/12HH16HH/5-newAIS_raiseDVDT/37-AdilHHvariants_800sweep_091824/HHmuts.pptx')
 
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
