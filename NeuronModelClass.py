@@ -306,6 +306,7 @@ class NeuronModel:
         plt.ylabel('gbar')
         plt.title("Distribution of Nav12 and Nav16")
         plt.savefig(name+".png", dpi=400)
+        plt.savefig(f'{name}.pdf',dpi=400)
     
     ## Function for plotting channel densities in apical dendrite, soma, axon
     def chandensities2 (name = f"./Plots/12HH16HH/5-newAIS_raiseDVDT/49-vshift12_092424"):
@@ -317,51 +318,49 @@ class NeuronModel:
         sections = []
         
         
-        # for sec in h.cell.apic[0]:
-        #     for seg in sec:
-        #         print(seg)
-        #         section = f'h.distance.{seg}'
-        #         distance = -1 #h.distance(0,seg) ## Because section only has 1 seg, there is no distance
-        #         print(f'Distance_SEG{distance}')
-        #         distances.append(distance)
-        #         sections.append(section)
+        for sec in h.cell.apic[0]:
+            print(sec)
+            section = f'h.distance.{sec}'
+            distance = h.distance(0, sec)*-1 #h.distance(0,seg) ## Because section only has 1 seg, there is no distance
+            print(f'Distance_SEG{distance}')
+            distances.append(distance)
+            sections.append(section)
 
-        #         na12_gbar = seg.gbar_na12
-        #         print(na12_gbar)
-        #         na12_densities.append(na12_gbar)
+            na12_gbar = sec.gbar_na12
+            print(na12_gbar)
+            na12_densities.append(na12_gbar)
 
-        #         na16_gbar = seg.gbar_na16
-        #         print(na16_gbar)
-        #         na16_densities.append(na16_gbar)
+            na16_gbar = sec.gbar_na16
+            print(na16_gbar)
+            na16_densities.append(na16_gbar)
 
-        #         na12mut_gbar = seg.gbar_na12mut
-        #         na12mut_densities.append(na12mut_gbar)
+            na12mut_gbar = sec.gbar_na12mut
+            na12mut_densities.append(na12mut_gbar)
 
-        #         na16mut_gbar = seg.gbar_na16mut
-        #         na16mut_densities.append(na16mut_gbar)
+            na16mut_gbar = sec.gbar_na16mut
+            na16mut_densities.append(na16mut_gbar)
 
         for sec in h.cell.soma[0]:
-            for seg in sec:
-                print(seg)
-                section = f'h.distance.{seg}'
-                distance =0  #h.distance(0,seg) ## Because section only has 1 seg, there is no distance
-                print(f'Distance_SEG{distance}')
-                distances.append(distance)
-                sections.append(section)
+            print(sec)
+            section = f'h.distance.{sec}'
+            distance =0  #h.distance(0,seg) ## Because section only has 1 seg, there is no distance
+            print(f'Distance_SEG{distance}')
+            distances.append(distance)
+            sections.append(section)
 
-                na12_gbar = seg.gbar_na12
-                print(na12_gbar)
-                na12_densities.append(na12_gbar)
+            na12_gbar = sec.gbar_na12
+            print(na12_gbar)
+            na12_densities.append(na12_gbar)
 
-                na16_gbar = seg.gbar_na16
-                print(na16_gbar)
-                na16_densities.append(na16_gbar)
+            na16_gbar = sec.gbar_na16
+            print(na16_gbar)
+            na16_densities.append(na16_gbar)
 
-                na12mut_gbar = seg.gbar_na12mut
-                na12mut_densities.append(na12mut_gbar)
+            na12mut_gbar = sec.gbar_na12mut
+            na12mut_densities.append(na12mut_gbar)
 
-                na16mut_gbar = seg.gbar_na16mut
-                na16mut_densities.append(na16mut_gbar)
+            na16mut_gbar = sec.gbar_na16mut
+            na16mut_densities.append(na16mut_gbar)
 
         for sec in h.cell.axon:
             for seg in sec:
@@ -407,11 +406,12 @@ class NeuronModel:
         plt.plot(df['na16'],label='Nav16', color='red')
         plt.plot(df['na16mut'],label='Nav16_Mut', color='orange', alpha=0.5, linestyle='dashed')
         plt.legend()
-        plt.xticks(range(1,len(distances)), rotation=270)
+        plt.xticks(range(-1,len(distances)), rotation=270)
         plt.xlabel('Segment of Axon')
         plt.ylabel('gbar')
         plt.title("Distribution of Nav12 and Nav16")
         plt.savefig(name+".png", dpi=400)
+        plt.savefig(name+".pdf", dpi=400)
     
     
     # def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
@@ -420,7 +420,7 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
     
     
-    def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
     # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
@@ -428,7 +428,7 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2
     # def init_stim(self, sweep_len = 1000, stim_start = 100, stim_dur = 700, amp = 0.3, dt = 0.1):
     
-    # def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1600, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1600, amp = 0.3, dt = 0.1):
 
         # updates the stimulation params used by the model
         # time values are in ms

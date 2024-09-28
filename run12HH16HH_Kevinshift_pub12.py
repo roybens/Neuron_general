@@ -168,7 +168,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'63-pubfigs_2000swp_12'
+  path = f'65-pubfigs_chandensitiespdf'
 
 
 # for factor in [0.00001,0.0001,0.001,0.01,0.1,0.25,0.5,0.75,1,1.2,2,4,6,10,25,50,100,1000,10000,100000]:
@@ -211,19 +211,21 @@ for mutname,dict in shift5.items():
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filename12,dict)
 #   # modify_dict_file(filename16,dict)
-  simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+  simwt = tf.Na12Model_TF(ais_nav12_fac=12*0.6,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                                   na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1600, sim_config = config) #stim_amp=0.5
-  wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='1600ms')
-  
+  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='1600ms')
+  NeuronModel.chandensities2(name = f'{root_path_out}/{path}/densities4-somadend')
+  # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities')
+
   for fac in [1.2]:
     ###############################################################################################################################################################
     ##### ais12
-    for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-    # for i, factor in enumerate([1,0.2,0]):
+    # for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+    for i, factor in enumerate([1]):
       color = cmap(i/11)
     
       ## 1.2 factor
