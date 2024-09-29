@@ -146,8 +146,31 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 # for config_name, config in config_dict3.items():
-path = f'20Aug_correctWT_250pA'
-amp_val = 0.0030
+path = f'Developing_reducedNa'
+amp_val = 0.5
+
+
+## Reduced sodium channel : until no spontaneous
+
+for i in [0.1]:
+  for j in [10]:
+    simwt = tf.Na12Model_TF(ais_nav12_fac=i*12,ais_nav16_fac=i*12,nav12=i*1,nav16=i*1.3, somaK=1*2.2, KP=25*0.15, KT=j*5,
+                                  ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=i*1,soma_na12=i*3.2,node_na = i*1,
+                                  na12name = 'na12_HH_082024',mut_name = 'na12_HH_082024',na12mechs = ['na12','na12mut'],
+                                  na16name =  'na12_HH_082024',na16mut_name =  'na12_HH_082024',na16mechs=['na12','na12mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}/', update=True, fac=None)
+    wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = amp_val,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma)
+    #simwt.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[amp_val], fnpre=f'WTvsHET')#sim_config for changing regions
+    wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=1,nruns=100, fn=f'/WT-aisca_fac-{j}')
+
+  #simwt.make_currentscape_plot(amp=amp_val, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
+  #NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities') ##TF uncomment to run function and plot channel densities in axon[0]
+    
+
+
+
+"""
+
 
 for factor in [0.1]:
   simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
@@ -182,4 +205,4 @@ for factor in [0.1]:
   sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[amp_val], fnpre=f'WTvHETvKO_800sweep')#sim_config for changing regions
   sim_ko.make_currentscape_plot(amp=amp_val, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
   #NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
-  
+  """
