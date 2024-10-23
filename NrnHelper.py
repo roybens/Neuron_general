@@ -61,10 +61,11 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel(f'nAPs for {epochlabel} epoch')
     
-    ymin=0
-    ymax=40
-    ax1.set_ylim(ymin,ymax)
-    ax1.set_yticks([0,5,10,15,20,25,30,35])
+    ## Set min/max and axes manually
+    # ymin=0
+    # ymax=40
+    # ax1.set_ylim(ymin,ymax)
+    # ax1.set_yticks([0,5,10,15,20,25,30,35])
     
     if wt_data is None:
         fig.show()
@@ -73,26 +74,29 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     else:
         ax1.plot(x_axis,wt_data,marker = 'o',markersize=1.5,linestyle = '-',color = 'black') #mutant will be red
         
-        ymin=0
-        ymax=40
-        ax1.set_ylim(ymin,ymax)
-        ax1.set_yticks([0,5,10,15,20,25,30,35])
+        ## Set min/max and axes manually
+        # ymin=0
+        # ymax=40
+        # ax1.set_ylim(ymin,ymax)
+        # ax1.set_yticks([0,5,10,15,20,25,30,35])
         
         if wt2_data is not None:
           ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1.5, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
           
-          ymin=0
-          ymax=40
-          ax1.set_ylim(ymin,ymax)
-          ax1.set_yticks([0,5,10,15,20,25,30,35])
+          ## Set min/max and axes manually          
+        #   ymin=0
+        #   ymax=40
+        #   ax1.set_ylim(ymin,ymax)
+        #   ax1.set_yticks([0,5,10,15,20,25,30,35])
         
         #ax1.plot(x_axis,wt_data,'black')
     
     ##TF092724 Added to standardize Axes for Kevin's paper
-    ymin=0
-    ymax=40
-    ax1.set_ylim(ymin,ymax)
-    ax1.set_yticks([0,5,10,15,20,25,30,35])
+    ## Set min/max and axes manually
+    # ymin=0
+    # ymax=40
+    # ax1.set_ylim(ymin,ymax)
+    # ax1.set_yticks([0,5,10,15,20,25,30,35])
 
     fig.show()
     fig.savefig(fn)
