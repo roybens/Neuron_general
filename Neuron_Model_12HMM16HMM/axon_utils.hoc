@@ -87,40 +87,106 @@ access cell.axon[0]
 	///////////////////////////////////////////
 	//Tim's code trying to round out na16 curve based on Hu 2009 doi:10.1038/nn.2359
 	//WT
-	gbar_na16(0:4*ais_end/10) = 0:ais_na16/3
-	gbar_na16(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
-	gbar_na16(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//gbar_na16(0:4*ais_end/10) = 0:ais_na16/3
+	//gbar_na16(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
+	//gbar_na16(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	//gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	//Mut
+	//gbar_na16mut(0:4*ais_end/10) = 0:ais_na16/3
+	//gbar_na16mut(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
+	//gbar_na16mut(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	//gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
+	//gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	//gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+		
+	
+	//Tim's code trying to round out na12 curve
+	//WT
+	//gbar_na12(0:ais_end/10) = 0:ais_na12/3
+	//gbar_na12(0:ais_end/10) = ais_na12/4:ais_na12/3
+	//gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
+	//gbar_na12(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
+	//gbar_na12(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
+	//gbar_na12(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+
+	//Mut
+	//gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
+	//gbar_na12mut(0:ais_end/10) = ais_na12/4:ais_na12/3
+	//gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
+	//gbar_na12mut(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
+	//gbar_na12mut(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
+	//gbar_na12mut(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+	
+	//gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	//gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	////////////////////////////////////////
+	
+	
+	
+	////////////////////////////////////////
+	//New distribution from Kevin's guidance 092424//
+	//"have 1.2 drop to 0 gBar by segment 3 instead of segment 5.  i know we're going for Hu Shu style where it looks like half half but the data support something more like 1/3rd 1.2
+	//then take the 1.6 value at 6 and move that to position 3.  connect with a smooth line" - Kevin
+	
+	//WT 1.6
+	//gbar_na16(0:2*ais_end/10) = 0:ais_na16/8  //0:ais_na16/3
+	//gbar_na16(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	//gbar_na16(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 
+	//gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	//gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	
+	//Mut 1.6
+	//gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/8 //0:ais_na16/3
+	//gbar_na16mut(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
+	//gbar_na16mut(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 //ais_na16/3:ais_na16/2
+	//gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
+	//gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+
+	//WT 1.6
+	gbar_na16(0:2*ais_end/10) = 0:ais_na16/3
+	gbar_na16(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
+	gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
 	gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
 	gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
 	
-	//Mut
-	gbar_na16mut(0:4*ais_end/10) = 0:ais_na16/3
-	gbar_na16mut(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
-	gbar_na16mut(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
+	//Mut 1.6
+	gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/3
+	gbar_na16mut(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
+	gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
 	gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
 	gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
 
 	gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
 	gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
-		
-	
-	//Tim's code trying to round out na12 curve
-	//WT
-	gbar_na12(0:ais_end/10) = 0:ais_na12/3
-	gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
-	gbar_na12(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
-	gbar_na12(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
-	gbar_na12(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
 
-	//Mut
-	gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
-	gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
-	gbar_na12mut(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
-	gbar_na12mut(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
-	gbar_na12mut(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+
+	//WT 1.2
+	//gbar_na12(0:ais_end/10) = 0:ais_na12/3
+	gbar_na12(0:ais_end/10) = ais_na12/8:ais_na12/2
+	gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	gbar_na12(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	//gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	gbar_na12(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
+
+	//Mut 1.2
+	//gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
+	gbar_na12mut(0:ais_end/10) = ais_na12/8:ais_na12/2
+	gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
+	gbar_na12mut(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
+	//gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
+	gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
+	gbar_na12mut(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
 	
 	gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
 	gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	////////////////////////////////////////
 
 	
 	
