@@ -575,6 +575,17 @@ class Na12Model_TF:
         ais_spikes = get_spike_times(self.extra_vms['ais'],self.t)
         for i in range(len(soma_spikes)):
             print(f'spike #{i} soma - {soma_spikes[i]}, ais - {ais_spikes[i]}, axon - {axon_spikes[i]}')
+    
+    def get_spontaneous(self):
+        fi_value = self.plot_fi_curve(start = 0,end =0.1, nruns = 1)
+       # First spike time in (s), init_stim starts stimulation at 0.2s (200ms)
+        if fi_value[0] == 0:
+            return "NoSponAct"
+        else:
+            return "SponAct"
+
+
+
 
 
 
