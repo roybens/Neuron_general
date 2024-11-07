@@ -123,11 +123,21 @@ refits091824={"mut24_n2_shift10":{"Rd": 5.061256969691778, "Rg": 0.0713232492628
 "mut2345_n2_shift12":{"Rd": 182.2893628291153, "Rg": 0.7496359847873306, "Rb": 0.10569547476596763, "Ra": 0.018772358507494757, "a0s": 3925.104897502664, "gms": 0.28842931735272076, "hmin": 336.2946447331183, "mmin": 0.024546885992383194, "qinf": 253.7361717844314, "q10": 0.139807458279552, "qg": 3839.4697938077443, "qd": 0.013585434347083654, "qa1": 3.1434655189020075, "smax": 1.5423490512914146, "sh": 0.15302003024351335, "thinf": 4.8047432747652135, "thi2": 766.1900321703752, "thi1": 0.002954495382630466, "tha": -23.74905261242934, "vvs": 5.045568564404535, "vvh": 1368.6512910783858},}
 
 
+n2_110524={
+"mut234_n2_shift8.69-4.5":{"a1_0": 190.39777652287304, "a1_1": 0.028536931579245285, "b1_0": 0.8904359828861996, "b1_1": 0.20980652245007603, "a2_0": 1766.740841802121, "a2_1": 0.3801816174681599, "b2_0": 746.0669901976062, "b2_1": 2.449326833382205, "a3_0": 228.66296431222392, "a3_1": 0.05789966713534688, "b3_0": 4589.9859426446355, "b3_1": 0.0021643283886853696, "bh_0": 2.4542026342131273, "bh_1": 10.843017071182047, "bh_2": 0.1218366189269081, "ah_0": 1.0144340132620275, "ah_1": 601521.9632021701, "ah_2": 0.07415598485498767, "vShift": -26.32061617185419, "vShift_inact": 6.327149384219416, "maxrate": 1614.978309838264},
+"mut2345_n2_shift8.69-4.5":{"a1_0": 76.84321520220547, "a1_1": 0.32019508183676737, "b1_0": 1.6351554703236393, "b1_1": 0.06733654378153918, "a2_0": 9222.827856236947, "a2_1": 0.008526500523592107, "b2_0": 0.8036638661095896, "b2_1": 1.9109549857562715, "a3_0": 382.25922884589386, "a3_1": 0.04601200960155108, "b3_0": 3529.6576838852843, "b3_1": 0.0009783170802913996, "bh_0": 1.5085496160644865, "bh_1": 0.35001759828803136, "bh_2": 0.15485715015349846, "ah_0": 0.923218627631913, "ah_1": 434347.0647624079, "ah_2": 0.0696568051382046, "vShift": -22.262982835958134, "vShift_inact": 13.641844957238266, "maxrate": 2564.023111804405},
+"mut234_n6_shift18-13.5":{"a1_0": 76.84321520220547, "a1_1": 0.32019508183676737, "b1_0": 1.6351554703236393, "b1_1": 0.06733654378153918, "a2_0": 9222.827856236947, "a2_1": 0.008526500523592107, "b2_0": 0.8036638661095896, "b2_1": 1.9109549857562715, "a3_0": 382.25922884589386, "a3_1": 0.04601200960155108, "b3_0": 3529.6576838852843, "b3_1": 0.0009783170802913996, "bh_0": 1.5085496160644865, "bh_1": 0.35001759828803136, "bh_2": 0.15485715015349846, "ah_0": 0.923218627631913, "ah_1": 434347.0647624079, "ah_2": 0.0696568051382046, "vShift": -22.262982835958134, "vShift_inact": 13.641844957238266, "maxrate": 2564.023111804405},}
 
-# for mutname,dict in refits091824.items():
-#   print(f"mutname is {mutname}")
-#   print(f"it's corresponding dictionary is {dict}")
-#   modify_dict_file(filename12,dict)
+
+for mutname,dict in n2_110524.items():
+  print(f"mutname is {mutname}")
+  print(f"it's corresponding dictionary is {dict}")
+  modify_dict_file(filename12,dict)
+
+  root_path_out = f'./Plots/12HMM16HMM/30_newFits_110524/{mutname}'
+  if not os.path.exists(root_path_out):
+    os.makedirs(root_path_out)
+
   
   ###Add variable for new vshifted 16 mut (which ever look good) then make loop for 12 and loop for 16 to iterate through the combos ##091224
   # mutname='mut234_n2_shift12'
@@ -135,23 +145,21 @@ refits091824={"mut24_n2_shift10":{"Rd": 5.061256969691778, "Rg": 0.0713232492628
   # mut24_n6_shift10={"a1_0": 94.75905990157207, "a1_1": 0.018023703763738824, "b1_0": 0.31023493687676373, "b1_1": 0.09008967082413695, "a2_0": 5907.736073687958, "a2_1": 0.23518065657745135, "b2_0": 419.89073598002807, "b2_1": 1.4619587126350462, "a3_0": 1196.957340421589, "a3_1": 0.04846855255279074, "b3_0": 499.9066090356164, "b3_1": 0.0021881262762982706, "bh_0": 20.254408529692903, "bh_1": 6.342454458189579, "bh_2": 0.06112691568909393, "ah_0": 14.217056459991783, "ah_1": 192666.54983024174, "ah_2": 0.06340953132391121, "vShift": -1.844506962628052, "vShift_inact": 16.738301924225823, "maxrate": 11.46203465759279}
   
 ## New fits for 1.2 and 1.6 following Kevin's guidance on HH model.
-n6_102524={"a1_0": 97.66671749868888, "a1_1": 0.03716586306534961, "b1_0": 3.8830728846225977, "b1_1": 0.015017447028888301, "a2_0": 13563.875329376127, "a2_1": 0.17054836408869722, "b2_0": 434.9687960029061, "b2_1": 18.652906007565097, "a3_0": 3718.812738626789, "a3_1": 0.18586319949961275, "b3_0": 328.19038134245005, "b3_1": 0.04394997325690096, "bh_0": 9.019492323918119, "bh_1": 11.087681632354151, "bh_2": 0.058549909026245336, "ah_0": 13.241859443543337, "ah_1": 275895.3332511041, "ah_2": 0.06130990280571661, "vShift": 1.6535349618166855, "vShift_inact": 12.629736455707828, "maxrate": 16.609264160331243}
-n2_102524={"a1_0": 77.5290880057393, "a1_1": 0.8534705914137256, "b1_0": 1.2034064865578407, "b1_1": 0.014785144308705655, "a2_0": 6205.9038993807335, "a2_1": 0.0392413842323337, "b2_0": 846.6014010105109, "b2_1": 1.9624857335743886, "a3_0": 105.50670247235922, "a3_1": 0.050163170583720884, "b3_0": 1912.6907848541457, "b3_1": 0.0002336951139489255, "bh_0": 5.486172056286093, "bh_1": 8.025517130836056, "bh_2": 0.10509571449338692, "ah_0": 14.036037851882138, "ah_1": 2718.2515522564354, "ah_2": 0.0035793633476156363, "vShift": -26.804997176209856, "vShift_inact": 8.28564108853396, "maxrate": 1690.0489804575473}
+# n6_102524={"a1_0": 97.66671749868888, "a1_1": 0.03716586306534961, "b1_0": 3.8830728846225977, "b1_1": 0.015017447028888301, "a2_0": 13563.875329376127, "a2_1": 0.17054836408869722, "b2_0": 434.9687960029061, "b2_1": 18.652906007565097, "a3_0": 3718.812738626789, "a3_1": 0.18586319949961275, "b3_0": 328.19038134245005, "b3_1": 0.04394997325690096, "bh_0": 9.019492323918119, "bh_1": 11.087681632354151, "bh_2": 0.058549909026245336, "ah_0": 13.241859443543337, "ah_1": 275895.3332511041, "ah_2": 0.06130990280571661, "vShift": 1.6535349618166855, "vShift_inact": 12.629736455707828, "maxrate": 16.609264160331243}
+# n2_102524={"a1_0": 77.5290880057393, "a1_1": 0.8534705914137256, "b1_0": 1.2034064865578407, "b1_1": 0.014785144308705655, "a2_0": 6205.9038993807335, "a2_1": 0.0392413842323337, "b2_0": 846.6014010105109, "b2_1": 1.9624857335743886, "a3_0": 105.50670247235922, "a3_1": 0.050163170583720884, "b3_0": 1912.6907848541457, "b3_1": 0.0002336951139489255, "bh_0": 5.486172056286093, "bh_1": 8.025517130836056, "bh_2": 0.10509571449338692, "ah_0": 14.036037851882138, "ah_1": 2718.2515522564354, "ah_2": 0.0035793633476156363, "vShift": -26.804997176209856, "vShift_inact": 8.28564108853396, "maxrate": 1690.0489804575473}
 
-modify_dict_file(filename12, n2_102524)
-modify_dict_file(filename16,n6_102524)
+# modify_dict_file(filename12, n2_110524)
+# modify_dict_file(filename16,n6_102524)
 
-root_path_out = f'./Plots/12HMM16HMM/29_newFits_102524'
-if not os.path.exists(root_path_out):
-        os.makedirs(root_path_out)
-      
+  
+        
 
-simtim = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
-              ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
-              na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-              na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
-              plots_folder = f'{root_path_out}/', pfx=f'WT_', update=True, fac=None) #2-12-{i12}_16-{i16}
-simtim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvshiftmut_baseline')#vs_amp=[0.5]
+  simtim = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
+                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,#somaK=90, KP=20, KT=6,#somaK=30,  KP=40, ##This row all 1 default
+                na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],params_folder = './params/',
+                plots_folder = f'{root_path_out}/', pfx=f'WT_', update=True, fac=None) #2-12-{i12}_16-{i16}
+  simtim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-WTvshiftmut')#vs_amp=[0.5]
 
 # ##Plotting only WT Stim/DVDT and Currentscapes
 # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
@@ -173,323 +181,322 @@ simtim.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_a
 
 
 
-fac=1
-# for fac in (0.0001,0.001,0.01,0.1,0.25,0.5,2,4,10,50,100,1000):
-# for fac in (2,4,10,50,100,1000):
-# for factor in [2,2.5,3,3.5,4]:
+# fac=1
+  for fac in (0.0001,0.001,0.01,0.1,0.25,0.5,2,4,10,50,100,1000):
+# # for fac in (2,4,10,50,100,1000):
+# # for factor in [2,2.5,3,3.5,4]:
 
-sim_wt = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
-                                    ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'{str(fac)}', update=True, fac=None)
-# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-sim_wt.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac-{str(fac)}')
-wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT')
-simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
+# sim_wt = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
+#                                     ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+#                                     na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+#                                     na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+#                                     params_folder='./params/', plots_folder=f'{root_path_out}/', 
+#                                     pfx=f'{str(fac)}', update=True, fac=None)
+# # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+# sim_wt.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac-{str(fac)}')
+# wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT')
+# simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
 
-simhet = tf.Na12Model_TF(ais_nav12_fac=(2*100)/2,ais_nav16_fac=10*4,nav12=(3*3)/2,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
-                                    ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/24-longsweep_wthetko', 
-                                    pfx=f'{str(fac)}', update=True)
-het_Vm1,_,het_t1,_ = simhet.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
-simhet.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'het-{str(fac)}')
-het_fi=simhet.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WTHET')
-simhet.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
+# simhet = tf.Na12Model_TF(ais_nav12_fac=(2*100)/2,ais_nav16_fac=10*4,nav12=(3*3)/2,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
+#                                     ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+#                                     na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+#                                     na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+#                                     params_folder='./params/', plots_folder=f'{root_path_out}/24-longsweep_wthetko', 
+#                                     pfx=f'{str(fac)}', update=True)
+# het_Vm1,_,het_t1,_ = simhet.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = sim_config_soma) #sim_config for changing regions
+# simhet.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'het-{str(fac)}')
+# het_fi=simhet.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WTHET')
+# simhet.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
 
-simko = tf.Na12Model_TF(ais_nav12_fac=(2*100)*0,ais_nav16_fac=10*4,nav12=(3*3)*0,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
-                                    ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/24-longsweep_wthetko', 
-                                    pfx=f'{str(fac)}', update=True)
-simko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'WTHETKO')
-simko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO')#vs_amp=[0.5]
-simko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
+# simko = tf.Na12Model_TF(ais_nav12_fac=(2*100)*0,ais_nav16_fac=10*4,nav12=(3*3)*0,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10, #nav12=3*2*1.5
+#                                     ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+#                                     na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+#                                     na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+#                                     params_folder='./params/', plots_folder=f'{root_path_out}/24-longsweep_wthetko', 
+#                                     pfx=f'{str(fac)}', update=True)
+# simko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'WTHETKO')
+# simko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WTvHETvKO')#vs_amp=[0.5]
+# simko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
+
+
+
+
+    # somaK Iteration
+    sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25*fac, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_somaK{str(fac)}', update=True)
+    sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac-{str(fac)}')
+
+    # KT Iteration
+    sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10*fac,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_KT{str(fac)}', update=True)
+    sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac-{str(fac)}')
+    
+    # ais_ca Iteration
+    sim_test_ais_ca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*4*4,nav12=3,nav16=7.5, somaK=50, KP=1000, KT=10,
+                                  ais_ca = 100*fac,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_ais_Kca{str(fac)}', update=True)
+    sim_test_ais_ca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_ca_fac-{str(fac)}')
+    
+    # ais_Kca Iteration
+    sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*4*4,nav12=3,nav16=7.5, somaK=50, KP=1000, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_ais_Kca{str(fac)}', update=True)
+    sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac-{str(fac)}')
+
+
+    sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56*fac, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_KP{str(fac)}', update=True)
+    sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac-{str(fac)}')
+
+    # ais_nav12_fac Iteration
+    sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*100*fac,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_ais_nav12_fac{str(fac)}', update=True)
+    sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac-{str(fac)}')
+
+    # ais_nav16_fac Iteration
+    sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4*fac,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
+    sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac-{str(fac)}')
+
+    # nav12 Iteration
+    sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3*fac,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_nav12{str(fac)}', update=True)
+    sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac-{str(fac)}')
+
+    # nav16 Iteration
+    sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5*fac, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_nav16{str(fac)}', update=True)
+    sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac-{str(fac)}')
+
+    # soma_na12 Iteration
+    sim_test_soma_na12 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5*fac, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_soma_na12{str(fac)}', update=True)
+    sim_test_soma_na12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na12_fac-{str(fac)}')
+
+    # soma_na16 Iteration
+    sim_test_soma_na16 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
+                                  ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1*fac, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_soma_na16{str(fac)}', update=True)
+    sim_test_soma_na16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na16_fac-{str(fac)}')
+    
+
+
+
 
 
 
 '''
-  # somaK Iteration
-  sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25*fac, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_somaK{str(fac)}', update=True)
-  sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac-{str(fac)}')
+    sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1*fac, KP=1000, KT=10,
+                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                      na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                      na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                      params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                      pfx=f'WT_somaK_fac{str(fac)}', update=True)
+    sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac{str(fac)}')
 
-  # KT Iteration
-  sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10*fac,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_KT{str(fac)}', update=True)
-  sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac-{str(fac)}')
-  
-  # ais_ca Iteration
-  sim_test_ais_ca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*4*4,nav12=3,nav16=7.5, somaK=50, KP=1000, KT=10,
-                                ais_ca = 100*fac,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_ais_Kca{str(fac)}', update=True)
-  sim_test_ais_ca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_ca_fac-{str(fac)}')
-  
-  # ais_Kca Iteration
-  sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*4*4,nav12=3,nav16=7.5, somaK=50, KP=1000, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_ais_Kca{str(fac)}', update=True)
-  sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac-{str(fac)}')
+    # KT Iteration
+    sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10*fac,
+                                  ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_KT_fac{str(fac)}', update=True)
+    sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac{str(fac)}')
 
 
-  sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56*fac, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_KP{str(fac)}', update=True)
-  sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac-{str(fac)}')
+    # ais_Kca Iteration
+    sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                        na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                        na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                        pfx=f'WT_ais_Kca{str(fac)}', update=True)
+    sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac{str(fac)}')
 
-  # ais_nav12_fac Iteration
-  sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*100*fac,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_ais_nav12_fac{str(fac)}', update=True)
-  sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac-{str(fac)}')
+    sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                    na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                    na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                    params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_KP{str(fac)}', update=True)
+    sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac{str(fac)}')
+        
 
-  # ais_nav16_fac Iteration
-  sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4*fac,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
-  sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac-{str(fac)}')
 
-  # nav12 Iteration
-  sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3*fac,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_nav12{str(fac)}', update=True)
-  sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac-{str(fac)}')
-
-  # nav16 Iteration
-  sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5*fac, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_nav16{str(fac)}', update=True)
-  sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac-{str(fac)}')
 
   # soma_na12 Iteration
-  sim_test_soma_na12 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5*fac, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_soma_na12{str(fac)}', update=True)
-  sim_test_soma_na12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na12_fac-{str(fac)}')
+    sim_test_soma_na12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5, soma_na12=2.5*fac, soma_na16=1, dend_nav12=1, node_na = 1,
+                                        na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                        na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_soma_na12{str(fac)}', update=True)
+    sim_test_soma_na12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na12_fac{str(fac)}')
 
-  # soma_na16 Iteration
-  sim_test_soma_na16 = tf.Na12Model_TF(ais_nav12_fac=2*100,ais_nav16_fac=10*4*4,nav12=3*3,nav16=7.5, somaK=50*0.25, KP=1000*3.56, KT=10,
-                                ais_ca = 100,ais_Kca = 5*0.01, soma_na12=2.5, soma_na16=1*fac, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_soma_na16{str(fac)}', update=True)
-  sim_test_soma_na16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na16_fac-{str(fac)}')
-  
+    # soma_na16 Iteration
+    sim_test_soma_na16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1*fac, dend_nav12=1, node_na = 1,
+                                        na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                        na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_soma_na16{str(fac)}', update=True)
+    sim_test_soma_na16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na16_fac{str(fac)}')
 
-
-
-
-
-
-
-  sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1*fac, KP=1000, KT=10,
-                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'WT_somaK_fac{str(fac)}', update=True)
-  sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac{str(fac)}')
-
-  # KT Iteration
-  sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10*fac,
-                                ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_KT_fac{str(fac)}', update=True)
-  sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac{str(fac)}')
-
-
-  # ais_Kca Iteration
-  sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+    
+    sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3*fac,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
                                       na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
                                       na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
                                       params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                      pfx=f'WT_ais_Kca{str(fac)}', update=True)
-  sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac{str(fac)}')
+                                      pfx=f'WT_nav12_fac{str(fac)}', update=True)
+    sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac{str(fac)}')
 
-  sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                  ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                  na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                  na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                  params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_KP{str(fac)}', update=True)
-  sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac{str(fac)}')
-      
-
-
-
-# soma_na12 Iteration
-  sim_test_soma_na12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5*fac, soma_na16=1, dend_nav12=1, node_na = 1,
-                                      na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                      na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                      params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_soma_na12{str(fac)}', update=True)
-  sim_test_soma_na12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na12_fac{str(fac)}')
-
-  # soma_na16 Iteration
-  sim_test_soma_na16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1*fac, dend_nav12=1, node_na = 1,
-                                      na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                      na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                      params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_soma_na16{str(fac)}', update=True)
-  sim_test_soma_na16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'soma_na16_fac{str(fac)}')
-
-  
-  sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3*fac,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'WT_nav12_fac{str(fac)}', update=True)
-  sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac{str(fac)}')
-
-  # nav16 Iteration
-  sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5*fac, somaK=1, KP=1000, KT=10,
-                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'WT_nav16_fac{str(fac)}', update=True)
-  sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac{str(fac)}')
-
-  
-
-  sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*fac,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                            ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                            na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                            na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                            params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav12_fac{str(fac)}', update=True)
-  sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac{str(fac)}')
-
-  # ais_nav16_fac Iteration
-  sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*fac,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                          ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                          na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                          na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                          params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
-  sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac{str(fac)}')
-
-
-
-
-# somaK Iteration
-  sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1*fac, KP=1000, KT=10,
-                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'WT_somaK_fac{str(fac)}', update=True)
-  sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac{str(fac)}')
-
-  # KT Iteration
-  sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10*fac,
-                                ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                pfx=f'WT_KT_fac{str(fac)}', update=True)
-  sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac{str(fac)}')
-
-  # ais_ca Iteration
-  sim_test_ais_ca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                    ais_ca = 100*fac,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
-                                    na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
-                                    na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                    params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                    pfx=f'WT_ais_ca_fac{str(fac)}', update=True)
-  sim_test_ais_ca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_ca_fac{str(fac)}')
-
-  # ais_Kca Iteration
-  sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+    # nav16 Iteration
+    sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5*fac, somaK=1, KP=1000, KT=10,
+                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
                                       na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
                                       na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
                                       params_folder='./params/', plots_folder=f'{root_path_out}/', 
-                                      pfx=f'WT_ais_Kca_fac{str(fac)}', update=True)
-  sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac{str(fac)}')
-'''
+                                      pfx=f'WT_nav16_fac{str(fac)}', update=True)
+    sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac{str(fac)}')
 
-'''   
-      sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*fac,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+    
+
+    sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*fac,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
                                               ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
                                               na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
                                               na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
                                               params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav12_fac{str(fac)}', update=True)
-      sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac{str(fac)}')
+    sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac{str(fac)}')
 
-      # ais_nav16_fac Iteration
-      sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*fac,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                              ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                              na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                              na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                              params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
-      sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac{str(fac)}')
+    # ais_nav16_fac Iteration
+    sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*fac,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                            ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                            na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                            na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                            params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
+    sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac{str(fac)}')
 
-      # nav12 Iteration
-      sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3*fac,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                      na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                      na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                      params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_nav12{str(fac)}', update=True)
-      sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac{str(fac)}')
 
-      # nav16 Iteration
-      sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5*fac, somaK=1, KP=1000, KT=10,
-                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                      na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                      na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                      params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_nav16{str(fac)}', update=True)
-      sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac{str(fac)}')
 
-      # KP Iteration
-      sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
-                                  ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
-                                  na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
-                                  na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
-                                  params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_KP{str(fac)}', update=True)
-      sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac{str(fac)}')
-      
 
-'''
+  # somaK Iteration
+    sim_test_somaK = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1*fac, KP=1000, KT=10,
+                                      ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                      na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                      na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                      params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                      pfx=f'WT_somaK_fac{str(fac)}', update=True)
+    sim_test_somaK.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'somaK_fac{str(fac)}')
 
+    # KT Iteration
+    sim_test_KT = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10*fac,
+                                  ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                  na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                  na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                  params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                  pfx=f'WT_KT_fac{str(fac)}', update=True)
+    sim_test_KT.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KT_fac{str(fac)}')
+
+    # ais_ca Iteration
+    sim_test_ais_ca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                      ais_ca = 100*fac,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                      na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                      na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                      params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                      pfx=f'WT_ais_ca_fac{str(fac)}', update=True)
+    sim_test_ais_ca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_ca_fac{str(fac)}')
+
+    # ais_Kca Iteration
+    sim_test_ais_Kca = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5*fac, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na=1,
+                                        na12name='na12_HMM_TEMP_PARAMS',mut_name='na12_HMM_TEMP_PARAMS',na12mechs=['na12','na12mut'],
+                                        na16name='na16_HMM_TEMP_PARAMS',na16mut_name='na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder='./params/', plots_folder=f'{root_path_out}/', 
+                                        pfx=f'WT_ais_Kca_fac{str(fac)}', update=True)
+    sim_test_ais_Kca.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_Kca_fac{str(fac)}')
+  
+
+     
+        sim_test_ais_nav12_fac = tf.Na12Model_TF(ais_nav12_fac=2*fac,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                                ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                                na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                                na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                                params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav12_fac{str(fac)}', update=True)
+        sim_test_ais_nav12_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav12_fac{str(fac)}')
+
+        # ais_nav16_fac Iteration
+        sim_test_ais_nav16_fac = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10*fac,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                                ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                                na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                                na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                                params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_ais_nav16_fac{str(fac)}', update=True)
+        sim_test_ais_nav16_fac.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'ais_nav16_fac{str(fac)}')
+
+        # nav12 Iteration
+        sim_test_nav12 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3*fac,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                        na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                        na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_nav12{str(fac)}', update=True)
+        sim_test_nav12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav12_fac{str(fac)}')
+
+        # nav16 Iteration
+        sim_test_nav16 = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5*fac, somaK=1, KP=1000, KT=10,
+                                        ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                        na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                        na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                        params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_nav16{str(fac)}', update=True)
+        sim_test_nav16.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'nav16_fac{str(fac)}')
+
+        # KP Iteration
+        sim_test_KP = tf.Na12Model_TF(ais_nav12_fac=2,ais_nav16_fac=10,nav12=3,nav16=7.5, somaK=1, KP=1000, KT=10,
+                                    ais_ca = 100,ais_Kca = 5, soma_na12=2.5, soma_na16=1, dend_nav12=1, node_na = 1,
+                                    na12name = 'na12_HMM_TEMP_PARAMS',mut_name = 'na12_HMM_TEMP_PARAMS',na12mechs = ['na12','na12mut'],
+                                    na16name = 'na16_HMM_TEMP_PARAMS',na16mut_name = 'na16_HMM_TEMP_PARAMS',na16mechs=['na16','na16mut'],
+                                    params_folder = './params/', plots_folder = f'{root_path_out}/', pfx=f'WT_KP{str(fac)}', update=True)
+        sim_test_KP.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'KP_fac{str(fac)}')
+        
+
+  '''
 
 
 
