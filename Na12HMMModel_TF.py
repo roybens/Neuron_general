@@ -8,6 +8,7 @@ from currentscape.currentscape import plot_currentscape
 import pandas as pd
 import os
 import datetime
+import csv
 
 
 class Na12Model_TF:
@@ -405,6 +406,9 @@ class Na12Model_TF:
         #add_scalebar(axs)
         # file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf' ##Commented 121323 prior to batch run TF
         # plt.savefig(file_path_to_save, format='pdf')
+        
+        
+        
         return
     
     

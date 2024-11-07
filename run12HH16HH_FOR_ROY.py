@@ -211,7 +211,7 @@ config_dict3={"sim_config_soma": sim_config_soma}
 # ko_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,16,16,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20]
 
 for config_name, config in config_dict3.items():
-  path = f'3-synthmuts_110424'
+  path = f'5-migraine_muts_rawdata2_110724'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
 #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
 #                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
@@ -251,8 +251,8 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2,ais_nav16_fac=12*0.6,nav12=1,nav16=
 wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
 wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
 
-migraine={#"F257I":{"Rd": 0.028485318424710374, "Rg": 0.018420814026814298, "Rb": 0.05777962337521357, "Ra": 0.21341303335597034, "a0s": 0.00046381351100748496, "gms": 0.1341164855099387, "hmin": 0.006864146828635849, "mmin": 0.007621368015226187, "qinf": 6.486459886532015, "q10": 2.561051746368186, "qg": 1.3943995618682714, "qd": 0.797072687262635, "qa1": 6.540179485338942, "smax": 5.751234160342341, "sh": 9.898965372911075, "thinf": -42.299802571430824, "thi2": -64.0747495998566, "thi1": -48.0852551990378, "tha": -30.139992632180743, "vvs": 0.8468560048684934, "vvh": -53.739541326283735, "vhalfs": -42.22939001512733, "zetas": 12.811495608869796},}
-#"R1319G":{"Rd": 0.01821017957894782, "Rg": 0.015835927879902578, "Rb": 0.08669778691261865, "Ra": 0.25222138069588795, "a0s": 0.0005998602174497901, "gms": 0.15734865667490094, "hmin": 0.003049022325449447, "mmin": 0.009227432163769297, "qinf": 7.542037850663156, "q10": 1.3991326492121134, "qg": 0.11658354700541385, "qd": 0.41022807889968216, "qa1": 6.23800810747929, "smax": 2.297618044174789, "sh": 9.225725362157418, "thinf": -46.09023665760313, "thi2": -57.0320710747067, "thi1": -62.70708396987019, "tha": -29.27378295119758, "vvs": 0.25717057711770985, "vvh": -58.74304862555019, "vhalfs": -31.258170795759927, "zetas": 10.786789360357215},}
+migraine={"F257I":{"Rd": 0.028485318424710374, "Rg": 0.018420814026814298, "Rb": 0.05777962337521357, "Ra": 0.21341303335597034, "a0s": 0.00046381351100748496, "gms": 0.1341164855099387, "hmin": 0.006864146828635849, "mmin": 0.007621368015226187, "qinf": 6.486459886532015, "q10": 2.561051746368186, "qg": 1.3943995618682714, "qd": 0.797072687262635, "qa1": 6.540179485338942, "smax": 5.751234160342341, "sh": 9.898965372911075, "thinf": -42.299802571430824, "thi2": -64.0747495998566, "thi1": -48.0852551990378, "tha": -30.139992632180743, "vvs": 0.8468560048684934, "vvh": -53.739541326283735, "vhalfs": -42.22939001512733, "zetas": 12.811495608869796},
+"R1319G":{"Rd": 0.01821017957894782, "Rg": 0.015835927879902578, "Rb": 0.08669778691261865, "Ra": 0.25222138069588795, "a0s": 0.0005998602174497901, "gms": 0.15734865667490094, "hmin": 0.003049022325449447, "mmin": 0.009227432163769297, "qinf": 7.542037850663156, "q10": 1.3991326492121134, "qg": 0.11658354700541385, "qd": 0.41022807889968216, "qa1": 6.23800810747929, "smax": 2.297618044174789, "sh": 9.225725362157418, "thinf": -46.09023665760313, "thi2": -57.0320710747067, "thi1": -62.70708396987019, "tha": -29.27378295119758, "vvs": 0.25717057711770985, "vvh": -58.74304862555019, "vhalfs": -31.258170795759927, "zetas": 10.786789360357215},
  "K1480E":{"Rd": 0.017988222179818, "Rg": 0.014526835880098123, "Rb": 0.032287886870504066, "Ra": 0.20374071568963156, "a0s": 0.00043332968046547453, "gms": 0.2506541588105391, "hmin": 0.003724133667885614, "mmin": 0.022703936878165614, "qinf": 8.056557948665372, "q10": 2.1947359595099254, "qg": 1.607903072936985, "qd": 0.9369754615041643, "qa1": 6.825173338201797, "smax": 9.756858258324922, "sh": 9.29652730203526, "thinf": -44.454878232047506, "thi2": -78.8896576923306, "thi1": -61.97876376872753, "tha": -25.286365983599477, "vvs": 0.665802756552117, "vvh": -45.45240491205891, "vhalfs": -18.50057219270583, "zetas": 11.579233310014331},}
 
 synthmuts={
@@ -295,7 +295,7 @@ synthmuts={
 
 
 
-for mutname,dict in synthmuts.items():
+for mutname,dict in migraine.items():
   print(f"mutname is {mutname}")
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filenamemut,dict)
@@ -313,8 +313,40 @@ for mutname,dict in synthmuts.items():
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')
-  simmut.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'{mutname}-')
-  simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{mutname}-FI', epochlabel='200ms')
+  # simmut.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'{mutname}-')
+  # simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{mutname}-FI', epochlabel='200ms')
+
+  # mut_Vm1,mut_I1,mut_t1,_ = simmut.get_stim_raw_data(stim_amp = 0.5,dt=0.01,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  
+  # ##### Writing all raw data to csv
+  # with open(f"{root_path_out}/{mutname}_rawdata.csv",'w',newline ='') as csvfile:
+  #   writer = csv.writer(csvfile, delimiter = ',')
+  #   #writer.writerow(current_names)
+  #   writer.writerow(mut_I1.keys())
+    
+  #   writer.writerows(mut_I1[x] for x in mut_I1) # This and line below for writing data from entire sweep_len
+  #   writer.writerow(mut_Vm1)
+
+  
+  mut_Vm1, mut_I1, mut_t1, _ = simmut.get_stim_raw_data(stim_amp=0.5, dt=0.01, rec_extra=False, stim_dur=500, sim_config=config)
+
+  # Create a new dictionary with the desired keys
+  selected_data = {
+      "Vm": mut_Vm1,
+      "na12.ina_ina": mut_I1['na12.ina_ina'],
+      "na12mut.ina_ina": mut_I1['na12mut.ina_ina']
+  }
+
+  with open(f"{root_path_out}/{mutname}_rawdata.csv", 'w', newline='') as csvfile:
+      writer = csv.writer(csvfile, delimiter=',')
+      writer.writerow(selected_data.keys())
+      writer.writerows(zip(*selected_data.values()))
+      
+    
+    # writer.writerows(mut_I1[x][step1:step2] for x in mut_I1) ####This and below line are used when time steps are used
+    # writer.writerow(mut_Vm1[step1:step2])
+  ##### Writing all raw data to csv
+
 
   # ## WT vs HET vs Mut  
   # ##WT model
