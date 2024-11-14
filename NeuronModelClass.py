@@ -147,12 +147,12 @@ class NeuronModel:
 
         ##TF111224 Changed back to original params after having equal values and broke model.
         ##062424 original params
-        h.soma_na12 = 3.24E-02 * soma_nav12 
-        h.soma_na16 = 7.88E-02 * soma_nav16
+        # h.soma_na12 = 3.24E-02 * soma_nav12 
+        # h.soma_na16 = 7.88E-02 * soma_nav16
         
         ##TF062424 testing equal conductances
-        # h.soma_na12 = 3.24E-02 * soma_nav12 
-        # h.soma_na16 = 3.24E-02 * soma_nav16
+        h.soma_na12 = 3.24E-02 * soma_nav12 
+        h.soma_na16 = 3.24E-02 * soma_nav16
 
 
         
