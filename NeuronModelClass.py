@@ -145,13 +145,14 @@ class NeuronModel:
         h.dend_k = 0.0043685576 * dend_K
         
 
+        ##TF111224 Changed back to original params after having equal values and broke model.
         ##062424 original params
-        # h.soma_na12 = 3.24E-02 * soma_nav12 
-        # h.soma_na16 = 7.88E-02 * soma_nav16
+        h.soma_na12 = 3.24E-02 * soma_nav12 
+        h.soma_na16 = 7.88E-02 * soma_nav16
         
         ##TF062424 testing equal conductances
-        h.soma_na12 = 3.24E-02 * soma_nav12 
-        h.soma_na16 = 3.24E-02 * soma_nav16
+        # h.soma_na12 = 3.24E-02 * soma_nav12 
+        # h.soma_na16 = 3.24E-02 * soma_nav16
 
 
         
@@ -188,34 +189,6 @@ class NeuronModel:
         #added gpas to see if i_pas changes on currentscape
         #h.gpas_all = .001
 
-        	
-        ############################## Testing 11/17/23, temporarily removed *factor and removing ina_ina from mechs
-        # h.dend_na12 = 2.48E-03  
-        
-        # h.dend_na16 = 5.05E-03 
-        # h.dend_k = 0.0043685576 
-        
-        # h.soma_na12 = 3.24E-02  
-        # h.soma_na16 = 7.88E-02  
-        # h.soma_K = 0.21330453  
-        
-        # h.ais_na16 = 7.2696676  
-        # h.ais_na12 = 1.03E+00  
-        # h.ais_ca = 0.0010125926  
-        # h.ais_KCa = 0.0009423347  
-        
-        # h.node_na = 0.9934221  
-
-        # h.axon_KP = 0.43260124  
-        # h.axon_KT = 1.38801  
-        # h.axon_K = 0.89699364 *2.1 
-        # h.axon_LVA = 0.00034828275  
-        # h.axon_HVA = 1.05E-05  
-        # h.axon_KCA = 0.4008224 
-        
-        # h.gpas_all = 1.34E-05
-        # h.cm_all = 1.6171424	   
-        ##############################
         
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
@@ -404,6 +377,7 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 200, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF060724 Using to get AP initiation/propogation to simulate less
     # def init_stim(self, sweep_len = 60, stim_start = 30, stim_dur = 100, amp = 0.3, dt = 0.1): ##TF061424 getting single AP for SFARI grant
     def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
+    # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 1.5, dt = 0.1): ##TF071524 trying to speed up tuning
     # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
     # def init_stim(self, sweep_len = 1000, stim_start = 30, stim_dur = 500, amp = 0.5, dt = 0.1): ##TF071524 trying to speed up tuning
     
@@ -418,6 +392,16 @@ class NeuronModel:
         h.tstop = sweep_len
         h.dt = dt
     
+
+    ##TF111224 Added this to init stim in the dendrite
+    def init_stim_dend(self, sweep_len = 150, stim_start = 30, stim_dur = 100, amp = 0.5, dt = 0.1): 
+    
+        h("st_dend.del = " + str(stim_start))
+        h("st_dend.dur = " + str(stim_dur))
+        h("st_dend.amp = " + str(amp))
+        h.tstop = sweep_len
+        h.dt = dt
+
     def start_stim(self,tstop = 800, start_Vm = -72):
         h.finitialize(start_Vm)
         h.tstop = tstop
