@@ -201,17 +201,9 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
               "sim_config_apicaldend": sim_config_apicaldend}
 
 config_dict3={"sim_config_soma": sim_config_soma}
-# path = f'1-m1879t'
-# config = sim_config_soma
-# wt_fi = [0, 0, 0, 0, 1, 7, 9, 10, 11, 12, 13, 14, 14, 15, 16, 16, 17, 17, 18, 18, 19]
-# het_fi = [0, 0, 0, 0, 1, 7, 9, 10, 11, 12, 13, 14, 15, 16, 16, 17, 17, 18, 19, 19, 20]
-
-# wt_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,2,3,3,4,4,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16]
-# het_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,2,3,4,4,4,5,5,6,6,6,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,10,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18]
-# ko_fi = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,15,16,16,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20]
 
 for config_name, config in config_dict3.items():
-  path = f'5-migraine_muts_rawdata2_110724'
+  path = f'6-synthmuts_EFEL'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
 #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
 #                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
@@ -241,15 +233,17 @@ for config_name, config in config_dict3.items():
 # M1879T_fit = {"Rd": 0.01869558161227628, "Rg": 0.014742011298945906, "Rb": 0.09039075777185525, "Ra": 0.35963455171363023, "a0s": 0.00014227805632812505, "gms": 0.255082958443083, "hmin": 0.001926533350955973, "mmin": 0.02456425796235449, "qinf": 7.293897980026858, "q10": 1.9340817795282903, "qg": 2.710511377603585, "qd": 0.17490503650016742, "qa1": 6.418759772577477, "smax": 10.235848311910516, "sh": 9.018629437597378, "thinf": -26.434602737525683, "thi2": -56.49953744144141, "thi1": -44.65364934653208, "tha": -16.411116454184114, "vvs": 2.1182888485979667, "vvh": -53.778899069537054, "vhalfs": -46.45143392507821, "zetas": 8.610440928204904}
 # r850p = {"Rd": 0.026028590561607057, "Rg": 0.01462201143223921, "Rb": 0.06940454866111936, "Ra": 0.3994888778516782, "a0s": 0.0004633732029466548, "gms": 0.2466005657502548, "hmin": 0.011092316147529334, "mmin": 0.02856133390485918, "qinf": 8.243477619364711, "q10": 1.5391582444238114, "qg": 1.8772774806842443, "qd": 0.21192765348993275, "qa1": 6.7338622255775835, "smax": 13.672179701011997, "sh": 5.592957065021524, "thinf": -43.06853111008826, "thi2": -77.98323725555565, "thi1": -66.71276444361911, "tha": -11.750602743874275, "vvs": 1.2137870369006865, "vvh": -47.96500165314955, "vhalfs": -37.93117875585497, "zetas": 4.993862532257029}
 # modify_dict_file(filename12,r850p)
-
+allmutsefel = pd.DataFrame()
 
 simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                                   na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
+# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+# wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
+features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
+allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 
 migraine={"F257I":{"Rd": 0.028485318424710374, "Rg": 0.018420814026814298, "Rb": 0.05777962337521357, "Ra": 0.21341303335597034, "a0s": 0.00046381351100748496, "gms": 0.1341164855099387, "hmin": 0.006864146828635849, "mmin": 0.007621368015226187, "qinf": 6.486459886532015, "q10": 2.561051746368186, "qg": 1.3943995618682714, "qd": 0.797072687262635, "qa1": 6.540179485338942, "smax": 5.751234160342341, "sh": 9.898965372911075, "thinf": -42.299802571430824, "thi2": -64.0747495998566, "thi1": -48.0852551990378, "tha": -30.139992632180743, "vvs": 0.8468560048684934, "vvh": -53.739541326283735, "vhalfs": -42.22939001512733, "zetas": 12.811495608869796},
 "R1319G":{"Rd": 0.01821017957894782, "Rg": 0.015835927879902578, "Rb": 0.08669778691261865, "Ra": 0.25222138069588795, "a0s": 0.0005998602174497901, "gms": 0.15734865667490094, "hmin": 0.003049022325449447, "mmin": 0.009227432163769297, "qinf": 7.542037850663156, "q10": 1.3991326492121134, "qg": 0.11658354700541385, "qd": 0.41022807889968216, "qa1": 6.23800810747929, "smax": 2.297618044174789, "sh": 9.225725362157418, "thinf": -46.09023665760313, "thi2": -57.0320710747067, "thi1": -62.70708396987019, "tha": -29.27378295119758, "vvs": 0.25717057711770985, "vvh": -58.74304862555019, "vhalfs": -31.258170795759927, "zetas": 10.786789360357215},
@@ -295,7 +289,8 @@ synthmuts={
 
 
 
-for mutname,dict in migraine.items():
+
+for mutname,dict in synthmuts.items():
   print(f"mutname is {mutname}")
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filenamemut,dict)
@@ -312,7 +307,13 @@ for mutname,dict in migraine.items():
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHHmut',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')
+  # simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'{mutname}-')
+  features_df1 = ef.get_features(sim=simmut, prefix=f'{root_path_out}/{path}', mut_name = f'{mutname}')
+
+  allmutsefel = allmutsefel.append(features_df1,ignore_index=True)
+allmutsefel.to_csv('allsynthmuts_EFEL_111424.csv')
+  
+
   # simmut.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'{mutname}-')
   # simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{mutname}-FI', epochlabel='200ms')
 
@@ -328,19 +329,19 @@ for mutname,dict in migraine.items():
   #   writer.writerow(mut_Vm1)
 
   
-  mut_Vm1, mut_I1, mut_t1, _ = simmut.get_stim_raw_data(stim_amp=0.5, dt=0.01, rec_extra=False, stim_dur=500, sim_config=config)
+  # mut_Vm1, mut_I1, mut_t1, _ = simmut.get_stim_raw_data(stim_amp=0.5, dt=0.01, rec_extra=False, stim_dur=500, sim_config=config)
 
-  # Create a new dictionary with the desired keys
-  selected_data = {
-      "Vm": mut_Vm1,
-      "na12.ina_ina": mut_I1['na12.ina_ina'],
-      "na12mut.ina_ina": mut_I1['na12mut.ina_ina']
-  }
+  # # Create a new dictionary with the desired keys
+  # selected_data = {
+  #     "Vm": mut_Vm1,
+  #     "na12.ina_ina": mut_I1['na12.ina_ina'],
+  #     "na12mut.ina_ina": mut_I1['na12mut.ina_ina']
+  # }
 
-  with open(f"{root_path_out}/{mutname}_rawdata.csv", 'w', newline='') as csvfile:
-      writer = csv.writer(csvfile, delimiter=',')
-      writer.writerow(selected_data.keys())
-      writer.writerows(zip(*selected_data.values()))
+  # with open(f"{root_path_out}/{mutname}_rawdata.csv", 'w', newline='') as csvfile:
+  #     writer = csv.writer(csvfile, delimiter=',')
+  #     writer.writerow(selected_data.keys())
+  #     writer.writerows(zip(*selected_data.values()))
       
     
     # writer.writerows(mut_I1[x][step1:step2] for x in mut_I1) ####This and below line are used when time steps are used
