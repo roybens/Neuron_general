@@ -694,13 +694,13 @@ class Na12Model_TF:
         return fis
 
 
-    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,het_Vm=None,het_t=None,fnpre = '', dt=0.005):
+    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,het_Vm=None,het_t=None,fnpre = '', dt=0.005,stim_dur=500): ##TF111524 added stim_dur
         for curr_amp in vs_amp:
             figures = []
 
             #Attempting wt and het on same plot
             fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config, het_Vm=het_Vm,het_t=het_t)
+            self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config, het_Vm=het_Vm,het_t=het_t, stim_dur=stim_dur)
             print(wt_Vm)
             print(len(wt_Vm))
             print(wt_t)

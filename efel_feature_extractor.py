@@ -5,12 +5,12 @@ import NrnHelper as NH
 from neuron import h
 import time
 import efel
-efel.api.setDoubleSetting('Threshold', 15)
+efel.api.setDoubleSetting('Threshold', 15) #15 originally
 import pandas as pd
 import math
 from scipy.signal import find_peaks
 
-def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.3): #originally had mutant_name, changed to mut_name 121223TF
+def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.5): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original
 
     # sim = Na12Model_TF(mutant_name)
     #sim = Na12Model_TF(mut_name)
@@ -29,13 +29,35 @@ def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.3
 
     return Vm,t,extra_vms,I,stim
 
+
+def get_sim_volt_valuesTF(sim,mut_name,dt = 0.005,stim_amp = 0.5): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original
+
+    # sim = Na12Model_TF(mutant_name)
+    #sim = Na12Model_TF(mut_name)
+    sim.dt= dt
+    #sim.make_het()
+    rec_extra = False
+    sim.l5mdl.init_stim(amp=stim_amp)
+    if rec_extra:
+        Vm, I, t, stim,_ = sim.l5mdl.run_sim_model(dt=dt)
+
+        # sim.extra_vms = extra_vms
+    else:
+        Vm, I, t, stim,_ = sim.l5mdl.run_sim_model(dt=dt)
+
+        # extra_vms = {}
+
+    return Vm,t,I,stim
+
+
 def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #added sim_config to allow run_sim_model instead of run_model 011924TF
     print("running routine")
-    dt=0.005
+    dt=0.005#0.1#0.005
     Vm,t,extra_vms,_,__ = get_sim_volt_values(sim,mut_name,rec_extra=rec_extra)
+    # Vm,t,I,_ = get_sim_volt_valuesTF(sim,mut_name)
     #creating the trace file
-    stim_start = 100
-    stim_end = 800
+    stim_start = 100 #100 original
+    stim_end = 800 #800 original
     trace={}
     trace = {'T':t,'V':Vm,'stim_start':[stim_start],'stim_end':[stim_end]}
     trace['T']= trace['T'] * 1000
@@ -43,6 +65,16 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     feature_list= ['AP_height','AP_width','AP1_peak','AP1_width','Spikecount','all_ISI_values']
     traces = [trace]
     features = efel.getFeatureValues(traces,feature_list)
+    
+    ###Plotting Voltages to debug not getting enough spikes ##TF111524
+    # plt.plot(trace['T'], trace['V'])
+    # plt.xlabel('Time (ms)')
+    # plt.ylabel('Voltage (mV)')
+    # plt.title('Voltage vs Time')
+    # plt.savefig('ZZZZZZZZZZZZZ_OGrun_voltage_vs_time5.pdf', format='pdf')  # Replace with your desired filename
+    # plt.close()
+    ###Plotting Voltages to debug not getting enough spikes ##TF111524
+
     try:
         features[0]['ISI mean'] =features[0]['all_ISI_values'].mean()
     except Exception as e:
@@ -60,6 +92,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     #median spike location
     print(f'Length of isi_values{len(isi_values)}')
     print(f'isi_values: {isi_values}')
+    print(f'Spike Count = {spike_count}')
 
     start = int((stim_start + isi_values[0:median_spike-1].sum())/dt)    #dividing by dt to get into same unit
     try:
