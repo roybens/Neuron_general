@@ -209,13 +209,13 @@ config_dict3={"sim_config_soma": sim_config_soma}
 # For developing type 3 nav16=0, soma_na16=0, ais_nav16_factor=0, and nav12=2.3
 
 for config_name, config in config_dict3.items():
-  path = f'Developing2'
+  path = f'Developing1'
   factor = 1
 
   ## WT vs HET vs Mut  
   ##WT model
-  simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=0,nav12=1,nav16=0, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
-                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0,soma_na12=3.2*0.8,node_na = 1,
+  simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
@@ -227,8 +227,8 @@ for config_name, config in config_dict3.items():
 
 
   # ##het model
-  sim_het = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=0,nav12=1,nav16=0, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
-                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0,soma_na12=3.2*0.8,node_na = 1,
+  sim_het = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHHmut',na12mechs = ['na12','na12mut'],
                               na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHHmut',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
@@ -242,8 +242,8 @@ for config_name, config in config_dict3.items():
 
 
   # ##KO model
-  sim_ko = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=0,nav12=1,nav16=0, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
-                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=0,soma_na12=3.2*0.8,node_na = 1,
+  sim_ko = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
+                              ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHHmut',mut_name = 'na12annaTFHHmut',na12mechs = ['na12','na12mut'],
                               na16name = 'na12annaTFHHmut',na16mut_name = 'na12annaTFHHmut',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
