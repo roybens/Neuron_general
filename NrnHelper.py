@@ -46,6 +46,18 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     x_axis = np.linspace(s_amp,e_amp,nruns)
     stim_length = int(600/dt)
     stim_length2 = int(1000/dt)
+
+    # This makes sure red is always for the homozygous, blue for heterozygous and black for WT
+    if wt_data is None:     #Only WT
+        Color = 'black'
+        Label = 'WT'
+    elif wt2_data is None:  #WT vs Het
+        Color = 'red'
+        Label = 'Mutant'
+    else:                   # Wt vs Het vs Homozygous
+        Color = 'red'
+        Label = 'Homozygous'
+
     for curr_amp in x_axis:
         mdl.init_stim(amp = curr_amp,dt = dt)
         curr_volts,_,_,_ = mdl.run_model()
@@ -56,7 +68,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     print(npeaks) #spikes at each stim current for FI curve
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
-        ax1.plot(x_axis,npeaks,marker = 'o',markersize=1.5,linestyle = '-',color = 'red')
+        ax1.plot(x_axis,npeaks,marker = 'o',markersize=1.5,linestyle = '-',color = Color, label = Label )
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
     ax1.set_ylabel(f'nAPs for {epochlabel} epoch')
@@ -72,7 +84,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         fig.savefig(fn)
         return npeaks
     else:
-        ax1.plot(x_axis,wt_data,marker = 'o',markersize=1.5,linestyle = '-',color = 'black') #mutant will be red
+        ax1.plot(x_axis,wt_data,marker = 'o',markersize=1.5,linestyle = '-',color = 'black', label = 'WT') #mutant will be red
         
         ## Set min/max and axes manually
         # ymin=0
@@ -81,7 +93,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         # ax1.set_yticks([0,5,10,15,20,25,30,35])
         
         if wt2_data is not None:
-          ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1.5, linestyle='-', color = 'blue') #plots additional FI curve that you must supply array
+          ax1.plot(x_axis,wt2_data,marker = 'o',markersize=1.5, linestyle='-', color = 'blue', label= 'Heterozygous') #plots additional FI curve that you must supply array
           
           ## Set min/max and axes manually          
         #   ymin=0
@@ -97,7 +109,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     # ymax=40
     # ax1.set_ylim(ymin,ymax)
     # ax1.set_yticks([0,5,10,15,20,25,30,35])
-
+    ax1.legend(loc='best', fontsize=8, markerscale = 3)
     fig.show()
     fig.savefig(fn)
     return(npeaks)
@@ -174,10 +186,21 @@ def plot_dvdt_from_volts_wtvmut(volts,wt_Vm,dt,axs=None,het_Vm=None,clr = 'red',
     
     #axs.plot(volts, dvdt, color = clr)
     
-    axs.plot(volts, dvdt, color = clr,linewidth=0.5)#plot first peak only [1:20000] was original
-    axs.plot(wt_Vm,dvdtwt,color='black', alpha=0.8,linewidth=0.5)
+
+    # Plot the dV/dt curves
+     #plot first peak only [1:20000] was original
+    axs.plot(wt_Vm, dvdtwt, color='black', alpha=0.8, linewidth=0.5, label='Wild Type')
     if het_Vm is not None:
-        axs.plot(het_Vm,dvdthet,color='cadetblue', alpha=0.8,linewidth=0.5)
+        axs.plot(het_Vm, dvdthet, color='cadetblue', alpha=0.8, linewidth=0.5, label='Heterozygote')
+        axs.plot(volts, dvdt, color=clr, linewidth=0.5, label='Homozygous')
+    else:
+        axs.plot(volts, dvdt, color=clr, linewidth=0.5, label='Mutant')
+
+    # Add title, axis labels, and legend
+    axs.set_title("dV/dt vs Membrane Voltage", fontsize=8)
+    axs.set_xlabel("Membrane Voltage (mV)", fontsize=8)
+    axs.set_ylabel("dV/dt (mV/ms)", fontsize=8)
+    axs.legend(loc="best", fontsize=7, markerscale = 2)
     return axs
 
 def plot_dg_dt(g,volts,dt,axs=None,clr = 'black'):

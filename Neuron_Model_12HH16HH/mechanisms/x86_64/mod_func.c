@@ -15,10 +15,10 @@ extern void _ProbGABAAB_EMS_reg(void);
 extern void _SK_E2_reg(void);
 extern void _SKv3_1_reg(void);
 extern void _branching_reg(void);
-extern void _na12annaTFHH_reg(void);
-extern void _na12annaTFHHmut_reg(void);
-extern void _na16HH_TF_reg(void);
-extern void _na16HHmut_TF_wtcopy_reg(void);
+extern void _na12HH_reg(void);
+extern void _na12HHmut_reg(void);
+extern void _na16HH_reg(void);
+extern void _na16HHmut_reg(void);
 extern void _vclmp_pl_reg(void);
 
 void modl_reg(){
@@ -37,10 +37,10 @@ void modl_reg(){
     fprintf(stderr," \"SK_E2.mod\"");
     fprintf(stderr," \"SKv3_1.mod\"");
     fprintf(stderr," \"branching.mod\"");
-    fprintf(stderr," \"na12annaTFHH.mod\"");
-    fprintf(stderr," \"na12annaTFHHmut.mod\"");
-    fprintf(stderr," \"na16HH_TF.mod\"");
-    fprintf(stderr," \"na16HHmut_TF_wtcopy.mod\"");
+    fprintf(stderr," \"na12HH.mod\"");
+    fprintf(stderr," \"na12HHmut.mod\"");
+    fprintf(stderr," \"na16HH.mod\"");
+    fprintf(stderr," \"na16HHmut.mod\"");
     fprintf(stderr," \"vclmp_pl.mod\"");
     fprintf(stderr, "\n");
   }
@@ -56,9 +56,9 @@ void modl_reg(){
   _SK_E2_reg();
   _SKv3_1_reg();
   _branching_reg();
-  _na12annaTFHH_reg();
-  _na12annaTFHHmut_reg();
-  _na16HH_TF_reg();
-  _na16HHmut_TF_wtcopy_reg();
+  _na12HH_reg();
+  _na12HHmut_reg();
+  _na16HH_reg();
+  _na16HHmut_reg();
   _vclmp_pl_reg();
 }

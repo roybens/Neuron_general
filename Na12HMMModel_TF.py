@@ -395,13 +395,21 @@ class Na12Model_TF:
         print(f'tlength is {tlength}')
         print(f'vlength is {vlength}')
 
-        axs.plot(t,Vm, label='Vm', color=clr,linewidth=0.5)
-        axs.plot(wt_t[0:tlength],wt_Vm[0:vlength], label='WT_Vm', color='black',linewidth=0.5, alpha=0.8)
+        
+        axs.plot(wt_t[0:tlength],wt_Vm[0:vlength], label='WT', color='black',linewidth=0.5, alpha=0.8)
         if het_Vm is not None and het_t is not None:
-            axs.plot(het_t[0:tlength],het_Vm[0:vlength], label='HET_Vm', color='cadetblue',linewidth=0.5, alpha=0.8)
+            axs.plot(het_t[0:tlength],het_Vm[0:vlength], label='Heterozygous', color='cadetblue',linewidth=0.5, alpha=0.8)
+            axs.plot(t,Vm, label='Homozygous', color=clr,linewidth=0.5)
+        else:
+            axs.plot(t,Vm, label='Mutant', color=clr,linewidth=0.5)
 
         axs.locator_params(axis='x', nbins=5)
         axs.locator_params(axis='y', nbins=8)
+        axs.set_title('Stimulation Plot', fontsize = 8)
+        axs.set_xlabel('Time (s)', fontsize = 8)
+        axs.set_ylabel('Membrane Voltage', fontsize = 8)
+        axs.legend(loc='best', fontsize = 6, markerscale = 2)
+
         #plt.show()
         #add_scalebar(axs)
         # file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf' ##Commented 121323 prior to batch run TF
@@ -651,7 +659,7 @@ class Na12Model_TF:
             # fig_volts2.savefig(fn3)
 
             #Attempting wt and het on same plot
-            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(30),cm_to_in(15)))
             self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config)
             print(wt_Vm)
             print(len(wt_Vm))
@@ -699,7 +707,7 @@ class Na12Model_TF:
             figures = []
 
             #Attempting wt and het on same plot
-            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+            fig_volts3,axs = plt.subplots(2,figsize=(cm_to_in(10),cm_to_in(15)))
             self.plot_wtvmut_stim(wt_Vm=wt_Vm,wt_t=wt_t,axs = axs[0],stim_amp = curr_amp,dt=dt,sim_config=sim_config, het_Vm=het_Vm,het_t=het_t, stim_dur=stim_dur)
             print(wt_Vm)
             print(len(wt_Vm))
@@ -709,6 +717,7 @@ class Na12Model_TF:
             print(len(self.volt_soma))
             plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1],het_Vm=het_Vm)
             fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}_wtvmut.pdf'
+            plt.tight_layout(pad=2.0)  # Adjust the padding
             fig_volts3.savefig(fn4)
             
 
