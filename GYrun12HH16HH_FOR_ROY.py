@@ -207,9 +207,10 @@ config_dict3={"sim_config_soma": sim_config_soma}
 # For developing type 1 only replace the nav1.6 mod files with the nav1.2 mod files.
 # For developing type 2 nav16=0, soma_na16=0, ais_nav16_factor=0
 # For developing type 3 nav16=0, soma_na16=0, ais_nav16_factor=0, and nav12=2.3
+# mature LOF is complete loss of function by removing one allele, S1655P
 
 for config_name, config in config_dict3.items():
-  path = f'Developing1'
+  path = f'Mature_LOF_S1655P'
   factor = 1
 
   ## WT vs HET vs Mut  
@@ -217,40 +218,59 @@ for config_name, config in config_dict3.items():
   simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                              na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.8,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
   wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=50, fn=f'WT',epochlabel='200ms')
-  simwt.make_currentscape_plot(amp=0.8, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
-  NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
+  simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='WT')
+  #NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
   # features_df1 = ef.get_features(sim=simwt, prefix='WT', mut_name = 'na12annaTFHH2')
-
-
+  """
   # ##het model
   sim_het = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHHmut',na12mechs = ['na12','na12mut'],
-                              na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHHmut',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  het_Vm1,_,het_t1,_ = sim_het.get_stim_raw_data(stim_amp =0.8,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
-  het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=50, fn=f'WTHET',epochlabel='200ms')
-  sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.8], fnpre=f'WTvsHET')#sim_config for changing regions
-  sim_het.make_currentscape_plot(amp=0.8, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
+  het_Vm1,_,het_t1,_ = sim_het.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
+  #het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=50, fn=f'WTHET',epochlabel='200ms')
+  sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
+  sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
   NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
   # features_df2 = ef.get_features(sim=sim_het, prefix='HET', mut_name = 'na12annaTFHH2')
   
-
 
   # ##KO model
   sim_ko = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12*0.6,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15, KT=5,
                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                               na12name = 'na12annaTFHHmut',mut_name = 'na12annaTFHHmut',na12mechs = ['na12','na12mut'],
-                              na16name = 'na12annaTFHHmut',na16mut_name = 'na12annaTFHHmut',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=50, fn=f'WTHETKO',epochlabel='200ms')
-  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=config,vs_amp=[0.8], fnpre=f'WTvHETvKO_ais16-{factor}')#vs_amp=[0.5]
-  sim_ko.make_currentscape_plot(amp=0.8, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
+  #sim_ko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=50, fn=f'WTHETKO',epochlabel='200ms')
+  sim_ko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,het_Vm=het_Vm1,het_t=het_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvHETvKO_ais16-{factor}')#vs_amp=[0.5]
+  sim_ko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='KO')
   NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_KO') ##TF uncomment to run function and plot channel densities in axon[0]
   # features_df3 = ef.get_features(sim=sim_ko, prefix='KO', mut_name = 'na12annaTFHH2')
-
+  """
  
+
+ # for LOF S1655P
+  factor = 0.5
+  sim_het = tf.Na12Model_TF(
+  ais_nav12_fac = factor*12,
+  ais_nav16_fac = 12*0.6,
+  nav12 = factor*1,nav16 = 1.3,
+  somaK = 1*2.2*0.01, KP = 25*0.15, KT= 5,
+  ais_ca = 100*8.6*0.1,ais_Kca = 0.5,
+  soma_na16=1*0.8,soma_na12=factor*3.2*0.8,
+  node_na = 1,
+  na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+
+  het_Vm1,_,het_t1,_ = sim_het.get_stim_raw_data(stim_amp =0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #sim_config for changing regions
+  het_fi=sim_het.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=50, fn=f'WTHET',epochlabel='200ms')
+  sim_het.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=config,vs_amp=[0.5], fnpre=f'WTvsHET')#sim_config for changing regions
+  sim_het.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx='HET')
+  NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_Het') ##TF uncomment to run function and plot channel densities in axon[0]
+  # features_df2 = ef.get_features(sim=sim_het, prefix='HET', mut_name = 'na12annaTFHH2')
