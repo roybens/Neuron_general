@@ -139,7 +139,7 @@ def modify_dict_file(filename, changes):
   #Don't forget to change NeuronModelClass.py to './Neuron_Model_12HH16HH/' and recompile!!
 
 
-root_path_out = './Plots/12HH16HH/9-compiled_muts_4on1_plots' ##path for saving your plots
+root_path_out = './Plots/12HH16HH/10-KevinRtR_chandensities' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
 
@@ -248,6 +248,9 @@ wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nrun
 # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=300,stim_start=30, sweep_len=500,pfx=f'WT-')
 # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
 # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+
+# NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
+
 
 migraine={"F257I":{"Rd": 0.028485318424710374, "Rg": 0.018420814026814298, "Rb": 0.05777962337521357, "Ra": 0.21341303335597034, "a0s": 0.00046381351100748496, "gms": 0.1341164855099387, "hmin": 0.006864146828635849, "mmin": 0.007621368015226187, "qinf": 6.486459886532015, "q10": 2.561051746368186, "qg": 1.3943995618682714, "qd": 0.797072687262635, "qa1": 6.540179485338942, "smax": 5.751234160342341, "sh": 9.898965372911075, "thinf": -42.299802571430824, "thi2": -64.0747495998566, "thi1": -48.0852551990378, "tha": -30.139992632180743, "vvs": 0.8468560048684934, "vvh": -53.739541326283735, "vhalfs": -42.22939001512733, "zetas": 12.811495608869796},
 "R1319G":{"Rd": 0.01821017957894782, "Rg": 0.015835927879902578, "Rb": 0.08669778691261865, "Ra": 0.25222138069588795, "a0s": 0.0005998602174497901, "gms": 0.15734865667490094, "hmin": 0.003049022325449447, "mmin": 0.009227432163769297, "qinf": 7.542037850663156, "q10": 1.3991326492121134, "qg": 0.11658354700541385, "qd": 0.41022807889968216, "qa1": 6.23800810747929, "smax": 2.297618044174789, "sh": 9.225725362157418, "thinf": -46.09023665760313, "thi2": -57.0320710747067, "thi1": -62.70708396987019, "tha": -29.27378295119758, "vvs": 0.25717057711770985, "vvh": -58.74304862555019, "vhalfs": -31.258170795759927, "zetas": 10.786789360357215},

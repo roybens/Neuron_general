@@ -1,7 +1,26 @@
+
+// Define the max function
+func max() {
+	if ($1 >= $2) {
+		return $1
+	} else {
+		return $2
+	}
+}
+
+// Define the min function
+func min() {
+	if ($1 <= $2) {
+		return $1
+	} else {
+		return $2
+	}
+}
+
 proc initial_values(){
 	dend_na12 =0.0001/2
 	dend_k = 0.004226
-	soma_na12 = 0.983955/2	
+	soma_na12 = 0.983955/2    
 	soma_K = 8.396194779331378477e-02
 	node_na = 2
 	axon_KP =0.973538
@@ -10,12 +29,10 @@ proc initial_values(){
 	axon_LVA = 0.0014
 	axon_HVA = 0.00012
 	axon_KCA = 1.8
-	ais_na16		=	7 //3.137968
-	ais_na12		=	5 //3.137968
+	ais_na16      =      7 
+	ais_na12      =      7 
 	ais_ca = 0.000990
 	ais_KCa = 0.007104
-
-
 
 	soma_na16 = soma_na12
 	naked_axon_na = soma_na16/5
@@ -28,191 +45,131 @@ proc initial_values(){
 	cm_all = 1
 }
 
-// modify the axon for Roy's purposes (whole thing)
 proc populate_axon(){
 	forsec cell.axonal{
-			
-			
-			gCa_HVAbar_Ca_HVA = axon_HVA
-			gCa_LVAstbar_Ca_LVAst = axon_LVA
-			gSK_E2bar_SK_E2 = axon_KCA
-			nseg=11
-			g_pas(0:0.1) = (gpas_all/myelin_scale):(gpas_all/myelin_scale)
-			g_pas(0.1:1) = gpas_all:gpas_all
-			cm(0:0.1) = (cm_all/myelin_scale):(cm_all/myelin_scale)
-			cm(0.1:1) = cm_all:cm_all
-			gbar_na16(0:0.1) = node_na/2:node_na/2
-			gbar_na16mut(0:0.1) = node_na/2:node_na/2
-			gbar_na16(0.1:1) = myelin_na/2:myelin_na/2
-			gbar_na16mut(0.1:1) = myelin_na/2:myelin_na/2
-			gSKv3_1bar_SKv3_1(0:0.1) = axon_K:axon_K
-			gSKv3_1bar_SKv3_1(0.1:1) = myelin_K:myelin_K
-			gK_Pstbar_K_Pst(0:0.1) = axon_KP:axon_KP
-			gK_Pstbar_K_Pst(0.1:1) = axon_KP/10:axon_KP/10
-			gK_Tstbar_K_Tst(0:0.1) = axon_KT:axon_KT
-			gK_Tstbar_K_Tst(0.1:1) = axon_KT/10:axon_KT/10	
-		}
+		gCa_HVAbar_Ca_HVA = axon_HVA
+		gCa_LVAstbar_Ca_LVAst = axon_LVA
+		gSK_E2bar_SK_E2 = axon_KCA
+		nseg=11
+		g_pas(0:0.1) = (gpas_all/myelin_scale):(gpas_all/myelin_scale)
+		g_pas(0.1:1) = gpas_all:gpas_all
+		cm(0:0.1) = (cm_all/myelin_scale):(cm_all/myelin_scale)
+		cm(0.1:1) = cm_all:cm_all
+		gbar_na16(0:0.1) = node_na/2:node_na/2
+		gbar_na16mut(0:0.1) = node_na/2:node_na/2
+		gbar_na16(0.1:1) = myelin_na/2:myelin_na/2
+		gbar_na16mut(0.1:1) = myelin_na/2:myelin_na/2
+		gSKv3_1bar_SKv3_1(0:0.1) = axon_K:axon_K
+		gSKv3_1bar_SKv3_1(0.1:1) = myelin_K:myelin_K
+		gK_Pstbar_K_Pst(0:0.1) = axon_KP:axon_KP
+		gK_Pstbar_K_Pst(0.1:1) = axon_KP/10:axon_KP/10
+		gK_Tstbar_K_Tst(0:0.1) = axon_KT:axon_KT
+		gK_Tstbar_K_Tst(0.1:1) = axon_KT/10:axon_KT/10    
+	}
 }
 
-
-
-// Specifically modify the first segment to create an AIS
 proc create_ais(){
-access cell.axon[0]
-
-	//Length of the AIS - Roy's original code
-	nseg = int(L/10)*2 +1  // create 19 segments from this axon section ##90um overall length
-	ais_end = 10/nseg // specify the end of the AIS as halfway down this section ##45um AIS length
-	//ais_mid = 4/nseg // specify the middle of the AIS as 1/5 of this section ##Original from Roy
-
-	//Create gradients of na16 ##Originally from Roy
-	//gbar_na16(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
-	//gbar_na16mut(ais_mid/2:ais_end/2) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS
-	//gbar_na16(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
-	//gbar_na16mut(0:ais_mid) = 0:ais_na16/2 // from the start to mid of AIS, create gradient of NaV1.6
-	//gbar_na16(ais_mid:ais_end) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS ##Shifted from mid:end
-	//gbar_na16mut(ais_mid:ais_end) = ais_na16/2:ais_na16/2 // add consistent amount NaV1.6 until the end of the AIS ##shifted from mid:end
-	//Create gradients of na12 ##Originally from Roy
-	//gbar_na12(0:ais_mid/2) = soma_na12/2:ais_na12/2 // create gradient of NaV12 from [soma] to [AIS]
-	//gbar_na12mut(0:ais_mid/2) = soma_na12/2:ais_na12/2 // add a mutant channel in case we want to do a het
-	//gbar_na12(ais_mid/2:ais_mid) = ais_na12/2:0 // create gradient down to zero
-	//gbar_na12mut(ais_mid/2:ais_mid) = ais_na12/2:0 // more mutant channel
-	//gbar_na12(ais_mid/2:ais_end) = ais_na12/2:0 // create gradient down to zero ##extended to AIS end at 45um
-	//gbar_na12mut(ais_mid/2:ais_end) = ais_na12/2:0 // more mutant channel ##extended to AIS end at 45um
-	//gbar_na12(ais_mid:1) = 0:0 //naked axon
-	//gbar_na12mut(ais_mid:1) = 0:0 //naked axon	
-	//gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
-	//gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	access cell.axon[0]
+	L = 90  // Total length of this section = 90um
+	if (L == 0) {
+		print "ERROR: Length of cell.axon[0] is zero. Cannot create AIS."
+		return // Exit the procedure
+	}
+	nseg = 121 // Increased number of segments
+	ais_mid = nseg/2 // Midpoint of the AIS (30 um if L=90)
+	ais_width = 20 // Width of the AIS "arch" (20 um, so 10 um on each side)
+	ais_width12 = 0.20*nseg // Width of the AIS "arch" Percentage of AIS
+	ais_width16 = 0.40*nseg // Width of the AIS "arch" Percentage of AIS
 	
-	///////////////////////////////////////////
-	//Tim's code trying to round out na16 curve based on Hu 2009 doi:10.1038/nn.2359
-	//WT
-	//gbar_na16(0:4*ais_end/10) = 0:ais_na16/3
-	//gbar_na16(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
-	//gbar_na16(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	//gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	//gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	ais_end = min(L, ais_mid + ais_width/2)
 	
-	//Mut
-	//gbar_na16mut(0:4*ais_end/10) = 0:ais_na16/3
-	//gbar_na16mut(4*ais_end/10:6*ais_end/10) = ais_na16/3:ais_na16/2
-	//gbar_na16mut(6*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	//gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	//gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
+	ais_mid12 = ais_mid - 30
+	ais_start12 = max(0, ais_mid12 - ais_width12/2) // Constrain start to be >= 0
+	ais_end12 = min(L, ais_mid12 + ais_width12/2)   // Constrain end to be <= L
+	
+	ais_mid16 = ais_mid + 10
+	ais_start16 = max(0, ais_mid16 - ais_width16/2) // Constrain start to be >= 0
+	ais_end16 = min(L, ais_mid16 + ais_width16/2)   // Constrain end to be <= L
 
-	//gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
-	//gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	// Define the Gaussian-like curve parameters
+	peak_na12 = ais_na12
+	peak_na16 = ais_na16
+	sigma12 = ais_width12 / 6 // Roughly 99.7% of the curve within the width (3 standard deviations on each side)
+	sigma16 = ais_width16 / 6 // Roughly 99.7% of the curve within the width (3 standard deviations on each side)
+
+	for i=0, nseg-1 {
+		x = i / (nseg - 1) // Correct way to calculate x
+		print "i=", i, " x=", x, " ais_start12=", ais_start12, " ais_end12=", ais_end12 // Debug print
+		print "i=", i, " x=", x, " ais_start16=", ais_start16, " ais_end16=", ais_end16 // Debug print
 		
+		///////////////// Gaussian-like function for Na12///////////////
+		na12_profile = peak_na12 * exp(-(x*L - ais_mid12)^2 / (2 * sigma12^2))
+		if (x*L < ais_start12 || x*L > ais_end12){
+			na12_profile = 0 // Value outside the arch
+		}
+		gbar_na12(x) = na12_profile
+		print "na12_profile=", na12_profile // Debug print
+		//////////////////////////////
 	
-	//Tim's code trying to round out na12 curve
-	//WT
-	//gbar_na12(0:ais_end/10) = 0:ais_na12/3
-	//gbar_na12(0:ais_end/10) = ais_na12/4:ais_na12/3
-	//gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
-	//gbar_na12(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
-	//gbar_na12(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
-	//gbar_na12(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
-
-	//Mut
-	//gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
-	//gbar_na12mut(0:ais_end/10) = ais_na12/4:ais_na12/3
-	//gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/3:ais_na12/2
-	//gbar_na12mut(2*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/2
-	//gbar_na12mut(4*ais_end/10:5*ais_end/10) = ais_na12/2:ais_na12/3
-	//gbar_na12mut(5*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
-	
-	//gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
-	//gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
-	////////////////////////////////////////
-	
-	
-	
-	////////////////////////////////////////
-	//New distribution from Kevin's guidance 092424//
-	//"have 1.2 drop to 0 gBar by segment 3 instead of segment 5.  i know we're going for Hu Shu style where it looks like half half but the data support something more like 1/3rd 1.2
-	//then take the 1.6 value at 6 and move that to position 3.  connect with a smooth line" - Kevin
-	
-	//WT 1.6
-	//gbar_na16(0:2*ais_end/10) = 0:ais_na16/8  //0:ais_na16/3
-	//gbar_na16(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
-	//gbar_na16(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 
-	//gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	//gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	//gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
-	
-	//Mut 1.6
-	//gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/8 //0:ais_na16/3
-	//gbar_na16mut(2*ais_end/10:3*ais_end/10) = ais_na16/3:ais_na16/2 //ais_na16/3:ais_na16/2
-	//gbar_na16mut(3*ais_end/10:4*ais_end/10) = ais_na16/2:ais_na16/2 //ais_na16/3:ais_na16/2
-	//gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	//gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	//gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
-
-	//WT 1.6
-	gbar_na16(0:2*ais_end/10) = 0:ais_na16/3
-	gbar_na16(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
-	gbar_na16(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	gbar_na16(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	gbar_na16(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
-	
-	//Mut 1.6
-	gbar_na16mut(0:2*ais_end/10) = 0:ais_na16/3
-	gbar_na16mut(2*ais_end/10:4*ais_end/10) = ais_na16/3:ais_na16/2
-	gbar_na16mut(4*ais_end/10:8*ais_end/10) = ais_na16/2:ais_na16/2
-	gbar_na16mut(8*ais_end/10:9*ais_end/10) = ais_na16/2:ais_na16/3
-	gbar_na16mut(9*ais_end/10:ais_end) = ais_na16/3:naked_axon_na/2
-
-	gbar_na16(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
-	gbar_na16mut(ais_end:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+		///////////////// Gaussian-like function for Na12mut///////////////
+		na12mut_profile = peak_na12 * exp(-(x*L - ais_mid12)^2 / (2 * sigma12^2))
+		if (x*L < ais_start12 || x*L > ais_end12){
+			na12mut_profile = 0 // Value outside the arch
+		}
+		gbar_na12mut(x) = na12mut_profile
+		print "na12mut_profile=", na12mut_profile // Debug print
+		//////////////////////////////
 
 
-	//WT 1.2
-	//gbar_na12(0:ais_end/10) = 0:ais_na12/3
-	gbar_na12(0:ais_end/10) = ais_na12/8:ais_na12/2
-	gbar_na12(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
-	gbar_na12(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
-	//gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
-	gbar_na12(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
-	gbar_na12(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
 
-	//Mut 1.2
-	//gbar_na12mut(0:ais_end/10) = 0:ais_na12/3
-	gbar_na12mut(0:ais_end/10) = ais_na12/8:ais_na12/2
-	gbar_na12mut(ais_end/10:2*ais_end/10) = ais_na12/2:ais_na12/2
-	gbar_na12mut(2*ais_end/10:3*ais_end/10) = ais_na12/2:ais_na12/2
-	//gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:ais_na12/6
-	gbar_na12mut(3*ais_end/10:4*ais_end/10) = ais_na12/2:0
-	gbar_na12mut(4*ais_end/10:ais_end) = 0:0 //##TF071624 changed to 0
-	
-	gbar_na12(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
-	gbar_na12mut(ais_end:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
-	////////////////////////////////////////
-	
 
+		///////////////// Gaussian-like function for Na16///////////////
+		na16_profile = peak_na16 * exp(-(x*L - ais_mid16)^2 / (2 * sigma16^2))
+		if (x*L < ais_start16 || x*L > ais_end16){
+			na16_profile = naked_axon_na/2 // Value outside the arch
+		}
+
+		gbar_na16(x) = na16_profile
+		print "na16_profile=", na16_profile // Debug print
+		//////////////////////////////
+		
+
+		///////////////// Gaussian-like function for Na16mut///////////////
+		na16mut_profile = peak_na16 * exp(-(x*L - ais_mid16)^2 / (2 * sigma16^2))
+		if (x*L < ais_start16 || x*L > ais_end16){
+			na16mut_profile = naked_axon_na/2 // Value outside the arch
+		}
+
+		gbar_na16mut(x) = na16mut_profile
+		print "na16mut_profile=", na16mut_profile // Debug print
+		//////////////////////////////
 	
-	
-	
-	
-	
-	
-	
-	gK_Pstbar_K_Pst(0:ais_end) = axon_KP:axon_KP
-	gK_Pstbar_K_Pst(ais_end:1) = axon_KP/10:axon_KP/10
-	gK_Tstbar_K_Tst(0:ais_end) = axon_KT:axon_KT
-	gK_Tstbar_K_Tst(ais_end:1) = axon_KT/10:axon_KT/10
-	gSKv3_1bar_SKv3_1(0:ais_end) = axon_K:axon_K
-	gSKv3_1bar_SKv3_1(ais_end:1) = axon_K/10:axon_K/10
-	gCa_HVAbar_Ca_HVA(0:ais_end) = ais_ca:ais_ca
-	gCa_HVAbar_Ca_HVA(0:ais_end) = ais_ca/10:ais_ca/10
-	gSK_E2bar_SK_E2(0:ais_end) = ais_KCa:ais_KCa // SK channel
-	gSK_E2bar_SK_E2(ais_end:1) = ais_KCa/10:ais_KCa/10
-	
-			
-	
-access cell.soma
+		if (x < 0 || x > 1) { // Check for out-of-range x
+			print "ERROR: x is out of range!"
+		}
+	}
+	gbar_na16(ais_end/L:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	gbar_na16mut(ais_end/L:1) = naked_axon_na/2:naked_axon_na/2 // 1/5th nav1.6
+	gbar_na12(ais_end/L:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+	gbar_na12mut(ais_end/L:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+
+	gK_Pstbar_K_Pst(0:ais_end/L) = axon_KP:axon_KP
+	gK_Pstbar_K_Pst(ais_end/L:1) = axon_KP/10:axon_KP/10
+	gK_Tstbar_K_Tst(0:ais_end/L) = axon_KT:axon_KT
+	gK_Tstbar_K_Tst(ais_end/L:1) = axon_KT/10:axon_KT/10    
+	gSKv3_1bar_SKv3_1(0:ais_end/L) = axon_K:axon_K
+	gSKv3_1bar_SKv3_1(ais_end/L:1) = axon_K/10:axon_K/10
+	gCa_HVAbar_Ca_HVA(0:ais_end/L) = ais_ca:ais_ca
+	gCa_HVAbar_Ca_HVA(ais_end/L:1) = ais_ca/10:ais_ca/10
+	gSK_E2bar_SK_E2(0:ais_end/L) = ais_KCa:ais_KCa // SK channel
+	gSK_E2bar_SK_E2(ais_end/L:1) = ais_KCa/10:ais_KCa/10
+
+	access cell.soma
 }
+
+
 proc update_soma(){
-access cell.soma
+	access cell.soma
 
 	vShift_na = navshift
 	gbar_na12 = soma_na12/2
@@ -220,23 +177,17 @@ access cell.soma
 	gbar_na16 = soma_na16/2
 	gbar_na16mut = soma_na16/2
 	gSKv3_1bar_SKv3_1 = soma_K
-
-
 }
+
 proc update_dend(){
-forsec cell.apical{
-	
-	gbar_na12 = dend_na12/2
-	gbar_na12mut = dend_na12/2
-	gbar_na16 = dend_na16/2
-	gbar_na16mut = dend_na16/2
-	gSKv3_1bar_SKv3_1 = dend_k
-	
+	forsec cell.apical{
+		gbar_na12 = dend_na12/2
+		gbar_na12mut = dend_na12/2
+		gbar_na16 = dend_na16/2
+		gbar_na16mut = dend_na16/2
+		gSKv3_1bar_SKv3_1 = dend_k
 	}
-
 }
-
-
 
 proc working(){
 	populate_axon()
@@ -247,25 +198,10 @@ proc working(){
 	print "ran working"
 }
 
-proc run_gui(){
-		
-xpanel("params_values")
-xvalue("ais_na12",&ais_na12	)
-xvalue("ais_na16",&ais_na16)
-xvalue("node_na",&node_na)
-xvalue("soma_na16",&soma_na16) 
-xvalue("na_soma",&navshift)
-xbutton("create_ais()")
-xbutton("populate_axon()")
-xbutton("update_soma_na()")
-//xbutton("printVs()")
-xpanel()
-}
-//run_gui()
-initial_values()  
+initial_values()
 access cell.axon[0]
-	L=90
-		
-access cell.soma
-working()
+L=90
 
+access cell.soma
+
+working()

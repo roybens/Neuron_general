@@ -406,11 +406,14 @@ class NeuronModel:
         plt.plot(df['na16'],label='Nav16', color='red')
         plt.plot(df['na16mut'],label='Nav16_Mut', color='orange', alpha=0.5, linestyle='dashed')
         plt.legend()
-        plt.xticks(range(-1,len(distances)), rotation=270)
+        # plt.xticks(range(-1, len(distances)), rotation=270, fontsize=4)
+        plt.xticks(range(-1, len(distances), 2), rotation=270, fontsize=4)
+        ax.set_xticks(range(-1, len(distances)))
+        ax.set_xticklabels([str(i) if i % 10 == 0 else '' for i in range(-1, len(distances))], rotation=270, fontsize=4)
         plt.xlabel('Segment of Axon')
         plt.ylabel('gbar')
         plt.title("Distribution of Nav12 and Nav16")
-        plt.savefig(name+".png", dpi=400)
+        # plt.savefig(name+".png", dpi=400)
         plt.savefig(name+".pdf", dpi=400)
     
     
