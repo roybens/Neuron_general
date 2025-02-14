@@ -176,7 +176,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'1-WT_baseline'
+  path = f'6-newAIS_newWT'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
@@ -199,22 +199,50 @@ ratios1216 = {
   '10:90': (0.1, 0.9),
   '0:100': (0, 1)
 }
-chantest ={'test':(2,1)}
+chantest ={'test':(1,4)}
 
-for key, (fac12, fac16) in chantest.items():
-  # 56color = cmap(i/11)
-  # tempfac=2
-  simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*fac12,ais_nav16_fac=12*0.6*fac16,nav12=1*fac12,nav16=1.3*fac16, somaK=1*2.2*0.01, KP=25*0.15, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
-                                    ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                                    na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                                    na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                    plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1700, sim_config = config) #stim_amp=0.5
-  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
-  # # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
-  # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=300,stim_start=30, sweep_len=500,pfx=f'WT-')
-#   features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
-# allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+# for key, (fac12, fac16) in chantest.items():
 
-  # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ## doesn't include soma/dendrite
-  NeuronModel.chandensities2(name = f'{root_path_out}/{path}/WT_gauAIS_12-{fac12}_16-{fac16}_121segments_test4') ## includes soma/dendrites
+    #### THESE PARAMETERS ARE FOR THE NEW PARABOLIC AIS ONLY!!!!!!!!!!!! Changed KP *2 and ais_nav16_fac *0.5
+fac12=0.5
+fac16=2
+simdist = tf.Na12Model_TF(ais_nav12_fac=12*1.2*fac12,ais_nav16_fac=12*0.6*0.5*fac16,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15*2, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                                  ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                  na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+NeuronModel.chandensities2(name = f'{root_path_out}/{path}/parabAIS_WT_5') ## includes soma/dendrites
+# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+    # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
+    # # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
+    # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=300,stim_start=30, sweep_len=500,pfx=f'WT-')
+  #   features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
+  # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+# simwt.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=200, fnpre=f'somaK-{fac12}__')
+
+
+
+# Pretty solid set of factors.
+# aisfac12=0.45
+# aisfac16=0.35
+# kpfac=1.5
+# Kca=0.5
+# ca=0.5
+
+aisfac12=0.4
+aisfac16=0.3
+kpfac=1.5
+Kca=0.5
+ca=0.5
+na12=1.1
+na16=1.1
+simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16,nav12=1*na12,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                                  ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                  na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+
+fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
+plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+fig_volts.savefig(f'{simwt.plot_folder}/parabAIS_5_ais12-{aisfac12}_ais16-{aisfac16}_KP-{kpfac}_Kca{Kca}_aisca-{ca}_12-{na12}_16-{na16}_dvdt800.pdf') #Change output file path here

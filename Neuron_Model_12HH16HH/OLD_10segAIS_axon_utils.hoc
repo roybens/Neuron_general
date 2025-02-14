@@ -62,7 +62,7 @@ access cell.axon[0]
 
 	//Length of the AIS - Roy's original code
 	nseg = int(L/10)*2 +1  // create 19 segments from this axon section ##90um overall length
-	ais_end = 10/nseg // specify the end of the AIS as halfway down this section ##45um AIS length
+	ais_end = 10/nseg // specify the end of the AIS as halfway down this section ##45um AIS length. Equals ~0.52 which is fraction of section halfway
 	//ais_mid = 4/nseg // specify the middle of the AIS as 1/5 of this section ##Original from Roy
 
 	///////////////////////////////////////////
