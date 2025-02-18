@@ -176,14 +176,14 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'6-newAIS_newWT'
+  path = f'9b-newAIS_newWT_pubDistributions'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
-fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
-fig2, axs2 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
-fig3, axs3 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
-cmap = cm.get_cmap('rainbow')
+# fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+# fig2, axs2 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+# fig3, axs3 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+# cmap = cm.get_cmap('rainbow')
 
 ratios1216 = {
   'test':(1,1),
@@ -206,12 +206,12 @@ chantest ={'test':(1,4)}
     #### THESE PARAMETERS ARE FOR THE NEW PARABOLIC AIS ONLY!!!!!!!!!!!! Changed KP *2 and ais_nav16_fac *0.5
 fac12=0.5
 fac16=2
-simdist = tf.Na12Model_TF(ais_nav12_fac=12*1.2*fac12,ais_nav16_fac=12*0.6*0.5*fac16,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15*2, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
-                                  ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                                  na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                                  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-NeuronModel.chandensities2(name = f'{root_path_out}/{path}/parabAIS_WT_5') ## includes soma/dendrites
+# simdist = tf.Na12Model_TF(ais_nav12_fac=12*1.2*fac12,ais_nav16_fac=12*0.6*0.5*fac16,nav12=1,nav16=1.3, somaK=1*2.2*0.01, KP=25*0.15*2, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                   ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                   na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# NeuronModel.chandensities2(name = f'{root_path_out}/{path}/parabAIS_WT_5') ## includes soma/dendrites
 # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
     # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
     # # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
@@ -229,6 +229,7 @@ NeuronModel.chandensities2(name = f'{root_path_out}/{path}/parabAIS_WT_5') ## in
 # Kca=0.5
 # ca=0.5
 
+
 aisfac12=0.4
 aisfac16=0.3
 kpfac=1.5
@@ -237,12 +238,187 @@ ca=0.5
 na12=1.1
 na16=1.1
 simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16,nav12=1*na12,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                                    ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                    na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                    na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                    plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+
+input("Press Enter to continue...")
+
+# fig4, axs4 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+# cmap = cm.get_cmap('rainbow')
+# for i, factor in enumerate([18000,20000,21000,24000]):
+# # for i, factor in enumerate([1,0.9]):
+#   color = cmap(i/11)
+
+#   simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*0.3,ais_nav16_fac=12*0.6*0.5*aisfac16*0.3,nav12=1*na12*0.3,nav16=1.3*na16*0.3, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                     ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                     na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                     na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                     plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+
+#   # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+#   # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=200, clr='cadetblue') #cadetblue
+#   # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+#   # fig_volts.savefig(f'{simwt.plot_folder}/parabAIS_5_ais12-{aisfac12}_ais16-{aisfac16}_KP-{kpfac}_Kca{Kca}_aisca-{ca}_12-{na12}_16-{na16}_stim0.5dvdt300.pdf') #Change output file path here
+#   Vmwt,_,twt,_ = simwt.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+#   dvdt4 = np.gradient(Vmwt)/0.005
+#   axs4.plot(Vmwt[1:factor],dvdt4[1:factor],color=color, alpha=0.8,linewidth=1)
+  
+# out4 = f'{root_path_out}/{path}/dvdtlength1216-{factor}.pdf'
+# fig4.savefig(out4)  
+
+
+# input("Press Enter to continue...")
+
+
+
+# fig,axs = plt.subplots(1,1)
+fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+fig2, axs2 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+fig3, axs3 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
+cmap = cm.get_cmap('rainbow')
+
+###############################################################################################################################################################
+##### ais12
+# for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+# for i, factor in enumerate([1,0.9]):
+  color = cmap(i/11)
+
+## 1.2 factor
+  # sim12 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*factor,ais_nav16_fac=12*0.6*0.5*aisfac16,nav12=1*na12*factor,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+  #                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+  #                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+  #                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+  #                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  # dvdt1 = np.gradient(Vm12)/0.005
+  # axs1.plot(Vm12[1:12000],dvdt1[1:12000],color=color, alpha=0.8,linewidth=1)
+
+
+## 1.6 factor
+  sim16 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16*factor,nav12=1*na12,nav16=1.3*na16*factor, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
                                   ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
                                   na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+  dvdt2 = np.gradient(Vm16)/0.005
+  axs2.plot(Vm16[1:19000],dvdt2[1:19000],color=color, alpha=0.8,linewidth=1)
 
-fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
-plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-fig_volts.savefig(f'{simwt.plot_folder}/parabAIS_5_ais12-{aisfac12}_ais16-{aisfac16}_KP-{kpfac}_Kca{Kca}_aisca-{ca}_12-{na12}_16-{na16}_dvdt800.pdf') #Change output file path here
+  # sim16.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'16-{factor}-FI',epochlabel='200ms')
+  # sim16.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'16-{factor}-')
+
+  # fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  # sim16.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color)
+  # plot_dvdt_from_volts(sim16.volt_soma, sim12.dt, axs5[1],clr=color)
+  # fig_volts.savefig(f'{sim16.plot_folder}/16-{factor}-spikedvdt.pdf') #Change output file path here 
+
+
+  # #   ##1.2 and 1.6 factor
+  # sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*factor,ais_nav16_fac=12*0.6*0.5*aisfac16*factor,nav12=1*na12*factor,nav16=1.3*na16*factor, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+  #                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+  #                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+  #                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+  #                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  # Vm1216,_,t1216,_ = sim1216.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+  # dvdt3 = np.gradient(Vm1216)/0.005
+  # axs3.plot(Vm1216[1:15000],dvdt3[1:15000],color=color, alpha=0.8,linewidth=1)
+
+  # sim1216.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'1216-{factor}-FI')
+  # sim1216.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'1216-{factor}-')
+
+  # fig_volts,axs5 = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  # sim1216.plot_stim(axs = axs5[0],stim_amp = 0.3,dt=0.005, clr=color)
+  # plot_dvdt_from_volts(sim1216.volt_soma, sim12.dt, axs5[1],clr=color)
+  # fig_volts.savefig(f'{sim1216.plot_folder}/1216-{factor}-spikedvdt.pdf') #Change output file path here  
+    
+  # color = cmap(stim/11)
+  # axs.plot(Vm[8000:14000],dvdt[8000:14000],color=color, alpha=0.8,linewidth=1)
+
+
+
+
+
+
+# ##1.6 factor Adding 0% 1.6 with bigger stim to get something on 1216 plot
+# sim16 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16*0.2,nav12=1*na12,nav16=1.3*na16*0.2, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =0.75 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt5 = np.gradient(Vm16)/0.005
+# axs2.plot(Vm16[1:12000],dvdt5[1:12000],color=color, alpha=0.8,linewidth=1)
+
+# sim16 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16*0.1,nav12=1*na12,nav16=1.3*na16*0.1, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =1.4 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt5 = np.gradient(Vm16)/0.005
+# axs2.plot(Vm16[1:9000],dvdt5[1:9000],color=color, alpha=0.8,linewidth=1)
+
+# sim16 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16*0,nav12=1*na12,nav16=1.3*na16*0, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim16.get_stim_raw_data(stim_amp =1.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt5 = np.gradient(Vm16)/0.005
+# axs2.plot(Vm16[1:9000],dvdt5[1:9000],color=color, alpha=0.8,linewidth=1)
+
+
+
+
+
+# ##1.2 & 1.6 factor Adding 0% 1.6 with bigger stim to get something on 1216 plot
+# sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*0.3,ais_nav16_fac=12*0.6*0.5*aisfac16*0.3,nav12=1*na12*0.3,nav16=1.3*na16*0.3, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim1216.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt4 = np.gradient(Vm16)/0.005
+# axs3.plot(Vm16[1:18000],dvdt4[1:18000],color=color, alpha=0.8,linewidth=1)
+
+# sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*0.2,ais_nav16_fac=12*0.6*0.5*aisfac16*0.2,nav12=1*na12*0.2,nav16=1.3*na16*0.2, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim1216.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt4 = np.gradient(Vm16)/0.005
+# axs3.plot(Vm16[1:18000],dvdt4[1:18000],color=color, alpha=0.8,linewidth=1)
+
+# sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*0.01,ais_nav16_fac=12*0.6*0.5*aisfac16*0.1,nav12=1*na12*0.01,nav16=1.3*na16*0.1, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim1216.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt4 = np.gradient(Vm16)/0.005
+# axs3.plot(Vm16[1:18000],dvdt4[1:18000],color=color, alpha=0.8,linewidth=1)
+
+# sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*0,ais_nav16_fac=12*0.6*0.5*aisfac16*0,nav12=1*na12*0,nav16=1.3*na16*0, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+#                                 ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+#                                 na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+#                                 na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+#                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+# Vm16,_,t16,_ = sim1216.get_stim_raw_data(stim_amp =0.5 ,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+# dvdt4 = np.gradient(Vm16)/0.005
+# axs3.plot(Vm16[1:18000],dvdt4[1:18000],color=color, alpha=0.8,linewidth=1)
+
+
+
+suf= f'021825'
+# out1 = f'{root_path_out}/{path}/dvdt12-{suf}.pdf'
+out2 = f'{root_path_out}/{path}/dvdt16-{suf}.pdf'
+out3 = f'{root_path_out}/{path}/dvdt1216-{suf}.pdf'
+# axs.legend()  # Add a legend to the plot
+# fig1.savefig(out1)
+fig2.savefig(out2)
+fig3.savefig(out3)

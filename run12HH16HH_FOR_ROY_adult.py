@@ -203,7 +203,7 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'10-CompiledBest_FIs'
+  path = f'7-WT_baselines'
 # simwt = tf.Na12Model_TF(ais_nav12_fac=12,ais_nav16_fac=12,nav12=1,nav16=1.3, somaK=1*2.2, KP=25*0.15, KT=5,
 #                               ais_ca = 100*8.6*0.1,ais_Kca = 0.5,soma_na16=1,soma_na12=3.2,node_na = 1,
 #                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
@@ -242,16 +242,23 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2,ais_nav16_fac=12*0.6,nav12=1,nav16=
                                   na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                                   na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                                   plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1700, sim_config = config) #stim_amp=0.5
-wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
+# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1700, sim_config = config) #stim_amp=0.5
+wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
 # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
 # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=300,stim_start=30, sweep_len=500,pfx=f'WT-')
 # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
 # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+input('press space')
 
+
+for i in [0.3, 0.4, 0.5]:
+  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  simwt.plot_stim(axs = axs[0],stim_amp = i,dt=0.005,stim_dur=200, clr='black') #cadetblue
+  plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='black')
+  fig_volts.savefig(f'{simwt.plot_folder}/WT_stim{i}_dur200_dvdt300.pdf') #Change output file path here
 # NeuronModel.chandensities(name = f'{root_path_out}/{path}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
 
-
+'''
 migraine={"F257I":{"Rd": 0.028485318424710374, "Rg": 0.018420814026814298, "Rb": 0.05777962337521357, "Ra": 0.21341303335597034, "a0s": 0.00046381351100748496, "gms": 0.1341164855099387, "hmin": 0.006864146828635849, "mmin": 0.007621368015226187, "qinf": 6.486459886532015, "q10": 2.561051746368186, "qg": 1.3943995618682714, "qd": 0.797072687262635, "qa1": 6.540179485338942, "smax": 5.751234160342341, "sh": 9.898965372911075, "thinf": -42.299802571430824, "thi2": -64.0747495998566, "thi1": -48.0852551990378, "tha": -30.139992632180743, "vvs": 0.8468560048684934, "vvh": -53.739541326283735, "vhalfs": -42.22939001512733, "zetas": 12.811495608869796},
 "R1319G":{"Rd": 0.01821017957894782, "Rg": 0.015835927879902578, "Rb": 0.08669778691261865, "Ra": 0.25222138069588795, "a0s": 0.0005998602174497901, "gms": 0.15734865667490094, "hmin": 0.003049022325449447, "mmin": 0.009227432163769297, "qinf": 7.542037850663156, "q10": 1.3991326492121134, "qg": 0.11658354700541385, "qd": 0.41022807889968216, "qa1": 6.23800810747929, "smax": 2.297618044174789, "sh": 9.225725362157418, "thinf": -46.09023665760313, "thi2": -57.0320710747067, "thi1": -62.70708396987019, "tha": -29.27378295119758, "vvs": 0.25717057711770985, "vvh": -58.74304862555019, "vhalfs": -31.258170795759927, "zetas": 10.786789360357215},
  "K1480E":{"Rd": 0.017988222179818, "Rg": 0.014526835880098123, "Rb": 0.032287886870504066, "Ra": 0.20374071568963156, "a0s": 0.00043332968046547453, "gms": 0.2506541588105391, "hmin": 0.003724133667885614, "mmin": 0.022703936878165614, "qinf": 8.056557948665372, "q10": 2.1947359595099254, "qg": 1.607903072936985, "qd": 0.9369754615041643, "qa1": 6.825173338201797, "smax": 9.756858258324922, "sh": 9.29652730203526, "thinf": -44.454878232047506, "thi2": -78.8896576923306, "thi1": -61.97876376872753, "tha": -25.286365983599477, "vvs": 0.665802756552117, "vvh": -45.45240491205891, "vhalfs": -18.50057219270583, "zetas": 11.579233310014331},}
@@ -454,7 +461,7 @@ for mutname,dict in bestsynthmuts012825.items():
   #                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
   #                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   # sim16ko.wtvsmut_stim_dvdt(wt_Vm=Vm,wt_t=t,het_Vm=None,het_t=None,sim_config=config,vs_amp=[0.5], fnpre=f'WTvHETvKO_ais16_16ko-{factor}')#vs_amp=[0.5]
-
+'''
  
 
 
