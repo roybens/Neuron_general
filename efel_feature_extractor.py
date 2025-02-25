@@ -5,7 +5,7 @@ import NrnHelper as NH
 from neuron import h
 import time
 import efel
-efel.api.setDoubleSetting('Threshold', 15) #15 originally
+efel.api.setDoubleSetting('Threshold', 0) #15 originally
 import pandas as pd
 import math
 from scipy.signal import find_peaks
@@ -56,13 +56,15 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     Vm,t,extra_vms,_,__ = get_sim_volt_values(sim,mut_name,rec_extra=rec_extra)
     # Vm,t,I,_ = get_sim_volt_valuesTF(sim,mut_name)
     #creating the trace file
-    stim_start = 100 #100 original
-    stim_end = 800 #800 original
+    stim_start = 200 #100 original
+    stim_end = 1900 #800 original
     trace={}
     trace = {'T':t,'V':Vm,'stim_start':[stim_start],'stim_end':[stim_end]}
     trace['T']= trace['T'] * 1000
     #for neu
-    feature_list= ['AP_height','AP_width','AP1_peak','AP1_width','Spikecount','all_ISI_values']
+    # feature_list= ['AP_height','AP_width','AP1_peak','AP1_width','Spikecount','all_ISI_values'] #original
+    feature_list= ['AP_height','AP_width','AP1_peak','AP1_width','Spikecount','all_ISI_values'] ## 022525 abbreviated features for kevin response to reviewers
+    
     traces = [trace]
     features = efel.getFeatureValues(traces,feature_list)
     

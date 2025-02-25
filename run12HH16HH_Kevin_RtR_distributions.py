@@ -185,21 +185,21 @@ allmutsefel = pd.DataFrame()
 # fig3, axs3 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
 # cmap = cm.get_cmap('rainbow')
 
-ratios1216 = {
-  'test':(1,1),
-  '100:0': (1, 0),
-  '90:10': (0.9, 0.1),
-  '80:20': (0.8, 0.2),
-  '70:30': (0.7, 0.3),
-  '60:40': (0.6, 0.4),
-  '50:50': (0.5, 0.5),
-  '40:60': (0.4, 0.6),
-  '30:70': (0.3, 0.7),
-  '20:80': (0.2, 0.8),
-  '10:90': (0.1, 0.9),
-  '0:100': (0, 1)
-}
-chantest ={'test':(1,4)}
+# ratios1216 = {
+#   'test':(1,1),
+#   '100:0': (1, 0),
+#   '90:10': (0.9, 0.1),
+#   '80:20': (0.8, 0.2),
+#   '70:30': (0.7, 0.3),
+#   '60:40': (0.6, 0.4),
+#   '50:50': (0.5, 0.5),
+#   '40:60': (0.4, 0.6),
+#   '30:70': (0.3, 0.7),
+#   '20:80': (0.2, 0.8),
+#   '10:90': (0.1, 0.9),
+#   '0:100': (0, 1)
+# }
+# chantest ={'test':(1,4)}
 
 # for key, (fac12, fac16) in chantest.items():
 
@@ -236,7 +236,7 @@ fac16=2
 ## Best factors for new WT that fires 
 aisfac12=0.4
 aisfac16=0.3
-kpfac=1.5*0.7
+kpfac=1.5
 Kca=0.5
 ca=0.5
 na12=1.1
@@ -329,22 +329,46 @@ na16=1.1
 
 ###############################################################################################################################################################
 ##### ais12
+allmutsefel = pd.DataFrame()
+
+ratios1216 = {
+  # 'test1':(1,1),
+  # 'test2':(1,1),
+  # 'test3':(1,1),
+  # 'test4':(1,1),
+  # '100:0': (1, 0),
+  # '90:10': (0.9, 0.1),
+  '80:20': (0.8, 0.2),
+  # '70:30': (0.7, 0.3),
+  # '60:40': (0.6, 0.4),
+  # '50:50': (0.5, 0.5),
+  # '40:60': (0.4, 0.6),
+  # '30:70': (0.3, 0.7),
+  # '20:80': (0.2, 0.8),
+  # '10:90': (0.1, 0.9),
+  # '0:100': (0, 1)
+}
+for key, (factor12, factor16) in ratios1216.items():
+
 # for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-for i, factor12 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-  for i, factor16 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+# for i, factor12 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
+#   for i, factor16 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
 # for i, factor in enumerate([1,0.9]):
   # color = cmap(i/11)
      
-     ## varying 1.2 and 1.6 with different AIS distributions for paper heatmaps.
-     sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*factor12,ais_nav16_fac=12*0.6*0.5*aisfac16*factor16,nav12=1*na12*factor12,nav16=1.3*na16*factor16, somaK=1*2.2*0.01, KP=25*0.15*kpfac*0.7, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
-                                  ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                                  na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                                  na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-     features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
-allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
-
-
+  ## varying 1.2 and 1.6 with different AIS distributions for paper heatmaps.
+  sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12*factor12,ais_nav16_fac=12*0.6*0.5*aisfac16*factor16,nav12=1*na12*factor12,nav16=1.3*na16*factor16, somaK=1*2.2*0.01, KP=25*0.15*kpfac*0.7, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                              ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  sim1216.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
+  plot_dvdt_from_volts(sim1216.volt_soma, sim1216.dt, axs[1],clr='cadetblue')
+  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_fac12-{factor12}_fac16-{factor16}_dvdt.pdf') #Change output file path here
+  features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/factor12-{factor12}_factor16-{factor16}', mut_name=f'{key}')
+  allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+# allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_ratio{key}_fac12-{factor12}_fac16-{factor16}.csv')
 
 
 
