@@ -5,12 +5,12 @@ import NrnHelper as NH
 from neuron import h
 import time
 import efel
-efel.api.setDoubleSetting('Threshold', 0) #15 originally
+efel.api.setDoubleSetting('Threshold', -40) #15 originally. ##TF022625 changed to -5 for kevin response to reviewers
 import pandas as pd
 import math
 from scipy.signal import find_peaks
 
-def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.5): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original
+def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.9): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original stim_amp=0.5 original
 
     # sim = Na12Model_TF(mutant_name)
     #sim = Na12Model_TF(mut_name)
@@ -92,25 +92,51 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     isi_values = features[0]['all_ISI_values']
     median_spike = int(math.floor(spike_count/2)) + 1
     #median spike location
-    print(f'Length of isi_values{len(isi_values)}')
+    print(f'Length of isi_values {len(isi_values)}')
     print(f'isi_values: {isi_values}')
     print(f'Spike Count = {spike_count}')
 
-    start = int((stim_start + isi_values[0:median_spike-1].sum())/dt)    #dividing by dt to get into same unit
+    start = int((stim_start + isi_values[0:median_spike-1].sum())/dt) #original    #dividing by dt to get into same unit
+    start2 = int((stim_start + isi_values[0:4].sum())/dt)    #dividing by dt to get into same unit
     try:
-        end = start + int(isi_values[median_spike]/dt)
+        # end = start + int(isi_values[median_spike]/dt)
+        end = 380000
     except Exception as e:
-        end=10000
+        end=400000
         print("There were not enough spikes to calculate median isi")
 
-    volt_segment = Vm[start:end]
+    volt_segment = Vm[start:end] #original
+    
+    
+    # startdt=int(stim_start/dt)
+    # enddt=int(stim_end/dt)
+    # volt_segment = Vm[startdt:enddt] ##TF022625 calculate dvdt from stim_start to stim_end rather than use isi median to find range
     dvdt = np.gradient(volt_segment)/dt
-    curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100)
+    ##DEBUG plot of dvdt
+    # fig,axs = plt.subplots(1,1)
+    # axs.plot(Vm,dvdt,color='red',linewidth=0.5)
+    # fig.savefig(f'{mut_name}_getfeaturesDVDT.pdf')
+
+    # curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100) ##original
+    curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 10) ##TF022625 reducing height for kevin response to reviewers
+    print(f'start: {start}, start2:{start2}, end: {end}')
+    print(f'volt_segment: {volt_segment}')
+    print(f'dvdt: {dvdt}')
+    print(f'curr_peaks_indices: {curr_peaks_indices}')
+    print(f'curr_peaks_values: {curr_peaks_values}')
     features[0]['dvdt Peak1 Height'] = curr_peaks_values['peak_heights'][0]
-    features[0]['dvdt Peak1 Voltage'] = volt_segment[curr_peaks_indices[0]]
+    features[0]['dvdt Peak1 Voltage'] = volt_segment[curr_peaks_indices[0]] 
     features[0]['dvdt Peak2 Height'] = curr_peaks_values['peak_heights'][-1]
     features[0]['dvdt Peak2 Voltage'] = volt_segment[curr_peaks_indices[-1]]
     features[0]['dvdt Threshold'] = volt_segment[np.where(dvdt>1)[0][0]]
+
+    positive_slope_indices = np.where(dvdt > 1)[0]
+    if len(positive_slope_indices) > 0:
+        threshold_index = positive_slope_indices[0]
+        features[0]['dvdt Threshold_DEBUG'] = volt_segment[threshold_index]
+    else:
+        features[0]['dvdt Threshold_DEBUG'] = None
+    
     if rec_extra:
     #for ais
         trace['V'] = extra_vms['ais']
@@ -166,3 +192,90 @@ for mut_name in mut_names:
         mut_not_found[mut_name] = e
 
 
+
+
+def get_featuresTF(sim, prefix=None, mut_name='na12annaTFHH2', rec_extra=True):
+    print("running routine")
+    dt = 0.005
+    Vm, t, extra_vms, _, __ = get_sim_volt_values(sim, mut_name, rec_extra=rec_extra)
+    stim_start = 200
+    stim_end = 1900
+    trace = {'T': t, 'V': Vm, 'stim_start': [stim_start], 'stim_end': [stim_end]}
+    trace['T'] = trace['T'] * 1000
+
+    # Set a custom spike detection threshold
+    trace['threshold'] = [-20]  # Set the threshold to -20 mV
+
+    feature_list = ['AP_height', 'AP_width', 'AP1_peak', 'AP1_width', 'Spikecount', 'all_ISI_values']
+    traces = [trace]
+    features = efel.getFeatureValues(traces, feature_list)
+
+    ### Plotting Voltages to debug not getting enough spikes
+    plt.plot(trace['T'], trace['V'])
+    plt.xlabel('Time (ms)')
+    plt.ylabel('Voltage (mV)')
+    plt.title('Voltage vs Time')
+    plt.savefig('voltage_vs_time_debug.pdf', format='pdf')  # Replace with your desired filename
+    plt.close()
+    ### Plotting Voltages to debug not getting enough spikes
+
+    if features and features[0]:
+        try:
+            features[0]['ISI mean'] = features[0]['all_ISI_values'].mean() if 'all_ISI_values' in features[0] and features[0]['all_ISI_values'] is not None else 0
+        except Exception as e:
+            features[0]['ISI mean'] = 0
+
+        try:
+            features[0]['AP_height'] = features[0]['AP_height'].mean() if 'AP_height' in features[0] and features[0]['AP_height'] is not None else 0
+        except Exception as e:
+            features[0]['AP_height'] = 0
+
+        try:
+            features[0]['AP_width'] = features[0]['AP_width'][0].mean() if 'AP_width' in features[0] and features[0]['AP_width'] is not None else 0
+        except Exception as e:
+            features[0]['AP_width'] = 0
+
+        try:
+            features[0]['AP1_peak'] = features[0]['AP1_peak'][0] if 'AP1_peak' in features[0] and features[0]['AP1_peak'] is not None else 0
+        except Exception as e:
+            features[0]['AP1_peak'] = 0
+
+        try:
+            features[0]['AP1_width'] = features[0]['AP1_width'][0] if 'AP1_width' in features[0] and features[0]['AP1_width'] is not None else 0
+        except Exception as e:
+            features[0]['AP1_width'] = 0
+
+        try:
+            features[0]['Spikecount'] = features[0]['Spikecount'][0] if 'Spikecount' in features[0] and features[0]['Spikecount'] is not None else 0
+        except Exception as e:
+            features[0]['Spikecount'] = 0
+
+        spike_count = features[0]['Spikecount']
+        isi_values = features[0]['all_ISI_values'] if 'all_ISI_values' in features[0] and features[0]['all_ISI_values'] is not None else []
+        median_spike = int(math.floor(spike_count / 2)) + 1
+
+        print(f'Length of isi_values: {len(isi_values)}')
+        print(f'isi_values: {isi_values}')
+        print(f'Spike Count = {spike_count}')
+
+        if spike_count >= 2 and len(isi_values) >= median_spike:
+            start = int((stim_start + sum(isi_values[0:median_spike - 1])) / dt)
+            try:
+                end = start + int(isi_values[median_spike] / dt)
+            except Exception as e:
+                end = 10000
+
+            volt_segment = Vm[start:end]
+            if len(volt_segment) > 1:
+                dvdt = np.gradient(volt_segment) / dt
+            else:
+                dvdt = np.array([])  # Handle case where segment is too small
+        else:
+            print("Not enough spikes to calculate median ISI")
+            dvdt = np.array([])  # Handle case where there are not enough spikes
+    else:
+        print(f"No features detected for {prefix}_{mut_name}")
+        features = [{}]
+        dvdt = np.array([])  # Handle case where no features are detected
+
+    return features, dvdt

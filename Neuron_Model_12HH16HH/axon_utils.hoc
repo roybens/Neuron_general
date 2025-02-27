@@ -83,15 +83,15 @@ proc create_ais(){
 
 	
 	//////////////// WT trying to fine tune to get closer to hard-coded AIS v5. ***This is best WT 022425*** gbar=6 at segment=20
-    ais_mid12 = ais_mid - 0.28 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
-    ais_width12 = 0.45 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
-    ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
-    ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
+    //ais_mid12 = ais_mid - 0.28 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.45 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
 
-    ais_mid16 = ais_mid + 0.01 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
-    ais_width16 = 0.98 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
-    ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
-    ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
+    //ais_mid16 = ais_mid + 0.01 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.98 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
+    //ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
 	////////////////
 	
     
@@ -161,15 +161,15 @@ proc create_ais(){
     
     
     //////////////// Crossover Point left shift 1 - crossover point gbar=6, segment 15
-    //ais_mid12 = ais_mid - 0.35 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
-    //ais_width12 = 0.35 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
-    //ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
-    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
+    ais_mid12 = ais_mid - 0.35 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
+    ais_width12 = 0.35 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
+    ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
+    ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
 
-    //ais_mid16 = ais_mid - 0.05 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
-    //ais_width16 = 1.1 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
-    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
-    //ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
+    ais_mid16 = ais_mid - 0.05 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
+    ais_width16 = 1.1 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
+    ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
+    ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
 	////////////////
     
     

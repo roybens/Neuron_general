@@ -15,6 +15,9 @@ import fitz
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import matplotlib.colors as mcolors
+import seaborn as sns
 from Na12HMMModel_TF import *
 
 def combine_pdfs(folder_path, out_sfx): #input folder pather where pdfs are stored, out_sfx = output suffix
@@ -218,6 +221,21 @@ def plot_efeatures_bar(plot_folder,pfx):
     return
 
 
+#This function takes efel features csvs which only have a header and one line of data and combines them into a single csv
+def combine_efel_csvs(folder_path, output_file):
+    combined_df = pd.DataFrame()
+    
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".csv"):
+            file_path = os.path.join(folder_path, filename)
+            df = pd.read_csv(file_path)
+            combined_df = pd.concat([combined_df, df], ignore_index=True)
+    
+    combined_df.to_csv(output_file, index=False)
+
+
+
+
 ##Takes params text file and allows you to change the values for scanning etc...
 def modify_dict_file(filename, changes):
   """
@@ -373,6 +391,55 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
   plt.savefig(f"/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/{start}-{stop}_{outfile_sfx}.png", dpi=400)
 
 
+
+# This function takes a folder of efel data csvs and plots them in a heatmap. Each csv will be a new x-axis column in the heatmap
+def efel_heatmaps(folder_path, output_folder):
+  # Create a dictionary to store data for each heatmap
+  heatmap_data = {
+    'dvdt Peak1 Height': pd.DataFrame(),
+    'dvdt Peak2 Height': pd.DataFrame(),
+    'dvdt Threshold': pd.DataFrame()
+  }
+  
+  # sort filenames in alphabetical order
+  filenames = sorted([f for f in os.listdir(folder_path) if f.endswith(".csv")])
+
+  # Read each CSV file and extract the required columns
+  for filename in filenames:
+      file_path = os.path.join(folder_path, filename)
+      df = pd.read_csv(file_path)
+      key = os.path.splitext(filename)[0]  # Use filename without extension as the key
+      
+      heatmap_data['dvdt Peak1 Height'][key] = df.set_index('Type')['dvdt Peak1 Height']
+      heatmap_data['dvdt Peak2 Height'][key] = df.set_index('Type')['dvdt Peak2 Height']
+      heatmap_data['dvdt Threshold'][key] = df.set_index('Type')['dvdt Threshold']
+  
+  # Generate heatmaps for each feature
+  for feature, data in heatmap_data.items():
+    plt.figure(figsize=(10, 8))
+
+    # Get min max values for each heatmap so each can have its own custom scale.
+    min_val = data.min().min()
+    max_val = data.max().max()
+    
+    cmap = mcolors.LinearSegmentedColormap.from_list("", ["blue", "white", "red"])
+
+    x_labels = ['Left 2', 'Left 1', 'WT Baseline', 'Right 1', 'Right 2','Right 3', 'Right 4', 'Right 5']
+    sns.heatmap(data, cmap=cmap, center=(min_val + max_val) / 2, annot=True, fmt=".2f", vmin=min_val, vmax=max_val)
+    plt.title(f'Heatmap of {feature}')
+    plt.xlabel('AIS Crossover Point Shift')
+    plt.ylabel('% Nav1.2 : % Nav1.6 Ratio')
+    plt.xticks(ticks=np.arange(len(x_labels)) + 0.5, labels=x_labels, rotation=90)
+    plt.yticks(rotation=0)
+    plt.tight_layout()
+    
+    # Save the heatmap
+    output_file = os.path.join(output_folder, f'{feature}_heatmap.pdf')
+    plt.savefig(output_file)
+    plt.close()
+
+# Example usage:
+
 # combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
 
@@ -391,5 +458,7 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
 
+# combine_efel_csvs('./Plots/12HH16HH/10-KevinRtR_chandensities/19-ShiftAIS_WTbaseline', './Plots/12HH16HH/10-KevinRtR_chandensities/19-ShiftAIS_WTbaseline/WT_combined_efel.csv')
+efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11a-EFEL_csvs', './Plots/12HH16HH/10-KevinRtR_chandensities/11a-EFEL_csvs')
 
 
