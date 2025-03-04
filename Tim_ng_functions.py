@@ -17,6 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.colors as mcolors
+from matplotlib import rcParams
 import seaborn as sns
 from Na12HMMModel_TF import *
 
@@ -394,7 +395,8 @@ def plot_8states(csv_name,outfile_sfx,start=6500,stop=8500, ap_t=None, vm_t=None
 
 # This function takes a folder of efel data csvs and plots them in a heatmap. Each csv will be a new x-axis column in the heatmap
 def efel_heatmaps(folder_path, output_folder):
-  # Create a dictionary to store data for each heatmap
+  # rcParams['font.family'] = 'Arial'
+
   heatmap_data = {
     'dvdt Peak1 Height': pd.DataFrame(),
     'dvdt Peak2 Height': pd.DataFrame(),
@@ -426,11 +428,11 @@ def efel_heatmaps(folder_path, output_folder):
 
     x_labels = ['Left 2', 'Left 1', 'WT Baseline', 'Right 1', 'Right 2','Right 3', 'Right 4', 'Right 5']
     sns.heatmap(data, cmap=cmap, center=(min_val + max_val) / 2, annot=True, fmt=".2f", vmin=min_val, vmax=max_val)
-    plt.title(f'Heatmap of {feature}')
+    plt.title(f'{feature}')
     plt.xlabel('AIS Crossover Point Shift')
     plt.ylabel('% Nav1.2 : % Nav1.6 Ratio')
-    plt.xticks(ticks=np.arange(len(x_labels)) + 0.5, labels=x_labels, rotation=90)
-    plt.yticks(rotation=0)
+    plt.xticks(ticks=np.arange(len(x_labels)) + 0.5, labels=x_labels, rotation=90,fontsize=12, fontweight='bold')
+    plt.yticks(rotation=0,fontsize=12, fontweight='bold')
     plt.tight_layout()
     
     # Save the heatmap
@@ -438,7 +440,29 @@ def efel_heatmaps(folder_path, output_folder):
     plt.savefig(output_file)
     plt.close()
 
-# Example usage:
+def rename_files_and_folders(root_folder):
+    for dirpath, dirnames, filenames in os.walk(root_folder):
+        # Rename directories
+        for dirname in dirnames:
+            if ':' in dirname:
+                new_dirname = dirname.replace(':', '%')
+                os.rename(os.path.join(dirpath, dirname), os.path.join(dirpath, new_dirname))
+        
+        # Rename files
+        for filename in filenames:
+            if ':' in filename:
+                new_filename = filename.replace(':', '%')
+                os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
+
+
+
+
+
+
+
+
+
+
 
 # combined_dict = combine_dictionaries(folder_path='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON', new_file='/global/homes/t/tfenton/Neuron_general-2/params/na16_HOF_params_JSON/combined3.json')
 
@@ -458,7 +482,8 @@ def efel_heatmaps(folder_path, output_folder):
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
 
-# combine_efel_csvs('./Plots/12HH16HH/10-KevinRtR_chandensities/19-ShiftAIS_WTbaseline', './Plots/12HH16HH/10-KevinRtR_chandensities/19-ShiftAIS_WTbaseline/WT_combined_efel.csv')
-efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11a-EFEL_csvs', './Plots/12HH16HH/10-KevinRtR_chandensities/11a-EFEL_csvs')
+# combine_efel_csvs('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak/right2_combined_efel.csv')
+efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2')
+# rename_files_and_folders('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS')
 
 

@@ -10,7 +10,7 @@ import pandas as pd
 import math
 from scipy.signal import find_peaks
 
-def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.9): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original stim_amp=0.5 original
+def get_sim_volt_values(sim,mut_name,rec_extra = False,dt = 0.005,stim_amp = 0.5): #originally had mutant_name, changed to mut_name 121223TF #dt=0.005 Original stim_amp=0.5 original
 
     # sim = Na12Model_TF(mutant_name)
     #sim = Na12Model_TF(mut_name)
@@ -96,8 +96,13 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     print(f'isi_values: {isi_values}')
     print(f'Spike Count = {spike_count}')
 
+    
+    
+    ## efel starting points. Take the stimulus start and add the sum of dictated isi values to get start. Then divide by dt to get time step
     start = int((stim_start + isi_values[0:median_spike-1].sum())/dt) #original    #dividing by dt to get into same unit
-    start2 = int((stim_start + isi_values[0:4].sum())/dt)    #dividing by dt to get into same unit
+    start2 = int((stim_start + isi_values[0:5].sum())/dt) ## start about 6 spikes in
+    start3 = int((stim_start+isi_values[1])/dt) ## start about 1 spike in.
+    start4 = int((stim_start+isi_values[0:3].sum())/dt) ## start about 3 spikes in.
     try:
         # end = start + int(isi_values[median_spike]/dt)
         end = 380000
@@ -105,20 +110,98 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
         end=400000
         print("There were not enough spikes to calculate median isi")
 
-    volt_segment = Vm[start:end] #original
+    volt_segment = Vm[start4:start2] ## get voltage values for dictated segment
     
-    
-    # startdt=int(stim_start/dt)
-    # enddt=int(stim_end/dt)
-    # volt_segment = Vm[startdt:enddt] ##TF022625 calculate dvdt from stim_start to stim_end rather than use isi median to find range
-    dvdt = np.gradient(volt_segment)/dt
-    ##DEBUG plot of dvdt
-    # fig,axs = plt.subplots(1,1)
-    # axs.plot(Vm,dvdt,color='red',linewidth=0.5)
-    # fig.savefig(f'{mut_name}_getfeaturesDVDT.pdf')
+    dvdt = np.gradient(volt_segment) / dt ## calculate dvdt
 
-    # curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100) ##original
-    curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 10) ##TF022625 reducing height for kevin response to reviewers
+
+
+    #### TF030425 Find shoulders when dvdt peak 2 is not a true peak (adjacent values with local maxima) ####
+    filtered_indices = np.where(dvdt > 50)[0] # Filter dvdt values greater than threshold (50) 
+    filtered_dvdt = dvdt[filtered_indices] # get dvdt values at the filtered indices
+    filtered_volt_segment = volt_segment[filtered_indices] # get voltage values at the filtered indices
+
+    dvdtslope = np.diff(filtered_dvdt) # Calculate the slope of filtered dvdt values
+
+    peaks, peaks_vals = find_peaks(filtered_dvdt) # Identify peaks in filtered_dvdt
+
+    negative_slope_indices = []
+    negative_slopes = []
+
+    # Iterate through peaks to find negative slope segments (start 5 time points to the right of each peak)
+    n=5
+    for peak in peaks:
+        start_index = peak + n # Start looking for negative slopes n points to the right of each peak
+        if start_index < len(dvdtslope):            
+            segment_indices = np.where(dvdtslope[start_index:] < 0)[0] + start_index + 1 # Find the segment where the slope is negative after the start_index
+            segment_indices = segment_indices[segment_indices < len(filtered_dvdt)]
+            negative_slope_indices.extend(segment_indices)
+            negative_slopes.extend(dvdtslope[segment_indices - 1])
+
+    # Convert lists to numpy arrays
+    negative_slope_indices = np.array(negative_slope_indices)
+    negative_slopes = np.array(negative_slopes)
+
+    # negative_slope_indices = np.array(negative_slope_indices)
+    negative_slope_indices, unique_indices = np.unique(negative_slope_indices, return_index=True)
+    negative_slopes = np.array(negative_slopes)[unique_indices]
+
+    # calculate the change in slopes (second derivative)
+    change_in_slopes = np.diff(negative_slopes)
+    negative_slopes_truncated=negative_slopes[:-1]
+
+    change_in_slopes=change_in_slopes[1:]
+    negative_slope_indices = negative_slope_indices[1:] ## exclude first value since it could be slope closer to 0
+    negative_slopes_truncated=negative_slopes_truncated[1:]
+    
+    least_change_index = np.argmin(np.abs(change_in_slopes) + np.abs(negative_slopes_truncated)) # look for index where change in slope is closest to zero AND slope is negative
+    dvdt_at_least_change = filtered_dvdt[negative_slope_indices[least_change_index]] # Get the dvdt value at the point where the change in slope is closest to zero
+    
+    negative_slope_indices = negative_slope_indices[1:] ## exclude first value since it could be slope closer to 0
+
+   # Print results
+    print(f'Filtered peaks: {peaks}, Filtered peak values: {peaks_vals}')
+    print(f'Filtered dvdt values: {filtered_dvdt}')
+    print(f'Index of least change in slope: {least_change_index}')
+    print(f'dvdt value at least change in slope: {dvdt_at_least_change}')
+    print(f'length of negative_slope_indices: {len(negative_slope_indices)}')
+    print(f'length of negative_slopes: {len(negative_slopes)}')
+    print(f'length of change_in_slopes: {len(change_in_slopes)}')
+    print(f'length of negative_slopes_truncated: {len(negative_slopes_truncated)}')
+
+    ## Plotting of filtered dvdt vs slope (1st vs 2nd derivative) to see point at which slope is lowester to identify peak 2 shoulder
+    # Plot filtered_dvdt on the primary y-axis
+    fig, ax1 = plt.subplots()
+    ax1.plot(filtered_dvdt, label='Filtered DVDT')
+    ax1.set_xlabel('Index')
+    ax1.set_ylabel('DVDT')
+    ax1.axvline(x=negative_slope_indices[least_change_index], color='r', linestyle='--', label='Least Change in Slope')
+    ax1.scatter(negative_slope_indices[least_change_index], filtered_volt_segment[negative_slope_indices[least_change_index]], color='r', label='Least Change Point')
+    ax1.legend(loc='upper right')
+
+    # Annotate the dvdt value at the point where the change in slope is least
+    ax1.annotate(f'dvdt: {dvdt_at_least_change:.2f}', 
+                xy=(negative_slope_indices[least_change_index], filtered_volt_segment[negative_slope_indices[least_change_index]]),
+                xytext=(negative_slope_indices[least_change_index] + 5, filtered_volt_segment[negative_slope_indices[least_change_index]] + 5))
+    # Create a second y-axis for negative_slopes
+    ax2 = ax1.twinx()
+    # ax2.plot(negative_slopes, label='Negative Slopes', color='g', linewidth=0.2)
+    ax2.plot(negative_slope_indices, negative_slopes_truncated, label='Negative Slopes', color='g',linewidth=0.2)
+
+    ax2.set_ylabel('Negative Slopes')
+    ax2.legend(loc='lower left')
+
+    plt.title('Filtered Voltage Segment with Least Change in Slope')
+
+    # Save the plot as a PDF
+    fig.savefig(f'{mut_name}_dvdt_slopes.pdf')
+    #### End shoulder-finding code ####
+
+
+
+
+    curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100) ##original
+    # curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 10) ##TF022625 reducing height for kevin response to reviewers
     print(f'start: {start}, start2:{start2}, end: {end}')
     print(f'volt_segment: {volt_segment}')
     print(f'dvdt: {dvdt}')
@@ -129,6 +212,8 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     features[0]['dvdt Peak2 Height'] = curr_peaks_values['peak_heights'][-1]
     features[0]['dvdt Peak2 Voltage'] = volt_segment[curr_peaks_indices[-1]]
     features[0]['dvdt Threshold'] = volt_segment[np.where(dvdt>1)[0][0]]
+    features[0]['dvdt Peak2 Shoulder'] = dvdt_at_least_change
+    # features[0]['Peak2_shoulder'] = peak2
 
     positive_slope_indices = np.where(dvdt > 1)[0]
     if len(positive_slope_indices) > 0:
@@ -192,90 +277,3 @@ for mut_name in mut_names:
         mut_not_found[mut_name] = e
 
 
-
-
-def get_featuresTF(sim, prefix=None, mut_name='na12annaTFHH2', rec_extra=True):
-    print("running routine")
-    dt = 0.005
-    Vm, t, extra_vms, _, __ = get_sim_volt_values(sim, mut_name, rec_extra=rec_extra)
-    stim_start = 200
-    stim_end = 1900
-    trace = {'T': t, 'V': Vm, 'stim_start': [stim_start], 'stim_end': [stim_end]}
-    trace['T'] = trace['T'] * 1000
-
-    # Set a custom spike detection threshold
-    trace['threshold'] = [-20]  # Set the threshold to -20 mV
-
-    feature_list = ['AP_height', 'AP_width', 'AP1_peak', 'AP1_width', 'Spikecount', 'all_ISI_values']
-    traces = [trace]
-    features = efel.getFeatureValues(traces, feature_list)
-
-    ### Plotting Voltages to debug not getting enough spikes
-    plt.plot(trace['T'], trace['V'])
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Voltage (mV)')
-    plt.title('Voltage vs Time')
-    plt.savefig('voltage_vs_time_debug.pdf', format='pdf')  # Replace with your desired filename
-    plt.close()
-    ### Plotting Voltages to debug not getting enough spikes
-
-    if features and features[0]:
-        try:
-            features[0]['ISI mean'] = features[0]['all_ISI_values'].mean() if 'all_ISI_values' in features[0] and features[0]['all_ISI_values'] is not None else 0
-        except Exception as e:
-            features[0]['ISI mean'] = 0
-
-        try:
-            features[0]['AP_height'] = features[0]['AP_height'].mean() if 'AP_height' in features[0] and features[0]['AP_height'] is not None else 0
-        except Exception as e:
-            features[0]['AP_height'] = 0
-
-        try:
-            features[0]['AP_width'] = features[0]['AP_width'][0].mean() if 'AP_width' in features[0] and features[0]['AP_width'] is not None else 0
-        except Exception as e:
-            features[0]['AP_width'] = 0
-
-        try:
-            features[0]['AP1_peak'] = features[0]['AP1_peak'][0] if 'AP1_peak' in features[0] and features[0]['AP1_peak'] is not None else 0
-        except Exception as e:
-            features[0]['AP1_peak'] = 0
-
-        try:
-            features[0]['AP1_width'] = features[0]['AP1_width'][0] if 'AP1_width' in features[0] and features[0]['AP1_width'] is not None else 0
-        except Exception as e:
-            features[0]['AP1_width'] = 0
-
-        try:
-            features[0]['Spikecount'] = features[0]['Spikecount'][0] if 'Spikecount' in features[0] and features[0]['Spikecount'] is not None else 0
-        except Exception as e:
-            features[0]['Spikecount'] = 0
-
-        spike_count = features[0]['Spikecount']
-        isi_values = features[0]['all_ISI_values'] if 'all_ISI_values' in features[0] and features[0]['all_ISI_values'] is not None else []
-        median_spike = int(math.floor(spike_count / 2)) + 1
-
-        print(f'Length of isi_values: {len(isi_values)}')
-        print(f'isi_values: {isi_values}')
-        print(f'Spike Count = {spike_count}')
-
-        if spike_count >= 2 and len(isi_values) >= median_spike:
-            start = int((stim_start + sum(isi_values[0:median_spike - 1])) / dt)
-            try:
-                end = start + int(isi_values[median_spike] / dt)
-            except Exception as e:
-                end = 10000
-
-            volt_segment = Vm[start:end]
-            if len(volt_segment) > 1:
-                dvdt = np.gradient(volt_segment) / dt
-            else:
-                dvdt = np.array([])  # Handle case where segment is too small
-        else:
-            print("Not enough spikes to calculate median ISI")
-            dvdt = np.array([])  # Handle case where there are not enough spikes
-    else:
-        print(f"No features detected for {prefix}_{mut_name}")
-        features = [{}]
-        dvdt = np.array([])  # Handle case where no features are detected
-
-    return features, dvdt

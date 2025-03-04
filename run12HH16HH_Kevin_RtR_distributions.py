@@ -176,7 +176,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'11-ShiftAIS/20-ShiftAIS_0&10-1.6'
+  path = f'11-ShiftAIS/31-Final_Files'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
@@ -347,6 +347,7 @@ ratios1216 = {
 }
 
 ratios1216flip={
+  'WT':(1,1),
 # '0:100': (0, 1),
 # '10:90': (0.1, 0.9),
 # '20:80': (0.2, 0.8),
@@ -357,7 +358,7 @@ ratios1216flip={
 # '70:30': (0.7, 0.3),
 # '80:20': (0.8, 0.2),
 # '90:10': (0.9, 0.1),
-'100:0': (1, 0)
+# '100:0': (1, 0)
 }
 for key, (factor12, factor16) in ratios1216flip.items():
 
@@ -374,11 +375,11 @@ for key, (factor12, factor16) in ratios1216flip.items():
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  sim1216.plot_stim(axs = axs[0],stim_amp = 0.9,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
+  sim1216.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
   plot_dvdt_from_volts(sim1216.volt_soma, sim1216.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_left1_dvdt_stim0.9.pdf') #Change output file path here
-  features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_left1_stim0.9', mut_name=f'{key}')
-  allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_WT.pdf') #Change output file path here
+  # features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_right5_stim0.5', mut_name=f'{root_path_out}/{path}/right5_{key}')
+  # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 # allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_shiftAIS_WT_.csv')
 
 
