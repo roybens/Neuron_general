@@ -15,13 +15,13 @@ PARAMETER {
 	sh   = 8	(mV)
 	gbar = 0.01 :0.1 :0.245989   	(mho/cm2)	
 								
-	tha  =  -33.5	(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45
+	tha  =  -47(mV)		: v 1/2 for act ##TF021424 right shifting #-35 to-25 #left shift -45
 	qa   = 7.2	(mV)		: act slope (4.5)		
 	Ra   = 0.4	(/ms)		: open (v)		
 	Rb   = 0.124 	(/ms)		: close (v)		
 
-	thi1  = -47.5	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
-	thi2  = -47.5 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
+	thi1  = -61	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
+	thi2  = -61 	(mV)		: v 1/2 for inact ##TF021424 right shift #-45	
 	qd   = 0.5	(mV)	        : inact tau slope 
 	qg   = 1.5      (mV)
 	mmin=0.02	
@@ -32,10 +32,10 @@ PARAMETER {
 	qq   = 10        (mV)
 	tq   = -55      (mV)
 
-	thinf  = -51.5 	(mV)		: inact inf slope ##TF021424 right shift #-55
+	thinf  = -65 	(mV)		: inact inf slope ##TF021424 right shift #-55
 	qinf  = 7 	(mV)		: inact inf slope 
 
-        vhalfs=-26.5	(mV)		: slow inact. ##TF021424 right shift #-60 
+        vhalfs=-40	(mV)		: slow inact. ##TF021424 right shift #-60 
         a0s=0.0003	(ms)		: a0s=b0s
         zetas=12	(1)
         gms=0.2		(1)
@@ -48,6 +48,7 @@ PARAMETER {
 	celsius
 	v 		(mV)
 }
+
 
 UNITS {
 	(mA) = (milliamp)

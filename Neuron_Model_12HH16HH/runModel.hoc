@@ -1,5 +1,5 @@
 strdef fitFile,timesFile,paramsFile,stimFile,outFile,modelFile,outFPre,base
-objref st,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,most,root,transvec
+objref st,st_dend,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,most,root,transvec
 
 ntimestep = 5000 
 nparams = 14 
@@ -178,6 +178,10 @@ transvec = pmat.getrow(0)
 tfunc()
 st = new IClamp(0.5)
 
+//Added this to stimulate at the dendrite
+access cADpyr232_L5_TTPC1_0fb1ca4724[0].dend
+st_dend = new IClamp(0.5)
+access root.sec
 
 
  
