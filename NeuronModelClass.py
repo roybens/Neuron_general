@@ -71,8 +71,9 @@ class NeuronModel:
         #___________________Kaustubh params
         h.dend_na12 = 2.48E-03 * dend_nav12
         
-        # h.dend_na16 = 5.05E-03 * dend_nav16 ##TF020624
-        h.dend_na16 = 0 ##TF020624
+        # h.dend_na16 = 5.05E-06 * dend_nav16 ##TF020624
+        h.dend_na16 = 0 ##TF020624 will be updated after initialization
+        dend_nav16=5.05E-06 * dend_nav16
         h.dend_k = 0.0043685576 * dend_K
         
 
@@ -148,20 +149,64 @@ class NeuronModel:
         # h.printValsWT16()
         # h.printValsMUT16()
             
-     
-        
-        
-        
-             
-        
-        
-
-
         os.chdir(run_dir)
 
         
-        
-        
+        ## map section connectivity.
+        def map_connectivity(filename):
+            def print_section_connectivity(sec, depth=0, file=None):
+                indent = "  " * depth
+                line = f"{indent}{depth + 1}. Section: {sec.name()} (L = {sec.L} um, nseg = {sec.nseg})\n"
+                if file:
+                    file.write(line)
+                else:
+                    print(line, end='')
+                
+                # Add gbar of na16 and na16mut
+                for seg in sec:
+                    if hasattr(seg, 'na16'):
+                        gbar_na16 = getattr(seg.na16, 'gbar', 'N/A')
+                        line = f"{indent}  gbar_na16 = {gbar_na16}\n"
+                        if file:
+                            file.write(line)
+                        else:
+                            print(line, end='')
+                    if hasattr(seg, 'na16mut'):
+                        gbar_na16mut = getattr(seg.na16mut, 'gbar', 'N/A')
+                        line = f"{indent}  gbar_na16mut = {gbar_na16mut}\n"
+                        if file:
+                            file.write(line)
+                        else:
+                            print(line, end='')
+                for seg in sec:
+                    if hasattr(seg, 'na12'):
+                        gbar_na12 = getattr(seg.na12, 'gbar', 'N/A')
+                        line = f"{indent}  gbar_na12 = {gbar_na12}\n"
+                        if file:
+                            file.write(line)
+                        else:
+                            print(line, end='')
+                    if hasattr(seg, 'na12mut'):
+                        gbar_na12mut = getattr(seg.na12mut, 'gbar', 'N/A')
+                        line = f"{indent}  gbar_na12mut = {gbar_na12mut}\n"
+                        if file:
+                            file.write(line)
+                        else:
+                            print(line, end='')
+
+                for child in sec.children():
+                    print_section_connectivity(child, depth + 1, file)
+
+            with open(filename, 'w') as file:
+                file.write("Section connectivity map:\n")
+                for sec in h.allsec():
+                    if sec.parentseg() is None:  # This is a root section (e.g., soma)
+                        print_section_connectivity(sec, file=file)
+            
+        # map_connectivity("insert12_numbered_connectivity.txt")
+
+
+
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
         ##TF052124 need to comment out update_mech_from_dict if using HH model -- Fixed this issue##
@@ -172,19 +217,13 @@ class NeuronModel:
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
             multiply_param(self,['SKv3_1'],'mtaumul',0.85) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'mtaumul',fac) ##TF083024 updated for hh model
-            # multiply_param(self,['SKv3_1'],'vtau',fac)
-
-            
-            
-            
+            # multiply_param(self,['SKv3_1'],'vtau',fac)           
             # multiply_param(self,['Ih'],'gIhbar',fac) ##TF82924
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
-
             # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
-            
-            
+                       
 
             self.na12wt_mech = [na12mechs[0]] 
             self.na12mut_mech = [na12mechs[1]]
@@ -223,16 +262,28 @@ class NeuronModel:
             print(f'using na16mut_file params {na16mut_name}')
             self.na16_pmech = update_mech_from_dict(self, p_fn_na16_mech,self.na16mut_mech) ###
             print(eval("h.psection()"))
-
-            update_mod_param(self,['na16','na16mut'],nav16)
             
+            # add nav16 only to first 20 microns of dendrites, otherwise gbar 0
+            update_mod_param(self,['na16','na16mut'],nav16)
+            for sec in self.h.allsec():
+                if 'dend' in sec.name() or 'apic' in sec.name():
+                    for seg in sec:
+                        if self.h.distance(sec(0.5), seg.x) <= 20:
+                            for mech in ['na16', 'na16mut']:
+                                if hasattr(seg, mech):
+                                    setattr(getattr(seg, mech), 'gbar', dend_nav16)#dend_nav16)
+                        else:
+                            for mech in ['na16', 'na16mut']:
+                                if hasattr(seg, mech):
+                                    setattr(getattr(seg, mech), 'gbar', 0)            
             print(eval("h.psection()"))
             # print(eval('h.cell.axon[0].psection()'))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
             # h.printValsMUT16()
             # print(h("topology()"))
-
+            
+            # map_connectivity("numbered_connectivity_After.txt")
             
             
             # section = h.cell.axon[0]
@@ -416,6 +467,8 @@ class NeuronModel:
         # plt.savefig(name+".png", dpi=400)
         plt.savefig(name+".pdf", dpi=400)
     
+    
+
     
     # def init_stim(self, sweep_len = 800, stim_start = 30, stim_dur = 500, amp = 0.3, dt = 0.1): #Na16 zoom into single peak args
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1): ##TF050924 Changed to default for HH figs for grant 061424 ##This is a good new setting

@@ -176,7 +176,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'11-ShiftAIS/31-Final_Files'
+  path = f'11-ShiftAIS/32-debug20'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
@@ -377,7 +377,7 @@ for key, (factor12, factor16) in ratios1216flip.items():
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
   sim1216.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
   plot_dvdt_from_volts(sim1216.volt_soma, sim1216.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_WT.pdf') #Change output file path here
+  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_insert1216_WT.pdf') #Change output file path here
   # features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_right5_stim0.5', mut_name=f'{root_path_out}/{path}/right5_{key}')
   # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 # allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_shiftAIS_WT_.csv')

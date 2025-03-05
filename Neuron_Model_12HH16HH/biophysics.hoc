@@ -48,6 +48,15 @@ proc distribute(){local x localobj sl
 proc biophys() {
 	forsec $o1.basal {
 		insert Ih
+
+		insert na12
+		insert na12mut
+		insert na16
+		insert na16mut
+		gbar_na12 =0
+		gbar_na12mut =0
+		gbar_na16=0
+		gbar_na16mut=0
 		
 	}
 
@@ -152,62 +161,62 @@ proc biophys() {
 	forsec $o1.somatic {
 		ek = -85 
 	}
+	
+	distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##Tf040124 tenth
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
+	//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF032724 1e-8
+	
+	distribute($o1.apical,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.004226")
+	
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
+	distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00055") //##5x as per Kevin input
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000220") //##TF041824 double
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000110") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000110") //##TF040124 tenth
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050") //##TF040124 half
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000020") //##TF040124 quarter
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 1*exp((%g-0.000000)*0.003100))*0.000110")//##TF031924
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050")//##TF031924
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000005")//##TF032724
+	//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000001")//##TF032724 1e-8
 
-		distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##Tf040124 tenth
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
-		//distribute($o1.basal,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF032724 1e-8
-		
-		distribute($o1.apical,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.004226")
-		
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000110") //##DEFAULToriginal
-		distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00055") //##5x as per Kevin input
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000220") //##TF041824 double
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000110") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.0000110") //##TF040124 tenth
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050") //##TF040124 half
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000020") //##TF040124 quarter
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 1*exp((%g-0.000000)*0.003100))*0.000110")//##TF031924
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000050")//##TF031924
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.000005")//##TF032724
-		//distribute($o1.apical,"gIhbar_Ih","(-0.869600 + 2.087000*exp((%g-0.000000)*0.003100))*0.00000001")//##TF032724 1e-8
 
+	distribute($o1.apical,"gImbar_Im","(0.0 * %g + 1.0)*0.000143")
+	distribute($o1.axonal,"gK_Tstbar_K_Tst","(0.0 * %g + 1.0)*0.089259")
+	distribute($o1.axonal,"gamma_CaDynamics_E2","(0.0 * %g + 1.0)*0.002910")
+	distribute($o1.axonal,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.007104")
+	distribute($o1.axonal,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000990")
+	distribute($o1.axonal,"gK_Pstbar_K_Pst","(0.0 * %g + 1.0)*0.973538")
+	distribute($o1.axonal,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*1.021945")
+	distribute($o1.axonal,"decay_CaDynamics_E2","(0.0 * %g + 1.0)*287.198731")
+	distribute($o1.axonal,"gCa_LVAstbar_Ca_LVAst","(0.0 * %g + 1.0)*0.008752")
+	distribute($o1.somatic,"gamma_CaDynamics_E2","(0.0 * %g + 1.0)*0.000609")
+	distribute($o1.somatic,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.303472")
+	distribute($o1.somatic,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.008407")
+	distribute($o1.somatic,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000994")
 
-		distribute($o1.apical,"gImbar_Im","(0.0 * %g + 1.0)*0.000143")
-		distribute($o1.axonal,"gK_Tstbar_K_Tst","(0.0 * %g + 1.0)*0.089259")
-		distribute($o1.axonal,"gamma_CaDynamics_E2","(0.0 * %g + 1.0)*0.002910")
-		distribute($o1.axonal,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.007104")
-		distribute($o1.axonal,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000990")
-		distribute($o1.axonal,"gK_Pstbar_K_Pst","(0.0 * %g + 1.0)*0.973538")
-		distribute($o1.axonal,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*1.021945")
-		distribute($o1.axonal,"decay_CaDynamics_E2","(0.0 * %g + 1.0)*287.198731")
-		distribute($o1.axonal,"gCa_LVAstbar_Ca_LVAst","(0.0 * %g + 1.0)*0.008752")
-		distribute($o1.somatic,"gamma_CaDynamics_E2","(0.0 * %g + 1.0)*0.000609")
-		distribute($o1.somatic,"gSKv3_1bar_SKv3_1","(0.0 * %g + 1.0)*0.303472")
-		distribute($o1.somatic,"gSK_E2bar_SK_E2","(0.0 * %g + 1.0)*0.008407")
-		distribute($o1.somatic,"gCa_HVAbar_Ca_HVA","(0.0 * %g + 1.0)*0.000994")
-
-		distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##TF040124 tenth
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
-		//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF031924 1e-8
-		
-		distribute($o1.somatic,"decay_CaDynamics_E2","(0.0 * %g + 1.0)*210.485284")
-		distribute($o1.somatic,"gCa_LVAstbar_Ca_LVAst","(0.0 * %g + 1.0)*0.000333")
-		
-		
-		        
-		forsec $o1.all {
-		g_pas = 7.120456108418522658e-06
-		//e_pas = -1.354672766109964641e+02
-		e_pas = -100
-		}
+	distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##DEFAULToriginal
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00016") //##TF041824 double
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.0000080") //##TF041824 hundredth ##TF050924 last value used in HMM tuning
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000080") //##TF040124 tenth
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000040") //##TF040124 half
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.000020") //##TF040124 quarter
+	//distribute($o1.somatic,"gIhbar_Ih","(0.0 * %g + 1.0)*0.00000001") //##TF031924 1e-8
+	
+	distribute($o1.somatic,"decay_CaDynamics_E2","(0.0 * %g + 1.0)*210.485284")
+	distribute($o1.somatic,"gCa_LVAstbar_Ca_LVAst","(0.0 * %g + 1.0)*0.000333")
+	
+	
+			
+	forsec $o1.all {
+	g_pas = 7.120456108418522658e-06
+	//e_pas = -1.354672766109964641e+02
+	e_pas = -100
+	}
 	forsec $o1.axonal{
 		gK_Tstbar_K_Tst = 7.057598347931356431e-01
 		gK_Pstbar_K_Pst = 2.995607833249227525e+00
