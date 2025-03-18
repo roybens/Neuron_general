@@ -48,16 +48,7 @@ proc distribute(){local x localobj sl
 proc biophys() {
 	forsec $o1.basal {
 		insert Ih
-
-		insert na12
-		insert na12mut
-		insert na16
-		insert na16mut
-		gbar_na12 =0
-		gbar_na12mut =0
-		gbar_na16=0
-		gbar_na16mut=0
-		
+	
 	}
 
 	forsec $o1.apical {

@@ -92,7 +92,6 @@ class NeuronModel:
         
         # h.ais_na16 = 7.2696676 * ais_nav16
         h.ais_na16 = ais_nav16_fac * ais_nav16
-        print(f'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##################### the ais factor is {ais_nav16_fac} ************************************************************')
 
         # h.ais_na12 = 1.03E+00 * ais_nav12
         h.ais_na12 = ais_nav12_fac * ais_nav12 #TF020124 added ais_nav12 factor to fine tune
@@ -101,7 +100,6 @@ class NeuronModel:
         h.ais_KCa = 0.0009423347 * ais_KCa
         
         h.node_na = 0.9934221 * node_na
-        print(f'The node_na is {h.node_na} &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
 
         h.axon_KP = 0.43260124 * axon_Kp
         h.axon_KT = 1.38801 * axon_Kt
@@ -152,58 +150,7 @@ class NeuronModel:
         os.chdir(run_dir)
 
         
-        ## map section connectivity.
-        def map_connectivity(filename):
-            def print_section_connectivity(sec, depth=0, file=None):
-                indent = "  " * depth
-                line = f"{indent}{depth + 1}. Section: {sec.name()} (L = {sec.L} um, nseg = {sec.nseg})\n"
-                if file:
-                    file.write(line)
-                else:
-                    print(line, end='')
-                
-                # Add gbar of na16 and na16mut
-                for seg in sec:
-                    if hasattr(seg, 'na16'):
-                        gbar_na16 = getattr(seg.na16, 'gbar', 'N/A')
-                        line = f"{indent}  gbar_na16 = {gbar_na16}\n"
-                        if file:
-                            file.write(line)
-                        else:
-                            print(line, end='')
-                    if hasattr(seg, 'na16mut'):
-                        gbar_na16mut = getattr(seg.na16mut, 'gbar', 'N/A')
-                        line = f"{indent}  gbar_na16mut = {gbar_na16mut}\n"
-                        if file:
-                            file.write(line)
-                        else:
-                            print(line, end='')
-                for seg in sec:
-                    if hasattr(seg, 'na12'):
-                        gbar_na12 = getattr(seg.na12, 'gbar', 'N/A')
-                        line = f"{indent}  gbar_na12 = {gbar_na12}\n"
-                        if file:
-                            file.write(line)
-                        else:
-                            print(line, end='')
-                    if hasattr(seg, 'na12mut'):
-                        gbar_na12mut = getattr(seg.na12mut, 'gbar', 'N/A')
-                        line = f"{indent}  gbar_na12mut = {gbar_na12mut}\n"
-                        if file:
-                            file.write(line)
-                        else:
-                            print(line, end='')
-
-                for child in sec.children():
-                    print_section_connectivity(child, depth + 1, file)
-
-            with open(filename, 'w') as file:
-                file.write("Section connectivity map:\n")
-                for sec in h.allsec():
-                    if sec.parentseg() is None:  # This is a root section (e.g., soma)
-                        print_section_connectivity(sec, file=file)
-            
-        # map_connectivity("insert12_numbered_connectivity.txt")
+    
 
 
 
@@ -268,15 +215,22 @@ class NeuronModel:
             for sec in self.h.allsec():
                 if 'dend' in sec.name() or 'apic' in sec.name():
                     for seg in sec:
+                        # for mech in ['na12', 'na12mut']:
+                        #         if hasattr(seg, mech):
+                        #             setattr(getattr(seg, mech), 'gbar', dend_nav12)
+                        
                         if self.h.distance(sec(0.5), seg.x) <= 20:
                             for mech in ['na16', 'na16mut']:
                                 if hasattr(seg, mech):
-                                    setattr(getattr(seg, mech), 'gbar', dend_nav16)#dend_nav16)
+                                    setattr(getattr(seg, mech), 'gbar', dend_nav16)
                         else:
                             for mech in ['na16', 'na16mut']:
                                 if hasattr(seg, mech):
                                     setattr(getattr(seg, mech), 'gbar', 0)            
             print(eval("h.psection()"))
+
+
+            
             # print(eval('h.cell.axon[0].psection()'))
             ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
             # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
@@ -295,7 +249,98 @@ class NeuronModel:
             #     print("SH",sec.sh_na16)
             #     # print("sh",sec.gIhbar_Ih)
             ############################################################
+
+
         
+    ## map section connectivity and print gbar of na12 and na12mut for each section
+    def map_connectivity(filename):
+        def print_section_connectivity(sec, depth=0, file=None):
+            indent = "  " * depth
+            line = f"{indent}{depth + 1}. Section: {sec.name()} (L = {sec.L} um, nseg = {sec.nseg})\n"
+            if file:
+                file.write(line)
+            else:
+                print(line, end='')
+            
+            # Add gbar of na16 and na16mut
+            for seg in sec:
+                if hasattr(seg, 'na16'):
+                    gbar_na16 = getattr(seg.na16, 'gbar', 'N/A')
+                    line = f"{indent}  gbar_na16 = {gbar_na16}\n"
+                    if file:
+                        file.write(line)
+                    else:
+                        print(line, end='')
+                if hasattr(seg, 'na16mut'):
+                    gbar_na16mut = getattr(seg.na16mut, 'gbar', 'N/A')
+                    line = f"{indent}  gbar_na16mut = {gbar_na16mut}\n"
+                    if file:
+                        file.write(line)
+                    else:
+                        print(line, end='')
+            for seg in sec:
+                if hasattr(seg, 'na12'):
+                    gbar_na12 = getattr(seg.na12, 'gbar', 'N/A')
+                    line = f"{indent}  gbar_na12 = {gbar_na12}\n"
+                    if file:
+                        file.write(line)
+                    else:
+                        print(line, end='')
+                if hasattr(seg, 'na12mut'):
+                    gbar_na12mut = getattr(seg.na12mut, 'gbar', 'N/A')
+                    line = f"{indent}  gbar_na12mut = {gbar_na12mut}\n"
+                    if file:
+                        file.write(line)
+                    else:
+                        print(line, end='')
+
+            for child in sec.children():
+                print_section_connectivity(child, depth + 1, file)
+
+        with open(filename, 'w') as file:
+            file.write("Section connectivity map:\n")
+            for sec in h.allsec():
+                if sec.parentseg() is None:  # This is a root section (e.g., soma)
+                    print_section_connectivity(sec, file=file)
+            
+        # map_connectivity("insert12_numbered_connectivity.txt")
+    
+    
+    ## Map all sections connectivity and list parent sections
+    def map_connectivity_parentchild(filename="connectivity_map_parentchild.txt"):
+        def print_section_connectivity(sec, depth=0, branch_num=1, file=None):
+            indent = "  " * depth
+            line = f"{indent}{depth + 1}. Section: {sec.name()} (L = {sec.L} um, nseg = {sec.nseg}"
+            
+            if sec.parentseg():
+                parent_name = sec.parentseg().sec.name()
+                line += f", Parent: {parent_name})\n"
+            else:
+                line += f", Parent: None (Root section))\n"
+
+            if file:
+                file.write(line)
+            else:
+                print(line, end='')
+            
+            # Print psection for the current section
+            psection_str = str(sec.psection())
+            line = f"{indent}  psection(): {psection_str}\n"
+            if file:
+                file.write(line)
+            else:
+                print(line, end='')
+       
+            for child in sec.children():
+                print_section_connectivity(child, depth + 1, branch_num + 1, file)
+
+        with open(filename, 'w') as file:
+            file.write("Mapping out section connectivity:\n")
+            for sec in h.allsec():
+                if sec.parentseg() is None:  # This is a root section (e.g., soma)
+                    print_section_connectivity(sec, file=file)
+    
+    # map_connectivity_parentchild()
     
    
 #Function for determining and plotting the distribution of Na channels in axon.
