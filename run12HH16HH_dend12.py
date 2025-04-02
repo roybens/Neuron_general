@@ -176,7 +176,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'3-connectivitycheck'
+  path = f'4-scan_dend12'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
@@ -357,22 +357,21 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*a
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-NeuronModel.map_connectivity_parentchild(filename=f'{root_path_out}/{path}/psection_connectivity_parentchild.txt')
-
+# NeuronModel.map_connectivity_parentchild(filename=f'{root_path_out}/{path}/psection_connectivity_parentchild.txt')
 wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
+NeuronModel.map_connectivity(filename=f'{root_path_out}/{path}/WT_connectivity.txt')
 
-for i, factor in enumerate([0.0001, 0.001,0.01,0.1,1,2,4,8,10]):
-# for i, factor12 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-#   for i, factor16 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
-# for i, factor in enumerate([1,0.9]):
-  color = cmap(i/11)
+
+# for i, factor in enumerate([0.0001, 0.001,0.01,0.1,1,2,4,8,10]):
+for i, factor in enumerate([0,1.25,1.5,1.75]):
+  # color = cmap(i/11)
      
   ## varying 1.2 and 1.6 with different AIS distributions for paper heatmaps.
   sim1216 = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16,
                               nav12=1*na12,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac*0.7, KT=5,
                               ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,
                               soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-                              dend_nav12=1*factor,
+                              dend_nav12=factor,
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
@@ -383,12 +382,12 @@ for i, factor in enumerate([0.0001, 0.001,0.01,0.1,1,2,4,8,10]):
   # features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_right5_stim0.5', mut_name=f'{root_path_out}/{path}/right5_{key}')
   # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 # allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_shiftAIS_WT_.csv')
-  # sim1216.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=200, fnpre=f'dend12-{factor}__')
+  sim1216.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=200, fnpre=f'dend12-{factor}__')
 
   # Vm12,_,t12,_ = sim1216.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config) #stim_amp=0.5
   # dvdt1 = np.gradient(Vm12)/0.005
   # axs1.plot(Vm12[1:12000],dvdt1[1:12000],color=color, alpha=0.8,linewidth=1)
-  NeuronModel.map_connectivity(filename=f'{root_path_out}/{path}/SKv3_1connectivity{factor}.txt')
+  NeuronModel.map_connectivity(filename=f'{root_path_out}/{path}/connectivity_dend-{factor}.txt')
 
 
 
