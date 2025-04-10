@@ -48,7 +48,8 @@ class NeuronModel:
                       soma_K=1,
                       dend_K=1,
                       gpas_all=1,
-                      fac=None
+                      fac=None,
+                    #   morphology_index=0
                       ):
         run_dir = os.getcwd()
 
@@ -58,14 +59,24 @@ class NeuronModel:
         print (f'There is {nav16} of WT nav16')
         print(f'There is {nav12} of WT nav12')
         h.load_file("runModel.hoc")
+
+        # Load morphology.hoc and set morphology index TESTING TF040725
+        # h.load_file("morphology.hoc")
+        # h("morphology_index = {}".format(morphology_index))
+        # h("objref cell") 
+        # h("cell = new morphology_0fb1ca4724()") 
+        # h("cell.morphology()") 
+
         self.soma_ref = h.root.sec
         self.soma = h.secname(sec=self.soma_ref)
         self.sl = h.SectionList()
         self.sl.wholetree(sec=self.soma_ref)
-        self.nexus = h.cell.apic[66]
-        self.dist_dend = h.cell.apic[91]
-        self.ais = h.cell.axon[0]
-        self.axon_proper = h.cell.axon[1]
+        
+        # ## sections for normal adult neuron.
+        # self.nexus = h.cell.apic[66]
+        # self.dist_dend = h.cell.apic[91]
+        # self.ais = h.cell.axon[0]
+        # self.axon_proper = h.cell.axon[1]
         
         
         #___________________Kaustubh params
@@ -303,7 +314,7 @@ class NeuronModel:
                 if sec.parentseg() is None:  # This is a root section (e.g., soma)
                     print_section_connectivity(sec, file=file)
             
-        # map_connectivity("insert12_numbered_connectivity.txt")
+    # map_connectivity("insert12_numbered_connectivity.txt")
     
     
     ## Map all sections connectivity and list parent sections
@@ -523,7 +534,7 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
-    def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 500, stim_start = 30, stim_dur = 400, amp = 0.3, dt = 0.1): ##TF111424 slightly longer sweep for EFEL
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
@@ -532,7 +543,8 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1700, amp = 0.75, dt = 0.1): ##TF022525 long sweep and high stim to get EFEL at varying 12/16
     # def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1700, amp = 0.5, dt = 0.1): ##TF021425 long sweep to get smoother FIs
-
+    
+    def init_stim(self, sweep_len = 1350, stim_start = 100, stim_dur = 1000, amp = 0.3, dt = 0.1): ##TF040725 ADIL's 1000ms stim settings
         # updates the stimulation params used by the model
         # time values are in ms
         # amp values are in nA

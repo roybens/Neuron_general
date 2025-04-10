@@ -140,7 +140,7 @@ def modify_dict_file(filename, changes):
   #Don't forget to change NeuronModelClass.py to './Neuron_Model_12HH16HH/' and recompile!!
 
 
-root_path_out = './Plots/12HH16HH/10-KevinRtR_chandensities' ##path for saving your plots
+root_path_out = './Plots/12HH16HH/12-CheckFI' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
 
@@ -176,7 +176,7 @@ modify_dict_file(filename16, changesna16)
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'11-ShiftAIS/33-rerunHigherPeak2/left2'
+  path = f'2-checkFI_1350sweep'
 
 allmutsefel = pd.DataFrame()
 # fig,axs = plt.subplots(1,1)
@@ -252,12 +252,12 @@ na16=1.1
 # input("Press Enter to continue...")
 
 
-# simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16,nav12=1*na12,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
-#                                     ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
-#                                     na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-#                                     na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-#                                     plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-# # # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+simwt = tf.Na12Model_TF(ais_nav12_fac=12*1.2*aisfac12,ais_nav16_fac=12*0.6*0.5*aisfac16,nav12=1*na12,nav16=1.3*na16, somaK=1*2.2*0.01, KP=25*0.15*kpfac, KT=5,#ais_nav12_fac=12*fac*factor,ais_nav16_fac=12*0.75
+                                    ais_ca = 100*8.6*0.1*ca,ais_Kca = 0.5*Kca,soma_na16=1*0.8,soma_na12=3.2*0.8,node_na = 1,
+                                    na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                                    na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                    plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
 # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
 
 
@@ -348,6 +348,8 @@ ratios1216 = {
 
 ratios1216flip={
   'WT':(1,1),
+  'het':(0.5,1),
+  'ko':(0,1),
 # '0:100': (0, 1),
 # '10:90': (0.1, 0.9),
 # '20:80': (0.2, 0.8),
@@ -375,7 +377,7 @@ ratios1216_double={
 '90:10': (1.8, 0.2),
 '100:0': (2, 0)
 }
-for key, (factor12, factor16) in ratios1216_double.items():
+for key, (factor12, factor16) in ratios1216flip.items():
 
 # for i, factor in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
 # for i, factor12 in enumerate([1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0]):
@@ -389,12 +391,14 @@ for key, (factor12, factor16) in ratios1216_double.items():
                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  sim1216.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
-  plot_dvdt_from_volts(sim1216.volt_soma, sim1216.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{sim1216.plot_folder}/{key}_rerun.pdf') #Change output file path here
-  features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_left2_stim0.5', mut_name=f'{root_path_out}/{path}/left2_{key}')
-  allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+  sim1216.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'1-{key}-FI',epochlabel='200ms')
+
+  # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  # sim1216.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur=1700, clr='cadetblue') #cadetblue
+  # plot_dvdt_from_volts(sim1216.volt_soma, sim1216.dt, axs[1],clr='cadetblue')
+  # fig_volts.savefig(f'{sim1216.plot_folder}/{key}_rerun.pdf') #Change output file path here
+  # features_wt = ef.get_features(sim=sim1216, prefix=f'{root_path_out}/{path}/{key}_1216_left2_stim0.5', mut_name=f'{root_path_out}/{path}/left2_{key}')
+  # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 # allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_shiftAIS_right5_.csv')
 
 
