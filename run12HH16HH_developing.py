@@ -159,7 +159,7 @@ def modify_dict_file(filename, changes):
   #Don't forget to change NeuronModelClass.py to './Neuron_Model_12HH16HH/' and recompile!!
 
 
-root_path_out = './Plots/12HH16HH/13-DevelopingModels' ##path for saving your plots
+root_path_out = './Plots/12HH16HH/2-DevelopingBranch' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
 
@@ -193,7 +193,7 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'cell_6/kpfac'
+  path = f'cell_1/6-0.3gbar_channels'
 
 # for morphology_index,morphoname in morphology_files.items():
 #   set_morphology(morphology_index)
@@ -201,14 +201,22 @@ for config_name, config in config_dict3.items():
 
 allmutsefel = pd.DataFrame()
 
-nav16factor=1 ## remove 1.6 in developing model when only 1.2 present. Params replaced by 12
-nav12factor=1 
-# kpfac=1.2
-for kpfac in [0.01,0.1,0.5,1.2,1.5,2,4]:
+nav16factor=0.75 ## remove 1.6 in developing model when only 1.2 present. Params replaced by 12
+nav12factor=0.75 
+somaKfac=1
+kpfac=1
+ktfac=1
+aiscafac=1*50
+aisKcafac=1
+
+for aiscafac in [0.1,0.25,0.5,0.75]:
   simwt = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor,nav12=1.1*nav12factor,
                           ais_nav16_fac=1.08*nav16factor,nav16=1.43*nav16factor,
-                          somaK=0.022, KP=3.9375*kpfac, KT=5,
-                          ais_ca = 43,ais_Kca = 0.25,
+                          somaK=0.022, 
+                          KP=3.9375*kpfac, 
+                          KT=5*ktfac,
+                          ais_ca = 43*aiscafac,
+                          ais_Kca = 0.25*aisKcafac,
                           soma_na16=0.8*nav16factor,soma_na12=2.56*nav12factor,
                           node_na = 1,
                           dend_nav12=1,
@@ -223,7 +231,7 @@ for kpfac in [0.01,0.1,0.5,1.2,1.5,2,4]:
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
   simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
   plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{simwt.plot_folder}/kpfac-{kpfac}.pdf') #Change output file path here 
+  fig_volts.savefig(f'{simwt.plot_folder}/aiscafac-{aiscafac}.pdf') #Change output file path here 
 
 # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
 # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)

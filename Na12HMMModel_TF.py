@@ -16,78 +16,13 @@ class Na12Model_TF:
                  nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1, dend_nav12=1,
                  update = None, fac=None): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
         
-        #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
-        
-        
-        ###Active params commented as starting point TF
-        # ais_Kca = 0.5
-        # ais_ca = 0.04*ais_ca
-        #nav12 = 4.5
-        # nav16 = 1.1*nav16
-        # KP = 1.2*KP
-        # somaK = 0.5 * somaK
-        # KP=0.95*KP
-        # K = 4.8*K
-        # KT = 0.025*0.5*KT
-        ####################
-        
-        #nav16 = 2.1
-        #nav12 = 0.25 ##.25 seemed a little low since the synth muts didn't change much, increasing       
-        
-        ##Trying varying levels of nav12 to see which is best
-        #nav12 = 2.5#2#1.5 #1 #looked better 121323
-
-
-        #Change K and Na to move FI
-        # K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
+   
         K = 1 ##TF020624
         #node_na = 100
         # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
         node_na = 0.5 #(0.5 good value, default following newAIS) #1#100#90#80#70#60#50#40#30#20 #10
 
-
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        #ais_ca = 2
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 3
-        #nav16 = 1
-        #KP = 0.1
-        #somaK = 2
-        #KP=3
-        #K=3
-        #KT = 0.5
-        
-
-        #***Nav12/16 densities 011624, altered in args of runNa12HMMTF.py
-        # nav12 = 2.25
-        # nav16 = 2
-        
-        #______________M1TTPC2
-        #nav12 = 3.5
-        #nav12 = 5 #Tim#######################
-        #nav16 = 1.2
-        # ais_Kca = 0.03*ais_Kca
-        # ais_ca = 0.04*ais_ca
-        # KP=1.1*KP
-        # K = 4.8*K
-        # KT = 0.025*0.5*KT
-
-        #___________________TTPC_M1_Na_HH.py from M1_TTPC2 branch
-        #ais_Kca = 0.03*ais_Kca
-        #K = 0.6
-        #update_param_value(self.l5mdl,['SKv3_1'],'vtau',25)
-        #soma_na16 = 0.7
-        #soma_na12 = 0.7
-        #nav12 = 1.8 *nav12
-        #nav16 = 1.8 *nav16#the wt should be 1.1 and then add to that what we get from the input
-        
-        #nav12 = 1.2
-        #nav16 = 1.2
-        
-       #______________GY
-        #KP= KP
-        
+     
            
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,
