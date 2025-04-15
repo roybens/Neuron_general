@@ -25,7 +25,7 @@ import datetime
 class Na12Model_TF:
     def __init__(self,na12name = 'na12HH',mut_name= 'na12HH',  na12mechs = ['na12','na12mut'],
                 na16name = 'na16HH',na16mut_name ='na16HH', na16mechs = ['na16','na16'], 
-                params_folder = './params/',plots_folder = './Plots/',pfx='testprefix',update = None, fac=None,
+                params_folder = './Neuron_Model_12HH16HH/params/',plots_folder = './Plots/',pfx='testprefix',update = None, fac=None,
                 K=1, 
                 dend_nav12=1,
 

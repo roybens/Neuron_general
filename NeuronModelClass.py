@@ -26,7 +26,7 @@ class NeuronModel:
                       na16name = 'na16HH_TF2',  
                       na16mut_name = 'na16HH_TF2', ## TF041525 this is same as na16name since we want homozygous WT
                       na16mechs=['na16','na16mut'],
-                      params_folder = './params/',
+                      params_folder = './Neuron_Model_12HH16HH/params/',
 
                       nav12=1,
                       nav16=1,
