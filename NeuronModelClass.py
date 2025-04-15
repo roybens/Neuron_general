@@ -6,7 +6,7 @@ Created on Sat Oct 16 21:07:44 2021
 """
 import argparse
 import numpy as np
-from vm_plotter import *
+# from vm_plotter import *
 from neuron import h
 import os
 import csv
@@ -19,12 +19,12 @@ from NrnHelper import *
 class NeuronModel:
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
                       
-                      update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
-                      na12name = 'na12_HMM_TF100923',
-                      na12mut_name = 'na12_HMM_TF100923',
+                      update = True, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
+                      na12name = 'na12annaTFHH2',
+                      na12mut_name = 'na12annaTFHH2', ## TF041525 this is same as na12name since we want homozygous WT
                       na12mechs = ['na12','na12mut'],
-                      na16name = 'na16HH_TF',
-                      na16mut_name = 'na16HH_TF',
+                      na16name = 'na16HH_TF2',  
+                      na16mut_name = 'na16HH_TF2', ## TF041525 this is same as na16name since we want homozygous WT
                       na16mechs=['na16','na16mut'],
                       params_folder = './params/',
 
@@ -58,6 +58,7 @@ class NeuronModel:
         print (f'There is {nav16} of WT nav16')
         print(f'There is {nav12} of WT nav12')
         h.load_file("runModel.hoc")
+
         self.soma_ref = h.root.sec
         self.soma = h.secname(sec=self.soma_ref)
         self.sl = h.SectionList()
@@ -67,70 +68,36 @@ class NeuronModel:
         self.ais = h.cell.axon[0]
         self.axon_proper = h.cell.axon[1]
         
-        
-        #___________________Kaustubh params
         h.dend_na12 = 2.48E-03 * dend_nav12
-        
-        # h.dend_na16 = 5.05E-03 * dend_nav16 ##TF020624
-        h.dend_na16 = 0 ##TF020624
+        h.dend_na16 = 0
         h.dend_k = 0.0043685576 * dend_K
-        
-
-        ##062424 original params
         h.soma_na12 = 3.24E-02 * soma_nav12 
         h.soma_na16 = 7.88E-02 * soma_nav16
-        
-        ##TF062424 testing equal conductances
-        # h.soma_na12 = 3.24E-02 * soma_nav12 
-        # h.soma_na16 = 3.24E-02 * soma_nav16
-
-
-        
-      
         h.soma_K = 0.21330453 * soma_K
-        
-        # h.ais_na16 = 7.2696676 * ais_nav16
         h.ais_na16 = ais_nav16_fac * ais_nav16
-        print(f'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##################### the ais factor is {ais_nav16_fac} ************************************************************')
-
-        # h.ais_na12 = 1.03E+00 * ais_nav12
-        h.ais_na12 = ais_nav12_fac * ais_nav12 #TF020124 added ais_nav12 factor to fine tune
-
+        h.ais_na12 = ais_nav12_fac * ais_nav12
         h.ais_ca = 0.0010125926 * ais_ca
-        h.ais_KCa = 0.0009423347 * ais_KCa
-        
+        h.ais_KCa = 0.0009423347 * ais_KCa        
         h.node_na = 0.9934221 * node_na
-        print(f'The node_na is {h.node_na} &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-
         h.axon_KP = 0.43260124 * axon_Kp
         h.axon_KT = 1.38801 * axon_Kt
         h.axon_K = 0.89699364 *2.1* axon_K
         h.axon_LVA = 0.00034828275 * axon_LVA
         h.axon_HVA = 1.05E-05 * axon_HVA
-        h.axon_KCA = 0.4008224 * axon_Kca
-        
+        h.axon_KCA = 0.4008224 * axon_Kca        
         h.gpas_all = 1.34E-05 * gpas_all
-
-
         h.cm_all = 1.6171424
-
-        
-        
         #added gpas to see if i_pas changes on currentscape
         #h.gpas_all = .001
-
-        
 
         h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
         h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
         
-        # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
         if nav12 !=0:
             h.ais_na12 = (h.ais_na12 * ais_nav12)/nav12 ##TF020624 decouple ais Nav1.2 from overall nav12
         else:
             h.ais_na12 = h.ais_na12 *ais_nav12
         
-        # h.ais_na16 = h.ais_na16 * nav16 * ais_nav16
         if nav16 !=0:
             h.ais_na16 = (h.ais_na16 * ais_nav16)/nav16 ##TF020624 decouple ais Nav1.6 from overall nav16
         else:
@@ -141,27 +108,9 @@ class NeuronModel:
         
         
         h.working()
-        
-        # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-        
-        # h.printVals12HHWT() ##TF will only work with HH mod files that have params like 'sh', 'tha', 'thi' etc.
-        # h.printValsWT16()
-        # h.printValsMUT16()
-            
      
-        
-        
-        
-             
-        
-        
-
-
         os.chdir(run_dir)
-
-        
-        
-        
+   
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
         ##TF052124 need to comment out update_mech_from_dict if using HH model -- Fixed this issue##
@@ -213,23 +162,6 @@ class NeuronModel:
             update_mod_param(self,['na16','na16mut'],nav16)
             
             print(eval("h.psection()"))
-            # print(eval('h.cell.axon[0].psection()'))
-            ##TF030624 Can load file below and run h.printValsWT to debug if mod file is getting updated or not
-            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            # h.printValsMUT16()
-            # print(h("topology()"))
-
-            
-            
-            # section = h.cell.axon[0]
-            # print("Section properties:")
-            # print(h.cell.axon[0].properties())
-            
-            # for sec in h.cell.axon:
-            #     print("SKv3_1",sec.SKv3_1)
-            #     print("SH",sec.sh_na16)
-            #     # print("sh",sec.gIhbar_Ih)
-            ############################################################
         
     
    
@@ -301,10 +233,11 @@ class NeuronModel:
     # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
     # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2
     # def init_stim(self, sweep_len = 1000, stim_start = 100, stim_dur = 700, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len =2000, stim_start = 100, stim_dur = 1700, amp = 0.3, dt = 0.1):
 
         # updates the stimulation params used by the model
         # time values are in ms
