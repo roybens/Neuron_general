@@ -10,26 +10,20 @@ import os
 import datetime
 
 
-
-
-###########################################
-###########################################
-###########################################
-###########################################
-## This is the Nav1.2 HH / Nav1.6 HH model with correct parameters/mechs as of 091224.
-###########################################
-###########################################
-###########################################
-########################################### 
-
 class Na12Model_TF:
-    def __init__(self,na12name = 'na12HH',mut_name= 'na12HH',  na12mechs = ['na12','na12mut'],
-                na16name = 'na16HH',na16mut_name ='na16HH', na16mechs = ['na16','na16'], 
-                params_folder = './Neuron_Model_12HH16HH/params/',plots_folder = './Plots/',pfx='testprefix',update = None, fac=None,
+    def __init__(self,na12name = 'na12annaTFHH2',
+                mut_name= 'na12annaTFHH2',  ## Change this to 'na12_mut' if you want to make heterozygous mutant 
+                na12mechs = ['na12','na12mut'],
+                na16name = 'na16HH_TF2',
+                na16mut_name ='na16HH_TF2', 
+                na16mechs = ['na16','na16mut'], 
+                params_folder = './Neuron_Model_12HH16HH/params/',
+                plots_folder = './Plots/',
+                pfx='testprefix',
+                update = None, 
+                fac=None,
                 K=1, 
                 dend_nav12=1,
-
-
                 ## Parameters for New model 030425
                 ais_nav12_fac=5.76,
                 ais_nav16_fac=1.08,
@@ -43,17 +37,9 @@ class Na12Model_TF:
                 soma_na16=0.8,
                 soma_na12=2.56,
                 node_na = 1):
-                              
-
-
-        #Change K and Na to move FI
-        # K = 0.75#0.01#0.1#0.25#3#6#10(didn't fire) #2#1.5#0.75#1 #4
-        K = 1 ##TF020624
-        #node_na = 100
-        # node_na = 0.1 #Changed from 100 to reduce na16 at seg 1 of axon[1] where it was spiking to gbar of 50! TF020124
-        node_na = 0.5 #(0.5 good value, default following newAIS) #1#100#90#80#70#60#50#40#30#20 #10
-
-        
+    
+        K = 1
+        node_na = 0.5      
            
 
         self.l5mdl = NeuronModel(nav12=nav12, nav16=nav16,axon_K = K,axon_Kp = KP,axon_Kt = KT,soma_K = somaK,
@@ -75,20 +61,7 @@ class Na12Model_TF:
         self.plot_folder = f'{plots_folder}'
         Path(self.plot_folder).mkdir(parents=True, exist_ok=True)
         self.pfx = pfx
-    
-   
-        # print("TOPOLOGY BELOW ######################################################")
-        # print(h("topology()"))
 
-        
-
-
-        """
-        print(f'using na16_file {na16name}')
-        p_fn_na16 = f'{params_folder}{na16name}.txt'
-        self.na16_p = update_mech_from_dict(self.l5mdl, p_fn_na16, self.na16mechs) 
-        """
-    
 
     
 
@@ -145,13 +118,7 @@ class Na12Model_TF:
         step2 = int((time2/dt))
         Vmsteplist = Vm[step1:step2] #assign new list for range selected between two steps
         # maxvm = max(Vm[step1:step2]) #gets max voltage
-        # indexmax = Vmsteplist.argmax() #gets index (time point in Vmsteplist) where max voltage is
-        #####***
-
-        # print(I)
-        # print([x for x in I.keys()])
-        # print([x for x in ionic.keys()])
-        #current_names = sim_config['currents']
+        # indexmax = Vmsteplist.argmax() 
         plot_config = {
             "output": {
                 "savefig": True,
@@ -194,50 +161,13 @@ class Na12Model_TF:
                 "bottom": 0.0
                 }
             }
-        
-        # print(plot_config['current'])
-        # print('step at max value for vm')
-        # # print(Vmsteplist)
-        # print(f"the max voltage value is {maxvm}")        
+    
         # print(f"The index at which the max voltage happens is {indexmax}")
         
         #fig = plot_currentscape(Vm, [I[x] for x in I.keys()], plot_config,[ionic[x] for x in ionic.keys()]) #Default version that plots full sweep_len (full simulation)
         fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config,[ionic[x][step1:step2] for x in ionic.keys()]) #Use this version to add time steps
         #fig = plot_currentscape(Vm[step1:step2], [I[x][step1:step2] for x in I.keys()], plot_config) #112723 removing ionic currents at bottom
 
-        # print('ihcn_Ih')
-        # print(I['ihcn_Ih'][step1:step2])
-        # print('ica_Ca_HVA')
-        # print(I['ica_Ca_HVA'][step1:step2])
-        # print('ica_Ca_LVAst')
-        # print(I['ica_Ca_LVAst'][step1:step2])
-        # print('ik_SKv3_1')
-        # print(I['ik_SKv3_1'][step1:step2])
-        # print('ik_SK_E2')
-        # print(I['ik_SK_E2'][step1:step2])
-        # print('na16.ina_ina')
-        # print(I['na16.ina_ina'][step1:step2])
-        # print('na16mut.ina_ina')
-        # print(I['na16mut.ina_ina'][step1:step2])
-        # print('na12.ina_ina')
-        # print(I['na12.ina_ina'][step1:step2])
-        # print('i_pas')
-        # print(I['i_pas'][step1:step2])
-        # print('Vm')
-        # print(Vm[step1:step2])
-
-        
-        ###### Writing all raw data to csv
-        # with open("./Plots/12HH16HMM_TF/111423/Currentscape/Na16_WT_1na_75ms_rawdata.csv",'w',newline ='') as csvfile:
-        #     writer = csv.writer(csvfile, delimiter = ',')
-        #     #writer.writerow(current_names)
-        #     writer.writerow(I.keys())
-            
-        #     writer.writerows(I[x] for x in I) # This and line below for writing data from entire sweep_len
-        #     writer.writerow(Vm)
-            
-            # writer.writerows(I[x][step1:step2] for x in I) ####This and below line are used when time steps are used
-            # writer.writerow(Vm[step1:step2])
         
         
     #__________added this function to get overexp and ttx to work   
@@ -542,9 +472,7 @@ class Na12Model_TF:
             
 
             #plt.show()
-            ###
-
-
+            
             # with open(csv_volts, 'w', newline='') as file:
             #     writer = csv.writer(file)
             #     writer.writerow(['Voltage'])  # Write header row
@@ -677,29 +605,6 @@ def ttx(na16name,na16mut,plots_folder,wt_factor,mut_factor,fnpre = 'mut_TTX',axo
     sim.plot_model_FI_Vs_dvdt([1],fnpre=f'{fnpre}WT_{wt_factor*100}_Mut_{mut_factor *100}_') #only plot 1nA rather than range of amps
 
 
-####____________________________________________________________________________________________    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Scanning Code below for fine tuning
-###########################################################################################################
-###########################################################################################################
-###########################################################################################################
 
         
 def scan_sec_na():
@@ -900,38 +805,3 @@ def dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may',stim_amp = 0.5, sti
     axs.legend()
     fn = f'./Plots/Tim/{al2}_{stim_amp}_{stim_dur}.pdf'
     fig_volts.savefig(fn)
-
-
-
-
-#sim = Na12Model_TF('na12_orig1', 'na12_orig1')
-#sim.plot_currents()
-#sim.get_ap_init_site()
-#scan_sec_na()
-#update_param_value(sim.l5mdl,['SKv3_1'],'mtaumul',1)
-#sim.plot_volts_dvdt()
-#sim.plot_fi_curve(0,1,10)
-#default_model(al1 = 'na12_orig1',al2 = 'na12_orig1',typ='WT')
-#scanK()
-#scanKT()
-#scanKv31()
-#scan12_16()
-##plot_mutant(na12name = 'na12_R850P',mut_name= 'na12_R850P')
-#sim.plot_axonal_ks()
-"""
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=i*0.05,  stim_dur = j* 500 )
-
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=i*0.05,  stim_dur = j* 500 )
-    
-for i in range (6,12):
-    for j in range (1,3):
-        dvdt_all_plot(al1 = 'na12_orig1', al2= 'R850P', stim_amp=i*0.05,  stim_dur = j* 500 )
-"""
-
-
-#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_old', stim_amp=0.7,  stim_dur = 500 )
-#dvdt_all_plot(al1 = 'na12_orig1', al2= 'na12_R850P_5may', stim_amp=0.7,  stim_dur = 500 )

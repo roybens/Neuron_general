@@ -17,17 +17,15 @@ from NrnHelper import *
 
 
 class NeuronModel:
-    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
-                      
-                      update = True, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
+    def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',
+                      update = True,
                       na12name = 'na12annaTFHH2',
-                      na12mut_name = 'na12annaTFHH2', ## TF041525 this is same as na12name since we want homozygous WT
+                      na12mut_name = 'na12annaTFHH2', ## TF041525 this is same as na12name since we want homozygous WT. Change to 'na12_mut' if you want to make heterzygous mutant
                       na12mechs = ['na12','na12mut'],
                       na16name = 'na16HH_TF2',  
                       na16mut_name = 'na16HH_TF2', ## TF041525 this is same as na16name since we want homozygous WT
                       na16mechs=['na16','na16mut'],
                       params_folder = './Neuron_Model_12HH16HH/params/',
-
                       nav12=1,
                       nav16=1,
                       dend_nav12=1,
@@ -50,6 +48,7 @@ class NeuronModel:
                       gpas_all=1,
                       fac=None
                       ):
+        
         run_dir = os.getcwd()
 
         os.chdir(mod_dir)
@@ -113,7 +112,6 @@ class NeuronModel:
    
         #############################################################
         ##Add update_mech_from_dict and update_param_value here #####
-        ##TF052124 need to comment out update_mech_from_dict if using HH model -- Fixed this issue##
         if update:
             print ("UPDATING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print(eval('h.psection()'))
@@ -140,9 +138,6 @@ class NeuronModel:
             
             #Updates gbar in na12 and na12mut mechs with value in nav12. Updates all gbars in all sections including all segments in AIS
             update_mod_param(self,['na12','na12mut'],nav12)
-            
-            # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
-            # h.printVals12HHWT()
 
             #Adding ability to update with new Na16 mechs ##TF021424
             p_fn_na16 = f'{params_folder}{na16name}.txt'
@@ -407,10 +402,6 @@ class NeuronModel:
         section_number = sim_config['section_num']
         segment = sim_config['segment']
         volt_var  = "h.cell.{section}[{section_number}]({segment}).v".format(section=section, section_number=section_number,segment=segment)
-        # print(eval("h.psection()"))
-        #print(h("topology()"))
-        #val = eval("h.cADpyr232_L5_TTPC1_0fb1ca4724[0].soma[0](0.5).na12mut.ina_ina")
-        #print(f"na16 mut {val}")
         curr_vars={}
         # for current_type in current_types:
         #     #if current_type == 'ina_ina_na12':
