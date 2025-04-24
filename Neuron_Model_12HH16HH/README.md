@@ -95,3 +95,9 @@ then incorporate the mechanism into the model.
 ## Alternative method to update params
 6. If for some reason you want to have a unique txt file for each mutant, place each file in the ./Neuron_Model_12HH16HH/params folder
 and change the arguments in the same way as steps 1 and 2 to accept the new txt file name (minus .txt extension) in the mutant allele (mut_name and na12mut_name).
+
+
+
+##################################
+### Modifying the Dendritic Nav1.2
+To change dendritic Nav1.2 density, alter the value of the dend_nav12 argmument when calling the model. Dendritic Nav1.2 can be reduced fairly dramatically before changes are noticed at the soma. 
