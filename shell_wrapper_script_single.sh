@@ -4,5 +4,5 @@
 
 cp -r `pwd`  $SCRATCH/NEURON_GENERAL-2
 chmod -R 777 $SCRATCH/NEURON_GENERAL-2
-sbatch plot_runfile_job.sh
+sbatch sbatch_plot_noarg.sh
 	# sleep 10

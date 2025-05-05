@@ -131,8 +131,11 @@ class NeuronModel:
 
         
 
-        h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
-        h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
+        # h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
+        # h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
+ 
+        h.dend_na12 = h.dend_na12 * dend_nav12 ##TF050125 removed nav12 as it blanket multiples during update_mod_param
+        h.soma_na12 = h.soma_na12 * soma_nav12 ##TF050125 removed nav12 as it blanket multiples during update_mod_param
         
         # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
         if nav12 !=0:
@@ -146,8 +149,11 @@ class NeuronModel:
         else:
             h.ais_na12 = h.ais_na16 * ais_nav16
 
-        h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
-        h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        # h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
+        # h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        
+        h.dend_na16 = h.dend_na16 * dend_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
+        h.soma_na16 = h.soma_na16 * soma_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
         
         
         h.working()
@@ -176,8 +182,10 @@ class NeuronModel:
             multiply_param(self,['SKv3_1'],'mtaumul',0.85) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'mtaumul',fac) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'vtau',fac)           
+            # multiply_param(self,['SKv3_1'],'gSKv3_1bar',fac)           
             # multiply_param(self,['Ih'],'gIhbar',fac) ##TF82924
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
+            
             # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
@@ -534,8 +542,9 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
-    # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
-    def init_stim(self, sweep_len = 500, stim_start = 30, stim_dur = 400, amp = 0.3, dt = 0.1): ##TF111424 slightly longer sweep for EFEL
+    # def init_stim(self, sweep_len = 200, stim_start = 100, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    # def init_stim(self, sweep_len = 500, stim_start = 30, stim_dur = 400, amp = 0.3, dt = 0.1): ##TF111424 slightly longer sweep for EFEL
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2

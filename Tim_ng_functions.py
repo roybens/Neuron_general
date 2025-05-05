@@ -440,6 +440,8 @@ def efel_heatmaps(folder_path, output_folder):
     plt.savefig(output_file)
     plt.close()
 
+
+# This function renames files and folders in a given directory by replacing ':' with '%'
 def rename_files_and_folders(root_folder):
     for dirpath, dirnames, filenames in os.walk(root_folder):
         # Rename directories
@@ -455,9 +457,205 @@ def rename_files_and_folders(root_folder):
                 os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
 
 
+def combine_pdfs_side_by_side(folder1, folder2, output_folder, output_suffix="_combined"):
+    """
+    Combines two sets of PDFs from two folders, placing corresponding pages side-by-side
+    in a new PDF.  Only combines files with matching names.
+
+    Args:
+        folder1 (str): Path to the first folder containing PDFs.
+        folder2 (str): Path to the second folder containing PDFs.
+        output_folder (str): Path to the folder to save the combined PDF.
+        output_suffix (str): Suffix to add to the output filename (default: "_combined").
+    """
+
+    os.makedirs(output_folder, exist_ok=True)  # Create output folder if it doesn't exist
+
+    # Get the list of PDF files in folder1
+    pdf_files1 = set(f for f in os.listdir(folder1) if f.endswith(".pdf"))
+
+    # Get the list of PDF files in folder2
+    pdf_files2 = set(f for f in os.listdir(folder2) if f.endswith(".pdf"))
+
+    # Find the intersection of the two sets to get matching filenames
+    matching_files = pdf_files1.intersection(pdf_files2)
+    matching_files = sorted(list(matching_files))  # Sort for consistent order
+
+    for filename in matching_files:
+        pdf1_path = os.path.join(folder1, filename)
+        pdf2_path = os.path.join(folder2, filename)
+
+        # Create the output filename
+        base_filename, ext = os.path.splitext(filename)
+        output_pdf = os.path.join(output_folder, f"{base_filename}{output_suffix}.pdf")
+
+        output_doc = fitz.open()  # Create a new PDF document
+
+        try:
+            doc1 = fitz.open(pdf1_path)
+            doc2 = fitz.open(pdf2_path)
+
+            # Ensure both PDFs have the same number of pages
+            if doc1.page_count != doc2.page_count:
+                print(f"Warning: {filename} has different page counts in {folder1} and {folder2}. Skipping.")
+                doc1.close()
+                doc2.close()
+                continue
+
+            # Determine the maximum height among all pages
+            max_height = 0
+            for page_num in range(doc1.page_count):
+                page1 = doc1.load_page(page_num)
+                page2 = doc2.load_page(page_num)
+                max_height = max(max_height, page1.rect.height, page2.rect.height)
+
+            for page_num in range(doc1.page_count):
+                page1 = doc1.load_page(page_num)
+                page2 = doc2.load_page(page_num)
+
+                # Create a new page in the output document with the calculated height
+                new_page = output_doc.new_page(width=page1.rect.width + page2.rect.width, height=max_height)
+
+                # Calculate the width for each PDF page
+                width1 = new_page.rect.width / 2
+                width2 = new_page.rect.width / 2
+
+                # Define rectangles for each PDF page
+                rect1 = fitz.Rect(0, 0, width1, new_page.rect.height)
+                rect2 = fitz.Rect(width1, 0, new_page.rect.width, new_page.rect.height)
+
+                # Insert the PDF pages into the new page
+                new_page.show_pdf_page(rect1, doc1, page_num)
+                new_page.show_pdf_page(rect2, doc2, page_num)
+
+            doc1.close()
+            doc2.close()
+
+        except Exception as e:
+            print(f"Error processing {filename}: {e}")
+
+        output_doc.save(output_pdf)
+        output_doc.close()
+        print(f"Successfully combined PDFs into {output_pdf}")
 
 
+def combine_pdfs_flexible(folder, output_folder, match_length=None, match_suffix=None, output_suffix="_combined"):
+    """
+    Combines PDFs from a folder, placing pages side-by-side in a new PDF.
+    Combines files with matching prefixes and suffixes of a specified length.
 
+    Args:
+        folder (str): Path to the folder containing PDFs.
+        output_folder (str): Path to the folder to save the combined PDF.
+        match_length (int, optional): Number of characters from the beginning of the filename to use for matching.
+            If None, the entire filename (excluding extension) is used for matching. Defaults to None.
+        match_suffix (str, optional): Characters at the end of the filename to use for matching. Defaults to None.
+        output_suffix (str): Suffix to add to the output filename (default: "_combined").
+    """
+
+    os.makedirs(output_folder, exist_ok=True)  # Create output folder if it doesn't exist
+
+    pdf_files = [f for f in os.listdir(folder) if f.endswith(".pdf")]
+    
+    # Group files based on the matching prefix and suffix
+    grouped_files = {}
+    for filename in pdf_files:
+        base_filename, ext = os.path.splitext(filename)
+        prefix = base_filename[:match_length] if match_length else base_filename
+        suffix = base_filename[-len(match_suffix):] if match_suffix else ""  # Extract suffix
+
+        # Combine prefix and suffix for grouping
+        match_key = (prefix, suffix)
+
+        if match_suffix:
+          if len(base_filename) < len(match_suffix):
+            continue #skip file if it's shorter than the suffix
+
+          if base_filename[-len(match_suffix):] != match_suffix:
+            continue #skip file if suffix doesn't match
+
+        if match_key not in grouped_files:
+            grouped_files[match_key] = []
+        grouped_files[match_key].append(os.path.join(folder, filename))
+
+    for (match_prefix, match_suffix), file_paths in grouped_files.items():
+        if len(file_paths) < 2:
+            print(f"Skipping {match_prefix}_{match_suffix}: Not enough files to combine.")
+            continue
+
+        # Sort file paths based on the numerical value in "LVA###"
+        def extract_number(file_path):
+          match = re.search(r"HVA+SKE2-(\d+(?:\.\d+)?)", file_path)  # Match integers or floats
+          if match:
+              try:
+                  num_str = match.group(1)
+                  if '.' in num_str:
+                      return float(num_str)  # Handle floats
+                  else:
+                      return int(num_str)  # Handle integers
+              except ValueError:
+                  return float('inf')
+          return float('inf')  # If "LVA###" not found, put it at the end
+
+        file_paths.sort(key=extract_number)
+
+        # Create the output filename
+        output_pdf = os.path.join(output_folder, f"{match_prefix}{output_suffix}.pdf")
+        output_doc = fitz.open()  # Create a new PDF document
+
+        try:
+            # Open all documents
+            docs = [fitz.open(pdf_path) for pdf_path in file_paths]
+            filenames = [os.path.basename(pdf_path) for pdf_path in file_paths] #get filenames
+
+            # Check if all PDFs have the same number of pages
+            num_pages = docs[0].page_count
+            if not all(doc.page_count == num_pages for doc in docs):
+                print(f"Warning: {match_prefix} has PDFs with different page counts. Skipping.")
+                for doc in docs:
+                    doc.close()
+                continue
+
+            # Determine the maximum height among all pages in all documents
+            max_height = 0
+            for page_num in range(num_pages):
+                for doc in docs:
+                    page = doc.load_page(page_num)
+                    max_height = max(max_height, page.rect.height)
+
+            # Combine pages side by side
+            for page_num in range(num_pages):
+                # Calculate total width
+                total_width = sum(doc.load_page(page_num).rect.width for doc in docs)
+                new_page = output_doc.new_page(width=total_width, height=max_height+30) #add space for text
+                
+                # Place each page side by side
+                current_x = 0
+                for i, doc in enumerate(docs):
+                    page = doc.load_page(page_num)
+                    width = page.rect.width
+                    rect = fitz.Rect(current_x, 30, current_x + width, new_page.rect.height) #Shift down 20 to make room for text
+                    new_page.show_pdf_page(rect, doc, page_num)
+
+                     # Add filename above the image
+                    text_rect = fitz.Rect(current_x+10, 20, current_x + width, 30)
+                    if len(filenames[i]) >= 12:
+                        new_page.insert_text(text_rect.tl, filenames[i][7:21], color=(0, 0, 0), fontsize=8)  #black text, fontsize 8
+                    else:
+                        new_page.insert_text(text_rect.tl, filenames[i], color=(0, 0, 0), fontsize=8)  # Use the full name if it's too short
+
+                    current_x += width
+
+            # Close all documents
+            for doc in docs:
+                doc.close()
+
+        except Exception as e:
+            print(f"Error processing {match_prefix}: {e}")
+
+        output_doc.save(output_pdf)
+        output_doc.close()
+        print(f"Successfully combined PDFs into {output_pdf}")
 
 
 
@@ -483,7 +681,13 @@ def rename_files_and_folders(root_folder):
 
 
 # combine_efel_csvs('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak/right2_combined_efel.csv')
-efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2')
+# efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2')
 # rename_files_and_folders('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS')
+
+# combine_pdfs_side_by_side(folder1='./Plots/12HH16HH/6-October2024Model/1-AdilHHvariants_800sweep_101524', folder2='./Plots/12HH16HH/15-AdilMuts_newModel_042425', output_folder='./Plots/12HH16HH/15-AdilMuts_newModel_042425/Combined/')
+combine_pdfs_flexible(folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2', 
+                      output_folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2/Combined', 
+                      match_length=7,
+                      match_suffix='wtvmut')
 
 

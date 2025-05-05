@@ -13,7 +13,7 @@ import csv
 
 class Na12Model_TF:
     def __init__(self,na12name = 'na12annaTFHH2',mut_name= 'na12annaTFHH2',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF2',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
-                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1, dend_nav12=1,
+                 nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1, dend_nav12=1,dend_nav16=1,
                  update = None, fac=None): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
         
         #mut2_2_na12hmm120523.txt #na12_HMM_TF100923
@@ -95,6 +95,7 @@ class Na12Model_TF:
                                  ais_nav16_fac=ais_nav16_fac,ais_nav12_fac=ais_nav12_fac, #TF 012524 added ais_nav16 to change in reference to ais_nav12
                                  ##TF030624 Args below added to add update_mech_from_dict functionality to NeuronModel class.
                                  dend_nav12=dend_nav12,
+                                 dend_nav16=dend_nav16,
                                  update = update, ##Change to false if you don't want to update mechs
                                  na12name = na12name,
                                  na12mut_name = mut_name,
@@ -691,7 +692,7 @@ class Na12Model_TF:
         #     wr.writerow(fi_ans)
         # return fi_ans
     ##_________________________________________________________________________________________________
-    def plot_fi_curve_2line(self,start,end,nruns,epochlabel,wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
+    def plot_fi_curve_2line(self,start,end,nruns,epochlabel='',wt_data=None,wt2_data=None, ax1 = None, fig = None,fn = 'ficurve'): #start=0,end=0.6,nruns=14 (change wt_data from None to add WT line), add in wt2_data for another line
         fis = get_fi_curve(self.l5mdl,start,end,nruns,dt = 0.1,wt_data = wt_data,wt2_data=wt2_data,ax1=ax1,fig=fig,fn=f'{self.plot_folder}/{fn}.pdf',epochlabel=epochlabel) #add in wt2_data for another line
         print(fis)
         with open (f'{self.plot_folder}/{fn}-FI-list.txt','w') as file:

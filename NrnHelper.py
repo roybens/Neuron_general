@@ -71,7 +71,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         ax1.plot(x_axis,npeaks,marker = 'o',markersize=1.5,linestyle = '-',color = Color, label = Label )
     ax1.set_title('FI Curve')
     ax1.set_xlabel('Stim [nA]')
-    ax1.set_ylabel(f'nAPs for {epochlabel} epoch')
+    ax1.set_ylabel(f'nAPs per {epochlabel} epoch')
     
     ## Set min/max and axes manually
     # ymin=0

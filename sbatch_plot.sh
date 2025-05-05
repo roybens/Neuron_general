@@ -18,4 +18,4 @@ export OMP_PROC_BIND=spread
 
 name=$1 #puts name variable as first arg
  
-srun  -n 1 -c 64 --output=$SCRATCH/NEURON_GENERAL-2$name/output_log_files/%A.out --error=$SCRATCH/NEURON_GENERAL-2$name/output_log_files/%A.err shifter python3 $SCRATCH/NEURON_GENERAL-2$name/run12HH16HH_AdilHHmuts.py $name
+srun  -n 1 -c 64 --output=$SCRATCH/NEURON_GENERAL-2$name/output_log_files/%A.out --error=$SCRATCH/NEURON_GENERAL-2$name/output_log_files/%A.err shifter python3 $SCRATCH/NEURON_GENERAL-2$name/run12HH16HH_compiledSynthMuts_4on1plots.py $name
