@@ -257,7 +257,7 @@ class Na12Model_TF:
                     #"all_currents":True,
                     "currentscape": True},
 
-            "colormap": {"name":"colorbrewer.qualitative.Paired_10"},
+            "colormap": {"name":"colorbrewer.qualitative.Paired_11"},
             #"colormap": {"name":"cartocolors.qualitative.Prism_10"},
             #"colormap": {"name":"cmocean.diverging.Balance_10"},
             
