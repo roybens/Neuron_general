@@ -38,8 +38,8 @@ proc morphology(){localobj nl,import
           nl = new Import3d_Neurolucida3()
           nl.quiet = 1
           //nl.input("morphology/dend-C060114A2_axon-C060114A5.asc") // ##ADULT default
-          nl.input("morphology/1-04a_pyramidal4aACC.asc")
-          //nl.input("morphology/2-py-260608.asc")
+          //nl.input("morphology/1-04a_pyramidal4aACC.asc")
+          nl.input("morphology/2-py-260608.asc")
           //nl.input("morphology/3-07a_pyramidal13aACC.asc")
           //nl.input("morphology/4-04b_pyramidal6aFI.asc")
           //nl.input("morphology/5-03a_pyramidal9aFI.asc")
