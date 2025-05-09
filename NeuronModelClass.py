@@ -72,7 +72,12 @@ class NeuronModel:
         self.sl = h.SectionList()
         self.sl.wholetree(sec=self.soma_ref)
         
-    
+        # ## sections for normal adult neuron.
+        # self.nexus = h.cell.apic[66]
+        # self.dist_dend = h.cell.apic[91]
+        # self.ais = h.cell.axon[0]
+        # self.axon_proper = h.cell.axon[1]
+        
         
         #___________________Kaustubh params
         h.dend_na12 = 2.48E-03 * dend_nav12
@@ -86,6 +91,14 @@ class NeuronModel:
         ##062424 original params
         h.soma_na12 = 3.24E-02 * soma_nav12 
         h.soma_na16 = 7.88E-02 * soma_nav16
+        
+        ##TF062424 testing equal conductances
+        # h.soma_na12 = 3.24E-02 * soma_nav12 
+        # h.soma_na16 = 3.24E-02 * soma_nav16
+
+
+        
+      
         h.soma_K = 0.21330453 * soma_K
         
         # h.ais_na16 = 7.2696676 * ais_nav16
@@ -93,23 +106,36 @@ class NeuronModel:
 
         # h.ais_na12 = 1.03E+00 * ais_nav12
         h.ais_na12 = ais_nav12_fac * ais_nav12 #TF020124 added ais_nav12 factor to fine tune
+
         h.ais_ca = 0.0010125926 * ais_ca
         h.ais_KCa = 0.0009423347 * ais_KCa
+        
         h.node_na = 0.9934221 * node_na
+
         h.axon_KP = 0.43260124 * axon_Kp
         h.axon_KT = 1.38801 * axon_Kt
         h.axon_K = 0.89699364 *2.1* axon_K
         h.axon_LVA = 0.00034828275 * axon_LVA
         h.axon_HVA = 1.05E-05 * axon_HVA
         h.axon_KCA = 0.4008224 * axon_Kca
+        
         h.gpas_all = 1.34E-05 * gpas_all
+
+
         h.cm_all = 1.6171424
+
+        
         
         #added gpas to see if i_pas changes on currentscape
         #h.gpas_all = .001
 
-        h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
-        h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
+        
+
+        # h.dend_na12 = h.dend_na12 * nav12 * dend_nav12
+        # h.soma_na12 = h.soma_na12 * nav12 * soma_nav12
+ 
+        h.dend_na12 = h.dend_na12 * dend_nav12 ##TF050125 removed nav12 as it blanket multiples during update_mod_param
+        h.soma_na12 = h.soma_na12 * soma_nav12 ##TF050125 removed nav12 as it blanket multiples during update_mod_param
         
         # h.ais_na12 = h.ais_na12 * nav12 * ais_nav12
         if nav12 !=0:
@@ -123,8 +149,11 @@ class NeuronModel:
         else:
             h.ais_na12 = h.ais_na16 * ais_nav16
 
-        h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
-        h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        # h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
+        # h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        
+        h.dend_na16 = h.dend_na16 * dend_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
+        h.soma_na16 = h.soma_na16 * soma_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
         
         
         h.working()
@@ -150,11 +179,13 @@ class NeuronModel:
             print(eval('h.psection()'))
             # print(eval('h.cell.axon[0].psection()'))
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
-            multiply_param(self,['SKv3_1'],'mtaumul',0.85*0.5) ##TF083024 updated for hh model
+            multiply_param(self,['SKv3_1'],'mtaumul',0.85) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'mtaumul',fac) ##TF083024 updated for hh model
             # multiply_param(self,['SKv3_1'],'vtau',fac)           
+            # multiply_param(self,['SKv3_1'],'gSKv3_1bar',fac)           
             # multiply_param(self,['Ih'],'gIhbar',fac) ##TF82924
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
+            
             # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
             # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
             # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
@@ -214,22 +245,7 @@ class NeuronModel:
                         else:
                             for mech in ['na16', 'na16mut']:
                                 if hasattr(seg, mech):
-                                    setattr(getattr(seg, mech), 'gbar', 0)
-
-            
-            ## Developing model reductions in all channels except lva TF041425
-            lva_fac=1 ## should be same or higher as adult
-            hva_fac=0.3
-            ih_fac=0.3
-            ske2_fac=0.3
-            skv31_fac=0.3
-            
-            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',lva_fac) ##TF041425 multiplies gbar of Ca_LVAst should be higher or the same in dev model
-            multiply_param(self,['Ca_HVA'],'gCa_HVAbar',hva_fac)
-            multiply_param(self,['Ih'],'gIhbar',ih_fac)
-            multiply_param(self,['SK_E2'],'gSK_E2bar',ske2_fac)
-            multiply_param(self,['SKv3_1'],'gSKv3_1bar',skv31_fac)
-
+                                    setattr(getattr(seg, mech), 'gbar', 0)            
             print(eval("h.psection()"))
 
 
@@ -526,15 +542,16 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
+    # def init_stim(self, sweep_len = 200, stim_start = 100, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 500, stim_start = 30, stim_dur = 400, amp = 0.3, dt = 0.1): ##TF111424 slightly longer sweep for EFEL
-    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2
     # def init_stim(self, sweep_len = 1000, stim_start = 100, stim_dur = 700, amp = 0.3, dt = 0.1):
     
     # def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1700, amp = 0.75, dt = 0.1): ##TF022525 long sweep and high stim to get EFEL at varying 12/16
-    def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1700, amp = 0.5, dt = 0.1): ##TF021425 long sweep to get smoother FIs
+    # def init_stim(self, sweep_len = 2000, stim_start = 200, stim_dur = 1700, amp = 0.5, dt = 0.1): ##TF021425 long sweep to get smoother FIs
     
     # def init_stim(self, sweep_len = 1350, stim_start = 100, stim_dur = 1000, amp = 0.3, dt = 0.1): ##TF040725 ADIL's 1000ms stim settings
         # updates the stimulation params used by the model
