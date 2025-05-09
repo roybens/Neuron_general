@@ -173,7 +173,7 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'20-ramp100/5-dvdt_FI_migraine_ramp100'
+  path = f'22-WT-AIS_currentscapes'
 
  
 
@@ -406,10 +406,15 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
                             na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                             na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-# simwt.make_currentscape_plot(amp=0.5, time1=30,time2=150,stim_start=30, sweep_len=200,pfx=f'WT-AIS-0.1_', sim_config=sim_config_ais)
+# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
 
-wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+
+# simwt.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=200,pfx=f'WT-SOMA_')#, sim_config=sim_config_soma)
+# simwt.make_currentscape_plot(amp=0.5, time1=30,time2=150,stim_start=30, sweep_len=200,pfx=f'WT-SOMA_')#, sim_config=sim_config_soma)
+
+
+
+# wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
   # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
   # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 
@@ -418,19 +423,19 @@ wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nrun
 
 
   ## These 4 lines of code will plot the voltage and dV/dt of the soma for a single simulation
-# fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-# simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005,stim_dur = 1700, clr='cadetblue')
-# plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-# fig_volts.savefig(f'{simwt.plot_folder}/WT_test.pdf') #Change output file path here
+fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005,stim_dur = 500, clr='cadetblue')
+plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+fig_volts.savefig(f'{simwt.plot_folder}/WT_test.pdf') #Change output file path here
 
 
 
+'''
 for mutname,dict in migraine_ramp100.items():
   print(f"mutname is {mutname}")
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filenamemut,dict)
 #   # modify_dict_file(filename16,dict)
-
 
 ##Mutant/Variant
   simmut = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
@@ -459,7 +464,7 @@ for mutname,dict in migraine_ramp100.items():
 
   ## Plot FI curve of WT vs mutant
   simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'FI/{mutname}-FI', epochlabel='500ms')
-
+'''
 
   ## Getting raw data for currents
   # mut_Vm1,mut_I1,mut_t1,_ = simmut.get_stim_raw_data(stim_amp = 0.5,dt=0.01,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
