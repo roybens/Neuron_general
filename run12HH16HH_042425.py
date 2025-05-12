@@ -173,7 +173,7 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'22-WT-AIS_currentscapes'
+  path = f'20-ramp100/6-R850P_forGY'
 
  
 
@@ -393,7 +393,12 @@ depol_muts_persistent100={
 "R853Q":{"Rd": 0.024249231613986667, "Rg": 0.014758601586918345, "Rb": 0.08660746076457033, "Ra": 0.21640266207395562, "a0s": 0.00041973146376303764, "gms": 0.2519082795774751, "hmin": 0.003195801259937947, "mmin": 0.007791182704227415, "qinf": 6.740327878135122, "q10": 1.8215959088140885, "qg": 0.7709337487035997, "qd": 0.4277313480275676, "qa": 6.831771375757203, "smax": 4.388187823862439, "sh": 8.917955599664525, "thinf": -55.18003697483657, "thi2": -77.76830645390592, "thi1": -62.4377497642328, "tha": -34.1732657570631, "vvs": 0.22179071320072785, "vvh": -41.40138103888309, "vhalfs": -10.315215251833727, "zetas": 12.320168494130979},
 "R853Q_b1b2":{"Rd": 0.02370338129575803, "Rg": 0.019695200167591916, "Rb": 0.06894243205455472, "Ra": 0.2386676001975654, "a0s": 0.0002680306078070685, "gms": 0.19833129371680136, "hmin": 0.01121553270254264, "mmin": 0.019021239383498777, "qinf": 7.083385735111112, "q10": 2.218885122214192, "qg": 0.9349737345800626, "qd": 0.6129241265031693, "qa": 4.394301365475917, "smax": 8.344113238602297, "sh": 8.046145115939684, "thinf": -54.65656577041083, "thi2": -76.33020570461446, "thi1": -58.44766588600486, "tha": -32.62834023067521, "vvs": 0.20348077453957203, "vvh": -48.47344416177014, "vhalfs": -10.113036767065953, "zetas": 13.464910895994194},
 }
- 
+
+r850p={
+"R850P":{"Rd": 0.029191800579332954, "Rg": 0.01686308349825859, "Rb": 0.023426161125662148, "Ra": 0.32474568964576433, "a0s": 0.0003217121000499792, "gms": 0.08957447283123256, "hmin": 0.007396962747887477, "mmin": 0.0196445887905549, "qinf": 7.309799918662963, "q10": 2.027950069158462, "qg": 1.3088051770626028, "qd": 0.955971511663425, "qa": 6.200075774960606, "smax": 8.194200476930705, "sh": 9.890832010595345, "thinf": -52.5984083350934, "thi2": -74.73104152583326, "thi1": -55.73518185407506, "tha": -21.147602377386892, "vvs": 0.8590177197745089, "vvh": -58.24895544133585, "vhalfs": -28.24605855947593, "zetas": 12.251557962032066},
+"R850P_persistent100":{"Rd": 0.02355268722368723, "Rg": 0.01926270995740137, "Rb": 0.022190917474185546, "Ra": 0.31614848657141204, "a0s": 0.0005503129777317207, "gms": 0.1628573105010505, "hmin": 0.010467572552976766, "mmin": 0.014715594561924082, "qinf": 7.553070508974052, "q10": 2.345329461514206, "qg": 0.4753334624294549, "qd": 0.8970614839775461, "qa": 6.358091182685213, "smax": 6.487226713343225, "sh": 7.0635813618254755, "thinf": -52.97800946683426, "thi2": -77.71710870936701, "thi1": -56.46156184138233, "tha": -17.306086653326023, "vvs": 0.615428500381094, "vvh": -52.12432312632793, "vhalfs": -52.860638361253685, "zetas": 13.365191121382026}
+}
+
 # for fac in [0.01,0.1,0.25,0.5,0.75,1.5,2,4]:
 # for fac in [5,10,15,20,25,100]:
 # for fac in [0.00001]:
@@ -406,7 +411,7 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
                             na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                             na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-# wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
 
 
 # simwt.make_currentscape_plot(amp=0.5, time1=25,time2=60,stim_start=30, sweep_len=200,pfx=f'WT-SOMA_')#, sim_config=sim_config_soma)
@@ -414,7 +419,7 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
 
 
 
-# wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
   # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
   # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 
@@ -423,15 +428,15 @@ simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
 
 
   ## These 4 lines of code will plot the voltage and dV/dt of the soma for a single simulation
-fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005,stim_dur = 500, clr='cadetblue')
-plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-fig_volts.savefig(f'{simwt.plot_folder}/WT_test.pdf') #Change output file path here
+# fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+# simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005,stim_dur = 500, clr='cadetblue')
+# plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+# fig_volts.savefig(f'{simwt.plot_folder}/WT_test.pdf') #Change output file path here
 
 
 
-'''
-for mutname,dict in migraine_ramp100.items():
+
+for mutname,dict in r850p.items():
   print(f"mutname is {mutname}")
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filenamemut,dict)
@@ -447,7 +452,7 @@ for mutname,dict in migraine_ramp100.items():
                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   
-  simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=500, fnpre=f'dvdt/{mutname}')
+  simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=500, fnpre=f'{mutname}')
   # simmut.make_currentscape_plot(amp=0.5, time1=30,time2=150,stim_start=30, sweep_len=200,pfx=f'{mutname}-')#,sim_config=sim_config_ais)
   # simmut.make_currentscape_plot(amp=0.5, time1=30,time2=150,stim_start=30, sweep_len=200,pfx=f'{mutname}_AIS0.1-',sim_config=sim_config_ais)
 
@@ -463,8 +468,8 @@ for mutname,dict in migraine_ramp100.items():
   
 
   ## Plot FI curve of WT vs mutant
-  simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'FI/{mutname}-FI', epochlabel='500ms')
-'''
+  simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{mutname}-FI', epochlabel='500ms')
+
 
   ## Getting raw data for currents
   # mut_Vm1,mut_I1,mut_t1,_ = simmut.get_stim_raw_data(stim_amp = 0.5,dt=0.01,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
