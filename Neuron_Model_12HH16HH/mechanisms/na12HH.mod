@@ -22,7 +22,7 @@ PARAMETER {
 
 	thi1  = -60.488477521934875	(mV)		: v 1/2 for inact 	
 	thi2  = -77.41692349310195 	(mV)		: v 1/2 for inact 	
-	qd   = 0.8058343822410788	(mV)	        : inact tau slope
+	qd   = 0.8058343822410788	(mV)	    : inact tau slope
 	qg   = 0.6693522946835427    (mV)
 	mmin = 0.013671131800210966	
 	hmin = 0.008420778920829085			

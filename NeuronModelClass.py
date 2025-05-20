@@ -19,15 +19,16 @@ from NrnHelper import *
 class NeuronModel:
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
                       
-                      update = None, ##TF If this is true, mechs are updated with update_mech_from_dict. Turn to false if you don't want update ### maybe not working???????
+                      update = None, ##TF If this is true, mechs are updated with update_mech_from_dict.
                       na12name = 'na12_HMM_TF100923',
                       na12mut_name = 'na12_HMM_TF100923',
                       na12mechs = ['na12','na12mut'],
                       na16name = 'na16HH_TF',
                       na16mut_name = 'na16HH_TF',
-                      na16mechs=['na16','na16mut'],
+                      na16mechs=['na16','na16mut'], ## These are the mod file suffixes to be updated by na16name and na16mut_name. 
+                                                    ## Changing these will not change which mechs are inserted into model, 
+                                                    ## only which mechs get updated in update_mech_from_dict 
                       params_folder = './params/',
-
                       nav12=1,
                       nav16=1,
                       dend_nav12=1,

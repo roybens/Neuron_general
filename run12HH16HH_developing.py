@@ -193,9 +193,9 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path  = '3-cell_2'
-  path1 = '3-cell_2/dvdt'
-  path2 = '3-cell_2/currentscapes'
+  path  = '3-cell_2/6-decrease_gpas-epas-cm-ih_increase-Ra'
+  path1 = f'{path}/dvdt'
+  path2 = f'{path}/currentscapes'
 
   out_path1 = os.path.join(root_path_out, path1)
   out_path2 = os.path.join(root_path_out, path2)
@@ -217,7 +217,8 @@ kpfac=1
 ktfac=1
 aiscafac=1
 aisKcafac=1
-f=1
+f=0.8
+f2=1
 
 '''
 sim1 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
@@ -243,56 +244,58 @@ fig_volts.savefig(f'{sim1.plot_folder}/dvdt/1-Adult_params.pdf')
 sim1.make_currentscape_plot(amp=0.5, time1=50,time2=150,stim_start=30, sweep_len=200, pfx=f'currentscapes/1-Adult_params_')
 '''
 
-for f in [0.001,0.01,0.1,0.25,0.5,0.75,1.25,1.5,2,5,10]:
+
+####### K&Ca factor #######
+# for f2 in [0.001,0.1,0.25,0.5,0.75,0.8,0.9,1.25,1.5,2,5,10]:
+for f2 in [0.001,0.25,0.5,1,2,10]:
+# for f2 in [0.001]:
 # for nav16factor in [0.75,1.25,1.5]:
-  simwt = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor,
-                          nav12=1.1*1.1*nav12factor,
-                          ais_nav16_fac=1.08*nav16factor,
-                          nav16=1.43*1.2*nav16factor,
-                          somaK=0.022*f, 
-                          KP=3.9375*kpfac*f, 
-                          KT=5*ktfac*f,
-                          ais_ca = 43*0.5*aiscafac*f,
-                          ais_Kca = 0.25*aisKcafac*f,
-                          soma_na16=0.8*nav16factor,
-                          soma_na12=2.56*nav12factor,
+  simwt = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
+                          nav12=1.1*1.1*nav12factor*f,
+                          ais_nav16_fac=1.08*nav16factor*f,
+                          nav16=1.43*1.2*nav16factor*f,
+                          somaK=0.022*f*f2, 
+                          KP=3.9375*kpfac*f*f2, 
+                          KT=5*ktfac*f*f2,
+                          ais_ca = 43*0.5*aiscafac*f*f2,
+                          ais_Kca = 0.25*aisKcafac*f*f2,
+                          soma_na16=0.8*nav16factor*f,
+                          soma_na12=2.56*nav12factor*f,
                           node_na = 1,
-                          dend_nav12=1,
+                          dend_nav12=1*f,
                           na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                           na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
                           plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  
-
-  
   # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1000, sim_config = config) #stim_amp=0.5
   # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
 
   # NeuronModel.map_connectivity(f"{root_path_out}/{path}/insert12_numbered_connectivity.txt")
 
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
+  simwt.plot_stim(axs = axs[0],stim_amp = 0.05,dt=0.005, clr='cadetblue')
   plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{simwt.plot_folder}/dvdt/6-K&Ca-{f}.pdf') #Change output file path here 
+  fig_volts.savefig(f'{simwt.plot_folder}/dvdt/4-K&Ca-{f2}_lowgpas.pdf') #Change output file path here 
 
   # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
   # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 
-  simwt.make_currentscape_plot(amp=0.5, time1=50,time2=150,stim_start=30, sweep_len=200, pfx=f'currentscapes/6-K&Ca-{f}_')
+  simwt.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/4-K&Ca-{f2}_lowgpas_')
 # simwt.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WT')
 
-'''
-for f in [0.001,0.01,0.1,0.25,0.5,0.75,1.25,1.5,2,5,10]:
 
+# for f in [0.001,0.01,0.1,0.25,0.5,0.75,1.25,1.5,2,5,10]:
+
+  ####### Na16 factor #######
   sim2 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
                             nav12=1.1*1.1*nav12factor*f,
-                            ais_nav16_fac=1.08*nav16factor*f,
-                            nav16=1.43*1.2*nav16factor*f,
+                            ais_nav16_fac=1.08*nav16factor*f*f2,
+                            nav16=1.43*1.2*nav16factor*f*f2,
                             somaK=0.022*f, 
                             KP=3.9375*kpfac*f, 
                             KT=5*ktfac*f,
                             ais_ca = 43*0.5*aiscafac*f,
                             ais_Kca = 0.25*aisKcafac*f,
-                            soma_na16=0.8*nav16factor*f,
+                            soma_na16=0.8*nav16factor*f*f2,
                             soma_na12=2.56*nav12factor*f,
                             node_na = 1,
                             dend_nav12=1*f,
@@ -300,35 +303,59 @@ for f in [0.001,0.01,0.1,0.25,0.5,0.75,1.25,1.5,2,5,10]:
                             na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  sim2.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
+  sim2.plot_stim(axs = axs[0],stim_amp = 0.05,dt=0.005, clr='cadetblue')
   plot_dvdt_from_volts(sim2.volt_soma, sim2.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{sim2.plot_folder}/dvdt/3-na16-{nav16factor}.pdf')
-  sim2.make_currentscape_plot(amp=0.5, time1=50,time2=150,stim_start=30, sweep_len=200, pfx=f'currentscapes/3-na16-{nav16factor}_')
+  fig_volts.savefig(f'{sim2.plot_folder}/dvdt/1-na16-{f2}.pdf')
+  sim2.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/1-na16-{f2}_')
 
-    
-  sim3 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav16factor*f,
-                            nav12=1.1*1.1*nav16factor*f,
-                            ais_nav16_fac=1.08*nav16factor*f,
-                            nav16=1.43*1.2*nav16factor*f,
+ 
+  ####### Na1216 factor #######  
+  sim3 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav16factor*f*f2,
+                            nav12=1.1*1.1*nav16factor*f*f2,
+                            ais_nav16_fac=1.08*nav16factor*f*f2,
+                            nav16=1.43*1.2*nav16factor*f*f2,
                             somaK=0.022*f, 
                             KP=3.9375*kpfac*f, 
                             KT=5*ktfac*f,
                             ais_ca = 43*0.5*aiscafac*f,
                             ais_Kca = 0.25*aisKcafac*f,
-                            soma_na16=0.8*nav16factor*f,
-                            soma_na12=2.56*nav16factor*f,
+                            soma_na16=0.8*nav16factor*f*f2,
+                            soma_na12=2.56*nav16factor*f*f2,
                             node_na = 1,
-                            dend_nav12=1*f,
+                            dend_nav12=1*f*f2,
                             na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
                             na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
                             plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
   fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  sim3.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
+  sim3.plot_stim(axs = axs[0],stim_amp = 0.05,dt=0.005, clr='cadetblue')
   plot_dvdt_from_volts(sim3.volt_soma, sim3.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{sim3.plot_folder}/dvdt/4-na1216-{nav16factor}.pdf')
-  sim3.make_currentscape_plot(amp=0.5, time1=50,time2=150,stim_start=30, sweep_len=200, pfx=f'currentscapes/4-na1216-{nav16factor}_')
+  fig_volts.savefig(f'{sim3.plot_folder}/dvdt/2-na1216-{f2}.pdf')
+  sim3.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/2-na1216-{f2}_')
   
-'''
+  ####### All factor #######  
+  sim4 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav16factor*f*f2,
+                            nav12=1.1*1.1*nav16factor*f*f2,
+                            ais_nav16_fac=1.08*nav16factor*f*f2,
+                            nav16=1.43*1.2*nav16factor*f*f2,
+                            somaK=0.022*f*f2, 
+                            KP=3.9375*kpfac*f*f2, 
+                            KT=5*ktfac*f*f2,
+                            ais_ca = 43*0.5*aiscafac*f*f2,
+                            ais_Kca = 0.25*aisKcafac*f*f2,
+                            soma_na16=0.8*nav16factor*f*f2,
+                            soma_na12=2.56*nav16factor*f*f2,
+                            node_na = 1,
+                            dend_nav12=1*f*f2,
+                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
+                            na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                            plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+  sim4.plot_stim(axs = axs[0],stim_amp = 0.05,dt=0.005, clr='cadetblue')
+  plot_dvdt_from_volts(sim4.volt_soma, sim4.dt, axs[1],clr='cadetblue')
+  fig_volts.savefig(f'{sim4.plot_folder}/dvdt/3-all-{f2}.pdf')
+  sim4.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/3-all-{f2}_')
+  
+
 
 
 # NeuronModel.chandensities(name = f'{root_path_out}/densities_WT') ##TF uncomment to run function and plot channel densities in axon[0]
