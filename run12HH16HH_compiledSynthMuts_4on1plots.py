@@ -16,6 +16,8 @@ import pandas as pd
 # import Document as doc
 # import Tim_ng_functions as nf
 
+
+# 1
 sim_config_soma = {
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -24,6 +26,60 @@ sim_config_soma = {
                 'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
                 'ionic_concentrations' :["cai", "ki", "nai"]
                 }
+# 2
+sim_config_ais = {
+                'section' : 'axon',
+                'segment' : 0.1,
+                'section_num': 0,
+                # 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_K_Pst','ik_K_Tst','ik_SK_E2','ik_SKv3_1',
+                               'na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','i_pas'], #AIS (no Ih)
+                'current_names' : ['Ca_HVA','Ca_LVAst','K_Pst','K_Tst','SK_E2','SKv3_1','Na12','Na12 MUT','Na16 WT','Na16 MUT','pas'],
+                'ionic_concentrations' :["ki", "nai","cai"]
+                }
+# 3
+sim_config_basaldend = {
+                'section' : 'dend',
+                'segment' : 0.5,
+                'section_num': 70,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                'currents'  : [], #dend (no Ih, no ik_SKv3_1)
+                'current_names' : ['Ih','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :[]
+                }
+#4
+sim_config_nexus = {
+                'section' : 'apic',
+                'segment' : 0,
+                'section_num': 77,
+                #'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                'currents'  : ['ik_SKv3_1'], #Nexus
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                
+                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
+                #'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
+#5
+sim_config_apicaldend = {
+                'section' : 'apic',
+                'segment' : 0.5,
+                'section_num': 90,
+                # 'currents' : ['ina','ica','ik'],
+                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
+                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ik_SKv3_1','ihcn_Ih'], #AIS (no Ih)
+                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                #'currents'  : ['ihcn_Ih','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
+                # 'ionic_concentrations' :["cai", "ki", "nai"]
+                'ionic_concentrations' :["ki", "nai"]
+                }
+
+
 
 def modify_dict_file(filename, changes):
   """
@@ -90,10 +146,14 @@ modify_dict_file(filename16, changesna16)
 
 
 config_dict3={"sim_config_soma": sim_config_soma}
+config_dict = {"sim_config_soma": sim_config_soma,
+              "sim_config_ais": sim_config_ais,
+              "sim_config_basaldend": sim_config_basaldend,
+              "sim_config_nexus": sim_config_nexus,
+              "sim_config_apicaldend": sim_config_apicaldend}
 
-for config_name, config in config_dict3.items():
-  # path = f'18-SynthMuts_newmodel_shortstim/9-BugFixed_SynthMuts_scans/1-dend12'
-  path = f'19-SynthMuts_bugfix_050225/qafix'
+
+
 
 
 ## Compiled best synthetic mutants, reordered and renamed to maximize gradients
@@ -198,59 +258,75 @@ smuts_14={
 }
 
 
+allmutsefel = pd.DataFrame()
 
+for config_name, config in config_dict.items():
+  path = f'23-PaperPlots/2-Expression_at_locations_052225/{config_name}'
 
-##Updated params to account for getting rid of factor in NeuronModelClass
-simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
-                              nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
-                              ais_ca = 43*0.5,ais_Kca = 0.25,
-                              soma_na16=0.8,soma_na12=2.56,node_na = 1,
-                              dend_nav12=1,
-                              na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
-                              na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
-                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-# wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='700ms')
-# simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
-
-# fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-# simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur = 200, clr='cadetblue')
-# plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-# fig_volts.savefig(f'{simwt.plot_folder}/WT_200swp_stim0.5.pdf') #Change output file path here
-
-# dvdtwt=np.gradient(wt_Vm)/0.005
-# for i, (mutname,dict) in enumerate(bestsynthmuts012825.items()):
-'''
-for fac in [0.9,0.75,0.5,0.25]:
-  sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
-                                      nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
-                                      ais_ca = 43*fac,ais_Kca = 0.25,
-                                      soma_na16=0.8,soma_na12=2.56,
-                                      node_na = 1,
-                                      dend_nav12=1,
-                                      dend_nav16=1,
-                                      na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
-                                      na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                      plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=200, sim_config = config)
+  ## WT ##
+  simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
+                                nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                ais_ca = 43*0.5,ais_Kca = 0.25,
+                                soma_na16=0.8,soma_na12=2.56,node_na = 1,
+                                dend_nav12=1,
+                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+  simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
+  features = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/wt', mut_name=f'{root_path_out}/{path}/WT')
+  allmutsefel = allmutsefel.append(features, ignore_index=True)
 
   # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  # simwt.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005,stim_dur = 1700, clr='cadetblue')
+  # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur = 200, clr='cadetblue')
   # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-  # fig_volts.savefig(f'{simwt.plot_folder}/WT_somadendfacs_dend16_1700.pdf') #Change output file path here
+  # fig_volts.savefig(f'{simwt.plot_folder}/WT_200swp_stim0.5.pdf') #Change output file path here
 
-  sim12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=200, fnpre=f'aisca-{fac}')
+  ## Heterozygous ##
+  simhet = tf.Na12Model_TF(ais_nav12_fac=5.76*0.5,ais_nav16_fac=1.08*0.6,
+                                nav12=1.1*1.1*0.5,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                ais_ca = 43*0.5,ais_Kca = 0.25,
+                                soma_na16=0.8,soma_na12=2.56*0.5,node_na = 1,
+                                dend_nav12=1*0.5,
+                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  het_Vm,_,het_t,_ = simhet.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  simhet.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,het_Vm=None,het_t=None,sim_config=config,vs_amp=[0.5],stim_dur=500, fnpre=f'het')
+  het_fi=simhet.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'het_FI', epochlabel='500ms')
+  simhet.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'het-')
+  features = ef.get_features(sim=simhet, prefix=f'{root_path_out}/{path}/het', mut_name=f'{root_path_out}/{path}/het')
+  allmutsefel = allmutsefel.append(features, ignore_index=True)
+
+  ## Knockout ##
+  simko = tf.Na12Model_TF(ais_nav12_fac=0,ais_nav16_fac=1.08*0.6,
+                                nav12=0,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                ais_ca = 43*0.5,ais_Kca = 0.25,
+                                soma_na16=0.8,soma_na12=0,node_na = 1,
+                                dend_nav12=0,
+                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+  ko_Vm,_,ko_t,_ = simko.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  simko.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,het_Vm=het_Vm,het_t=het_t,sim_config=config,vs_amp=[0.5],stim_dur=500, fnpre=f'ko')
+  ko_fi=simko.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=het_fi,start=-0.4,end=1,nruns=140, fn=f'ko_FI', epochlabel='500ms')
+  simko.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'ko-')
+  features = ef.get_features(sim=simko, prefix=f'{root_path_out}/{path}/ko', mut_name=f'{root_path_out}/{path}/ko')
+  allmutsefel = allmutsefel.append(features, ignore_index=True)
+
+  allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_expression_at_{config_name}_052225.csv')
+
+
+
 '''
-
-
-for mutname,dict in smuts_14.items():
+## Synth Mut plotting ##
+for mutname,dict in bestsynthmuts012825.items():
   print(f"mutname is {mutname}")
   print(f"it's corresponding dictionary is {dict}")
   modify_dict_file(filenamemut,dict)
-#   # modify_dict_file(filename16,dict)
 
-  # for fac in [1, 2,5,10,100]:
-    # for fac in [0.5,1,2
+
   try:
     ##Updated params to account for getting rid of factor in NeuronModelClass
     sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
@@ -268,57 +344,69 @@ for mutname,dict in smuts_14.items():
   except ValueError as e:
     print(f'error in {mutname}')
     continue
+'''
 
 
 
-# fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
-# axs1.plot(wt_Vm[1:45000],dvdtwt[1:45000],color='black',alpha=0.8,linewidth=1)
-# cmap = cm.get_cmap('rainbow')
 
-# for mut_idx in [11]:
-#   mut_name = f'mut{mut_idx}'
-  
-#   fig1 = f'mutfig{mut_idx}'
-#   axs1 = f'mutaxs{mut_idx}'
+'''
+## 4 on 1 plotting ##
+dvdtwt=np.gradient(wt_Vm)/0.005
 
-#   fig1, axs1 = plt.subplots(figsize=(cm_to_in(8), cm_to_in(8)))
-#   axs1.plot(wt_Vm[1:45000],dvdtwt[1:45000],color='black',alpha=0.8,linewidth=1)
-#   fig1.savefig(f'{root_path_out}/{path}/singlespike_dvdt4on1_WT-{mut_name}.pdf')
+# Define the range of mut_idx values
+mut_indices = [1,2,3,4,5,10,11,12,13]
 
-#   for variation_idx in range(1,5):
-#     variation=f'_{variation_idx}'
-#     full_key = mut_name+variation
+# Create a colormap
+cmap = cm.get_cmap('rainbow') # or any other colormap you prefer
 
-#     if full_key in bestsynthmuts012825:
-#       data = bestsynthmuts012825[full_key]
-#       modify_dict_file(filenamemut,data)
-#       print(f"mutname is {full_key}")
-#       print(f"it's corresponding dictionary is {data}")
-  
-  
-#       color = cmap(variation_idx/4)
+for mut_idx in mut_indices:
+    mut_name = f'mut{mut_idx}'
 
-#       sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08,
-#                               nav12=1.1,nav16=1.43, somaK=0.022, KP=3.9375, KT=5,
-#                               ais_ca = 43,ais_Kca = 0.25,
-#                               soma_na16=0.8,soma_na12=2.56,node_na = 1,
-#                               dend_nav12=1,
-#                               na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-#                               na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-#                               plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-#       Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=700, sim_config = config) #stim_amp=0.5
-#       dvdt1 = np.gradient(Vm12)/0.005
-#       # axs1.plot(Vm12[1:12000],dvdt1[1:12000],color=color, alpha=0.8,linewidth=1)
-#       axs1.plot(Vm12[1:45000],dvdt1[1:45000],color=color, alpha=0.8,linewidth=1)
+    # Create figure and axes OUTSIDE the variation loop
+    fig1, axs1 = plt.subplots(figsize=(cm_to_in(8.5), cm_to_in(8)))
 
-#       sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'12-{full_key}-FI', epochlabel='700ms')    
-#       sim12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=700, fnpre=f'{full_key}')
-
-
-#   fig1.savefig(f'{root_path_out}/{path}/firstspike_dvdt4on1_{mut_name}.pdf')
+    # Plot the WT data ONCE per mut_idx
+    axs1.plot(wt_Vm[1:30000], dvdtwt[1:30000], color='black', alpha=0.8, linewidth=1, linestyle=':', label='WT')
     
+
+    for variation_idx in range(1,5):
+        variation=f'_{variation_idx}'
+        full_key = mut_name+variation
+
+        if full_key in bestsynthmuts012825:
+            data = bestsynthmuts012825[full_key]
+            modify_dict_file(filenamemut,data)
+            print(f"mutname is {full_key}")
+            print(f"it's corresponding dictionary is {data}")
+
+            color = cmap(variation_idx/4)
+            
+            sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
+                                    nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                    ais_ca = 43*0.5,ais_Kca = 0.25,
+                                    soma_na16=0.8,soma_na12=2.56,node_na = 1,
+                                    dend_nav12=1,
+                                    na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2mut',na12mechs = ['na12','na12mut'],
+                                    na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                    plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+            Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+            dvdt1 = np.gradient(Vm12)/0.005
+            axs1.plot(Vm12[1:30000],dvdt1[1:30000],color=color, alpha=0.8, linewidth=1, label=full_key) # Added label here
+
+            # sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{full_key}-FI', epochlabel='500ms')
+            # sim12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=500, fnpre=f'{full_key}')
+            # sim12.make_currentscape_plot(amp=0.5, time1=90,time2=175,stim_start=30, sweep_len=200,pfx=f'{full_key}')
+            features = ef.get_features(sim=sim12, prefix=f'{root_path_out}/{path}/{full_key}', mut_name=f'{root_path_out}/{path}/{full_key}')
+            allmutsefel = allmutsefel.append(features, ignore_index=True)
     
-  
+    # axs1.set_xlabel('Vm (mV)') #Setting labels and title
+    # axs1.set_ylabel('dV/dt (mV/ms)')
+    axs1.set_title(f'{mut_name}')
+    # axs1.legend() #Adding legend
+    fig1.savefig(f'{root_path_out}/{path}/firstspike_dvdt4on1_{mut_name}.pdf') # Save figure AFTER plotting all variations
+    plt.close(fig1) #Close the figure to prevent memory issues    
+allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_synthmuts_052125.csv')
+'''
 
 
 

@@ -110,13 +110,64 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
         end=400000
         print("There were not enough spikes to calculate median isi")
 
-    volt_segment = Vm[start4:start2] ## get voltage values for dictated segment
+    volt_segment = Vm[start:end] ## get voltage values for dictated segment
     
     dvdt = np.gradient(volt_segment) / dt ## calculate dvdt
 
 
 
-    #### TF030425 Find shoulders when dvdt peak 2 is not a true peak (adjacent values with local maxima) ####
+
+
+
+    ###----------------------------------------###
+    ### TF052225 FIND SHOULDER BEFORE PEAK 2 ###
+    ###----------------------------------------###
+    curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 100) ##original
+    # curr_peaks_indices,curr_peaks_values= find_peaks(dvdt,height = 10) ##TF022625 reducing height for kevin response to reviewers
+    print(f'start: {start}, start2:{start2}, end: {end}')
+    print(f'volt_segment: {volt_segment}')
+    print(f'dvdt: {dvdt}')
+    print(f'curr_peaks_indices: {curr_peaks_indices}')
+    print(f'curr_peaks_values: {curr_peaks_values}')
+    features[0]['dvdt Peak1 Height'] = curr_peaks_values['peak_heights'][0]
+    features[0]['dvdt Peak1 Voltage'] = volt_segment[curr_peaks_indices[0]] 
+    features[0]['dvdt Peak2 Height'] = curr_peaks_values['peak_heights'][-1]
+    features[0]['dvdt Peak2 Voltage'] = volt_segment[curr_peaks_indices[-1]]
+    features[0]['dvdt Threshold'] = volt_segment[np.where(dvdt>1)[0][0]]
+    
+    #### TF052125 Find shoulder BEFORE dvdt peak 2 ####
+    peak2_index = curr_peaks_indices[-1]  # Index of dvdt Peak 2
+    
+    # Look for the minimum of the second derivative BEFORE peak 2
+    # Define a window before peak 2 to search for the shoulder
+    window_before_peak2 = 20 # Adjust as needed
+    
+    # Ensure the window doesn't go out of bounds
+    start_index = max(0, peak2_index - window_before_peak2)
+    
+    # Calculate the second derivative of dvdt
+    dvdt2 = np.gradient(dvdt) / dt
+    
+    # Find the index of the minimum second derivative within the window
+    shoulder_index_before_peak2 = start_index + np.argmin(dvdt2[start_index:peak2_index])
+    
+    # Get the dvdt value at the shoulder
+    dvdt_at_shoulder_before_peak2 = dvdt[shoulder_index_before_peak2]
+    
+    features[0]['dvdt Peak2 Shoulder Before'] = dvdt_at_shoulder_before_peak2
+    
+    print(f'Shoulder Index Before Peak 2: {shoulder_index_before_peak2}')
+    print(f'dvdt value at shoulder before Peak 2: {dvdt_at_shoulder_before_peak2}')
+    ###----------------------------------------###
+
+
+
+
+
+
+    ##-----------------------------------------------------------------------------------------------------##
+    #### TF030425 Find shoulders when dvdt peak 2 is not a true peak (adjacent values with local maxima) AFTER PEAK2 ####
+    ##-----------------------------------------------------------------------------------------------------##
     filtered_indices = np.where(dvdt > 50)[0] # Filter dvdt values greater than threshold (50) 
     filtered_dvdt = dvdt[filtered_indices] # get dvdt values at the filtered indices
     filtered_volt_segment = volt_segment[filtered_indices] # get voltage values at the filtered indices
@@ -175,28 +226,39 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     ax1.plot(filtered_dvdt, label='Filtered DVDT')
     ax1.set_xlabel('Index')
     ax1.set_ylabel('DVDT')
-    ax1.axvline(x=negative_slope_indices[least_change_index], color='r', linestyle='--', label='Least Change in Slope')
-    ax1.scatter(negative_slope_indices[least_change_index], filtered_volt_segment[negative_slope_indices[least_change_index]], color='r', label='Least Change Point')
-    ax1.legend(loc='upper right')
+    ax1.axvline(x=negative_slope_indices[least_change_index], color='r', linestyle='--', label='Shoulder After Peak 2')
+    
+    # Find the index of shoulder_index_before_peak2 in filtered_indices
+    try:
+        filtered_shoulder_index = np.where(filtered_indices == shoulder_index_before_peak2)[0][0]
+        ax1.axvline(x=filtered_shoulder_index, color='violet', linestyle=':', label='Shoulder Before Peak 2')
+        ax1.annotate(f'peak1 shoulder: {dvdt_at_shoulder_before_peak2:.2f}',
+                    xy=(filtered_shoulder_index, filtered_dvdt[filtered_shoulder_index]),
+                    xytext=(filtered_shoulder_index + 5, filtered_dvdt[filtered_shoulder_index] + 5), fontsize=6)
+    except IndexError:
+        print("Shoulder index not found in filtered_indices")    
+    ax1.scatter(negative_slope_indices[least_change_index], filtered_volt_segment[negative_slope_indices[least_change_index]], color='r', label='Shoulder After Peak 2')
+    ax1.legend(loc='upper left', fontsize=6)
 
     # Annotate the dvdt value at the point where the change in slope is least
     ax1.annotate(f'dvdt: {dvdt_at_least_change:.2f}', 
                 xy=(negative_slope_indices[least_change_index], filtered_volt_segment[negative_slope_indices[least_change_index]]),
-                xytext=(negative_slope_indices[least_change_index] + 5, filtered_volt_segment[negative_slope_indices[least_change_index]] + 5))
+                xytext=(negative_slope_indices[least_change_index] + 5, filtered_volt_segment[negative_slope_indices[least_change_index]] + 5), fontsize=6)
     # Create a second y-axis for negative_slopes
     ax2 = ax1.twinx()
     # ax2.plot(negative_slopes, label='Negative Slopes', color='g', linewidth=0.2)
     ax2.plot(negative_slope_indices, negative_slopes_truncated, label='Negative Slopes', color='g',linewidth=0.2)
 
     ax2.set_ylabel('Negative Slopes')
-    ax2.legend(loc='lower left')
+    ax2.legend(loc='lower left', fontsize=6)
 
     plt.title('Filtered Voltage Segment with Least Change in Slope')
 
     # Save the plot as a PDF
     fig.savefig(f'{mut_name}_dvdt_slopes.pdf')
+    ##-----------------------------------------------------------------------------------------------------##
     #### End shoulder-finding code ####
-
+    ##-----------------------------------------------------------------------------------------------------##
 
 
 
@@ -212,7 +274,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     features[0]['dvdt Peak2 Height'] = curr_peaks_values['peak_heights'][-1]
     features[0]['dvdt Peak2 Voltage'] = volt_segment[curr_peaks_indices[-1]]
     features[0]['dvdt Threshold'] = volt_segment[np.where(dvdt>1)[0][0]]
-    features[0]['dvdt Peak2 Shoulder'] = dvdt_at_least_change
+    features[0]['dvdt Peak2 Shoulder After'] = dvdt_at_least_change
     # features[0]['Peak2_shoulder'] = peak2
 
     positive_slope_indices = np.where(dvdt > 1)[0]

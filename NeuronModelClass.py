@@ -72,11 +72,11 @@ class NeuronModel:
         self.sl = h.SectionList()
         self.sl.wholetree(sec=self.soma_ref)
         
-        # ## sections for normal adult neuron.
-        # self.nexus = h.cell.apic[66]
-        # self.dist_dend = h.cell.apic[91]
-        # self.ais = h.cell.axon[0]
-        # self.axon_proper = h.cell.axon[1]
+        ## sections for normal adult neuron.
+        self.nexus = h.cell.apic[66]
+        self.dist_dend = h.cell.apic[91]
+        self.ais = h.cell.axon[0]
+        self.axon_proper = h.cell.axon[1]
         
         
         #___________________Kaustubh params
