@@ -155,6 +155,7 @@ def get_features(sim,prefix=None,mut_name = 'na12annaTFHH2',rec_extra=True): #ad
     dvdt_at_shoulder_before_peak2 = dvdt[shoulder_index_before_peak2]
     
     features[0]['dvdt Peak2 Shoulder Before'] = dvdt_at_shoulder_before_peak2
+    features[0]['dvdt Peak2 Shoulder Before Voltage'] = volt_segment[shoulder_index_before_peak2]
     
     print(f'Shoulder Index Before Peak 2: {shoulder_index_before_peak2}')
     print(f'dvdt value at shoulder before Peak 2: {dvdt_at_shoulder_before_peak2}')

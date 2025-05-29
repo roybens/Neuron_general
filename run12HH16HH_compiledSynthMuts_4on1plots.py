@@ -146,11 +146,11 @@ modify_dict_file(filename16, changesna16)
 
 
 config_dict3={"sim_config_soma": sim_config_soma}
-config_dict = {"sim_config_soma": sim_config_soma,
-              "sim_config_ais": sim_config_ais,
-              "sim_config_basaldend": sim_config_basaldend,
-              "sim_config_nexus": sim_config_nexus,
-              "sim_config_apicaldend": sim_config_apicaldend}
+# config_dict = {"sim_config_soma": sim_config_soma,
+#               "sim_config_ais": sim_config_ais,
+#               "sim_config_basaldend": sim_config_basaldend,
+#               "sim_config_nexus": sim_config_nexus,
+#               "sim_config_apicaldend": sim_config_apicaldend}
 
 
 
@@ -260,8 +260,8 @@ smuts_14={
 
 allmutsefel = pd.DataFrame()
 
-for config_name, config in config_dict.items():
-  path = f'23-PaperPlots/2-Expression_at_locations_052225/{config_name}'
+for config_name, config in config_dict3.items():
+  path = f'23-PaperPlots/4-SynthMuts_efel_052825'
 
   ## WT ##
   simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
@@ -272,9 +272,9 @@ for config_name, config in config_dict.items():
                                 na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
                                 na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
                                 plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-  wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
-  simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
+  # wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+  # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
   features = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/wt', mut_name=f'{root_path_out}/{path}/WT')
   allmutsefel = allmutsefel.append(features, ignore_index=True)
 
@@ -283,7 +283,8 @@ for config_name, config in config_dict.items():
   # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
   # fig_volts.savefig(f'{simwt.plot_folder}/WT_200swp_stim0.5.pdf') #Change output file path here
 
-  ## Heterozygous ##
+'''  
+## Heterozygous ##
   simhet = tf.Na12Model_TF(ais_nav12_fac=5.76*0.5,ais_nav16_fac=1.08*0.6,
                                 nav12=1.1*1.1*0.5,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
                                 ais_ca = 43*0.5,ais_Kca = 0.25,
@@ -316,7 +317,7 @@ for config_name, config in config_dict.items():
   allmutsefel = allmutsefel.append(features, ignore_index=True)
 
   allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_expression_at_{config_name}_052225.csv')
-
+'''
 
 
 '''
@@ -349,64 +350,69 @@ for mutname,dict in bestsynthmuts012825.items():
 
 
 
-'''
+
 ## 4 on 1 plotting ##
-dvdtwt=np.gradient(wt_Vm)/0.005
+# dvdtwt=np.gradient(wt_Vm)/0.005
 
 # Define the range of mut_idx values
 mut_indices = [1,2,3,4,5,10,11,12,13]
+
 
 # Create a colormap
 cmap = cm.get_cmap('rainbow') # or any other colormap you prefer
 
 for mut_idx in mut_indices:
-    mut_name = f'mut{mut_idx}'
+  mut_name = f'mut{mut_idx}'
 
-    # Create figure and axes OUTSIDE the variation loop
-    fig1, axs1 = plt.subplots(figsize=(cm_to_in(8.5), cm_to_in(8)))
+  # Create figure and axes OUTSIDE the variation loop
+  fig1, axs1 = plt.subplots(figsize=(cm_to_in(8.5), cm_to_in(8)))
 
-    # Plot the WT data ONCE per mut_idx
-    axs1.plot(wt_Vm[1:30000], dvdtwt[1:30000], color='black', alpha=0.8, linewidth=1, linestyle=':', label='WT')
-    
+  # Plot the WT data ONCE per mut_idx
+  # axs1.plot(wt_Vm[1:30000], dvdtwt[1:30000], color='black', alpha=0.8, linewidth=1, linestyle=':', label='WT')
+  
 
-    for variation_idx in range(1,5):
-        variation=f'_{variation_idx}'
-        full_key = mut_name+variation
+  for variation_idx in range(1,5):
+    variation=f'_{variation_idx}'
+    full_key = mut_name+variation
 
-        if full_key in bestsynthmuts012825:
-            data = bestsynthmuts012825[full_key]
-            modify_dict_file(filenamemut,data)
-            print(f"mutname is {full_key}")
-            print(f"it's corresponding dictionary is {data}")
+    if full_key in bestsynthmuts012825:
+      data = bestsynthmuts012825[full_key]
+      modify_dict_file(filenamemut,data)
+      print(f"mutname is {full_key}")
+      print(f"it's corresponding dictionary is {data}")
 
-            color = cmap(variation_idx/4)
-            
-            sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
-                                    nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
-                                    ais_ca = 43*0.5,ais_Kca = 0.25,
-                                    soma_na16=0.8,soma_na12=2.56,node_na = 1,
-                                    dend_nav12=1,
-                                    na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2mut',na12mechs = ['na12','na12mut'],
-                                    na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                    plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-            Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-            dvdt1 = np.gradient(Vm12)/0.005
-            axs1.plot(Vm12[1:30000],dvdt1[1:30000],color=color, alpha=0.8, linewidth=1, label=full_key) # Added label here
+      color = cmap(variation_idx/4)
+      
+      sim12 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
+                              nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                              ais_ca = 43*0.5,ais_Kca = 0.25,
+                              soma_na16=0.8,soma_na12=2.56,node_na = 1,
+                              dend_nav12=1,
+                              na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2mut',na12mechs = ['na12','na12mut'],
+                              na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
+                              plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+      # Vm12,_,t12,_ = sim12.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+      # dvdt1 = np.gradient(Vm12)/0.005
+      # axs1.plot(Vm12[1:30000],dvdt1[1:30000],color=color, alpha=0.8, linewidth=1, label=full_key) # Added label here
 
-            # sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{full_key}-FI', epochlabel='500ms')
-            # sim12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=500, fnpre=f'{full_key}')
-            # sim12.make_currentscape_plot(amp=0.5, time1=90,time2=175,stim_start=30, sweep_len=200,pfx=f'{full_key}')
-            features = ef.get_features(sim=sim12, prefix=f'{root_path_out}/{path}/{full_key}', mut_name=f'{root_path_out}/{path}/{full_key}')
-            allmutsefel = allmutsefel.append(features, ignore_index=True)
-    
-    # axs1.set_xlabel('Vm (mV)') #Setting labels and title
-    # axs1.set_ylabel('dV/dt (mV/ms)')
-    axs1.set_title(f'{mut_name}')
-    # axs1.legend() #Adding legend
-    fig1.savefig(f'{root_path_out}/{path}/firstspike_dvdt4on1_{mut_name}.pdf') # Save figure AFTER plotting all variations
-    plt.close(fig1) #Close the figure to prevent memory issues    
-allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_synthmuts_052125.csv')
-'''
+      # sim12.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'{full_key}-FI', epochlabel='500ms')
+      # sim12.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,sim_config=sim_config_soma,vs_amp=[0.5],stim_dur=500, fnpre=f'{full_key}')
+      # sim12.make_currentscape_plot(amp=0.5, time1=90,time2=175,stim_start=30, sweep_len=200,pfx=f'{full_key}')
+      try:
+        features = ef.get_features(sim=sim12, prefix=f'{root_path_out}/{path}/{full_key}', mut_name=f'{root_path_out}/{path}/{full_key}')
+        allmutsefel = allmutsefel.append(features, ignore_index=True)
+      except Exception as e:
+        print(f"Error in ef.get_features for {full_key}: {e}")
+        continue
+
+  # axs1.set_xlabel('Vm (mV)') #Setting labels and title
+  # axs1.set_ylabel('dV/dt (mV/ms)')
+  # axs1.set_title(f'{mut_name}')
+  # # axs1.legend() #Adding legend
+  # fig1.savefig(f'{root_path_out}/{path}/firstspike_dvdt4on1_{mut_name}.pdf') # Save figure AFTER plotting all variations
+  # plt.close(fig1) #Close the figure to prevent memory issues    
+allmutsefel.to_csv(f'{root_path_out}/{path}/EFEL_synthmuts_052825.csv')
+
 
 
 

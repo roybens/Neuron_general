@@ -48,36 +48,6 @@ def combine_pdfs(folder_path, out_sfx): #input folder pather where pdfs are stor
         merger.write(folder_path+mutTXT+out_sfx+'.pdf')
     merger.close()
 
-# def convert_pdf_to_jpg(pdf_path, output_jpg_path):
-#     """
-#     Converts a single page of a PDF to a JPG image.
-
-#     Args:
-#         pdf_path: Path to the PDF file.
-#         output_jpg_path: Path to the output JPG image.
-#     """
-
-#     # Open the PDF and get the first page
-#     reader = PdfReader(pdf_path)
-#     page = reader.getPage(0)
-
-#     # Extract the page content as a PIL Image object
-#     pil_image = Image.open(page.extractImage()[0])
-
-#     # Convert the image to RGB mode (required for JPG)
-#     pil_image = pil_image.convert("RGB")
-
-#     # Save the image as a JPG
-#     pil_image.save(output_jpg_path, quality=95)
-
-#     # Example usage
-#     pdf_path = "/path/to/your.pdf"
-#     output_jpg_path = "/path/to/output.jpg"
-# convert_pdf_to_jpg(pdf_path, output_jpg_path)
-
-# print(f"Successfully converted PDF page to JPG: {output_jpg_path}")
-
-
 def combine_and_sort_ef_csvs(root_path, out_sfx):
   combined_ef = f'{root_path}combined_ef_{out_sfx}.csv'
   # Open the output file in write mode
@@ -118,7 +88,6 @@ def combine_and_sort_ef_csvs(root_path, out_sfx):
 
   print(f"Successfully combined and sorted data into '{combined_ef}'!")
   return
-
 
 def make_ppt_from_pdf2(pdf_path, output_ppt_path):
   prs = Presentation()
@@ -204,8 +173,6 @@ def make_ppt_from_pdf3(pdf_path, output_ppt_path):
   print(f"Successfully converted PDFs to PowerPoint presentation: {output_ppt_path}")
   return
 
-
-
 #This function plots efel efeatures as bar graphs (in this case HH and HMM)
 def plot_efeatures_bar(plot_folder,pfx):
     x = ['HH','HMM']
@@ -233,9 +200,6 @@ def combine_efel_csvs(folder_path, output_file):
             combined_df = pd.concat([combined_df, df], ignore_index=True)
     
     combined_df.to_csv(output_file, index=False)
-
-
-
 
 ##Takes params text file and allows you to change the values for scanning etc...
 def modify_dict_file(filename, changes):
@@ -276,10 +240,6 @@ def modify_dict_file(filename, changes):
 
   except IOError as e:
     raise ValueError(f"Error opening or writing file: {e}")
-
-
-
-
 ##Using Modify_dict_file, setting args
 filename = "./params/na16HH_TF2.txt"
 changes = {
@@ -680,14 +640,14 @@ def combine_pdfs_flexible(folder, output_folder, match_length=None, match_suffix
 #plot_efeatures_bar(plot_folder='/global/homes/t/tfenton/Neuron_general-2/Plots/12HMM16HH_TF/ManuscriptFigs/efeatures',pfx='soma')
 
 
-# combine_efel_csvs('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/23-right2_shoulderPeak/right2_combined_efel.csv')
+combine_efel_csvs(folder_path='./Plots/12HH16HH/23-PaperPlots/3-SynthMuts_052325', output_file='./Plots/12HH16HH/23-PaperPlots/3-SynthMuts_052325/synthmuts_combined_efel_052725.csv')
 # efel_heatmaps('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2', './Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS/30-newCombinedCsvs/Updated_EFEL_peak2')
 # rename_files_and_folders('./Plots/12HH16HH/10-KevinRtR_chandensities/11-ShiftAIS')
 
 # combine_pdfs_side_by_side(folder1='./Plots/12HH16HH/6-October2024Model/1-AdilHHvariants_800sweep_101524', folder2='./Plots/12HH16HH/15-AdilMuts_newModel_042425', output_folder='./Plots/12HH16HH/15-AdilMuts_newModel_042425/Combined/')
-combine_pdfs_flexible(folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2', 
-                      output_folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2/Combined', 
-                      match_length=7,
-                      match_suffix='wtvmut')
+# combine_pdfs_flexible(folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2', 
+#                       output_folder='./Plots/12HH16HH/18-SynthMuts_newmodel_shortstim/5-HVA+SKE2/Combined', 
+#                       match_length=7,
+#                       match_suffix='wtvmut')
 
 
