@@ -258,31 +258,60 @@ smuts_14={
 }
 
 
+
 allmutsefel = pd.DataFrame()
 
 for config_name, config in config_dict3.items():
-  path = f'23-PaperPlots/4-SynthMuts_efel_052825'
+  for a2 in [0.99,0.9,0.8,0.75,0.25]:
+    ar2mut ={"Rd": 0.023204006298533603, "Rg": 0.015604498120126004, "Rb": 0.0925081211054913, "Ra": 0.23933332265451177, "a0s": 0.0005226303768198727, "gms": 0.14418575154491814, "hmin": 0.008449935591049326, "mmin": 0.01193016441163175, "qinf": 5.7593653647578105, "q10": 2.1532859986639186, "qg": 1.2968193480468215, "qd": 0.661199851452832, "qa": 5.41, "smax": 3.5557932199839737, "sh": 8.358558450280716, "thinf": -47.8194205612529, "thi2": -79.6556083820085, "thi1": -62.40165437813537, "tha": -33.850064879126805, "vvs": 1.4255479951467982, "vvh": -55.33213046147061, "vhalfs": -40.89976480829731, "zetas": 13.403615755952343,"ar2": a2
+    }
 
-  ## WT ##
-  simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
-                                nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
-                                ais_ca = 43*0.5,ais_Kca = 0.25,
-                                soma_na16=0.8,soma_na12=2.56,node_na = 1,
-                                dend_nav12=1,
-                                na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
-                                na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
-                                plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  # wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
-  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
-  # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
-  features = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/wt', mut_name=f'{root_path_out}/{path}/WT')
-  allmutsefel = allmutsefel.append(features, ignore_index=True)
+    path = f'23-PaperPlots/5-ar2-{a2}_debug_062025'
 
+    ## WT ##
+    simwt = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
+                                  nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                  ais_ca = 43*0.5,ais_Kca = 0.25,
+                                  soma_na16=0.8,soma_na12=2.56,node_na = 1,
+                                  dend_nav12=1,
+                                  na12name = 'na12annaTFHH',mut_name = 'na12annaTFHH',na12mechs = ['na12','na12mut'],
+                                  na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+    wt_Vm,_,wt_t,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+    # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+    # simwt.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
+    # features = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/wt', mut_name=f'{root_path_out}/{path}/WT')
+    # allmutsefel = allmutsefel.append(features, ignore_index=True)
+
+    # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+    # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur = 200, clr='cadetblue')
+    # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+    # fig_volts.savefig(f'{simwt.plot_folder}/WT_200swp_stim0.5.pdf') #Change output file path here
+
+    modify_dict_file(filenamemut,ar2mut)
+  ## ar2 debug ##
+    simar2 = tf.Na12Model_TF(ais_nav12_fac=5.76,ais_nav16_fac=1.08*0.6,
+                                  nav12=1.1*1.1,nav16=1.43*1.2, somaK=0.022, KP=3.9375, KT=5,
+                                  ais_ca = 43*0.5,ais_Kca = 0.25,
+                                  soma_na16=0.8,soma_na12=2.56,node_na = 1,
+                                  dend_nav12=1,
+                                  na12name = 'na12annaTFHH2mut',mut_name = 'na12annaTFHH2mut',na12mechs = ['na12','na12mut'],
+                                  na16name = 'na16HH_TF',na16mut_name = 'na16HH_TF',na16mechs=['na16','na16mut'],params_folder = './params/',
+                                  plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
+    ar2_Vm,_,ar2_t,_ = simar2.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config) #stim_amp=0.5
+    # wt_fi=simar2.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='500ms')
+    simar2.make_currentscape_plot(amp=0.5, time1=50,time2=100,stim_start=30, sweep_len=200,pfx=f'WT-')
+    simar2.wtvsmut_stim_dvdt(wt_Vm=wt_Vm,wt_t=wt_t,het_Vm=None,het_t=None,sim_config=config,vs_amp=[0.5],stim_dur=500, fnpre=f'ar2-{a2}')
+
+  
   # fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  # simwt.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur = 200, clr='cadetblue')
-  # plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-  # fig_volts.savefig(f'{simwt.plot_folder}/WT_200swp_stim0.5.pdf') #Change output file path here
+  # simar2.plot_stim(axs = axs[0],stim_amp = 0.5,dt=0.005,stim_dur = 200, clr='cadetblue')
+  # plot_dvdt_from_volts(simar2.volt_soma, simar2.dt, axs[1],clr='cadetblue')
+  # fig_volts.savefig(f'{simar2.plot_folder}/WT_ar2-0.pdf') #Change output file path here
 
+
+
+input("press enter")
 '''  
 ## Heterozygous ##
   simhet = tf.Na12Model_TF(ais_nav12_fac=5.76*0.5,ais_nav16_fac=1.08*0.6,
