@@ -10,7 +10,7 @@ create a heterzygous neuron (1 WT allele + 1 mutant allele).
 To achieve this we will change the parameter values in na12_mut.txt to reflect the variant's biophysical properties,
 then incorporate the mechanism into the model.
 
-## First changet the model arguments to accept a different (mutant) param file: 
+## First change the model arguments to accept a different (mutant) param file: 
 1. In Na12HH_Model_TF.py line 15, change: 
     
     ```python
@@ -101,3 +101,18 @@ and change the arguments in the same way as steps 1 and 2 to accept the new txt 
 ##################################
 ### Modifying the Dendritic Nav1.2
 To change dendritic Nav1.2 density, alter the value of the dend_nav12 argmument when calling the model. Dendritic Nav1.2 can be reduced fairly dramatically before changes are noticed at the soma. 
+
+
+## General workflow
+-Na12Model_TF (in Na12HH_Model_TF.py) contains the main arguments of the model and passes those arguments to NeuronModel (in NeuronModelClass.py) when called. A few important arguments are:
+1. na12name - WT param file name minus the .txt extension. (e.g. na12annaTFHH2.txt)
+2. mut_name - param file name but for mutant allele minust the .txt extension (e.g. na12_mut.txt)
+3. na12mechs - mechanism .mod file suffix. Must match exactly to mod file suffix.
+4. na16name - same as na12name but for na16
+5. na16mut_name - same as mut_name but for na16
+6. na16mechs - na16 mechanism .mod file suffixes
+7. params_folder - contains .txt files of params. These params update the mod file params in their respective files.
+8. update - make sure this is set to True. This will run the update section in NeuronModelClass.py that uses the param txt files to update the mod files. This will also update the AIS gbars and other param values appropriately.
+
+-NeuronModel (in NeuronModelClass.py) sets multiple parameters and updates the mechanisms with new parameters. The "if update:" section (line 177-249) is very important and will take the param files that you give in the arguments
+and use them to update the mechanism files of the specific suffixes contained in na12mechs or na16mechs.
