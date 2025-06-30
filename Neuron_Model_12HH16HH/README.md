@@ -116,3 +116,7 @@ To change dendritic Nav1.2 density, alter the value of the dend_nav12 argmument 
 
 -NeuronModel (in NeuronModelClass.py) sets multiple parameters and updates the mechanisms with new parameters. The "if update:" section (line 177-249) is very important and will take the param files that you give in the arguments
 and use them to update the mechanism files of the specific suffixes contained in na12mechs or na16mechs.
+
+-One way that we run the model is by using a "run.py" file (here, run_TF.py). This sets up the simulation configuration for where to read from in sim_config_soma. It then calls the model in simwt where parameters can be altered if 
+desired. This also sets which param files to use for updating your mechanisms (.mod files). Raw stimulation data is recorded in get_stim_raw_data. Then, those variables of voltage and time are used for plotting functions to plot
+the action potentials, dvdt, and FI curves.

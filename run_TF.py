@@ -33,24 +33,33 @@ if not os.path.exists(root_path_out): ##make directory if it doens't exist
 config_dict3={"sim_config_soma": sim_config_soma}
 
 for config_name, config in config_dict3.items():
-  path = f'WT_spikes_dvdt_FI_curves'
+  path = f'WT_spikes_dvdt_FI_curves_ExamplePlots'
 
 
-## Run the model. Commented params are defalaults in Na12Model_TF. Can change here if necessary.  
-simwt = tf.Na12Model_TF(#ais_nav12_fac=5.76,nav12=1.1,
-                        #ais_nav16_fac=1.08,nav16=1.43,
-                        #somaK=0.022, 
-                        # KP=5.625,#KP=3.9375
-                        #KT=5,
-                        #ais_ca = 43,
-                        #ais_Kca = 0.25,
-                        #soma_na16=0.8,soma_na12=2.56,
-                        #node_na = 1,
-                        #dend_nav12=1,
-                        # na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                        # na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                        plots_folder = f'{root_path_out}/{path}')#, update=True, fac=None)
+## Run the model and obtain raw data Voltages and corresponding times. Can also get currents if desired.
+# Commented params are defaults in Na12HHModel_TF.py. Can change here if you want to tune or alter things (such as reduce nav to 0 to mimic TTX).  
+simwt = tf.Na12Model_TF(#ais_nav12_fac=5.76,
+                        # ais_nav16_fac=1.08*0.6,
+                        # nav12=1.1*1.1,
+                        # nav16=1.43*1.2, 
+                        # somaK=0.022, 
+                        # KP=3.9375, 
+                        # KT=5,
+                        # ais_ca = 43*0.5,
+                        # ais_Kca = 0.25,
+                        # soma_na16=0.8,
+                        # soma_na12=2.56,
+                        # node_na = 1,
+                        # dend_nav12=1,
+                        na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'], ## Can change mut_name to na12_mut.txt to make het
+                        na16name = 'na16HH_TF2',na16mut_name = 'na16HH_TF2',na16mechs=['na16','na16mut'],params_folder = './Neuron_Model_12HH16HH/params/',
+                        plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
 wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=500, sim_config = config)
+
+
+####---------------------------------####
+######### Plotting and analysis #########
+####---------------------------------####
 
 ## Plot Stim and dvdt in single plot
 fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
