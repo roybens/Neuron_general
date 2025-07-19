@@ -14,7 +14,7 @@ import csv
 class Na12Model_TF:
     def __init__(self,na12name = 'na12annaTFHH2',mut_name= 'na12annaTFHH2',  na12mechs = ['na12','na12mut'],na16name = 'na16HH_TF2',na16mut_name ='na16HH_TF2', na16mechs = ['na16','na16'], params_folder = './params/na12HMM_HOF_params/', ## na16name='na16_orig2',na16mechs = ['na16','na16mut'], na16mut_name='na16'
                  nav12=1,nav16=1,K=1,KT=1,KP=1,somaK=1,ais_ca = 1,ais_Kca = 1,soma_na16=1,soma_na12 = 1,node_na = 1,plots_folder = './Plots/12HMM16HH_TF/SynthMuts_120523/',pfx='testprefix', ais_nav16_fac=1,ais_nav12_fac=1, dend_nav12=1,
-                 update = None, fac=None): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
+                 update = None, fac=None, fac2=None, fac3=None, fac4=None): ##TF012524 added ais_nav16 ##Update=True if you want to run update_mech_from_dict in NeuronModel class
         
    
         K = 1 ##TF020624
@@ -38,7 +38,10 @@ class Na12Model_TF:
                                  na16mut_name = na16mut_name,
                                  na16mechs = na16mechs,
                                  params_folder=params_folder,
-                                 fac=fac
+                                 fac=fac,
+                                 fac2=fac2,
+                                 fac3=fac3,
+                                 fac4=fac4,
                                  ) 
         
         self.plot_folder = plots_folder 
@@ -116,7 +119,7 @@ class Na12Model_TF:
     
 
     #need to alter currents and current names to work for na12hmm
-    def make_currentscape_plot(self,amp,time1,time2,pfx=None,stim_start =100,sweep_len=800,sim_config = {
+    def make_currentscape_plot(self,amp,time1,time2,pfx=None,stim_start =100,stim_dur=None,sweep_len=800,sim_config = {
                 'section' : 'soma',
                 'segment' : 0.5,
                 'section_num': 0,
@@ -153,15 +156,22 @@ class Na12Model_TF:
         #current_names = sim_config['outward'] + sim_config['inward']
         #amp = 0.5
         #sweep_len = 800
-        self.l5mdl.init_stim(stim_start =stim_start,amp=amp,sweep_len = sweep_len) #modify stim_start to look at different time points?
-        #Vm, I, t, stim,ionic = sim_obj.run_sim_model(dt=0.01,sim_config=sim_config)
-        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.1,sim_config=sim_config) #change time steps here
-
-        #Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(start_Vm=-70, dt=0.01,sim_config=sim_config) #change time steps here
+        self.l5mdl.init_stim(stim_start =stim_start,amp=amp,stim_dur=stim_dur,sweep_len = sweep_len) #modify stim_start to look at different time points?
         
+
+
+
+        #########--------------------------------------------------------########
+        ##### Changed dt from 0.01 to 0.1 for tuning
+        Vm, I, t, stim, ionic = self.l5mdl.run_sim_model(dt=0.01,sim_config=sim_config) #change time steps here
+        #########--------------------------------------------------------########
+        
+
+
+
         #####*** Below for plotting user-specified time steps
         #sweep_len = 75
-        dt = 0.1
+        dt = 0.01
         # time1 = 51 #start time in ms. Must be between 0 < x < sweep_len 54het 51ms->60msWT
         # time2 = 60 #end time in ms. Must be between 0 < x < sweep_len 63het
         step1 = int((time1/dt))
@@ -184,14 +194,14 @@ class Na12Model_TF:
                 "fname":f"{pfx}amp{amp}_t1-{time1}t2-{time2}_swp{sweep_len}_start{stim_start}",
                 "extension": "pdf",
                 #"extension": "jpg",
-                "dpi": 600,
+                "dpi": 50,#600, ##TF062625 Reduced to 50 for smaller files for scanning
                 "transparent": False},
 
             "show":{#"total_contribution":True,
                     #"all_currents":True,
                     "currentscape": True},
 
-            "colormap": {"name":"colorbrewer.qualitative.Paired_10"},
+            "colormap": {"name":"colorbrewer.qualitative.Paired_11"},
             #"colormap": {"name":"cartocolors.qualitative.Prism_10"},
             #"colormap": {"name":"cmocean.diverging.Balance_10"},
             
@@ -272,10 +282,12 @@ class Na12Model_TF:
     def update_gfactor(self,gbar_factor = 1):
         update_mod_param(self.l5mdl, self.mut_mech, gbar_factor, gbar_name='gbar')
 
-    def plot_stim(self,stim_amp = 0.5,dt = 0.02,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
+    def plot_stim(self,stim_amp = 0.5,dt = 0.01,clr = 'black',plot_fn = 'step',axs = None,rec_extra = False, stim_dur = 500):
         self.dt = dt
+        created_fig = False
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+            created_fig = True  # Track if we created the figure
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
             Vm, I, t, stim,extra_vms = self.l5mdl.run_model(dt=dt,rec_extra = rec_extra)
@@ -297,6 +309,11 @@ class Na12Model_TF:
         #add_scalebar(axs)
         file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf'
         # plt.savefig(file_path_to_save, format='pdf') ##TF031424 removed to avoid duplicates since plotting dvdt_from_volts as well.
+        
+        # Close the figure if we created it to prevent memory leaks
+        if created_fig:
+            plt.close(fig)
+        
         return ap_t, Vm
     
     #Plot both WT and mut on same stim plot
@@ -310,8 +327,10 @@ class Na12Model_TF:
                         # 'ionic_concentrations' :["cai", "ki", "nai"]
             }):
         self.dt = dt
+        created_fig = False
         if not axs:
             fig,axs = plt.subplots(1,figsize=(cm_to_in(8),cm_to_in(7.8)))
+            created_fig = True  # Track if we created the figure
         self.l5mdl.init_stim(stim_dur = stim_dur, amp=stim_amp )
         if rec_extra:
             Vm, I, t, stim,extra_vms = self.l5mdl.run_sim_model(dt=dt,rec_extra = rec_extra, sim_config=sim_config) #changed run_model to run_sim_model to capture other segments
@@ -349,6 +368,10 @@ class Na12Model_TF:
         #add_scalebar(axs)
         # file_path_to_save=f'{self.plot_folder}{plot_fn}.pdf' ##Commented 121323 prior to batch run TF
         # plt.savefig(file_path_to_save, format='pdf')
+        
+        # Close the figure if we created it to prevent memory leaks
+        if created_fig:
+            plt.close(fig)
         
         
         
@@ -637,7 +660,7 @@ class Na12Model_TF:
         return fis
 
 
-    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,het_Vm=None,het_t=None,fnpre = '', dt=0.005,stim_dur=500): ##TF111524 added stim_dur
+    def wtvsmut_stim_dvdt(self,vs_amp,wt_Vm,wt_t,sim_config,het_Vm=None,het_t=None,fnpre = '', dt=0.01,stim_dur=500): ##dt=0.005
         for curr_amp in vs_amp:
             figures = []
 

@@ -12,8 +12,13 @@ import efel_feature_extractor as ef
 from currentscape.currentscape import plot_currentscape
 import logging
 import pandas as pd
+from neuron import h
+import os
+import fitz  # pip install pymupdf
 # import Document as doc
 # import Tim_ng_functions as nf
+import shutil
+import glob
 
 
 # Define morphology files
@@ -46,14 +51,17 @@ def set_morphology(index):
 
 
 
-sim_config_soma = {
+
+sim_config_soma={
                 'section' : 'soma',
                 'segment' : 0.5,
                 'section_num': 0,
-                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'],
-                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
-                'ionic_concentrations' :["cai", "ki", "nai"]
-                }
+                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas','ihcn_Ih'], #Normal currents for Na12 soma
+                'ionic_concentrations' :["cai", "ki", "nai"],
+                'current_names' : ['Ca_HVA','Ca_LVAst','SKv3_1','SK_E2','Na12(16)','Na12(16)','Na12','Na12 MUT','pas','Ih'] #Na16 WT current names (double na16 WT)
+
+                
+            }
 
 #################################################################################
 #1
@@ -75,14 +83,11 @@ sim_config_ais = {
                 'section' : 'axon',
                 'segment' : 0.1,
                 'section_num': 0,
-                #'currents' : ['ina','ica','ik'],
-                #'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ihcn_Ih','ik_SK_E2','ik_SKv3_1'], #Somatic
-                'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
-                #'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_SKv3_1','ik_SK_E2','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
-                #'currents'  : ['ihcn_Ih','ik_SKv3_1','na16.ina_ina','na16mut.ina_ina','na12.ina_ina','na12mut.ina_ina','i_pas'],
-                'current_names' : ['Ih','SKv3_1','Na16 WT','Na16 WT','Na12','Na12 MUT','pas'],
-                #'ionic_concentrations' :["cai", "ki", "nai"]
-                'ionic_concentrations' :["ki", "nai"]
+                # 'currents'  : ['na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','ica_Ca_HVA','ica_Ca_LVAst','ik_SK_E2','ik_SKv3_1'], #AIS (no Ih)
+                'currents'  : ['ica_Ca_HVA','ica_Ca_LVAst','ik_K_Pst','ik_K_Tst','ik_SK_E2','ik_SKv3_1',
+                               'na12.ina_ina','na12mut.ina_ina','na16.ina_ina','na16mut.ina_ina','i_pas'], #AIS (no Ih)
+                'current_names' : ['Ca_HVA','Ca_LVAst','K_Pst','K_Tst','SK_E2','SKv3_1','Na12','Na12 MUT','Na12(16)','Na12(16)','pas'],
+                'ionic_concentrations' :["ki", "nai","cai"]
                 }
 # 3
 sim_config_basaldend = {
@@ -159,6 +164,65 @@ def modify_dict_file(filename, changes):
   #Don't forget to change NeuronModelClass.py to './Neuron_Model_12HH16HH/' and recompile!!
 
 
+#############################################################
+# Function to combine all PDF files in a folder into one multi-page pdf
+#############################################################
+def combine_pdfs_with_header(folder_path, input_str=None, output_filename="combined.pdf", output_folder=None):
+  """
+  Combine all PDFs in folder_path into a single PDF with headers.
+  Save the result in output_folder (if provided), else in folder_path.
+  """
+  pdf_files = [f for f in os.listdir(folder_path)
+               if f.lower().endswith('.pdf') and f[:-4].endswith(str(input_str))]
+  pdf_files.sort()
+  output = fitz.open()
+  for pdf in pdf_files:
+    full_path = os.path.join(folder_path, pdf)
+    src = fitz.open(full_path)
+    for page in src:
+      # Draw filename at the top of each page
+      page.insert_text((10, 10), pdf, fontsize=4, color=(0, 0, 0))
+      output.insert_pdf(src, from_page=page.number, to_page=page.number)
+    src.close()
+  if output_folder is None:
+    output_path = os.path.join(folder_path, output_filename)
+  else:
+    if not os.path.exists(output_folder):
+      os.makedirs(output_folder)
+    output_path = os.path.join(output_folder, output_filename)
+  output.save(output_path)
+  output.close()
+  print(f"Combined {len(pdf_files)} PDFs into {output_path}")
+#############################################################
+#############################################################
+
+def move_files_with_string(input_folder, match_string, output_folder="COMBINED", rest_folder="REST"):
+  """Move files containing a specific string to output_folder, others to rest_folder."""
+  import os
+  import shutil
+
+  # Create output folder paths
+  output_path = os.path.join(input_folder, output_folder)
+  rest_path = os.path.join(input_folder, rest_folder)
+  os.makedirs(output_path, exist_ok=True)
+  os.makedirs(rest_path, exist_ok=True)
+
+  # Find and move files
+  for filename in os.listdir(input_folder):
+    file_path = os.path.join(input_folder, filename)
+    if not os.path.isfile(file_path):
+      continue
+    if match_string in filename:
+      shutil.move(file_path, os.path.join(output_path, filename))
+      print(f"Moved to {output_folder}: {filename}")
+    else:
+      shutil.move(file_path, os.path.join(rest_path, filename))
+      print(f"Moved to {rest_folder}: {filename}")
+
+  print(f"Files moved to: {output_path} and {rest_path}")
+
+
+
 root_path_out = './Plots/12HH16HH/2-DevelopingBranch' ##path for saving your plots
 if not os.path.exists(root_path_out): ##make directory if it doens't exist
         os.makedirs(root_path_out)
@@ -172,13 +236,20 @@ filenamemut = './params/na12annaTFHHmut.txt'
 
 
 ## 1.2HH params newest after Kevin's inpurt. 12-16 gap closer to 5mV now.
-changesna12={"Rd": 0.023204006298533603, "Rg": 0.015604498120126004, "Rb": 0.0925081211054913, "Ra": 0.23933332265451177, "a0s": 0.0005226303768198727, "gms": 0.14418575154491814, "hmin": 0.008449935591049326, "mmin": 0.01193016441163175, "qinf": 5.7593653647578105, "q10": 2.1532859986639186, "qg": 1.2968193480468215, "qd": 0.661199851452832, "qa": 5.41, "smax": 3.5557932199839737, "sh": 8.358558450280716, "thinf": -47.8194205612529, "thi2": -79.6556083820085, "thi1": -62.40165437813537, "tha": -33.850064879126805, "vvs": 1.4255479951467982, "vvh": -55.33213046147061, "vhalfs": -40.89976480829731, "zetas": 13.403615755952343}
+changesna12={"Rd": 0.023204006298533603, "Rg": 0.015604498120126004, "Rb": 0.0925081211054913, "Ra": 0.23933332265451177, 
+             "a0s": 0.0005226303768198727, "gms": 0.14418575154491814, "hmin": 0.008449935591049326, "mmin": 0.01193016441163175, 
+             "qinf": 5.7593653647578105, "q10": 2.1532859986639186, "qg": 1.2968193480468215, "qd": 0.661199851452832, "qa": 5.41, 
+             "smax": 3.5557932199839737, "sh": 8.358558450280716, "thinf": -47.8194205612529, "thi2": -79.6556083820085, 
+             "thi1": -62.40165437813537, "tha": -33.850064879126805, "vvs": 1.4255479951467982, "vvh": -65,#"vvh": -55.33213046147061, 
+             "vhalfs": -40.89976480829731, "zetas": 13.403615755952343,"ar2":0} 
 
 ## 16HH mod file params can be changed below
-changesna16 = {"Rd": 0.03, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, "thinf": -51.5, "thi2": -47.5, "thi1": -47.5, "tha": -33.5, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12}
+changesna16 = {"Rd": 0.03, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, 
+               "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, 
+               "thinf": -51.5, "thi2": -47.5, "thi1": -47.5, "tha": -33.5, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12}
 
-modify_dict_file(filename12, changesna12)
-modify_dict_file(filename16, changesna16)
+# modify_dict_file(filename12, changesna12)
+# modify_dict_file(filename16, changesna16)
 
 
 config_dict = {"sim_config_soma": sim_config_soma,
@@ -192,99 +263,306 @@ config_dict2={"sim_config_nexus": sim_config_nexus,
 
 config_dict3={"sim_config_soma": sim_config_soma}
 
-for config_name, config in config_dict3.items():
-  path  = '3-cell_2/6-decrease_gpas-epas-cm-ih_increase-Ra'
+config_dict4={"sim_config_soma": sim_config_soma,
+              "sim_config_ais": sim_config_ais,}
+
+for config_name, config in config_dict4.items():
+  ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+    ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+      ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+        ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+  num1=58
+        ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+      ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
+  path  = f'6-paramsearch/3-developing_neuron_tuning/{num1}-tuning'
   path1 = f'{path}/dvdt'
   path2 = f'{path}/currentscapes'
+  path3 = f'{path}/Rin'
 
   out_path1 = os.path.join(root_path_out, path1)
   out_path2 = os.path.join(root_path_out, path2)
+  out_path3 = os.path.join(root_path_out, path3)
 
   if not os.path.exists(out_path1):
       os.makedirs(out_path1)
   if not os.path.exists(out_path2):
       os.makedirs(out_path2)
+  if not os.path.exists(out_path3):
+      os.makedirs(out_path3)
 # for morphology_index,morphoname in morphology_files.items():
 #   set_morphology(morphology_index)
 
+# combine_pdfs_with_header(folder_path=out_path1, output_filename=f"dvdt_combined_1.pdf")
+# combine_pdfs_with_header(folder_path=out_path2, output_filename=f"currentscape_combined_1.pdf")
+# move_files_with_string(input_folder=out_path3, match_string='_COMPLETE', output_folder="COMBINED", rest_folder="REST")
+# input("Press Enter to continue...")
 
 allmutsefel = pd.DataFrame()
 
-nav16factor=1 ## remove 1.6 in developing model when only 1.2 present. Params replaced by 12
-nav12factor=1 
-somaKfac=1
-kpfac=1
-ktfac=1
-aiscafac=1
-aisKcafac=1
-f=0.8
-f2=1
 
-'''
-sim1 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
-                            nav12=1.1*1.1*nav12factor*f,
-                            ais_nav16_fac=1.08*nav16factor*f,
-                            nav16=1.43*1.2*nav16factor*f,
-                            somaK=0.022*f, 
-                            KP=3.9375*kpfac*f, 
-                            KT=5*ktfac*f,
-                            ais_ca = 43*0.5*aiscafac*f,
-                            ais_Kca = 0.25*aisKcafac*f,
-                            soma_na16=0.8*nav16factor*f,
-                            soma_na12=2.56*nav12factor*f,
-                            node_na = 1,
-                            dend_nav12=1*f,
-                            na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                            na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                            plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-sim1.plot_stim(axs = axs[0],stim_amp = 0.3,dt=0.005, clr='cadetblue')
-plot_dvdt_from_volts(sim1.volt_soma, sim1.dt, axs[1],clr='cadetblue')
-fig_volts.savefig(f'{sim1.plot_folder}/dvdt/1-Adult_params.pdf')
-sim1.make_currentscape_plot(amp=0.5, time1=50,time2=150,stim_start=30, sweep_len=200, pfx=f'currentscapes/1-Adult_params_')
-'''
+## THESE ARE THE PARAMS FOR THE 12HH DEVELOPING MODEL
+# param_ranges = {
+#     'nav12factor': [0.22], #Nav             
+#     'aisnav': [10],  #AIS Nav               
+#     'somanav': [10],    #soma Nav            
+#     # 'fac':  [5],  #SKv3_1 mtaumul
+#     # 'fac2': [0.05],  #SK_E2
+#     # 'fac3': [0.1],   #LVA + HVA
+#     'fac4': [1.2],   #cm
+#     'f2': [1.5e-3],  #K+ca
+#     'f3': [2], #KP
+# }
+num=0
 
 
-####### K&Ca factor #######
-# for f2 in [0.001,0.1,0.25,0.5,0.75,0.8,0.9,1.25,1.5,2,5,10]:
-for f2 in [0.001,0.25,0.5,1,2,10]:
-# for f2 in [0.001]:
-# for nav16factor in [0.75,1.25,1.5]:
-  simwt = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
-                          nav12=1.1*1.1*nav12factor*f,
-                          ais_nav16_fac=1.08*nav16factor*f,
-                          nav16=1.43*1.2*nav16factor*f,
-                          somaK=0.022*f*f2, 
-                          KP=3.9375*kpfac*f*f2, 
-                          KT=5*ktfac*f*f2,
-                          ais_ca = 43*0.5*aiscafac*f*f2,
-                          ais_Kca = 0.25*aisKcafac*f*f2,
-                          soma_na16=0.8*nav16factor*f,
-                          soma_na12=2.56*nav12factor*f,
-                          node_na = 1,
-                          dend_nav12=1*f,
-                          na12name = 'na12annaTFHH2',mut_name = 'na12annaTFHH2',na12mechs = ['na12','na12mut'],
-                          na16name = 'na12annaTFHH2',na16mut_name = 'na12annaTFHH2',na16mechs=['na16','na16mut'],params_folder = './params/',
-                          plots_folder = f'{root_path_out}/{path}', update=True, fac=None)
-  # wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.5,dt=0.005,rec_extra=False,stim_dur=1000, sim_config = config) #stim_amp=0.5
-  # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=-0.4,end=1,nruns=140, fn=f'WT_FI', epochlabel='200ms')
+changesna16 = {"Rd": 0.02, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, 
+              "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, 
+              "thinf": -51.5, "thi2": -52.5, "thi1": -52.5, "tha": -35, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12} #vvh=-58 thi=-47.5
+modify_dict_file(filename12, changesna16)
 
-  # NeuronModel.map_connectivity(f"{root_path_out}/{path}/insert12_numbered_connectivity.txt")
+  # for fac in param_ranges['fac']:
+  #   for fac2 in param_ranges['fac2']:
+  #     for fac3 in param_ranges['fac3']:
+  #       for fac4 in param_ranges['fac4']:
+  # for f2 in param_ranges['f2']: #K only
+            # for nav12factor in param_ranges['nav12factor']:
+            #   for aisnav in param_ranges['aisnav']:
+            #       for somanav in param_ranges['somanav']:
+            #         for f3 in param_ranges['f3']:
+                                  # Add this line to reset the NEURON environment
+                                  # h('forall delete_section()')
+                                  # num += 1
+for nav12factor in [1.06,1.07,1.08,1.08,1.09]:
+  for kpfac in [1.7,1.8,1.9,2,2.1,2.2]:
+    namestr = f'na12-{nav12factor}_KP-{kpfac}'
+    simwt = tf.Na12Model_TF(
+      ais_nav12_fac=2.2*nav12factor,
+      nav12=0.22*nav12factor,
+      ais_nav16_fac=2.2*nav12factor,
+      nav16=0.22*nav12factor,
+      soma_na16=2.2*nav12factor,
+      soma_na12=2.2*nav12factor,
+      node_na=0.176,
+      dend_nav12=0.22*nav12factor,
+      somaK=0.0075,                       
+      K=0.0045,                           
+      KP=kpfac, #2,                          
+      KT=30,                          
+      ais_ca= 0.0015,                      
+      ais_Kca=0.006,                     
+      na12name='na12annaTFHH2',
+      mut_name='na12annaTFHH2',
+      na12mechs=['na12','na12mut'],
+      na16name='na12annaTFHH2',
+      na16mut_name='na12annaTFHH2',
+      na16mechs=['na16','na16mut'],
+      params_folder='./params/',
+      plots_folder=f'{root_path_out}/{path}',
+      update=True,
+      # fac=fac,
+      # fac2=fac2,
+      # fac3=fac3,
+      # fac4=fac4
+    )
+    wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.044,dt=0.005,rec_extra=False,stim_dur=600, sim_config = sim_config_soma) #stim_amp=0.5                                 
+    # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=0.05,nruns=40, fn=f'WT_FI', epochlabel='500ms')
 
-  fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-  simwt.plot_stim(axs = axs[0],stim_amp = 0.05,dt=0.005, clr='cadetblue')
-  plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-  fig_volts.savefig(f'{simwt.plot_folder}/dvdt/4-K&Ca-{f2}_lowgpas.pdf') #Change output file path here 
+    # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
+    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+    try:
+        h.finitialize(-76)
+        simwt.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
+        plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+        fig_volts.savefig(f'{simwt.plot_folder}/dvdt/WT_{namestr}.pdf') #Change output file path here 
+    except Exception as e:
+        print(f"ERROR during dV/dt plot generation: {e}")
+    finally:
+        plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
+    #####################################
+    #####################################
+    try:
+        h.finitialize(h.v_init)
+        _, _, voltages_at_time, rin = plot_input_resistance(
+                    simmut,
+                    stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+                              0.012,0.02,0.028,0.036,0.044],  
+                    plot_fn=f'Rin/WT-{namestr}',
+                    dt=0.1,
+                    stim_dur=600,  # Longer to reach steady state with Ih
+                    v_time=550     # Measure near end for true steady state
+                )
+        print(f'Input resistance: {rin} MOhm')
+    except Exception as e:
+        print(f"ERROR during input resistance analysis: {e}")
 
-  # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
-  # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+    
+    
+    simmut = tf.Na12Model_TF(
+        ais_nav12_fac=1.1*nav12factor,
+        nav12=0.11*nav12factor,
+        ais_nav16_fac=1.1*nav12factor,
+        nav16=0.11*nav12factor,
+        soma_na16=1.1*nav12factor,
+        soma_na12=1.1*nav12factor,
+        node_na=0.88,
+        dend_nav12=0.11*nav12factor,
+        somaK=0.0075,
+        K=0.0045,
+        KP=kpfac,#2 is really good value,
+        KT=30,
+        ais_ca=0.0015,
+        ais_Kca=0.006,
+        na12name='na12annaTFHH2',
+        mut_name='na12annaTFHH2',
+        na12mechs=['na12','na12mut'],
+        na16name='na12annaTFHH2',
+        na16mut_name='na12annaTFHH2',
+        na16mechs=['na16','na16mut'],
+        params_folder='./params/',
+        plots_folder=f'{root_path_out}/{path}',
+        update=True,
+        # fac=fac,
+        # fac2=fac2,
+        # fac3=fac3,
+        # fac4=fac4
+      )
+    h.finitialize(-76)
+    simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
+    # simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=40, fn=f'HET-FI', epochlabel='500ms')
+    
 
-  simwt.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/4-K&Ca-{f2}_lowgpas_')
-# simwt.plot_model_FI_Vs_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.5], fnpre=f'WT')
+    # namestr = f'{num}_cm{fac4}_S31-{fac}_sE2_{fac2}_LVAHVA-{fac3}_ca-{f2}_nav12factor-{nav12factor}_ais-{aisnav}_soma-{somanav}_KPKT-{f3}_eps-76gps5e-6Ih1e-6Ra120'
+    
 
+    # # Clear any existing figures before analysis to prevent memory leaks
+    # plt.close('all')
+    # print(f"Starting analysis for: {namestr}")
+    
+    # complete_results = nh.create_complete_analysis(
+    #     model=simwt, 
+    #     stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+    #               0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1], 
+    #     single_stim_amp=0.05, 
+    #     dt=0.1, 
+    #     plot_fn_base=f'{num1}-tuning/{namestr}_complete', 
+    #     rec_extra=False, 
+    #     stim_dur=600, 
+    #     v_time=550, 
+    #     clr='cadetblue',
+    #     soma_config=sim_config_soma,
+    #     axon_config=sim_config_ais,
+    #     save_individual=False
+    # )
+    
+    # if complete_results['success']:
+    #     print(f"✓ Complete analysis finished successfully!")
+    #     print(f"  Final PDF: {complete_results['final_combined_pdf']}")
+        
+    #     # Print summary statistics
+    #     if complete_results['comprehensive_analysis']:
+    #         comp_results = complete_results['comprehensive_analysis']
+    #         if 'input_resistance' in comp_results:
+    #             mean_rin = comp_results['input_resistance'].get('mean_resistance', 'N/A')
+    #             print(f"  Mean input resistance: {mean_rin} MΩ")
+    #         if 'dvdt_analysis' in comp_results:
+    #             print(f"  Number of spikes: {comp_results['dvdt_analysis'].get('num_spikes', 'N/A')}")
+    #             max_dvdt = comp_results['dvdt_analysis'].get('max_dvdt', 'N/A')
+    #             if isinstance(max_dvdt, (int, float)):
+    #                 print(f"  Max dV/dt: {max_dvdt:.1f} mV/ms")
+    #             else:
+    #                 print(f"  Max dV/dt: {max_dvdt}")
+    # else:
+    #     print(f"✗ Complete analysis failed: {complete_results['errors']}")
+        # Continue with the loop even if one iteration fails
+
+
+    #### Individual input resistance analysis (redundant)
+    # Ensure a clean state for plotting
+    plt.close('all')
+    
+
+
+    #####################################
+    try:
+        h.finitialize(h.v_init)
+        _, _, voltages_at_time, rin = plot_input_resistance(
+                    simmut,
+                    stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+                              0.012,0.02,0.028,0.036,0.044],  
+                    plot_fn=f'Rin/HET-{namestr}',
+                    dt=0.1,
+                    stim_dur=600,  # Longer to reach steady state with Ih
+                    v_time=550     # Measure near end for true steady state
+                )
+        print(f'Input resistance: {rin} MOhm')
+    except Exception as e:
+        print(f"ERROR during input resistance analysis: {e}")
+        
+    # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
+    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+    try:
+        h.finitialize(-76)
+        simmut.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
+        plot_dvdt_from_volts(simmut.volt_soma, simmut.dt, axs[1],clr='cadetblue')
+        fig_volts.savefig(f'{simmut.plot_folder}/dvdt/HET-{namestr}.pdf') #Change output file path here 
+    except Exception as e:
+        print(f"ERROR during dV/dt plot generation: {e}")
+    finally:
+        plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
+    #####################################
+
+
+
+
+    # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
+    # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+
+    # Generate currentscape plots for soma and AIS, each returns its PDF filenam
+    try:
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/{namestr}_soma{num}', sim_config=sim_config_soma)
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/{namestr}_ais{num}', sim_config=sim_config_ais)
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{namestr}_somaL{num}', sim_config=sim_config_soma)
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{namestr}_aisL{num}', sim_config=sim_config_ais)
+    except Exception as e:
+      print(f"ERROR during currentscape generation: {e}")
+                                  
+
+
+
+                                  # # Combine the two generated PDFs into one
+                                  # def combine_two_pdfs(pdf1, pdf2, output_pdf):
+                                  #   output = fitz.open()
+                                  #   files_to_add = [f for f in [pdf1, pdf2] if f and os.path.exists(f)]
+                                    
+                                  #   if not files_to_add:
+                                  #       print(f"Warning: No valid PDFs to combine for {output_pdf}. Skipping.")
+                                  #       return
+
+                                  #   for pdf_file in files_to_add:
+                                  #       try:
+                                  #           with fitz.open(pdf_file) as src:
+                                  #               output.insert_pdf(src)
+                                  #       except Exception as e:
+                                  #           print(f"Could not process {pdf_file}: {e}")
+
+                                  #   output.save(output_pdf)
+                                  #   output.close()
+                                  #   print(f"Combined {len(files_to_add)} file(s) into {output_pdf}")
+
+                                  # combined_pdf_path = os.path.join(f"{root_path_out}/{path}/combinedFigs", f"{num}-{namestr}_CS.pdf")
+                                  
+                                  # os.makedirs(os.path.dirname(combined_pdf_path), exist_ok=True)
+                                  # combine_two_pdfs(pdf_soma, pdf_ais, combined_pdf_path)
+
+# num=22
+# combine_pdfs_with_header(folder_path=out_path1, output_filename=f"dvdt_combined_{num}.pdf", output_folder=f"{root_path_out}/{path}/combinedFigs")
+# combine_pdfs_with_header(folder_path=out_path2, output_filename=f"currentscape_combined_{num}.pdf",output_folder=f"{root_path_out}/{path}/combinedFigs")
+# combine_pdfs_with_header(folder_path=out_path3, output_filename=f"Rin_combined.pdf",output_folder=f"{root_path_out}/{path}/combinedFigs")
+# move_files_with_string(input_folder=out_path3, match_string='_COMPLETE', output_folder="COMBINED", rest_folder="REST")
 
 # for f in [0.001,0.01,0.1,0.25,0.5,0.75,1.25,1.5,2,5,10]:
 
+'''
   ####### Na16 factor #######
   sim2 = tf.Na12Model_TF(ais_nav12_fac=5.76*nav12factor*f,
                             nav12=1.1*1.1*nav12factor*f,
@@ -354,7 +632,12 @@ for f2 in [0.001,0.25,0.5,1,2,10]:
   plot_dvdt_from_volts(sim4.volt_soma, sim4.dt, axs[1],clr='cadetblue')
   fig_volts.savefig(f'{sim4.plot_folder}/dvdt/3-all-{f2}.pdf')
   sim4.make_currentscape_plot(amp=0.05, time1=0,time2=200,stim_start=30, sweep_len=200, pfx=f'currentscapes/3-all-{f2}_')
-  
+  '''
+
+
+
+
+
 
 
 
@@ -429,4 +712,16 @@ for f2 in [0.001,0.25,0.5,1,2,10]:
 # "mut12_2":{"Rd": 0.02744215401747794, "Rg": 0.013724669873943104, "Rb": 0.11798590365963538, "Ra": 0.2575061374991893, "a0s": 0.00021185439060562164, "gms": 0.19768746201350956, "hmin": 0.0007039646618955371, "mmin": 0.013658814207612302, "qinf": 5.569123017629465, "q10": 2.8519006135509026, "qg": 0.4999785045567122, "qd": 0.858025434614637, "qa1": 5.635157597265365, "smax": 6.750578328087608, "sh": 9.934733470330407, "thinf": -47.9428236593088, "thi2": -55.12206257934958, "thi1": -53.30164507294198, "tha": -34.65496627855245, "vvs": 1.4685186181977814, "vvh": -59.33957759277455, "vhalfs": -10.733124311161466, "zetas": 12.968601511537964},
 # "mut12_3":{"Rd": 0.026142058705206105, "Rg": 0.019866885290558384, "Rb": 0.061895058538106174, "Ra": 0.27009978929276024, "a0s": 0.0005283916660905223, "gms": 0.12181212025656826, "hmin": 0.012735392704874001, "mmin": 0.008771388550581054, "qinf": 6.045788367057046, "q10": 2.538082583168175, "qg": 0.9933320760339781, "qd": 0.8755090306886261, "qa1": 4.272296506754877, "smax": 0.48118157879662515, "sh": 6.337925231264073, "thinf": -47.92381574816813, "thi2": -68.77550985279592, "thi1": -54.514246938787124, "tha": -29.85423299386167, "vvs": 1.0183964850836311, "vvh": -57.26142719931541, "vhalfs": -27.44188335217487, "zetas": 14.714002514530646},
 # "mut12_4":{"Rd": 0.02848830957015073, "Rg": 0.017920288232627524, "Rb": 0.07584414429142777, "Ra": 0.25298184954858416, "a0s": 0.00024016222017944134, "gms": 0.056371552016566955, "hmin": 0.003939106112054973, "mmin": 0.007774416333231421, "qinf": 5.7381817490450375, "q10": 2.4069457527425504, "qg": 0.08895001762541088, "qd": 0.9936571912524743, "qa1": 4.7641269763842855, "smax": 13.443348110571176, "sh": 7.816544273685546, "thinf": -47.865012506888945, "thi2": -42.14702114139171, "thi1": -48.69279065412408, "tha": -31.189788720642483, "vvs": 1.5250529682538327, "vvh": -60.711370331574564, "vhalfs": -11.317823554253446, "zetas": 8.411574870909128},}
+
+import psutil
+import os
+
+def print_memory_usage(stage=""):
+    """Print current memory usage for debugging"""
+    process = psutil.Process(os.getpid())
+    memory_info = process.memory_info()
+    memory_mb = memory_info.rss / 1024 / 1024
+    print(f"Memory usage {stage}: {memory_mb:.1f} MB")
+
+
 

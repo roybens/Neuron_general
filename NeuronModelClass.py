@@ -15,8 +15,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from NrnHelper import *
 
+import csv
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+from NrnHelper import *
+
 
 class NeuronModel:
+    
     def __init__(self,ais_nav16_fac, ais_nav12_fac, mod_dir ='./Neuron_Model_12HH16HH/',#'./Neuron_Model_12HH16HH/',#'./Neuron_Model_HH/', 
                       
                       update = None, ##TF If this is true, mechs are updated with update_mech_from_dict.
@@ -36,9 +43,11 @@ class NeuronModel:
                       dend_nav16=1,
                       soma_nav16=1,
                       ais_nav12=1,
+                      
                       ais_nav16=1,
                       ais_ca = 1,
                       ais_KCa = 1,
+                      
                       axon_Kp=1,
                       axon_Kt =1,
                       axon_K=1,
@@ -46,12 +55,18 @@ class NeuronModel:
                       axon_HVA = 1,
                       axon_LVA = 1,
                       node_na = 1,
+                      
                       soma_K=1,
                       dend_K=1,
                       gpas_all=1,
                       fac=None,
+                      fac2=None,
+                      fac3=None,
+                      fac4=None,
                     #   morphology_index=0
                       ):
+        
+        self._param_baselines = {}
         run_dir = os.getcwd()
 
         os.chdir(mod_dir)
@@ -59,7 +74,17 @@ class NeuronModel:
         print(f'running model at {os.getcwd()} run dir is {run_dir}')
         print (f'There is {nav16} of WT nav16')
         print(f'There is {nav12} of WT nav12')
+        print (f'There is {nav16} of WT nav16')
+        print(f'There is {nav12} of WT nav12')
         h.load_file("runModel.hoc")
+
+        # Load morphology.hoc and set morphology index TESTING TF040725
+        # h.load_file("morphology.hoc")
+        # h("morphology_index = {}".format(morphology_index))
+        # h("objref cell") 
+        # h("cell = new morphology_0fb1ca4724()") 
+        # h("cell.morphology()") 
+
 
         # Load morphology.hoc and set morphology index TESTING TF040725
         # h.load_file("morphology.hoc")
@@ -89,9 +114,9 @@ class NeuronModel:
         h.dend_k = 0.0043685576 * dend_K
         
 
-        ##062424 original params
-        h.soma_na12 = 3.24E-02 * soma_nav12 
-        h.soma_na16 = 7.88E-02 * soma_nav16
+        ##062424 original params - MODIFIED FOR BETTER FIRING PROPERTIES
+        h.soma_na12 = 2.0E-02 * soma_nav12  # Reduced from 3.24E-02 to lower spike amplitude
+        h.soma_na16 = 4.0E-02 * soma_nav16  # Reduced from 7.88E-02 to lower spike amplitude
         
         ##TF062424 testing equal conductances
         # h.soma_na12 = 3.24E-02 * soma_nav12 
@@ -100,7 +125,7 @@ class NeuronModel:
 
         
       
-        h.soma_K = 0.21330453 * soma_K
+        h.soma_K = 0.35 * soma_K  # Increased from 0.21330453 to improve repolarization and enable repetitive firing
         
         # h.ais_na16 = 7.2696676 * ais_nav16
         h.ais_na16 = ais_nav16_fac * ais_nav16
@@ -157,7 +182,21 @@ class NeuronModel:
         h.soma_na16 = h.soma_na16 * soma_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
         
         
+        # h.dend_na16 = h.dend_na16 * nav16 * dend_nav16
+        # h.soma_na16 = h.soma_na16 * nav16 * soma_nav16
+        
+        h.dend_na16 = h.dend_na16 * dend_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
+        h.soma_na16 = h.soma_na16 * soma_nav16 ##TF050125 removed nav16 as it blanket multiples during update_mod_param
+        
+        
         h.working()
+        
+        # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
+        
+        # h.printVals12HHWT() ##TF will only work with HH mod files that have params like 'sh', 'tha', 'thi' etc.
+        # h.printValsWT16()
+        # h.printValsMUT16()
+            
         
         # h.load_file("/global/homes/t/tfenton/Neuron_general-2/Neuron_Model_12HMM16HH/printSh.hoc")
         
@@ -180,17 +219,17 @@ class NeuronModel:
             print(eval('h.psection()'))
             # print(eval('h.cell.axon[0].psection()'))
             update_param_value(self,['SKv3_1'],'mtaumul',6) ##TF041924 ORIGINAL val=6
-            multiply_param(self,['SKv3_1'],'mtaumul',0.85) ##TF083024 updated for hh model
-            # multiply_param(self,['SKv3_1'],'mtaumul',fac) ##TF083024 updated for hh model
+            
+            multiply_param(self,['SKv3_1'],'mtaumul',5) ##TF071325 0.5, ##TF071025 0.01
+            multiply_param(self,['SK_E2'],'gSK_E2bar',0.05)#,0.5) ##TF041924 multiplies gbar of SKE2
+            multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',0.1)#,0.75) ##TF041924 multiplies gbar of Ca_LVAst
+            multiply_param(self,['Ca_HVA'],'gCa_HVAbar',0.1) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
+            
             # multiply_param(self,['SKv3_1'],'vtau',fac)           
             # multiply_param(self,['SKv3_1'],'gSKv3_1bar',fac)           
             # multiply_param(self,['Ih'],'gIhbar',fac) ##TF82924
-            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
-            
-            # multiply_param(self,['SK_E2'],'gSK_E2bar',fac) ##TF041924 multiplies gbar of SKE2
-            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac) ##TF041924 multiplies gbar of Ca_LVAst
-            # multiply_param(self,['Ca_HVA'],'gCa_HVAbar',fac) ##TF070124 multiplies gbar of Ca_HVA. ***This was not present for HH model (aka value was 1)
-                       
+            # multiply_param(self,['Ca_LVAst'],'gCa_LVAstbar',fac2) ##TF041924 multiplies gbar of Ca_LVAst
+                    
 
             self.na12wt_mech = [na12mechs[0]] 
             self.na12mut_mech = [na12mechs[1]]
@@ -248,6 +287,63 @@ class NeuronModel:
                                 if hasattr(seg, mech):
                                     setattr(getattr(seg, mech), 'gbar', 0)            
             print(eval("h.psection()"))
+            
+            
+            ##-----------------------------------------------------------##
+            ## Find the section based on coordinates in the .asc file
+            ##-----------------------------------------------------------## 
+            # Coordinates from the start of your target section in the .asc file
+            # # target_x = -16.6038
+          #   # target_y = 300.7
+        #     # target_z = 8.50464
+
+      #       # target_section_index = -1
+
+    #         # # Loop through ONLY the apical sections in the loaded model
+  #           # for i, sec in enumerate(self.h.cell.apical):
+#             #     # Check if any point in the section matches the target coordinate# s
+            #     for j in range(int(sec.n3d()# )):
+            #         # Use a small tolerance for floating point compa# rison
+            #         if (abs(sec.x3d(j) - target_x) < 1# e-4 and
+            #             abs(sec.y3d(j) - target_y) <#  1e-4 and
+            #             abs(sec.z3d(j) - target_# z) < 1e-4):
+            #             target_sect# ion_index = i
+            #             print(f"Found matching secti# on: apic[{i}]")
+            # #             break
+            #     if target_s# ection_index != -1:
+       #      #         break
+
+            # if targ# et_section_index == -1:
+            #     print("Could not find a m# atching apical section.")
+            # input# ('press enter to continue')
+            # ##-----------------------------------------------------------##            
+            #Update gpas for all sections
+            for sec in self.h.allsec():
+                for seg in sec:
+                    seg.g_pas = 5e-6  #1.0e-4*0.05  # Proper leak conductance range changed from 1e-4*0.05
+                    seg.e_pas = -76#-60  # More negative for proper resting potential changed from -60
+                    # seg.cm
+        
+        for sec in self.h.allsec():
+            for seg in sec:
+                if hasattr(seg, 'gIhbar_Ih'):
+                    # Moderate Ih to help stabilize resting potential without over-depolarizing
+                    seg.gIhbar_Ih = 1e-6  #1e-11  # Reduced and made dependent on fac2 reduced from 1.2e-11
+                    
+                
+                # if hasattr(seg, 'gSKv3_1bar'):
+                #     seg.gSKv3_1bar *= fac
+                if hasattr(seg, 'cm'):
+                    seg.cm = 1.2 #0.0085 
+                if hasattr(seg, 'Ra'):
+                    seg.Ra = 120 #150  # Lower Ra for better current spread and faster repolarization decreased from 150
+                # if hasattr(seg, 'cm'):
+                #     seg.cm = 0.9*fac2 # Increased from 0.8 to 0.9 to slow down membrane dynamics slightly
+                # if hasattr(seg, 'Ra'):
+                #     seg.Ra = 120  # Decreased from 150 to 120 for better current spread and faster repolarization
+        print(eval("h.psection()"))
+
+            
 
 
             
@@ -268,7 +364,206 @@ class NeuronModel:
             #     print("SKv3_1",sec.SKv3_1)
             #     print("SH",sec.sh_na16)
             #     # print("sh",sec.gIhbar_Ih)
-            ############################################################
+            #############################    # Add these methods to the NeuronModel class, after the existing methods
+
+
+
+    
+    '''   Maps all sections of the neuron, their connectivity, and distances from soma. CURRENTLY NOT WORKING******
+    def map_neuron_sections(self, output_file='neuron_section_map.txt'):
+        """
+        Maps all sections of the neuron, their connectivity, and distances from soma.
+        
+        Args:
+            output_file (str): Output file name for the section map
+            
+        Returns:
+            dict: Section information including connectivity and distances
+        """
+        import re
+        
+        # Dictionary to store section information
+        section_map = {
+            'sections': {},
+            'connectivity': {},
+            'distances': {},
+            'section_types': {'soma': [], 'axon': [], 'dend': [], 'apic': []}
+        }
+        
+        # Function to clean section names
+        def clean_section_name(full_name):
+            """Remove the long prefix and keep just the section type and number"""
+            pattern = r'.*\.(\w+)\[(\d+)\]'
+            match = re.search(pattern, full_name)
+            if match:
+                section_type = match.group(1)
+                section_num = match.group(2)
+                return f"{section_type}[{section_num}]"
+            return full_name
+        
+        # Collect all sections and their information
+        print("Mapping neuron sections...")
+        
+        for sec in h.allsec():
+            full_name = sec.name()
+            clean_name = clean_section_name(full_name)
+            
+            # Store section info
+            section_map['sections'][clean_name] = {
+                'full_name': full_name,
+                'length': sec.L,
+                'diameter': sec.diam,
+                'nseg': sec.nseg
+            }
+            
+            # Categorize by section type
+            if 'soma' in clean_name:
+                section_map['section_types']['soma'].append(clean_name)
+            elif 'axon' in clean_name:
+                section_map['section_types']['axon'].append(clean_name)
+            elif 'dend' in clean_name:
+                section_map['section_types']['dend'].append(clean_name)
+            elif 'apic' in clean_name:
+                section_map['section_types']['apic'].append(clean_name)
+        
+        # Calculate distances from soma
+        soma_ref = None
+        for sec in h.allsec():
+            if 'soma' in sec.name():
+                soma_ref = sec(0.5)
+                break
+        
+        if soma_ref:
+            for sec in h.allsec():
+                clean_name = clean_section_name(sec.name())
+                # Distance from soma to middle of section
+                distance = self.h.distance(soma_ref, sec(0.5))
+                section_map['distances'][clean_name] = distance
+        
+        # Map connectivity
+        print("Mapping connectivity...")
+        
+        for sec in h.allsec():
+            clean_name = clean_section_name(sec.name())
+            section_map['connectivity'][clean_name] = {
+                'children': [],
+                'parent': None
+            }
+            
+            # Find parent
+            parent_ref = sec.parentseg()
+            if parent_ref:
+                parent_sec = parent_ref.sec
+                parent_clean = clean_section_name(parent_sec.name())
+                section_map['connectivity'][clean_name]['parent'] = parent_clean
+            
+            # Find children
+            for child_sec in sec.children():
+                child_clean = clean_section_name(child_sec.name())
+                section_map['connectivity'][clean_name]['children'].append(child_clean)
+        
+        # Sort sections by distance for easy identification of distal sections
+        sorted_by_distance = sorted(section_map['distances'].items(), 
+                                   key=lambda x: x[1], reverse=True)
+        
+        # Write comprehensive output file
+        with open(output_file, 'w') as f:
+            f.write("NEURON SECTION MAP\n")
+            f.write("==================\n\n")
+            
+            # Summary statistics
+            f.write("SUMMARY:\n")
+            f.write(f"Total sections: {len(section_map['sections'])}\n")
+            f.write(f"Soma sections: {len(section_map['section_types']['soma'])}\n")
+            f.write(f"Axon sections: {len(section_map['section_types']['axon'])}\n")
+            f.write(f"Basal dendrite sections: {len(section_map['section_types']['dend'])}\n")
+            f.write(f"Apical dendrite sections: {len(section_map['section_types']['apic'])}\n\n")
+            
+            # Sections sorted by distance (most distal first)
+            f.write("SECTIONS BY DISTANCE FROM SOMA (most distal first):\n")
+            f.write("-" * 60 + "\n")
+            for section, distance in sorted_by_distance:
+                f.write(f"{section:<20} {distance:>8.1f} μm\n")
+            f.write("\n")
+            
+            # Most distal sections of each type
+            f.write("MOST DISTAL SECTIONS BY TYPE:\n")
+            f.write("-" * 40 + "\n")
+            for sec_type in ['soma', 'axon', 'dend', 'apic']:
+                type_sections = section_map['section_types'][sec_type]
+                if type_sections:
+                    max_dist = 0
+                    most_distal = None
+                    for sec in type_sections:
+                        if section_map['distances'][sec] > max_dist:
+                            max_dist = section_map['distances'][sec]
+                            most_distal = sec
+                    f.write(f"{sec_type.upper()}: {most_distal} ({max_dist:.1f} μm)\n")
+            f.write("\n")
+            
+            # Connectivity map
+            f.write("CONNECTIVITY MAP:\n")
+            f.write("-" * 30 + "\n")
+            for section in sorted(section_map['connectivity'].keys()):
+                conn_info = section_map['connectivity'][section]
+                f.write(f"{section}:\n")
+                f.write(f"  Parent: {conn_info['parent']}\n")
+                f.write(f"  Children: {conn_info['children']}\n")
+                f.write(f"  Distance: {section_map['distances'][section]:.1f} μm\n")
+                f.write(f"  Length: {section_map['sections'][section]['length']:.1f} μm\n\n")
+        
+        print(f"Section map written to {output_file}")
+        
+        # Print some key findings
+        print("\nKEY FINDINGS:")
+        print(f"Most distal section overall: {sorted_by_distance[0][0]} ({sorted_by_distance[0][1]:.1f} μm)")
+        
+        # Find apic[66] specifically since that's what you were looking for
+        if 'apic[66]' in section_map['distances']:
+            apic66_distance = section_map['distances']['apic[66]']
+            apic66_parent = section_map['connectivity']['apic[66]']['parent']
+            apic66_children = section_map['connectivity']['apic[66]']['children']
+            print(f"\nAPIC[66] INFO:")
+            print(f"  Distance from soma: {apic66_distance:.1f} μm")
+            print(f"  Parent: {apic66_parent}")
+            print(f"  Children: {apic66_children}")
+        
+        return section_map
+
+    def find_sections_at_distance(self, section_map, target_distance, tolerance=10):
+        """Find sections at approximately a specific distance from soma"""
+        matches = []
+        for section, distance in section_map['distances'].items():
+            if abs(distance - target_distance) <= tolerance:
+                matches.append((section, distance))
+        return sorted(matches, key=lambda x: abs(x[1] - target_distance))
+
+    def trace_path_to_section(self, section_map, target_section):
+        """Trace the path from soma to a target section"""
+        path = []
+        current = target_section
+        
+        while current:
+            path.append(current)
+            parent = section_map['connectivity'][current]['parent']
+            current = parent
+            if current and 'soma' in current:
+                path.append(current)
+                break
+        
+        return list(reversed(path))#'''
+
+
+
+
+
+
+
+
+
+
+
+##############################
 
 
         
@@ -543,10 +838,10 @@ class NeuronModel:
     
     # def init_stim(self, sweep_len = 150, stim_start = 30, stim_dur = 120, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     
-    # def init_stim(self, sweep_len = 200, stim_start = 100, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
+    def init_stim(self, sweep_len = 700, stim_start = 100, stim_dur = 600, amp = 0.3, dt = 0.01): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 300, stim_start = 30, stim_dur = 200, amp = 0.3, dt = 0.1): ##TF071524 getting 1-3 APs for Roy
     # def init_stim(self, sweep_len = 500, stim_start = 30, stim_dur = 400, amp = 0.3, dt = 0.1): ##TF111424 slightly longer sweep for EFEL
-    def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
+    # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = 0.3, dt = 0.1):
     # def init_stim(self, sweep_len = 800, stim_start = 100, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN hyperpolarizing
     # def init_stim(self, sweep_len = 800, stim_start = 200, stim_dur = 500, amp = -0.4, dt = 0.1): #HCN Kevin request #2
     # def init_stim(self, sweep_len = 1000, stim_start = 100, stim_dur = 700, amp = 0.3, dt = 0.1):
@@ -572,7 +867,7 @@ class NeuronModel:
         h.tstop = sweep_len
         h.dt = dt
     
-    def start_stim(self,tstop = 800, start_Vm = -72):
+    def start_stim(self,tstop = 800, start_Vm = -76): #start_Vm=-72
         h.finitialize(start_Vm)
         h.tstop = tstop
         
@@ -618,7 +913,7 @@ class NeuronModel:
         else:
             return Vm, I, t, stim
         
-    def run_model(self, start_Vm = -72, dt= 0.1,rec_extra = False):
+    def run_model(self, start_Vm = -76, dt= 0.1,rec_extra = False): #start_Vm=-72
         h.dt=dt
         h.finitialize(start_Vm)
         timesteps = int(h.tstop/h.dt) # change later to h.tstop
@@ -630,6 +925,13 @@ class NeuronModel:
         I['K'] = np.zeros(timesteps)
         stim = np.zeros(timesteps)
         t = np.zeros(timesteps)
+        if rec_extra:
+            
+            extra_Vms = {}
+            extra_Vms['ais'] = np.zeros(timesteps)
+            extra_Vms['nexus'] = np.zeros(timesteps)
+            extra_Vms['dist_dend'] = np.zeros(timesteps)
+            extra_Vms['axon'] = np.zeros(timesteps)
         if rec_extra:
             
             extra_Vms = {}
@@ -659,7 +961,7 @@ class NeuronModel:
         else:
             return Vm, I, t, stim
         
-    def run_sim_model(self, start_Vm = -72, dt= 0.1, sim_config = {
+    def run_sim_model(self, start_Vm = -76, dt= 0.01, sim_config = { #start_Vm=-72
         #changing to get different firing at different points along neuron TF 011624
                 'section' : 'soma',
                 'segment' : 0.5,
@@ -804,9 +1106,27 @@ class NeuronModel:
         if not stim_duration:
             stim_duration = 0.2 #ms
       
+        
+        ###
+        # df1 = pd.DataFrame(states12)
+        # df2 = pd.DataFrame(states16)
+        # df1.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na12_channel_states.csv", header=False,index=False)
+        # df2.to_csv("/global/homes/t/tfenton/Neuron_general-2/Plots/Channel_state_plots/na16_channel_states.csv", header=False,index=False)
+        ###
+        
+        
+        #print(f"I : {I}")
+        return Vm, I, t, stim, ionic
+    
+    def plot_crazy_stim(self, stim_csv, stim_duration=None):
+        if not stim_duration:
+            stim_duration = 0.2 #ms
+      
 
 #######################
 # MAIN
 #######################
+
+
 
 
