@@ -271,7 +271,7 @@ for config_name, config in config_dict4.items():
     ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
-  num1=58
+  num1=63
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
   path  = f'6-paramsearch/3-developing_neuron_tuning/{num1}-tuning'
@@ -332,86 +332,25 @@ modify_dict_file(filename12, changesna16)
                                   # Add this line to reset the NEURON environment
                                   # h('forall delete_section()')
                                   # num += 1
-for nav12factor in [1.06,1.07,1.08,1.08,1.09]:
-  for kpfac in [1.7,1.8,1.9,2,2.1,2.2]:
-    namestr = f'na12-{nav12factor}_KP-{kpfac}'
-    simwt = tf.Na12Model_TF(
-      ais_nav12_fac=2.2*nav12factor,
-      nav12=0.22*nav12factor,
-      ais_nav16_fac=2.2*nav12factor,
-      nav16=0.22*nav12factor,
-      soma_na16=2.2*nav12factor,
-      soma_na12=2.2*nav12factor,
-      node_na=0.176,
-      dend_nav12=0.22*nav12factor,
-      somaK=0.0075,                       
-      K=0.0045,                           
-      KP=kpfac, #2,                          
-      KT=30,                          
-      ais_ca= 0.0015,                      
-      ais_Kca=0.006,                     
-      na12name='na12annaTFHH2',
-      mut_name='na12annaTFHH2',
-      na12mechs=['na12','na12mut'],
-      na16name='na12annaTFHH2',
-      na16mut_name='na12annaTFHH2',
-      na16mechs=['na16','na16mut'],
-      params_folder='./params/',
-      plots_folder=f'{root_path_out}/{path}',
-      update=True,
-      # fac=fac,
-      # fac2=fac2,
-      # fac3=fac3,
-      # fac4=fac4
-    )
-    wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.044,dt=0.005,rec_extra=False,stim_dur=600, sim_config = sim_config_soma) #stim_amp=0.5                                 
-    # wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=0.05,nruns=40, fn=f'WT_FI', epochlabel='500ms')
-
-    # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
-    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-    try:
-        h.finitialize(-76)
-        simwt.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
-        plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
-        fig_volts.savefig(f'{simwt.plot_folder}/dvdt/WT_{namestr}.pdf') #Change output file path here 
-    except Exception as e:
-        print(f"ERROR during dV/dt plot generation: {e}")
-    finally:
-        plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
-    #####################################
-    #####################################
-    try:
-        h.finitialize(h.v_init)
-        _, _, voltages_at_time, rin = plot_input_resistance(
-                    simmut,
-                    stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
-                              0.012,0.02,0.028,0.036,0.044],  
-                    plot_fn=f'Rin/WT-{namestr}',
-                    dt=0.1,
-                    stim_dur=600,  # Longer to reach steady state with Ih
-                    v_time=550     # Measure near end for true steady state
-                )
-        print(f'Input resistance: {rin} MOhm')
-    except Exception as e:
-        print(f"ERROR during input resistance analysis: {e}")
-
-    
-    
-    simmut = tf.Na12Model_TF(
-        ais_nav12_fac=1.1*nav12factor,
-        nav12=0.11*nav12factor,
-        ais_nav16_fac=1.1*nav12factor,
-        nav16=0.11*nav12factor,
-        soma_na16=1.1*nav12factor,
-        soma_na12=1.1*nav12factor,
-        node_na=0.88,
-        dend_nav12=0.11*nav12factor,
-        somaK=0.0075,
-        K=0.0045,
-        KP=kpfac,#2 is really good value,
-        KT=30,
-        ais_ca=0.0015,
-        ais_Kca=0.006,
+for nav12factor in [1.2]:
+  for kpfac in [2]:
+    for somanav in [0.75]:
+      namestr = f'na12-{nav12factor}_KP-{kpfac}_soma-{somanav}'
+      simwt = tf.Na12Model_TF(
+        ais_nav12_fac=2.2*nav12factor,
+        nav12=0.22*nav12factor,
+        ais_nav16_fac=2.2*nav12factor,
+        nav16=0.22*nav12factor,
+        soma_na16=2.2*somanav,#*nav12factor,
+        soma_na12=2.2*somanav,#*nav12factor,
+        node_na=0.176,
+        dend_nav12=0.22*nav12factor,
+        somaK=0.0075,                       
+        K=0.0045,                           
+        KP=kpfac, #2,                          
+        KT=30,                          
+        ais_ca= 0.0015,                      
+        ais_Kca=0.006,                     
         na12name='na12annaTFHH2',
         mut_name='na12annaTFHH2',
         na12mechs=['na12','na12mut'],
@@ -426,106 +365,173 @@ for nav12factor in [1.06,1.07,1.08,1.08,1.09]:
         # fac3=fac3,
         # fac4=fac4
       )
-    h.finitialize(-76)
-    simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
-    # simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=40, fn=f'HET-FI', epochlabel='500ms')
-    
+      wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.044,dt=0.005,rec_extra=False,stim_dur=600, sim_config = sim_config_soma) #stim_amp=0.5                                 
+      wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=0.05,nruns=80, fn=f'WT_FI', epochlabel='500ms')
 
-    # namestr = f'{num}_cm{fac4}_S31-{fac}_sE2_{fac2}_LVAHVA-{fac3}_ca-{f2}_nav12factor-{nav12factor}_ais-{aisnav}_soma-{somanav}_KPKT-{f3}_eps-76gps5e-6Ih1e-6Ra120'
-    
+      # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
+      fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      try:
+          h.finitialize(-76)
+          simwt.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
+          plot_dvdt_from_volts(simwt.volt_soma, simwt.dt, axs[1],clr='cadetblue')
+          fig_volts.savefig(f'{simwt.plot_folder}/dvdt/WT_{namestr}.pdf') #Change output file path here 
+      except Exception as e:
+          print(f"ERROR during dV/dt plot generation: {e}")
+      finally:
+          plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
+      #####################################
+      #####################################
+      try:
+          h.finitialize(h.v_init)
+          _, _, voltages_at_time, rin = plot_input_resistance(
+                      simmut,
+                      stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+                                0.012,0.02,0.028,0.036,0.044],  
+                      plot_fn=f'Rin/WT-{namestr}',
+                      dt=0.1,
+                      stim_dur=600,  # Longer to reach steady state with Ih
+                      v_time=550     # Measure near end for true steady state
+                  )
+          print(f'Input resistance: {rin} MOhm')
+      except Exception as e:
+          print(f"ERROR during input resistance analysis: {e}")
 
-    # # Clear any existing figures before analysis to prevent memory leaks
-    # plt.close('all')
-    # print(f"Starting analysis for: {namestr}")
-    
-    # complete_results = nh.create_complete_analysis(
-    #     model=simwt, 
-    #     stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
-    #               0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1], 
-    #     single_stim_amp=0.05, 
-    #     dt=0.1, 
-    #     plot_fn_base=f'{num1}-tuning/{namestr}_complete', 
-    #     rec_extra=False, 
-    #     stim_dur=600, 
-    #     v_time=550, 
-    #     clr='cadetblue',
-    #     soma_config=sim_config_soma,
-    #     axon_config=sim_config_ais,
-    #     save_individual=False
-    # )
-    
-    # if complete_results['success']:
-    #     print(f"✓ Complete analysis finished successfully!")
-    #     print(f"  Final PDF: {complete_results['final_combined_pdf']}")
-        
-    #     # Print summary statistics
-    #     if complete_results['comprehensive_analysis']:
-    #         comp_results = complete_results['comprehensive_analysis']
-    #         if 'input_resistance' in comp_results:
-    #             mean_rin = comp_results['input_resistance'].get('mean_resistance', 'N/A')
-    #             print(f"  Mean input resistance: {mean_rin} MΩ")
-    #         if 'dvdt_analysis' in comp_results:
-    #             print(f"  Number of spikes: {comp_results['dvdt_analysis'].get('num_spikes', 'N/A')}")
-    #             max_dvdt = comp_results['dvdt_analysis'].get('max_dvdt', 'N/A')
-    #             if isinstance(max_dvdt, (int, float)):
-    #                 print(f"  Max dV/dt: {max_dvdt:.1f} mV/ms")
-    #             else:
-    #                 print(f"  Max dV/dt: {max_dvdt}")
-    # else:
-    #     print(f"✗ Complete analysis failed: {complete_results['errors']}")
-        # Continue with the loop even if one iteration fails
+      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_soma{num}', sim_config=sim_config_soma)
+      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_ais{num}', sim_config=sim_config_ais)
+      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_somaL{num}', sim_config=sim_config_soma)
+      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_aisL{num}', sim_config=sim_config_ais)
+
+      simmut = tf.Na12Model_TF(
+          ais_nav12_fac=1.1*nav12factor,
+          nav12=0.11*nav12factor,
+          ais_nav16_fac=1.1*nav12factor,
+          nav16=0.11*nav12factor,
+          soma_na16=1.1*somanav,#*nav12factor,
+          soma_na12=1.1*somanav,#*nav12factor,
+          node_na=0.88,
+          dend_nav12=0.11*nav12factor,
+          somaK=0.0075,
+          K=0.0045,
+          KP=kpfac,#2 is really good value,
+          KT=30,
+          ais_ca=0.0015,
+          ais_Kca=0.006,
+          na12name='na12annaTFHH2',
+          mut_name='na12annaTFHH2',
+          na12mechs=['na12','na12mut'],
+          na16name='na12annaTFHH2',
+          na16mut_name='na12annaTFHH2',
+          na16mechs=['na16','na16mut'],
+          params_folder='./params/',
+          plots_folder=f'{root_path_out}/{path}',
+          update=True,
+          # fac=fac,
+          # fac2=fac2,
+          # fac3=fac3,
+          # fac4=fac4
+        )
+      h.finitialize(-76)
+      simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
+      simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=80, fn=f'HET-FI', epochlabel='500ms')
+      
+
+      # namestr = f'{num}_cm{fac4}_S31-{fac}_sE2_{fac2}_LVAHVA-{fac3}_ca-{f2}_nav12factor-{nav12factor}_ais-{aisnav}_soma-{somanav}_KPKT-{f3}_eps-76gps5e-6Ih1e-6Ra120'
+      
+
+      # # Clear any existing figures before analysis to prevent memory leaks
+      # plt.close('all')
+      # print(f"Starting analysis for: {namestr}")
+      
+      # complete_results = nh.create_complete_analysis(
+      #     model=simwt, 
+      #     stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+      #               0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1], 
+      #     single_stim_amp=0.05, 
+      #     dt=0.1, 
+      #     plot_fn_base=f'{num1}-tuning/{namestr}_complete', 
+      #     rec_extra=False, 
+      #     stim_dur=600, 
+      #     v_time=550, 
+      #     clr='cadetblue',
+      #     soma_config=sim_config_soma,
+      #     axon_config=sim_config_ais,
+      #     save_individual=False
+      # )
+      
+      # if complete_results['success']:
+      #     print(f"✓ Complete analysis finished successfully!")
+      #     print(f"  Final PDF: {complete_results['final_combined_pdf']}")
+          
+      #     # Print summary statistics
+      #     if complete_results['comprehensive_analysis']:
+      #         comp_results = complete_results['comprehensive_analysis']
+      #         if 'input_resistance' in comp_results:
+      #             mean_rin = comp_results['input_resistance'].get('mean_resistance', 'N/A')
+      #             print(f"  Mean input resistance: {mean_rin} MΩ")
+      #         if 'dvdt_analysis' in comp_results:
+      #             print(f"  Number of spikes: {comp_results['dvdt_analysis'].get('num_spikes', 'N/A')}")
+      #             max_dvdt = comp_results['dvdt_analysis'].get('max_dvdt', 'N/A')
+      #             if isinstance(max_dvdt, (int, float)):
+      #                 print(f"  Max dV/dt: {max_dvdt:.1f} mV/ms")
+      #             else:
+      #                 print(f"  Max dV/dt: {max_dvdt}")
+      # else:
+      #     print(f"✗ Complete analysis failed: {complete_results['errors']}")
+          # Continue with the loop even if one iteration fails
 
 
-    #### Individual input resistance analysis (redundant)
-    # Ensure a clean state for plotting
-    plt.close('all')
-    
+      #### Individual input resistance analysis (redundant)
+      # Ensure a clean state for plotting
+      plt.close('all')
+      
 
 
-    #####################################
-    try:
-        h.finitialize(h.v_init)
-        _, _, voltages_at_time, rin = plot_input_resistance(
-                    simmut,
-                    stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
-                              0.012,0.02,0.028,0.036,0.044],  
-                    plot_fn=f'Rin/HET-{namestr}',
-                    dt=0.1,
-                    stim_dur=600,  # Longer to reach steady state with Ih
-                    v_time=550     # Measure near end for true steady state
-                )
-        print(f'Input resistance: {rin} MOhm')
-    except Exception as e:
-        print(f"ERROR during input resistance analysis: {e}")
-        
-    # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
-    fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
-    try:
-        h.finitialize(-76)
-        simmut.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
-        plot_dvdt_from_volts(simmut.volt_soma, simmut.dt, axs[1],clr='cadetblue')
-        fig_volts.savefig(f'{simmut.plot_folder}/dvdt/HET-{namestr}.pdf') #Change output file path here 
-    except Exception as e:
-        print(f"ERROR during dV/dt plot generation: {e}")
-    finally:
-        plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
-    #####################################
+      #####################################
+      try:
+          h.finitialize(h.v_init)
+          _, _, voltages_at_time, rin = plot_input_resistance(
+                      simmut,
+                      stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
+                                0.012,0.02,0.028,0.036,0.044],  
+                      plot_fn=f'Rin/HET-{namestr}',
+                      dt=0.1,
+                      stim_dur=600,  # Longer to reach steady state with Ih
+                      v_time=550     # Measure near end for true steady state
+                  )
+          print(f'Input resistance: {rin} MOhm')
+      except Exception as e:
+          print(f"ERROR during input resistance analysis: {e}")
+          
+      # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
+      fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      try:
+          h.finitialize(-76)
+          simmut.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
+          plot_dvdt_from_volts(simmut.volt_soma, simmut.dt, axs[1],clr='cadetblue')
+          fig_volts.savefig(f'{simmut.plot_folder}/dvdt/HET-{namestr}.pdf') #Change output file path here 
+      except Exception as e:
+          print(f"ERROR during dV/dt plot generation: {e}")
+      finally:
+          plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
+      #####################################
 
 
 
 
-    # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
-    # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
+      # features_wt = ef.get_features(sim=simwt, prefix=f'{root_path_out}/{path}/WT', mut_name='WT')
+      # allmutsefel = allmutsefel.append(features_wt, ignore_index=True)
 
-    # Generate currentscape plots for soma and AIS, each returns its PDF filenam
-    try:
-        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/{namestr}_soma{num}', sim_config=sim_config_soma)
-        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/{namestr}_ais{num}', sim_config=sim_config_ais)
-        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{namestr}_somaL{num}', sim_config=sim_config_soma)
-        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{namestr}_aisL{num}', sim_config=sim_config_ais)
-    except Exception as e:
-      print(f"ERROR during currentscape generation: {e}")
-                                  
+      # Generate currentscape plots for soma and AIS, each returns its PDF filenam
+      
+      
+      try:
+          simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/HET{namestr}_soma{num}', sim_config=sim_config_soma)
+          simmut.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/HET{namestr}_ais{num}', sim_config=sim_config_ais)
+          simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/HET{namestr}_somaL{num}', sim_config=sim_config_soma)
+          simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/HET{namestr}_aisL{num}', sim_config=sim_config_ais)
+      except Exception as e:
+        print(f"ERROR during currentscape generation: {e}")
+                                    
 
 
 

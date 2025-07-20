@@ -45,7 +45,6 @@ def cm_to_in(cm):
 
 
 def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.01,fn = './Plots/ficurve.pdf',epochlabel='500ms'):
-def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig = None,dt = 0.01,fn = './Plots/ficurve.pdf',epochlabel='500ms'):
     all_volts = []
     npeaks = []
     x_axis = np.linspace(s_amp,e_amp,nruns)
@@ -142,7 +141,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
     # ymax=40
     # ax1.set_ylim(ymin,ymax)
     # ax1.set_yticks([0,5,10,15,20,25,30,35])
-    ax1.legend(loc='best', fontsize=8, markerscale = 3)
+        ax1.legend(loc='best', fontsize=8, markerscale = 3)
         ax1.plot(x_axis,wt_data,marker = 'o',markersize=1.5,linestyle = '-',color = 'black', label = 'WT') #mutant will be red
         
         ## Set min/max and axes manually
@@ -566,7 +565,6 @@ def update_mech_from_dict_HH(mdl,dict_fn,mechs,input_dict = False, param_name='a
     
     return param_dict
 
-def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
 def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
     for curr_sec in mdl.sl:
         curr_name = h.secname(sec=curr_sec)

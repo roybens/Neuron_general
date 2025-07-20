@@ -674,7 +674,7 @@ class Na12Model_TF:
             print(self.volt_soma)
             print(len(self.volt_soma))
             plot_dvdt_from_volts_wtvmut(self.volt_soma,wt_Vm,dt,axs[1],het_Vm=het_Vm)
-            fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}_wtvmut.pdf'
+            fn4 = f'{self.plot_folder}/{fnpre}_{curr_amp}nA_wtvmut.pdf'
             plt.tight_layout(pad=2.0)  # Adjust the padding
             fig_volts3.savefig(fn4)
             
