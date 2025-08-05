@@ -271,10 +271,10 @@ for config_name, config in config_dict4.items():
     ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
-  num1=63
+  num1=64
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
-  path  = f'6-paramsearch/3-developing_neuron_tuning/{num1}-tuning'
+  path  = f'{num1}-tuning'
   path1 = f'{path}/dvdt'
   path2 = f'{path}/currentscapes'
   path3 = f'{path}/Rin'
@@ -366,10 +366,10 @@ for nav12factor in [1.2]:
         # fac4=fac4
       )
       wt_Vm1,_,wt_t1,_ = simwt.get_stim_raw_data(stim_amp = 0.044,dt=0.005,rec_extra=False,stim_dur=600, sim_config = sim_config_soma) #stim_amp=0.5                                 
-      wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=0.05,nruns=80, fn=f'WT_FI', epochlabel='500ms')
+      wt_fi=simwt.plot_fi_curve_2line(wt_data=None,wt2_data=None,start=0,end=0.05,nruns=20, fn=f'WT_FI', epochlabel='500ms')
 
       # Individual dV/dt and currentscape plots (now redundant with comprehensive analysis)
-      fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
+      '''fig_volts,axs = plt.subplots(2,figsize=(cm_to_in(8),cm_to_in(15)))
       try:
           h.finitialize(-76)
           simwt.plot_stim(axs = axs[0],stim_amp = 0.044,dt=0.005, clr='cadetblue') #dt=0.005 ##low stim for developing model (50pA)
@@ -378,13 +378,13 @@ for nav12factor in [1.2]:
       except Exception as e:
           print(f"ERROR during dV/dt plot generation: {e}")
       finally:
-          plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks
+          plt.close(fig_volts) # IMPORTANT: Close the figure to prevent memory leaks'''
       #####################################
       #####################################
       try:
           h.finitialize(h.v_init)
           _, _, voltages_at_time, rin = plot_input_resistance(
-                      simmut,
+                      simwt,
                       stim_amps=[-0.1,-0.09,-0.08,-0.07, -0.06,-0.05, -0.04, -0.03, -0.02, -0.01,
                                 0.012,0.02,0.028,0.036,0.044],  
                       plot_fn=f'Rin/WT-{namestr}',
@@ -396,10 +396,10 @@ for nav12factor in [1.2]:
       except Exception as e:
           print(f"ERROR during input resistance analysis: {e}")
 
-      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_soma{num}', sim_config=sim_config_soma)
-      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_ais{num}', sim_config=sim_config_ais)
-      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_somaL{num}', sim_config=sim_config_soma)
-      simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_aisL{num}', sim_config=sim_config_ais)
+      # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_soma{num}', sim_config=sim_config_soma)
+      # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_ais{num}', sim_config=sim_config_ais)
+      # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_somaL{num}', sim_config=sim_config_soma)
+      # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_aisL{num}', sim_config=sim_config_ais)
 
       simmut = tf.Na12Model_TF(
           ais_nav12_fac=1.1*nav12factor,
@@ -432,7 +432,7 @@ for nav12factor in [1.2]:
         )
       h.finitialize(-76)
       simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
-      simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=80, fn=f'HET-FI', epochlabel='500ms')
+      simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=20, fn=f'HET-FI', epochlabel='500ms')
       
 
       # namestr = f'{num}_cm{fac4}_S31-{fac}_sE2_{fac2}_LVAHVA-{fac3}_ca-{f2}_nav12factor-{nav12factor}_ais-{aisnav}_soma-{somanav}_KPKT-{f3}_eps-76gps5e-6Ih1e-6Ra120'
@@ -487,7 +487,7 @@ for nav12factor in [1.2]:
 
 
       #####################################
-      try:
+      '''try:
           h.finitialize(h.v_init)
           _, _, voltages_at_time, rin = plot_input_resistance(
                       simmut,
@@ -530,7 +530,7 @@ for nav12factor in [1.2]:
           simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/HET{namestr}_somaL{num}', sim_config=sim_config_soma)
           simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/HET{namestr}_aisL{num}', sim_config=sim_config_ais)
       except Exception as e:
-        print(f"ERROR during currentscape generation: {e}")
+        print(f"ERROR during currentscape generation: {e}")'''
                                     
 
 
