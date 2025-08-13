@@ -230,23 +230,23 @@ if not os.path.exists(root_path_out): ##make directory if it doens't exist
 
 
 filename12 = './params/na12annaTFHH2.txt' ##12HH params file that you will update with values below in changesna12
-filename16 = './params/na16HH_TF2.txt' ##16HH params file that you will update with values below in changesna16
+# filename16 = './params/na16HH_TF2.txt' ##16HH params file that you will update with values below in changesna16
 filenamemut = './params/na12annaTFHHmut.txt' 
 
 
 
-## 1.2HH params newest after Kevin's inpurt. 12-16 gap closer to 5mV now.
-changesna12={"Rd": 0.023204006298533603, "Rg": 0.015604498120126004, "Rb": 0.0925081211054913, "Ra": 0.23933332265451177, 
-             "a0s": 0.0005226303768198727, "gms": 0.14418575154491814, "hmin": 0.008449935591049326, "mmin": 0.01193016441163175, 
-             "qinf": 5.7593653647578105, "q10": 2.1532859986639186, "qg": 1.2968193480468215, "qd": 0.661199851452832, "qa": 5.41, 
-             "smax": 3.5557932199839737, "sh": 8.358558450280716, "thinf": -47.8194205612529, "thi2": -79.6556083820085, 
-             "thi1": -62.40165437813537, "tha": -33.850064879126805, "vvs": 1.4255479951467982, "vvh": -65,#"vvh": -55.33213046147061, 
-             "vhalfs": -40.89976480829731, "zetas": 13.403615755952343,"ar2":0} 
+# ## 1.2HH params newest after Kevin's inpurt. 12-16 gap closer to 5mV now.
+# changesna12={"Rd": 0.023204006298533603, "Rg": 0.015604498120126004, "Rb": 0.0925081211054913, "Ra": 0.23933332265451177, 
+#              "a0s": 0.0005226303768198727, "gms": 0.14418575154491814, "hmin": 0.008449935591049326, "mmin": 0.01193016441163175, 
+#              "qinf": 5.7593653647578105, "q10": 2.1532859986639186, "qg": 1.2968193480468215, "qd": 0.661199851452832, "qa": 5.41, 
+#              "smax": 3.5557932199839737, "sh": 8.358558450280716, "thinf": -47.8194205612529, "thi2": -79.6556083820085, 
+#              "thi1": -62.40165437813537, "tha": -33.850064879126805, "vvs": 1.4255479951467982, "vvh": -65,#"vvh": -55.33213046147061, 
+#              "vhalfs": -40.89976480829731, "zetas": 13.403615755952343,"ar2":0} 
 
 ## 16HH mod file params can be changed below
-changesna16 = {"Rd": 0.03, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, 
-               "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, 
-               "thinf": -51.5, "thi2": -47.5, "thi1": -47.5, "tha": -33.5, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12}
+# changesna16 = {"Rd": 0.03, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, 
+#                "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, 
+#                "thinf": -51.5, "thi2": -47.5, "thi1": -47.5, "tha": -33.5, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12}
 
 # modify_dict_file(filename12, changesna12)
 # modify_dict_file(filename16, changesna16)
@@ -271,10 +271,10 @@ for config_name, config in config_dict4.items():
     ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
-  num1=64
+  num1=65
         ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
       ##########################&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@
-  path  = f'{num1}-tuning'
+  path  = f'{num1}-E999K'
   path1 = f'{path}/dvdt'
   path2 = f'{path}/currentscapes'
   path3 = f'{path}/Rin'
@@ -300,25 +300,22 @@ for config_name, config in config_dict4.items():
 allmutsefel = pd.DataFrame()
 
 
-## THESE ARE THE PARAMS FOR THE 12HH DEVELOPING MODEL
-# param_ranges = {
-#     'nav12factor': [0.22], #Nav             
-#     'aisnav': [10],  #AIS Nav               
-#     'somanav': [10],    #soma Nav            
-#     # 'fac':  [5],  #SKv3_1 mtaumul
-#     # 'fac2': [0.05],  #SK_E2
-#     # 'fac3': [0.1],   #LVA + HVA
-#     'fac4': [1.2],   #cm
-#     'f2': [1.5e-3],  #K+ca
-#     'f3': [2], #KP
-# }
+e999k_isoforms={"e999k_adult":{"Rd": 0.023720214843779446, "Rg": 0.017310926566994806, "Rb": 0.09090445784610227, "Ra": 0.20986256502629455, "a0s": 0.00011725786240453586, "gms": 0.19193299034656744, "hmin": 0.00031151074730452813, "mmin": 0.01759083663265433, "qinf": 5.9896449989542715, "q10": 1.3449446497592052, "qg": 1.7043871642812878, "qd": 0.9319176041890577, "qa": 6.0433067371559455, "smax": 4.616108034456953, "sh": 8.827626027191776, "thinf": -48.5308802626732, "thi2": -69.17516409752145, "thi1": -56.987232406586315, "tha": -33.86440141362367, "vvs": 1.3341261640974824, "vvh": -58.10499258295953, "vhalfs": -11.394592665322243, "zetas": 13.483991261741718},
+                "e999k_b1b2_adult":{"Rd": 0.022833808006138878, "Rg": 0.018102478936423638, "Rb": 0.14738315658669482, "Ra": 0.2528949153967774, "a0s": 0.0005398789144079628, "gms": 0.16516229286972972, "hmin": 0.010528441916036213, "mmin": 0.023719923336105116, "qinf": 5.29997426521523, "q10": 2.2060489145826248, "qg": 1.1996911114733178, "qd": 0.4556396990357796, "qa": 2.457809396172484, "smax": 6.0438509800077345, "sh": 7.655264961290749, "thinf": -47.78385938252091, "thi2": -77.74908393741958, "thi1": -72.15079427744753, "tha": -34.775205785455974, "vvs": 0.5137834508135968, "vvh": -47.03776296366018, "vhalfs": -22.55445045455007, "zetas": 13.197236426572012},
+                "e999k_N":{"Rd": 0.02554287019497175, "Rg": 0.019966150008346093, "Rb": 0.09423475388180666, "Ra": 0.24824606845730376, "a0s": 0.00035404636586590014, "gms": 0.12416803908416392, "hmin": 0.013282292801770694, "mmin": 0.011773859690488725, "qinf": 5.911953951416454, "q10": 2.048069525342001, "qg": 1.4404291280931156, "qd": 0.8809412585746836, "qa": 4.779193135709906, "smax": 4.336796138634539, "sh": 7.397707343162268, "thinf": -48.00539647076356, "thi2": -67.92934290496305, "thi1": -54.84995850469339, "tha": -31.98703011554929, "vvs": 0.38392604414507137, "vvh": -34.439439707752484, "vhalfs": -26.236989112985192, "zetas": 11.990406747678918},
+                "e999k_b1b2_N":{"Rd": 0.025716932106641298, "Rg": 0.018083976258792718, "Rb": 0.1376554024474663, "Ra": 0.22892352141768008, "a0s": 0.0005997985693637979, "gms": 0.03587743646695968, "hmin": 0.006163679601347642, "mmin": 0.01009931151577461, "qinf": 5.94774607681834, "q10": 2.4573449898783646, "qg": 0.9180398541919984, "qd": 0.778012729025833, "qa": 4.131223562399153, "smax": 4.106406082219899, "sh": 8.019192920729438, "thinf": -48.069360113941045, "thi2": -55.59446258995095, "thi1": -56.825684041538004, "tha": -34.49917706062156, "vvs": 0.24035964054997694, "vvh": -42.77857616432035, "vhalfs": -39.550636034391594, "zetas": 13.56448688199578}
+                }
+
 num=0
 
 
+## This parameter set is a modified 1.6 for the developing model (between 1.2 and 1.6)
 changesna16 = {"Rd": 0.02, "Rg": 0.01, "Rb": 0.124, "Ra": 0.4, "a0s": 0.0003, "gms": 0.2, "hmin": 0.01, 
               "mmin": 0.02, "qinf": 7, "q10": 2, "qg": 1.5, "qd": 0.5, "qa": 7.2, "smax": 10, "sh": 8, 
               "thinf": -51.5, "thi2": -52.5, "thi1": -52.5, "tha": -35, "vvs": 2, "vvh": -58, "vhalfs": -26.5, "zetas": 12} #vvh=-58 thi=-47.5
 modify_dict_file(filename12, changesna16)
+
+
 
   # for fac in param_ranges['fac']:
   #   for fac2 in param_ranges['fac2']:
@@ -333,9 +330,9 @@ modify_dict_file(filename12, changesna16)
                                   # h('forall delete_section()')
                                   # num += 1
 for nav12factor in [1.2]:
-  for kpfac in [2]:
+  # for kpfac in [2]:
     for somanav in [0.75]:
-      namestr = f'na12-{nav12factor}_KP-{kpfac}_soma-{somanav}'
+      namestr = f'na12-{nav12factor}_KP-2_soma-{somanav}'
       simwt = tf.Na12Model_TF(
         ais_nav12_fac=2.2*nav12factor,
         nav12=0.22*nav12factor,
@@ -347,7 +344,7 @@ for nav12factor in [1.2]:
         dend_nav12=0.22*nav12factor,
         somaK=0.0075,                       
         K=0.0045,                           
-        KP=kpfac, #2,                          
+        KP=2, #2,                          
         KT=30,                          
         ais_ca= 0.0015,                      
         ais_Kca=0.006,                     
@@ -400,27 +397,73 @@ for nav12factor in [1.2]:
       # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=300, stim_start=100, stim_dur=None, sweep_len=350, pfx=f'currentscapes/WT{namestr}_ais{num}', sim_config=sim_config_ais)
       # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_somaL{num}', sim_config=sim_config_soma)
       # simwt.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/WT{namestr}_aisL{num}', sim_config=sim_config_ais)
+      
+      
+      
+      #####################################
+      ## Set up for HET sim
+      #####################################
+      # simhet = tf.Na12Model_TF(
+      #     ais_nav12_fac=1.1*nav12factor,
+      #     nav12=0.11*nav12factor,
+      #     ais_nav16_fac=1.1*nav12factor,
+      #     nav16=0.11*nav12factor,
+      #     soma_na16=1.1*somanav,#*nav12factor,
+      #     soma_na12=1.1*somanav,#*nav12factor,
+      #     node_na=0.88,
+      #     dend_nav12=0.11*nav12factor,
+      #     somaK=0.0075,
+      #     K=0.0045,
+      #     KP=2,#2 is really good value,
+      #     KT=30,
+      #     ais_ca=0.0015,
+      #     ais_Kca=0.006,
+      #     na12name='na12annaTFHH2',
+      #     mut_name='na12annaTFHH2',
+      #     na12mechs=['na12','na12mut'],
+      #     na16name='na12annaTFHH2',
+      #     na16mut_name='na12annaTFHH2',
+      #     na16mechs=['na16','na16mut'],
+      #     params_folder='./params/',
+      #     plots_folder=f'{root_path_out}/{path}',
+      #     update=True,
+      #     # fac=fac,
+      #     # fac2=fac2,
+      #     # fac3=fac3,
+      #     # fac4=fac4
+      #   )
+      # h.finitialize(-76)
+      # simhet.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
+      # simhet.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=20, fn=f'HET-FI', epochlabel='500ms')
+      #####################################
+      #####################################
 
-      simmut = tf.Na12Model_TF(
-          ais_nav12_fac=1.1*nav12factor,
-          nav12=0.11*nav12factor,
-          ais_nav16_fac=1.1*nav12factor,
-          nav16=0.11*nav12factor,
-          soma_na16=1.1*somanav,#*nav12factor,
-          soma_na12=1.1*somanav,#*nav12factor,
-          node_na=0.88,
-          dend_nav12=0.11*nav12factor,
-          somaK=0.0075,
-          K=0.0045,
-          KP=kpfac,#2 is really good value,
-          KT=30,
-          ais_ca=0.0015,
-          ais_Kca=0.006,
+      for mutname,dict in e999k_isoforms.items():
+        print(f"mutname is {mutname}")
+        print(f"it's corresponding dictionary is {dict}")
+        modify_dict_file(filenamemut,dict)
+        
+        ## Setup for Mutation sim
+        simmut = tf.Na12Model_TF(
+          ais_nav12_fac=2.2*nav12factor,
+          nav12=0.22*nav12factor,
+          ais_nav16_fac=2.2*nav12factor,
+          nav16=0.22*nav12factor,
+          soma_na16=2.2*somanav,#*nav12factor,
+          soma_na12=2.2*somanav,#*nav12factor,
+          node_na=0.176,
+          dend_nav12=0.22*nav12factor,
+          somaK=0.0075,                       
+          K=0.0045,                           
+          KP=2, #2,                          
+          KT=30,                          
+          ais_ca= 0.0015,                      
+          ais_Kca=0.006,                     
           na12name='na12annaTFHH2',
-          mut_name='na12annaTFHH2',
+          mut_name='na12annaTFHHmut',
           na12mechs=['na12','na12mut'],
           na16name='na12annaTFHH2',
-          na16mut_name='na12annaTFHH2',
+          na16mut_name='na12annaTFHHmut',
           na16mechs=['na16','na16mut'],
           params_folder='./params/',
           plots_folder=f'{root_path_out}/{path}',
@@ -430,10 +473,12 @@ for nav12factor in [1.2]:
           # fac3=fac3,
           # fac4=fac4
         )
-      h.finitialize(-76)
-      simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'HET_{namestr}')
-      simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=20, fn=f'HET-FI', epochlabel='500ms')
-      
+        h.finitialize(-76)
+        simmut.wtvsmut_stim_dvdt(wt_Vm=wt_Vm1,wt_t=wt_t1,sim_config=sim_config_soma,vs_amp=[0.044],stim_dur=600,dt=0.005, fnpre=f'{mutname}_')
+        simmut.plot_fi_curve_2line(wt_data=wt_fi,wt2_data=None,start=0,end=0.05,nruns=20, fn=f'{mutname}-FI', epochlabel='500ms')
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{mutname}_soma', sim_config=sim_config_soma)
+        simmut.make_currentscape_plot(amp=0.044, time1=0, time2=800, stim_start=100, stim_dur=None, sweep_len=800, pfx=f'currentscapes/{mutname}_ais', sim_config=sim_config_ais)
+
 
       # namestr = f'{num}_cm{fac4}_S31-{fac}_sE2_{fac2}_LVAHVA-{fac3}_ca-{f2}_nav12factor-{nav12factor}_ais-{aisnav}_soma-{somanav}_KPKT-{f3}_eps-76gps5e-6Ih1e-6Ra120'
       

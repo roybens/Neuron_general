@@ -4,11 +4,11 @@ import glob
 import tempfile
 import subprocess
 from scipy.signal import find_peaks
-from vm_plotter import plot_stim_volts_pair
+# from vm_plotter import plot_stim_volts_pair
 from neuron import h
 import numpy as np
 import matplotlib.pyplot as plt
-from scalebary import add_scalebar
+# from scalebary import add_scalebar
 my_dpi = 96
 plt.rcParams['axes.spines.right'] = False
 plt.rcParams['axes.spines.top'] = False

@@ -6,7 +6,7 @@ Created on Sat Oct 16 21:07:44 2021
 """
 import argparse
 import numpy as np
-from vm_plotter import *
+# from vm_plotter import *
 from neuron import h
 import os
 import csv
